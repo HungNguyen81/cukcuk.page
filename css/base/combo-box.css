@@ -1,0 +1,23 @@
+.combo-box{
+    height: 40px;
+    border: 1px solid #bbbbbb;
+    padding-left: 16px;
+    padding-right: 56px;
+    border-radius: 4px;
+    box-sizing: border-box;
+    display: inline-block;
+    background-color: #ffffff;
+}
+
+.combo-box-icon {
+    width: 16px;
+    height: 16px;    
+    position: absolute;
+    right: 0px;
+    top: 12px;
+    margin: 0 12px;
+    background-image: url('../../content/icon/drop-icon.png');
+    background-size: 16px;
+    background-repeat: no-repeat;
+    background-position: 0px 2px;
+}

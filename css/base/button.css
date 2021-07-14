@@ -1,0 +1,70 @@
+.button {
+    height: 40px;
+    width: fit-content;
+    border-radius: 4px;
+    color: #ffffff;
+    padding-left: 16px;
+    padding-right: 16px;
+    text-align: center;
+    line-height: 40px;
+    cursor: pointer;
+}
+
+.button-icon {
+    background-color: #019160;
+    display: flex;
+    align-items: center;    
+}
+
+.button:hover {
+    background-color: #2FBE8E;
+}
+
+.button:active {
+    background-color: #018075;
+}
+
+/* Button page number */
+
+.button-page-number{
+    height: 40px;
+    width: 40px;
+    color: #000;
+    border-radius: 50%;
+    background-color:#ccc;
+    display: inline-block;
+    text-align: center;
+    line-height: 40px;
+    margin-left: 4px;
+    margin-right: 4px;
+    cursor: pointer;
+    border: 1px solid #bbb;
+}
+.button-page-number:hover{
+    background-color: #fff;
+    border-color: #fff;
+}
+.button-page-number:active{
+    background-color: #019160;
+    color: #fff;
+    border-color: #019160;
+}
+
+
+/* Navigator button */
+
+.button-navigator{
+    height: 40px;
+    width: 40px;
+    display: inline-block;
+    text-align: center;
+    line-height: 40px;
+    border-radius: 4px;
+    background-color: transparent; 
+    margin-left: 4px;
+    margin-right: 4px;  
+    cursor: pointer;
+}
+.button-navigator:hover{
+    background-color: #fff;
+}

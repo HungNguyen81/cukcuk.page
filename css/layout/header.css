@@ -1,0 +1,121 @@
+.header {
+    height: 48px;
+    width: 100%;
+    display: flex;
+}
+
+/* Left header */
+
+.header .header-left {
+    width: 225px;
+    border-right: 1px solid #ccc;
+    height: 48px;
+    display: flex;
+    align-items: center;
+}
+
+.header .header-left .toggle {
+    width: 24px;
+    height: 24px;
+    margin: 12px 10px 12px 16px;
+    background-image: url('../../content/img/toggle.png');
+    background-size: contain;
+    background-repeat: no-repeat;
+    background-position: center;
+    cursor: pointer;
+}
+
+.header .header-left .logo {
+    width: 100%;
+    height: 24px;
+    background-image: url('../../content/img/cukcuk-logo.png');
+    background-size: contain;
+    background-repeat: no-repeat;
+    background-position: 0 center;
+    cursor: pointer;
+}
+
+/* Right header */
+
+.header-right {
+    width: calc(100vw - 226px);
+    height: 48px;
+    left: 225px;
+    display: flex;
+    align-items: center;
+    border-bottom: 1px solid #ccc;
+}
+
+/* Dropdown list */
+
+.drop-down-restaurant {
+    width: fit-content;
+    cursor: pointer;
+}
+
+.drop-down-restaurant .drop-icon,
+.drop-text {
+    display: inline-block;
+    line-height: 20px;
+
+}
+
+.drop-down-restaurant .drop-text {
+    margin-left: 16px;
+    margin-right: 10px;
+}
+
+.drop-down-restaurant .drop-icon {
+    width: 20px;
+    height: 20px;
+    background-image: url('../../content/icon/drop-icon.png');
+    background-size: 15px;
+    background-position: -1px 10px;
+    background-repeat: no-repeat;
+}
+
+/* Username and options */
+
+.header-right .user-options {
+    position: absolute;
+    right: 0;
+    display: flex;
+    align-items: center;
+}
+
+.user-options>.notification {
+    width: 24px;
+    height: 24px;
+    background-image: url('../../content/icon/notification.png');
+    background-repeat: no-repeat;
+    background-size: 40px;
+    background-position: -8px -4px;
+    margin-right: 16px;
+    cursor: pointer;
+}
+
+.user-options>.user-avatar {
+    width: 38px;
+    height: 38px;
+    border-radius: 50%;
+    margin-right: 16px;
+    background-image: url('../../content/icon/avatar-default.png');
+    background-size: contain;
+    background-repeat: no-repeat;
+    cursor: pointer;
+}
+
+.user-options>.username {
+    margin-right: 16px;
+}
+
+.user-options>.icon-options {
+    width: 16px;
+    height: 16px;
+    margin-right: 16px;
+    background-image: url('../../content/icon/option.png');
+    background-size: 16px;
+    background-repeat: no-repeat;
+    background-position: 0px 2px;
+    cursor: pointer;
+}
