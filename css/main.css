@@ -1,6 +1,6 @@
-@import url('../css/base/button.css');
-@import url('../css/base/text-box.css');
-@import url('../css/base/combo-box.css');
+@import url('https://raw.githubusercontent.com/HungNguyen81/cukcuk.page/main/css/base/button.css');
+@import url('https://raw.githubusercontent.com/HungNguyen81/cukcuk.page/main/css/base/text-box.css');
+@import url('https://raw.githubusercontent.com/HungNguyen81/cukcuk.page/main/css/base/combo-box.css');
 body {
     font-family: MISAGoogleSans;
     font-size: 13px;
