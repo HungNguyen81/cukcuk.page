@@ -3,17 +3,19 @@
     width: fit-content;
     border-radius: 4px;
     color: #ffffff;
-    padding-left: 16px;
-    padding-right: 16px;
+    background-color: #019160;
+    padding-left: 24px;
+    padding-right: 24px;
     text-align: center;
     line-height: 40px;
     cursor: pointer;
 }
 
-.button-icon {
-    background-color: #019160;
+.button-icon {    
     display: flex;
-    align-items: center;    
+    align-items: center;
+    padding-left: 16px;
+    padding-right: 16px;    
 }
 
 .button:hover {

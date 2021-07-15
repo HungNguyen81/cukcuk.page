@@ -2,19 +2,26 @@
     height: 40px;
     border: 1px solid #bbbbbb;
     padding-left: 16px;
-    padding-right: 56px;
+    
     border-radius: 4px;
     box-sizing: border-box;
-    display: inline-block;
+    display: flex;
+    align-items: center;
     background-color: #ffffff;
+    justify-content: space-between;
+    cursor: pointer;
 }
 
+.combo-box:active{
+    border-color: #019160;
+}
+
+.combo-box-item{
+    padding-right: 56px;
+}
 .combo-box-icon {
     width: 16px;
-    height: 16px;    
-    position: absolute;
-    right: 0px;
-    top: 12px;
+    height: 16px;
     margin: 0 12px;
     background-image: url('../../content/icon/drop-icon.png');
     background-size: 16px;

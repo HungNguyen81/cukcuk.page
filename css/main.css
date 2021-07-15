@@ -5,6 +5,7 @@ body {
     font-family: MISAGoogleSans;
     font-size: 13px;
     margin: 0;
+    /* overflow: hidden; */
 }
 
 @font-face {

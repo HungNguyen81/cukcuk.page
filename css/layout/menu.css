@@ -22,7 +22,7 @@
 }
 
 .menu .menu-item:hover > .menu-icon{
-    filter: brightness(3);
+    filter: brightness(5);
 }
 
 .menu .menu-item .menu-icon{

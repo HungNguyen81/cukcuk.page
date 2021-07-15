@@ -1,3 +1,7 @@
+body{
+    overflow: hidden;
+}
+
 .content {
     position: absolute;
     height: calc(100vh - 49px);
@@ -43,8 +47,7 @@
 .content-search {
     position: absolute;
     left: 0px;
-    top: 72px;
-    /* = 24 + 40 + 8 */
+    top: 72px; /* = 24 + 40 + 8 */
     width: calc(100vw - 226px);
     height: 40px;
 }
@@ -54,13 +57,14 @@
     padding: 0 40px;
     width: 335px;
     margin-left: 16px;
-    margin-right: 16px;
+    position: absolute;
 }
 
 .search-icon {
     width: 16px;
     height: 16px;
     position: absolute;
+    z-index: 9;
     left: 32px;
     top: 12px;
     background-image: url('../../content/icon/search.png');
@@ -71,13 +75,18 @@
 
 .combo-box-departments,
 .combo-box-positions {
-    position: relative;
+    width: 220px;
+    position: absolute;
     line-height: 40px;
     cursor: pointer;
-}
-
-.combo-box-positions {
+    z-index: 9;
     margin-left: 16px;
+}
+.combo-box-departments{
+    left: calc(335px + 16px);
+}
+.combo-box-positions {
+    left: calc(335px + 32px + 220px);
 }
 
 /* Refresh button */
@@ -106,7 +115,7 @@
     top: 128px;
     max-height: calc(100vh - 225px);
     background-color: #fff;
-    width: calc(100vw - 258px);
+    width: calc(100vw - 226px - 32px);
     margin-left: 16px;
 }
 
@@ -142,6 +151,13 @@
 .table-employee tbody tr {
     border-top: 1px solid #ccc;
     height: 40px;
+    cursor: pointer;
+}
+.table-employee tbody tr:hover{
+    background-color: #E9EBEE;
+}
+.table-employee tbody tr:active{
+    background-color: #EBF4FF;
 }
 
 .table-employee tbody td {
@@ -176,30 +192,6 @@ table tbody tr {
     table-layout: fixed;
 }
 
-/* Custom scrollbar */
-
-/* width */
-::-webkit-scrollbar {
-    width: 4px;
-    height: 4px;
-}
-
-/* Track */
-::-webkit-scrollbar-track {
-    background: #e5e5e5;
-}
-
-/* Handle */
-::-webkit-scrollbar-thumb {
-    background: #bbbbbb;
-}
-
-/* Handle on hover */
-::-webkit-scrollbar-thumb:hover {
-    background: #454545;
-}
-
-
 /* Page navigator */
 
 .content-page-navigator {
@@ -213,6 +205,7 @@ table tbody tr {
     align-items: center;
     justify-content: center;    
     background-color: #ccc;
+    box-sizing: border-box;
 }
 
 .content-page-navigator > *{
@@ -270,4 +263,27 @@ table tbody tr {
     background-image: url('../../content/icon/btn-prev-page.svg');
     background-repeat: no-repeat;
     background-position: center;
+}
+
+/* Custom scrollbar */
+
+/* width */
+::-webkit-scrollbar {
+    width: 4px;
+    height: 4px;
+}
+
+/* Track */
+::-webkit-scrollbar-track {
+    background: #e5e5e5;
+}
+
+/* Handle */
+::-webkit-scrollbar-thumb {
+    background: #bbbbbb;
+}
+
+/* Handle on hover */
+::-webkit-scrollbar-thumb:hover {
+    background: #454545;
 }
