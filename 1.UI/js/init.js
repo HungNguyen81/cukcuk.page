@@ -1,10 +1,11 @@
 function init(){
     initDropdownListener();
     initTableRowListener();
+    initTableTitles();
 }
 
-function initDropdownListener() {
-    // add event listener to all dropdown items
+// add event listener to all dropdown items
+function initDropdownListener() {    
     var dropdownItems
          = document.getElementsByClassName("dropdown-item");
     var dropdownContainers
@@ -21,12 +22,29 @@ function initDropdownListener() {
     }
 }
 
+// // add event listener to all table data rows
 function initTableRowListener(){
-    var rows = document.querySelectorAll(".table-employee tbody > tr");
-
-    console.log(rows)
+    var rows = document.querySelectorAll(".table-employee tbody > tr");    
 
     for(let i = 0; i < rows.length; i++){
-        rows[i].setAttribute('onclick', 'openPopup(this)');
+        rows[i].setAttribute('ondblclick', 'openPopup(this)');
+    }
+}
+
+// Initialize title attribute for each table cell
+function initTableTitles(){
+    var tableHeaders = document.querySelectorAll("th");
+    var tableData    = document.querySelectorAll("td");
+
+    // header title
+    for(let i = 0; i < tableHeaders.length; i++){
+        let title = tableHeaders[i].innerText ;        
+        tableHeaders[i].setAttribute('title', title);
+    }
+
+    // data title
+    for(let i = 0; i < tableData.length; i++){
+        let title = tableData[i].innerText ;        
+        tableData[i].setAttribute('title', title);
     }
 }

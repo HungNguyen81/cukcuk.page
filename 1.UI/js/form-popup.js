@@ -1,8 +1,12 @@
 var form = document.getElementById("container");
 
-function openPopup() {
+function openPopup(row) {
     form.style.display = "block";
     form.addEventListener('click', myFunc);    
+
+    if(row){
+        initForm();
+    }
 }
 
 function closePopup() {
