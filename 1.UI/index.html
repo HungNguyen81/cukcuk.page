@@ -5,13 +5,18 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Phần mềm quản lý nhà hàng - CUKCUK.VN</title>
-    <link rel="stylesheet" href="../css/main.css">
+    <link rel="stylesheet" href="./css/main.css">
     <link rel="stylesheet" href="./css/layout/header.css">
     <link rel="stylesheet" href="./css/layout/menu.css">
     <link rel="stylesheet" href="./css/layout/content.css">
+    <link rel="stylesheet" href="./css/components/popup-form.css">
+    <link rel="stylesheet" href="./content/font/fontawesome-5.15.1/css/all.min.css">
+    <script src="./js/init.js">
+        
+    </script>
 </head>
 
-<body>
+<body onload="initDropdownListener()">
     <div class="header">
         <div class="header-left">
             <div class="toggle"></div>
@@ -53,310 +58,27 @@
         </div>
     </div>
     <div class="content">
-        <div class="content-heading">
-            <b class="title">Danh sách nhân viên</b>
-            <div class="button button-icon">
-                <div class="icon-button"></div>
-                <div>Thêm nhân viên</div>
-            </div>
-        </div>
-        <div class="content-search">
-            <div class="search-icon"></div>
-            <input type="text" class="textbox-default search-field"
-                placeholder="Tìm kiếm theo Mã, Tên hoặc Số điện thoại">
-            <div class="combo-box combo-box-departments">
-                <div class="combo-box-item">Tất cả phòng ban</div>
-                <div class="combo-box-icon"></div>
-            </div>
-            <div class="combo-box combo-box-positions">
-                <div class="combo-box-item">Tất cả vị trí</div>
-                <div class="combo-box-icon"></div>
-            </div>
-
-            <div class="button-refresh"></div>
-        </div>
-        <div class="content-table">
-            <table class="table-employee">
-                <thead>
-                    <tr>
-                        <th>Mã nhân viên</th>
-                        <th>Họ và tên</th>
-                        <th>Giới tính</th>
-                        <th>Ngày sinh</th>
-                        <th>Điện thoại</th>
-                        <th>Email</th>
-                        <th>Chức vụ</th>
-                        <th>Phòng ban</th>
-                        <th>Mức lương cơ bản</th>
-                        <th>Tình trạng công việc</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <tr>
-                        <td>NV-000001</td>
-                        <td>Hồ Văn Long</td>
-                        <td>Nam</td>
-                        <td>11/08/1978</td>
-                        <td>0940058449</td>
-                        <td>example@gmail.com</td>
-                        <td>Giám đốc</td>
-                        <td>Phòng Nhân sự</td>
-                        <td>17.739.391</td>
-                        <td>Đang thử việc</td>
-                    </tr>
-                    <tr>
-                        <td>NV-000002</td>
-                        <td>Hồ Văn Long</td>
-                        <td>Nam</td>
-                        <td>11/08/1978</td>
-                        <td>0940058449</td>
-                        <td>example@gmail.com</td>
-                        <td>Giám đốc</td>
-                        <td>Phòng Nhân sự</td>
-                        <td>17.739.391</td>
-                        <td>Đang thử việc</td>
-                    </tr>
-                    <tr>
-                        <td>NV-000003</td>
-                        <td>Hồ Văn Long</td>
-                        <td>Nam</td>
-                        <td>11/08/1978</td>
-                        <td>0940058449</td>
-                        <td>example@gmail.com</td>
-                        <td>Giám đốc</td>
-                        <td>Phòng Nhân sự</td>
-                        <td>17.739.391</td>
-                        <td>Đang thử việc</td>
-                    </tr>                    
-                    <tr>
-                        <td>NV-000004</td>
-                        <td>Hồ Văn Long</td>
-                        <td>Nam</td>
-                        <td>11/08/1978</td>
-                        <td>0940058449</td>
-                        <td>example@gmail.com</td>
-                        <td>Giám đốc</td>
-                        <td>Phòng Nhân sự</td>
-                        <td>17.739.391</td>
-                        <td>Đang thử việc</td>
-                    </tr>
-                    <tr>
-                        <td>NV-000005</td>
-                        <td>Hồ Văn Long</td>
-                        <td>Nam</td>
-                        <td>11/08/1978</td>
-                        <td>0940058449</td>
-                        <td>example@gmail.com</td>
-                        <td>Giám đốc</td>
-                        <td>Phòng Nhân sự</td>
-                        <td>17.739.391</td>
-                        <td>Đang thử việc</td>
-                    </tr>
-                    <tr>
-                        <td>NV-000006</td>
-                        <td>Hồ Văn Long</td>
-                        <td>Nam</td>
-                        <td>11/08/1978</td>
-                        <td>0940058449</td>
-                        <td>example@gmail.com</td>
-                        <td>Giám đốc</td>
-                        <td>Phòng Nhân sự</td>
-                        <td>17.739.391</td>
-                        <td>Đang thử việc</td>
-                    </tr>
-                    <tr>
-                        <td>NV-000007</td>
-                        <td>Hồ Văn Long</td>
-                        <td>Nam</td>
-                        <td>11/08/1978</td>
-                        <td>0940058449</td>
-                        <td>example@gmail.com</td>
-                        <td>Giám đốc</td>
-                        <td>Phòng Nhân sự</td>
-                        <td>17.739.391</td>
-                        <td>Đang thử việc</td>
-                    </tr>
-                    <tr>
-                        <td>NV-000008</td>
-                        <td>Hồ Văn Long</td>
-                        <td>Nam</td>
-                        <td>11/08/1978</td>
-                        <td>0940058449</td>
-                        <td>example@gmail.com</td>
-                        <td>Giám đốc</td>
-                        <td>Phòng Nhân sự</td>
-                        <td>17.739.391</td>
-                        <td>Đang thử việc</td>
-                    </tr>
-                    <tr>
-                        <td>NV-000009</td>
-                        <td>Hồ Văn Long</td>
-                        <td>Nam</td>
-                        <td>11/08/1978</td>
-                        <td>0940058449</td>
-                        <td>example@gmail.com</td>
-                        <td>Giám đốc</td>
-                        <td>Phòng Nhân sự</td>
-                        <td>17.739.391</td>
-                        <td>Đang thử việc</td>
-                    </tr>
-                    <tr>
-                        <td>NV-000010</td>
-                        <td>Hồ Văn Long</td>
-                        <td>Nam</td>
-                        <td>11/08/1978</td>
-                        <td>0940058449</td>
-                        <td>example@gmail.com</td>
-                        <td>Giám đốc</td>
-                        <td>Phòng Nhân sự</td>
-                        <td>17.739.391</td>
-                        <td>Đang thử việc</td>
-                    </tr>
-                    <tr>
-                        <td>NV-000011</td>
-                        <td>Hồ Văn Long</td>
-                        <td>Nam</td>
-                        <td>11/08/1978</td>
-                        <td>0940058449</td>
-                        <td>example@gmail.com</td>
-                        <td>Giám đốc</td>
-                        <td>Phòng Nhân sự</td>
-                        <td>17.739.391</td>
-                        <td>Đang thử việc</td>
-                    </tr>
-                    <tr>
-                        <td>NV-000012</td>
-                        <td>Hồ Văn Long</td>
-                        <td>Nam</td>
-                        <td>11/08/1978</td>
-                        <td>0940058449</td>
-                        <td>example@gmail.com</td>
-                        <td>Giám đốc</td>
-                        <td>Phòng Nhân sự</td>
-                        <td>17.739.391</td>
-                        <td>Đang thử việc</td>
-                    </tr>
-                    <tr>
-                        <td>NV-000013</td>
-                        <td>Hồ Văn Long</td>
-                        <td>Nam</td>
-                        <td>11/08/1978</td>
-                        <td>0940058449</td>
-                        <td>example@gmail.com</td>
-                        <td>Giám đốc</td>
-                        <td>Phòng Nhân sự</td>
-                        <td>17.739.391</td>
-                        <td>Đang thử việc</td>
-                    </tr>
-                    <tr>
-                        <td>NV-000014</td>
-                        <td>Hồ Văn Long</td>
-                        <td>Nam</td>
-                        <td>11/08/1978</td>
-                        <td>0940058449</td>
-                        <td>example@gmail.com</td>
-                        <td>Giám đốc</td>
-                        <td>Phòng Nhân sự</td>
-                        <td>17.739.391</td>
-                        <td>Đang thử việc</td>
-                    </tr>
-                    <tr>
-                        <td>NV-000015</td>
-                        <td>Hồ Văn Long</td>
-                        <td>Nam</td>
-                        <td>11/08/1978</td>
-                        <td>0940058449</td>
-                        <td>example@gmail.com</td>
-                        <td>Giám đốc</td>
-                        <td>Phòng Nhân sự</td>
-                        <td>17.739.391</td>
-                        <td>Đang thử việc</td>
-                    </tr>
-                    <tr>
-                        <td>NV-000016</td>
-                        <td>Hồ Văn Long</td>
-                        <td>Nam</td>
-                        <td>11/08/1978</td>
-                        <td>0940058449</td>
-                        <td>example@gmail.com</td>
-                        <td>Giám đốc</td>
-                        <td>Phòng Nhân sự</td>
-                        <td>17.739.391</td>
-                        <td>Đang thử việc</td>
-                    </tr>
-                    <tr>
-                        <td>NV-000017</td>
-                        <td>Hồ Văn Long</td>
-                        <td>Nam</td>
-                        <td>11/08/1978</td>
-                        <td>0940058449</td>
-                        <td>example@gmail.com</td>
-                        <td>Giám đốc</td>
-                        <td>Phòng Nhân sự</td>
-                        <td>17.739.391</td>
-                        <td>Đang thử việc</td>
-                    </tr>
-                    <tr>
-                        <td>NV-000018</td>
-                        <td>Hồ Văn Long</td>
-                        <td>Nam</td>
-                        <td>11/08/1978</td>
-                        <td>0940058449</td>
-                        <td>example@gmail.com</td>
-                        <td>Giám đốc</td>
-                        <td>Phòng Nhân sự</td>
-                        <td>17.739.391</td>
-                        <td>Đang thử việc</td>
-                    </tr>
-                    <tr>
-                        <td>NV-000019</td>
-                        <td>Hồ Văn Long</td>
-                        <td>Nam</td>
-                        <td>11/08/1978</td>
-                        <td>0940058449</td>
-                        <td>example@gmail.com</td>
-                        <td>Giám đốc</td>
-                        <td>Phòng Nhân sự</td>
-                        <td>17.739.391</td>
-                        <td>Đang thử việc</td>
-                    </tr>
-                    <tr>
-                        <td>NV-000020</td>
-                        <td>Hồ Văn Long</td>
-                        <td>Nam</td>
-                        <td>11/08/1978</td>
-                        <td>0940058449</td>
-                        <td>example@gmail.com</td>
-                        <td>Giám đốc</td>
-                        <td>Phòng Nhân sự</td>
-                        <td>17.739.391</td>
-                        <td>Đang thử việc</td>
-                    </tr>
-                </tbody>
-            </table>
-        </div>
-        <div class="content-page-navigator">
-            <div class="navigator-left">Hiển thị <b>1-10/1000</b> nhân viên</div>
-            <div class="navigator-center">
-                <div class="button-firstpage button-navigator"></div>
-                <div class="button-prev-page button-navigator"></div>
-
-                <div class="button-page-number button-current-page">1</div>
-                <div class="button-page-number">2</div>
-                <div class="button-page-number">3</div>
-                <div class="button-page-number">4</div>
-
-                <div class="button-next-page button-navigator"></div>
-                <div class="button-lastpage button-navigator"></div>
-            </div>
-            <div class="navigator-right">
-                <div class="combo-box">
-                    <div class="combo-box-item"><b>20</b> nhân viên/trang</div>
-                    <div class="combo-box-icon"></div>
+        <div class="input-field" style="width: 200px;">
+            <div class="dropdown-container" onclick="showDropData(this)">
+                <div class="dropdown">
+                    <div class="">Nam</div>
+                    <div class="dropdown-icon"></div>
+                </div>
+                <div class="dropdown-data" hidden="true">
+                    <div class="dropdown-item">
+                        <i class="fas fa-check item-icon"></i>
+                        <div class="item-text">Nữ</div>
+                    </div>
+                    <div class="dropdown-item item-selected">
+                        <i class="fas fa-check item-icon"></i>
+                        <div class="item-text">Nam</div>
+                    </div>
                 </div>
             </div>
         </div>
     </div>
+    <script src="./js/dropdown.js"></script>
+    <script src="./content/font/fontawesome-5.15.1/js/all.min.js"></script>
 </body>
 
 </html>

@@ -150,6 +150,7 @@
 
 .input-label{
     margin-left: 4px;
+    /* margin-bottom: 4px; */
 }
 
 .required{
@@ -174,7 +175,7 @@
     background-size: contain;
 }
 
-.combo-box{
+.form-dropdown{
     margin-top: 4px;
     margin-bottom: 16px;
     width: 238px;

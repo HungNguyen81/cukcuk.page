@@ -71,21 +71,20 @@ body{
     background-size: 16px;
 }
 
-/* Combo-boxes */
+/* dropdownes */
 
-.combo-box-departments,
-.combo-box-positions {
+.dropdown-departments,
+.dropdown-positions {
     width: 220px;
     position: absolute;
     line-height: 40px;
     cursor: pointer;
-    z-index: 9;
     margin-left: 16px;
 }
-.combo-box-departments{
+.dropdown-departments{
     left: calc(335px + 16px);
 }
-.combo-box-positions {
+.dropdown-positions {
     left: calc(335px + 32px + 220px);
 }
 
@@ -117,12 +116,13 @@ body{
     background-color: #fff;
     width: calc(100vw - 226px - 32px);
     margin-left: 16px;
+    overflow-x: auto;
 }
 
 .table-employee {
     height: 100%;
     width: 100%;
-    border-collapse: collapse;
+    border-collapse: collapse;    
 }
 
 .table-employee th {
@@ -130,18 +130,9 @@ body{
     text-align: left;
     padding-left: 10px;
     font-family: MISAGoogleSans-Bold;
-}
-
-.table-employee th:nth-child(9) {
-    text-align: right;
-    padding-left: 10px;
-    padding-right: 10px;
-}
-
-.table-employee tr td:nth-child(9) {
-    text-align: right;
-    padding-left: 10px;
-    padding-right: 10px;
+    white-space: nowrap;
+    overflow-x: hidden;
+    text-overflow: ellipsis;
 }
 
 .table-employee tbody tr:nth-child(odd) {
@@ -162,7 +153,9 @@ body{
 
 .table-employee tbody td {
     padding-left: 10px;
-    overflow-x: auto;
+    overflow-x: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
 }
 
 /* Gender column */
@@ -175,6 +168,22 @@ body{
 .table-employee tbody td:nth-child(6),
 .table-employee th:nth-child(6) {
     width: 150px;
+}
+
+/* salary column */
+.table-employee th:nth-child(9), 
+.table-employee tr td:nth-child(9) {
+    text-align: right;
+    padding-left: 10px;
+    padding-right: 10px;
+}
+
+/* birthday column */
+.table-employee thead th:nth-child(4),
+.table-employee tbody td:nth-child(4) {
+    text-align: center;
+    padding-left: 10px;
+    padding-right: 10px;
 }
 
 table tbody {

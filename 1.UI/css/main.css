@@ -1,6 +1,6 @@
 @import url('../css/base/button.css');
 @import url('../css/base/text-box.css');
-@import url('../css/base/combo-box.css');
+@import url('../css/base/dropdown.css');
 body {
     font-family: MISAGoogleSans;
     font-size: 13px;
