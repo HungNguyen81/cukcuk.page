@@ -216,6 +216,7 @@ table tbody tr {
     justify-content: center;    
     background-color: #ccc;
     box-sizing: border-box;
+    z-index: 5;
 }
 
 .content-page-navigator > *{
@@ -273,6 +274,20 @@ table tbody tr {
     background-image: url('../../content/icon/btn-prev-page.svg');
     background-repeat: no-repeat;
     background-position: center;
+}
+
+/* Number of rows dropdown box */
+
+.drop-number-of-row {
+    display: flex;
+    flex-direction: column-reverse;    
+    position: fixed;
+    right: 16px;
+    bottom: 8px;   
+}
+.number-of-rows-icon{
+    background-image: none;
+    text-align: center;
 }
 
 /* Custom scrollbar */
