@@ -67,11 +67,6 @@
             <div class="search-icon"></div>
             <input type="text" class="textbox-default search-field"
                 placeholder="Tìm kiếm theo Mã, Tên hoặc Số điện thoại">
-                      
-                <!-- <div class="dropdown dropdown-departments">
-                <div class="dropdown-item">Tất cả phòng ban</div>
-                <div class="dropdown-icon"></div>
-            </div> -->
             <div class="combobox-container dropdown-departments">
                 <div class="combobox">
                     <input type="text" class="combobox-input textbox-default" value="Tất cả phòng ban">
@@ -88,11 +83,42 @@
                         <i class="fas fa-check item-icon"></i>
                         <div class="item-text">Phòng Nhân sự</div>
                     </div>
+                    <div class="dropdown-item">
+                        <i class="fas fa-check item-icon"></i>
+                        <div class="item-text">Phòng Kinh doanh</div>
+                    </div>
+                    <div class="dropdown-item">
+                        <i class="fas fa-check item-icon"></i>
+                        <div class="item-text">Phòng Tài chính</div>
+                    </div>
                 </div>
             </div>
-            <div class="dropdown dropdown-positions">
-                <div class="dropdown-item">Tất cả vị trí</div>
-                <div class="dropdown-icon"></div>
+
+            <div class="combobox-container dropdown-positions">
+                <div class="combobox">
+                    <input type="text" class="combobox-input textbox-default" value="Tất cả vị trí">
+                    <div class="combobox-icon-container" onclick="showDropData(this)">
+                        <div class="combobox-icon"></div>
+                    </div>
+                </div>
+                <div class="dropdown-data" hidden="true">
+                    <div class="dropdown-item">
+                        <i class="fas fa-check item-icon"></i>
+                        <div class="item-text">Tất cả vị trí</div>
+                    </div>
+                    <div class="dropdown-item item-selected">
+                        <i class="fas fa-check item-icon"></i>
+                        <div class="item-text">Tổng giám đốc</div>
+                    </div>
+                    <div class="dropdown-item">
+                        <i class="fas fa-check item-icon"></i>
+                        <div class="item-text">Giám đốc</div>
+                    </div>
+                    <div class="dropdown-item">
+                        <i class="fas fa-check item-icon"></i>
+                        <div class="item-text">Nhân viên</div>
+                    </div>
+                </div>
             </div>
 
             <div class="button-refresh"></div>

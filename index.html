@@ -11,7 +11,7 @@
     <link rel="stylesheet" href="./1.UI/css/layout/content.css">
     <link rel="stylesheet" href="./1.UI/css/components/popup-form.css">
     <link rel="stylesheet" href="./1.UI/content/font/fontawesome-5.15.1/css/all.min.css">
-    <script src="./1.UI/js/init.js"></script>
+    <link rel="stylesheet" href="./1.UI/css/base/combobox.css">
 </head>
 
 <body onload="init()">
@@ -67,13 +67,58 @@
             <div class="search-icon"></div>
             <input type="text" class="textbox-default search-field"
                 placeholder="Tìm kiếm theo Mã, Tên hoặc Số điện thoại">
-            <div class="dropdown dropdown-departments">
-                <div class="dropdown-item">Tất cả phòng ban</div>
-                <div class="dropdown-icon"></div>
+            <div class="combobox-container dropdown-departments">
+                <div class="combobox">
+                    <input type="text" class="combobox-input textbox-default" value="Tất cả phòng ban">
+                    <div class="combobox-icon-container" onclick="showDropData(this)">
+                        <div class="combobox-icon"></div>
+                    </div>
+                </div>
+                <div class="dropdown-data" hidden="true">
+                    <div class="dropdown-item">
+                        <i class="fas fa-check item-icon"></i>
+                        <div class="item-text">Tất cả phòng ban</div>
+                    </div>
+                    <div class="dropdown-item item-selected">
+                        <i class="fas fa-check item-icon"></i>
+                        <div class="item-text">Phòng Nhân sự</div>
+                    </div>
+                    <div class="dropdown-item">
+                        <i class="fas fa-check item-icon"></i>
+                        <div class="item-text">Phòng Kinh doanh</div>
+                    </div>
+                    <div class="dropdown-item">
+                        <i class="fas fa-check item-icon"></i>
+                        <div class="item-text">Phòng Tài chính</div>
+                    </div>
+                </div>
             </div>
-            <div class="dropdown dropdown-positions">
-                <div class="dropdown-item">Tất cả vị trí</div>
-                <div class="dropdown-icon"></div>
+
+            <div class="combobox-container dropdown-positions">
+                <div class="combobox">
+                    <input type="text" class="combobox-input textbox-default" value="Tất cả vị trí">
+                    <div class="combobox-icon-container" onclick="showDropData(this)">
+                        <div class="combobox-icon"></div>
+                    </div>
+                </div>
+                <div class="dropdown-data" hidden="true">
+                    <div class="dropdown-item">
+                        <i class="fas fa-check item-icon"></i>
+                        <div class="item-text">Tất cả vị trí</div>
+                    </div>
+                    <div class="dropdown-item item-selected">
+                        <i class="fas fa-check item-icon"></i>
+                        <div class="item-text">Tổng giám đốc</div>
+                    </div>
+                    <div class="dropdown-item">
+                        <i class="fas fa-check item-icon"></i>
+                        <div class="item-text">Giám đốc</div>
+                    </div>
+                    <div class="dropdown-item">
+                        <i class="fas fa-check item-icon"></i>
+                        <div class="item-text">Nhân viên</div>
+                    </div>
+                </div>
             </div>
 
             <div class="button-refresh"></div>
@@ -109,54 +154,66 @@
                     </tr>
                     <tr>
                         <td>NV-000002</td>
-                        <td>Hồ Văn Long</td>
+                        <td>Nguyễn Ngọc Hưng</td>
                         <td>Nam</td>
-                        <td>11/08/1978</td>
-                        <td>0940058449</td>
-                        <td>example@gmail.com</td>
-                        <td>Giám đốc</td>
-                        <td>Phòng Nhân sự</td>
-                        <td>17.739.391</td>
-                        <td>Đang thử việc</td>
+                        <td>08/01/2000</td>
+                        <td>0987654321</td>
+                        <td>nguyenngochung.ncth@gmail.com</td>
+                        <td>Tổng giám đốc</td>
+                        <td>Phòng kinh doanh</td>
+                        <td>999.999.999</td>
+                        <td>Đang làm việc</td>
                     </tr>
                     <tr>
                         <td>NV-000003</td>
-                        <td>Hồ Văn Long</td>
+                        <td>Nguyễn Văn Nhật</td>
                         <td>Nam</td>
-                        <td>11/08/1978</td>
-                        <td>0940058449</td>
-                        <td>example@gmail.com</td>
-                        <td>Giám đốc</td>
-                        <td>Phòng Nhân sự</td>
-                        <td>17.739.391</td>
-                        <td>Đang thử việc</td>
+                        <td>02/08/2000</td>
+                        <td>0987654321</td>
+                        <td>nhat.nv@example.com</td>
+                        <td>Nhân viên bảo vệ</td>
+                        <td>Phòng an ninh</td>
+                        <td>10.000.000</td>
+                        <td>Đang làm việc</td>
                     </tr>                    
                     <tr>
                         <td>NV-000004</td>
-                        <td>Hồ Văn Long</td>
+                        <td>Trần Dần</td>
                         <td>Nam</td>
                         <td>11/08/1978</td>
                         <td>0940058449</td>
-                        <td>example@gmail.com</td>
-                        <td>Giám đốc</td>
-                        <td>Phòng Nhân sự</td>
-                        <td>17.739.391</td>
-                        <td>Đang thử việc</td>
+                        <td></td>
+                        <td>Nhân viên vệ sinh</td>
+                        <td>Phòng Vệ sinh</td>
+                        <td>6.739.391</td>
+                        <td>Đang làm việc</td>
                     </tr>
                     <tr>
                         <td>NV-000005</td>
-                        <td>Hồ Văn Long</td>
-                        <td>Nam</td>
+                        <td>Trần Đức Bo</td>
+                        <td>Nữ</td>
                         <td>11/08/1978</td>
-                        <td>0940058449</td>
+                        <td></td>
                         <td>example@gmail.com</td>
-                        <td>Giám đốc</td>
-                        <td>Phòng Nhân sự</td>
-                        <td>17.739.391</td>
+                        <td>Nhân viên kế toán</td>
+                        <td>Phòng Tài chính</td>
+                        <td>7.765.432</td>
                         <td>Đang thử việc</td>
                     </tr>
                     <tr>
                         <td>NV-000006</td>
+                        <td>Lê Minh Hô</td>
+                        <td>Không xác định</td>
+                        <td>11/08/1978</td>
+                        <td>0940058449</td>
+                        <td>leminho@gmail.com</td>
+                        <td>Nhân viên vệ sinh</td>
+                        <td>Phòng Vệ sinh</td>
+                        <td>4.739.391</td>
+                        <td>Đang thử việc</td>
+                    </tr>
+                    <tr>
+                        <td>NV-000001</td>
                         <td>Hồ Văn Long</td>
                         <td>Nam</td>
                         <td>11/08/1978</td>
@@ -168,7 +225,67 @@
                         <td>Đang thử việc</td>
                     </tr>
                     <tr>
-                        <td>NV-000007</td>
+                        <td>NV-000002</td>
+                        <td>Nguyễn Ngọc Hưng</td>
+                        <td>Nam</td>
+                        <td>08/01/2000</td>
+                        <td>0987654321</td>
+                        <td>nguyenngochung.ncth@gmail.com</td>
+                        <td>Tổng giám đốc</td>
+                        <td>Phòng kinh doanh</td>
+                        <td>999.999.999</td>
+                        <td>Đang làm việc</td>
+                    </tr>
+                    <tr>
+                        <td>NV-000003</td>
+                        <td>Nguyễn Văn Nhật</td>
+                        <td>Nam</td>
+                        <td>02/08/2000</td>
+                        <td>0987654321</td>
+                        <td>nhat.nv@example.com</td>
+                        <td>Nhân viên bảo vệ</td>
+                        <td>Phòng an ninh</td>
+                        <td>10.000.000</td>
+                        <td>Đang làm việc</td>
+                    </tr>                    
+                    <tr>
+                        <td>NV-000004</td>
+                        <td>Trần Dần</td>
+                        <td>Nam</td>
+                        <td>11/08/1978</td>
+                        <td>0940058449</td>
+                        <td></td>
+                        <td>Nhân viên vệ sinh</td>
+                        <td>Phòng Vệ sinh</td>
+                        <td>6.739.391</td>
+                        <td>Đang làm việc</td>
+                    </tr>
+                    <tr>
+                        <td>NV-000005</td>
+                        <td>Trần Đức Bo</td>
+                        <td>Nữ</td>
+                        <td>11/08/1978</td>
+                        <td></td>
+                        <td>example@gmail.com</td>
+                        <td>Nhân viên kế toán</td>
+                        <td>Phòng Tài chính</td>
+                        <td>7.765.432</td>
+                        <td>Đang thử việc</td>
+                    </tr>
+                    <tr>
+                        <td>NV-000006</td>
+                        <td>Lê Minh Hô</td>
+                        <td>Không xác định</td>
+                        <td>11/08/1978</td>
+                        <td>0940058449</td>
+                        <td>leminho@gmail.com</td>
+                        <td>Nhân viên vệ sinh</td>
+                        <td>Phòng Vệ sinh</td>
+                        <td>4.739.391</td>
+                        <td>Đang thử việc</td>
+                    </tr>
+                    <tr>
+                        <td>NV-000001</td>
                         <td>Hồ Văn Long</td>
                         <td>Nam</td>
                         <td>11/08/1978</td>
@@ -180,135 +297,63 @@
                         <td>Đang thử việc</td>
                     </tr>
                     <tr>
-                        <td>NV-000008</td>
-                        <td>Hồ Văn Long</td>
+                        <td>NV-000002</td>
+                        <td>Nguyễn Ngọc Hưng</td>
+                        <td>Nam</td>
+                        <td>08/01/2000</td>
+                        <td>0987654321</td>
+                        <td>nguyenngochung.ncth@gmail.com</td>
+                        <td>Tổng giám đốc</td>
+                        <td>Phòng kinh doanh</td>
+                        <td>999.999.999</td>
+                        <td>Đang làm việc</td>
+                    </tr>
+                    <tr>
+                        <td>NV-000003</td>
+                        <td>Nguyễn Văn Nhật</td>
+                        <td>Nam</td>
+                        <td>02/08/2000</td>
+                        <td>0987654321</td>
+                        <td>nhat.nv@example.com</td>
+                        <td>Nhân viên bảo vệ</td>
+                        <td>Phòng an ninh</td>
+                        <td>10.000.000</td>
+                        <td>Đang làm việc</td>
+                    </tr>                    
+                    <tr>
+                        <td>NV-000004</td>
+                        <td>Trần Dần</td>
                         <td>Nam</td>
                         <td>11/08/1978</td>
                         <td>0940058449</td>
+                        <td></td>
+                        <td>Nhân viên vệ sinh</td>
+                        <td>Phòng Vệ sinh</td>
+                        <td>6.739.391</td>
+                        <td>Đang làm việc</td>
+                    </tr>
+                    <tr>
+                        <td>NV-000005</td>
+                        <td>Trần Đức Bo</td>
+                        <td>Nữ</td>
+                        <td>11/08/1978</td>
+                        <td></td>
                         <td>example@gmail.com</td>
-                        <td>Giám đốc</td>
-                        <td>Phòng Nhân sự</td>
-                        <td>17.739.391</td>
+                        <td>Nhân viên kế toán</td>
+                        <td>Phòng Tài chính</td>
+                        <td>7.765.432</td>
                         <td>Đang thử việc</td>
                     </tr>
                     <tr>
-                        <td>NV-000009</td>
-                        <td>Hồ Văn Long</td>
-                        <td>Nam</td>
+                        <td>NV-000006</td>
+                        <td>Lê Minh Hô</td>
+                        <td>Không xác định</td>
                         <td>11/08/1978</td>
                         <td>0940058449</td>
-                        <td>example@gmail.com</td>
-                        <td>Giám đốc</td>
-                        <td>Phòng Nhân sự</td>
-                        <td>17.739.391</td>
-                        <td>Đang thử việc</td>
-                    </tr>
-                    <tr>
-                        <td>NV-000010</td>
-                        <td>Hồ Văn Long</td>
-                        <td>Nam</td>
-                        <td>11/08/1978</td>
-                        <td>0940058449</td>
-                        <td>example@gmail.com</td>
-                        <td>Giám đốc</td>
-                        <td>Phòng Nhân sự</td>
-                        <td>17.739.391</td>
-                        <td>Đang thử việc</td>
-                    </tr>
-                    <tr>
-                        <td>NV-000011</td>
-                        <td>Hồ Văn Long</td>
-                        <td>Nam</td>
-                        <td>11/08/1978</td>
-                        <td>0940058449</td>
-                        <td>example@gmail.com</td>
-                        <td>Giám đốc</td>
-                        <td>Phòng Nhân sự</td>
-                        <td>17.739.391</td>
-                        <td>Đang thử việc</td>
-                    </tr>
-                    <tr>
-                        <td>NV-000012</td>
-                        <td>Hồ Văn Long</td>
-                        <td>Nam</td>
-                        <td>11/08/1978</td>
-                        <td>0940058449</td>
-                        <td>example@gmail.com</td>
-                        <td>Giám đốc</td>
-                        <td>Phòng Nhân sự</td>
-                        <td>17.739.391</td>
-                        <td>Đang thử việc</td>
-                    </tr>
-                    <tr>
-                        <td>NV-000013</td>
-                        <td>Hồ Văn Long</td>
-                        <td>Nam</td>
-                        <td>11/08/1978</td>
-                        <td>0940058449</td>
-                        <td>example@gmail.com</td>
-                        <td>Giám đốc</td>
-                        <td>Phòng Nhân sự</td>
-                        <td>17.739.391</td>
-                        <td>Đang thử việc</td>
-                    </tr>
-                    <tr>
-                        <td>NV-000014</td>
-                        <td>Hồ Văn Long</td>
-                        <td>Nam</td>
-                        <td>11/08/1978</td>
-                        <td>0940058449</td>
-                        <td>example@gmail.com</td>
-                        <td>Giám đốc</td>
-                        <td>Phòng Nhân sự</td>
-                        <td>17.739.391</td>
-                        <td>Đang thử việc</td>
-                    </tr>
-                    <tr>
-                        <td>NV-000015</td>
-                        <td>Hồ Văn Long</td>
-                        <td>Nam</td>
-                        <td>11/08/1978</td>
-                        <td>0940058449</td>
-                        <td>example@gmail.com</td>
-                        <td>Giám đốc</td>
-                        <td>Phòng Nhân sự</td>
-                        <td>17.739.391</td>
-                        <td>Đang thử việc</td>
-                    </tr>
-                    <tr>
-                        <td>NV-000016</td>
-                        <td>Hồ Văn Long</td>
-                        <td>Nam</td>
-                        <td>11/08/1978</td>
-                        <td>0940058449</td>
-                        <td>example@gmail.com</td>
-                        <td>Giám đốc</td>
-                        <td>Phòng Nhân sự</td>
-                        <td>17.739.391</td>
-                        <td>Đang thử việc</td>
-                    </tr>
-                    <tr>
-                        <td>NV-000017</td>
-                        <td>Hồ Văn Long</td>
-                        <td>Nam</td>
-                        <td>11/08/1978</td>
-                        <td>0940058449</td>
-                        <td>example@gmail.com</td>
-                        <td>Giám đốc</td>
-                        <td>Phòng Nhân sự</td>
-                        <td>17.739.391</td>
-                        <td>Đang thử việc</td>
-                    </tr>
-                    <tr>
-                        <td>NV-000018</td>
-                        <td>Hồ Văn Long</td>
-                        <td>Nam</td>
-                        <td>11/08/1978</td>
-                        <td>0940058449</td>
-                        <td>example@gmail.com</td>
-                        <td>Giám đốc</td>
-                        <td>Phòng Nhân sự</td>
-                        <td>17.739.391</td>
+                        <td>leminho@gmail.com</td>
+                        <td>Nhân viên vệ sinh</td>
+                        <td>Phòng Vệ sinh</td>
+                        <td>4.739.391</td>
                         <td>Đang thử việc</td>
                     </tr>
                     <tr>
@@ -548,6 +593,7 @@
             </div>
         </div>
     </div>
+    <script src="./1.UI/js/init.js"></script>
     <script src="./1.UI/js/form-popup.js"></script>
     <script src="./1.UI/js/dropdown.js"></script>
     <script src="./1.UI/content/font/fontawesome-5.15.1/js/all.min.js"></script>    
