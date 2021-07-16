@@ -11,7 +11,7 @@
     <link rel="stylesheet" href="../css/layout/content.css">
     <link rel="stylesheet" href="../css/components/popup-form.css">
     <link rel="stylesheet" href="../content/font/fontawesome-5.15.1/css/all.min.css">
-    <script src="../js/init.js"></script>
+    <link rel="stylesheet" href="../css/base/combobox.css">
 </head>
 
 <body onload="init()">
@@ -67,9 +67,28 @@
             <div class="search-icon"></div>
             <input type="text" class="textbox-default search-field"
                 placeholder="Tìm kiếm theo Mã, Tên hoặc Số điện thoại">
-            <div class="dropdown dropdown-departments">
+                      
+                <!-- <div class="dropdown dropdown-departments">
                 <div class="dropdown-item">Tất cả phòng ban</div>
                 <div class="dropdown-icon"></div>
+            </div> -->
+            <div class="combobox-container dropdown-departments">
+                <div class="combobox">
+                    <input type="text" class="combobox-input textbox-default" value="Tất cả phòng ban">
+                    <div class="combobox-icon-container" onclick="showDropData(this)">
+                        <div class="combobox-icon"></div>
+                    </div>
+                </div>
+                <div class="dropdown-data" hidden="true">
+                    <div class="dropdown-item">
+                        <i class="fas fa-check item-icon"></i>
+                        <div class="item-text">Tất cả phòng ban</div>
+                    </div>
+                    <div class="dropdown-item item-selected">
+                        <i class="fas fa-check item-icon"></i>
+                        <div class="item-text">Phòng Nhân sự</div>
+                    </div>
+                </div>
             </div>
             <div class="dropdown dropdown-positions">
                 <div class="dropdown-item">Tất cả vị trí</div>
@@ -548,6 +567,7 @@
             </div>
         </div>
     </div>
+    <script src="../js/init.js"></script>
     <script src="../js/form-popup.js"></script>
     <script src="../js/dropdown.js"></script>
     <script src="../content/font/fontawesome-5.15.1/js/all.min.js"></script>    

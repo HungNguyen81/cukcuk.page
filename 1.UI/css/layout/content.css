@@ -78,8 +78,8 @@ body{
     width: 220px;
     position: absolute;
     line-height: 40px;
-    cursor: pointer;
     margin-left: 16px;
+    z-index: 2;
 }
 .dropdown-departments{
     left: calc(335px + 16px);
@@ -117,6 +117,7 @@ body{
     width: calc(100vw - 226px - 32px);
     margin-left: 16px;
     overflow-x: auto;
+    z-index: 1;
 }
 
 .table-employee {

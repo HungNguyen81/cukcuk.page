@@ -40,6 +40,9 @@ function itemSelect(item) {
 
     if(parent.parentNode.classList.contains("combobox-container")){
         displayText.value = item.children[1].innerText;
+        
+        // hide drop data
+        parent.setAttribute('hidden', true);
     } else {
         displayText.innerText = item.children[1].innerText;
     }
