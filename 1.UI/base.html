@@ -12,6 +12,7 @@
     <link rel="stylesheet" href="./css/components/popup-form.css">
     <link rel="stylesheet" href="./content/font/fontawesome-5.15.1/css/all.min.css">
     <link rel="stylesheet" href="./css/base/combobox.css">
+    <script src="../2.JS/lib/jquery-3.6.0.min.js"></script>
 </head>
 
 <body onload="initDropdownListener()">
@@ -79,7 +80,13 @@
         <div class="input-field" style="width: 200px;">
             <div class="combobox-container">
                 <div class="combobox">
-                    <input type="text" class="combobox-input textbox-default" value="Nam">
+                    <input type="text" class="combobox-input textbox-default" value="Nam" 
+                    onkeyup="ComboboxInputChange(this)">
+
+                    <div class="x-icon" hidden="true" onclick="ClearInputText(this)">
+                        <i class="fas fa-times"></i>
+                    </div>
+
                     <div class="combobox-icon-container" onclick="showDropData(this)">
                         <div class="combobox-icon"></div>
                     </div>
@@ -97,9 +104,10 @@
                 </div>
             </div>
         </div>
+        <br><br>
+
     </div>
-
-
+    
     <script src="./js/init.js"></script>
     <script src="./js/dropdown.js"></script>
     <script src="./content/font/fontawesome-5.15.1/js/all.min.js"></script>

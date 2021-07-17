@@ -6,7 +6,8 @@
 
 .combobox-input{
     width: 100%;    
-    background-color: #fff;    
+    background-color: #fff;  
+    padding-right: 80px;  
 }
 
 .combobox-icon-container{
@@ -35,5 +36,28 @@
     background-color: #ccc;
 }
 .combobox-icon-container:active{
+    background-color: #bbb;
+}
+
+.x-icon{
+    width: 16px;
+    height: 16px;
+    border-radius: 50%;
+    background-color: #e5e5e5;
+    position: absolute;
+    right: 41px;
+    margin-right: 12px;
+    margin-left: 12px;
+    text-align: center;   
+    font-size: 11px;
+    line-height: 16px;       
+    color: #bbb;    
+}
+
+.x-icon:hover{
+    background-color: #ccc;
+    color: #000;
+}
+.x-icon:active{
     background-color: #bbb;
 }

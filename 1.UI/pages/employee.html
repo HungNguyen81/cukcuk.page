@@ -21,9 +21,21 @@
             <div class="logo"></div>
         </div>
         <div class="header-right">
-            <div class="drop-down-restaurant">
-                <div class="drop-text">Nhà hàng Biển Đông</div>
-                <div class="drop-icon"></div>
+            <div class="dropdown-container drop-down-restaurant">
+                <div class="dropdown">
+                    <div id="gender">Nhà hàng Biển Đông</div>
+                    <div class="dropdown-icon"></div>
+                </div>
+                <div class="dropdown-data" id="restaurants" hidden="true">
+                    <div class="dropdown-item  item-selected">
+                        <i class="fas fa-check item-icon"></i>
+                        <div class="item-text">Nhà hàng Biển Đông</div>
+                    </div>
+                    <div class="dropdown-item">
+                        <i class="fas fa-check item-icon"></i>
+                        <div class="item-text">Nhà hàng Biển Tây</div>
+                    </div>
+                </div>
             </div>
             <div class="user-options">
                 <div class="notification"></div>
@@ -69,55 +81,37 @@
                 placeholder="Tìm kiếm theo Mã, Tên hoặc Số điện thoại">
             <div class="combobox-container dropdown-departments">
                 <div class="combobox">
-                    <input type="text" class="combobox-input textbox-default" value="Tất cả phòng ban">
+                    <input type="text" class="combobox-input textbox-default" value="Tất cả phòng ban" onkeyup="ComboboxInputChange(this)">
+                    <div class="x-icon" hidden="true" onclick="ClearInputText(this)">
+                        <i class="fas fa-times"></i>
+                    </div>
                     <div class="combobox-icon-container" onclick="showDropData(this)">
                         <div class="combobox-icon"></div>
                     </div>
                 </div>
-                <div class="dropdown-data" hidden="true">
-                    <div class="dropdown-item">
+                <div class="dropdown-data" id="departments" hidden="true">
+                    <div class="dropdown-item item-selected" onclick="itemSelect(this)">
                         <i class="fas fa-check item-icon"></i>
                         <div class="item-text">Tất cả phòng ban</div>
-                    </div>
-                    <div class="dropdown-item item-selected">
-                        <i class="fas fa-check item-icon"></i>
-                        <div class="item-text">Phòng Nhân sự</div>
-                    </div>
-                    <div class="dropdown-item">
-                        <i class="fas fa-check item-icon"></i>
-                        <div class="item-text">Phòng Kinh doanh</div>
-                    </div>
-                    <div class="dropdown-item">
-                        <i class="fas fa-check item-icon"></i>
-                        <div class="item-text">Phòng Tài chính</div>
-                    </div>
+                    </div>                    
                 </div>
             </div>
 
             <div class="combobox-container dropdown-positions">
                 <div class="combobox">
-                    <input type="text" class="combobox-input textbox-default" value="Tất cả vị trí">
+                    <input type="text" class="combobox-input textbox-default" value="Tất cả vị trí" onkeyup="ComboboxInputChange(this)">
+                    <div class="x-icon" hidden="true" onclick="ClearInputText(this)">
+                        <i class="fas fa-times"></i>
+                    </div>
                     <div class="combobox-icon-container" onclick="showDropData(this)">
                         <div class="combobox-icon"></div>
                     </div>
                 </div>
-                <div class="dropdown-data" hidden="true">
-                    <div class="dropdown-item">
+                <div class="dropdown-data" id="positions" hidden="true">
+                    <div class="dropdown-item  item-selected" onclick="itemSelect(this)">
                         <i class="fas fa-check item-icon"></i>
                         <div class="item-text">Tất cả vị trí</div>
-                    </div>
-                    <div class="dropdown-item item-selected">
-                        <i class="fas fa-check item-icon"></i>
-                        <div class="item-text">Tổng giám đốc</div>
-                    </div>
-                    <div class="dropdown-item">
-                        <i class="fas fa-check item-icon"></i>
-                        <div class="item-text">Giám đốc</div>
-                    </div>
-                    <div class="dropdown-item">
-                        <i class="fas fa-check item-icon"></i>
-                        <div class="item-text">Nhân viên</div>
-                    </div>
+                    </div>                    
                 </div>
             </div>
 
@@ -525,6 +519,10 @@
                                         <i class="fas fa-check item-icon"></i>
                                         <div class="item-text">Nữ</div>
                                     </div>
+                                    <div class="dropdown-item">
+                                        <i class="fas fa-check item-icon"></i>
+                                        <div class="item-text">Khác</div>
+                                    </div>
                                 </div>
                             </div>
                         </div>
@@ -552,15 +550,8 @@
                                     <div id="department">Phòng nhân sự</div>
                                     <div class="dropdown-icon"></div>
                                 </div>
-                                <div class="dropdown-data" hidden="true">
-                                    <div class="dropdown-item  item-selected">
-                                        <i class="fas fa-check item-icon"></i>
-                                        <div class="item-text">Phòng nhân sự</div>
-                                    </div>
-                                    <div class="dropdown-item">
-                                        <i class="fas fa-check item-icon"></i>
-                                        <div class="item-text">Phòng kinh doanh</div>
-                                    </div>
+                                <div class="dropdown-data" id="departments" hidden="true">
+                                    
                                 </div>
                             </div>
                         </div>
@@ -604,7 +595,8 @@
     <script src="../js/init.js"></script>
     <script src="../js/form-popup.js"></script>
     <script src="../js/dropdown.js"></script>
-    <script src="../content/font/fontawesome-5.15.1/js/all.min.js"></script>    
+    <script src="../content/font/fontawesome-5.15.1/js/all.min.js"></script> 
+    <script src="../../2.JS/get/get-drop-data.js"></script>   
 </body>
 
 </html>

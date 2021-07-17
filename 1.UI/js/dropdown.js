@@ -1,10 +1,12 @@
+// show list of item when click
 function showDropData(container) {
     var data, dropData, dropIcon;
 
     // if container is a combobox
-    if(container.classList.contains("combobox-icon-container")){         
-        data = container.parentNode.parentNode.childNodes;      
-        dropIcon = data[1].childNodes[3].childNodes[1];
+    if(container.classList.contains("combobox-icon-container")){  
+               
+        data = container.parentNode.parentNode.childNodes;
+        dropIcon = data[1].childNodes[5].childNodes[1];
     } else {        
         data = container.childNodes;
         dropIcon = data[1].childNodes[3];
@@ -23,6 +25,7 @@ function showDropData(container) {
     }
 }
 
+// handle when an item is selected
 function itemSelect(item) {
     var parent = item.parentNode;
 
@@ -46,4 +49,25 @@ function itemSelect(item) {
     } else {
         displayText.innerText = item.children[1].innerText;
     }
+}
+
+// Handle when text input not empty, then set x button not hidden
+function ComboboxInputChange(input){
+    var parent = input.parentNode;
+
+    var xIcon = parent.children[1];
+
+    if(input.value == ""){
+        xIcon.setAttribute('hidden', true);
+    } else {
+        xIcon.removeAttribute('hidden');
+    }
+}
+
+// clear input when click x button
+function ClearInputText(icon){
+    var parent = icon.parentNode;
+    var input  = parent.children[0];
+    input.value = "";
+    icon.setAttribute('hidden', true);   
 }

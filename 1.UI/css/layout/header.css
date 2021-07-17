@@ -46,32 +46,13 @@
     border-bottom: 1px solid #ccc;
 }
 
-/* Dropdown list */
+/* Dropdown restaurant list */
 
 .drop-down-restaurant {
-    width: fit-content;
-    cursor: pointer;
+    margin-left: 16px;    
 }
-
-.drop-down-restaurant .drop-icon,
-.drop-text {
-    display: inline-block;
-    line-height: 20px;
-
-}
-
-.drop-down-restaurant .drop-text {
-    margin-left: 16px;
-    margin-right: 10px;
-}
-
-.drop-down-restaurant .drop-icon {
-    width: 20px;
-    height: 20px;
-    background-image: url('../../content/icon/drop-icon.png');
-    background-size: 15px;
-    background-position: -1px 10px;
-    background-repeat: no-repeat;
+.drop-down-restaurant > .dropdown{
+    border: none;
 }
 
 /* Username and options */

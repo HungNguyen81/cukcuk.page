@@ -1,24 +1,25 @@
 function init(){
+    // initialize data
+    GetDepartments();
+    GetPositions();
+
+    // initialize event listeners
     initDropdownListener();
     initTableRowListener();
-    initTableTitles();
+    initTableTitles();    
 }
 
 // add event listener to all dropdown items
 function initDropdownListener() {    
-    var dropdownItems
-         = document.getElementsByClassName("dropdown-item");
-    var dropdownContainers
-         = document.getElementsByClassName("dropdown-container");
+    var dropdownItems      = document.getElementsByClassName("dropdown-item");
+    var dropdownContainers = document.getElementsByClassName("dropdown-container");
     
     for (let i = 0; i < dropdownItems.length; i++) {
-        dropdownItems[i].setAttribute('onclick', 
-                                'itemSelect(this)')
+        dropdownItems[i].setAttribute('onclick', 'itemSelect(this)')
     }
 
     for (let i = 0; i < dropdownContainers.length; i++) {
-        dropdownContainers[i].setAttribute('onclick',
-                                'showDropData(this)');
+        dropdownContainers[i].setAttribute('onclick', 'showDropData(this)');
     }
 }
 
@@ -37,14 +38,12 @@ function initTableTitles(){
     var tableData    = document.querySelectorAll("td");
 
     // header title
-    for(let i = 0; i < tableHeaders.length; i++){
-        let title = tableHeaders[i].innerText ;        
-        tableHeaders[i].setAttribute('title', title);
+    for(let i = 0; i < tableHeaders.length; i++){ 
+        tableHeaders[i].setAttribute('title', tableHeaders[i].innerText);
     }
 
     // data title
-    for(let i = 0; i < tableData.length; i++){
-        let title = tableData[i].innerText ;        
-        tableData[i].setAttribute('title', title);
+    for(let i = 0; i < tableData.length; i++){    
+        tableData[i].setAttribute('title', tableData[i].innerText);
     }
 }
