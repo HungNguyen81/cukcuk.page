@@ -17,7 +17,7 @@ function GetDepartments(){
             })
         }
     }
-    xhttp.open("GET", "http://cukcuk.manhnv.net/api/Department", true);
+    xhttp.open("GET", "https://cukcuk.manhnv.net/api/Department", true);
     xhttp.send();
 }
 
@@ -40,6 +40,6 @@ function GetPositions(){
             })
         }
     }
-    xhttp.open("GET", "http://cukcuk.manhnv.net/v1/Positions", true);
+    xhttp.open("GET", "https://cukcuk.manhnv.net/v1/Positions", true);
     xhttp.send();
 }
