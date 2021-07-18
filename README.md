@@ -6,7 +6,7 @@
 # My API:
 
 - GET https://cukcuk-app.herokuapp.com/api/Department : get all department info
-- GET https://cukcuk-app.herokuapp.com/api/Department : get all position info
+- GET https://cukcuk-app.herokuapp.com/api/Position : get all position info
 
 # Some captures:
 
