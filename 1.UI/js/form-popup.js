@@ -4,7 +4,17 @@ function openPopup(row) {
     form.style.display = "block";
     form.addEventListener('click', myFunc);    
 
-    if(row){
+    var employeeIdInput =   form.children[0]    
+                                .children[1]
+                                .children[1]
+                                .children[0]
+                                .children[1]
+                                .children[1];
+    console.log(employeeIdInput);
+
+    employeeIdInput.focus();
+
+    if(row){        
         initForm();
     }
 }
@@ -20,6 +30,7 @@ function myFunc(e) {
     }
 }
 
+// Get row data and fill to the form
 function initForm(row) {
     console.log("init form");
 }

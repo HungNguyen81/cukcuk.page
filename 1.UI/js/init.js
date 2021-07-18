@@ -4,9 +4,15 @@ function init(){
     GetPositions();
 
     // initialize event listeners
-    initDropdownListener();
-    initTableRowListener();
+    initDropdownListener();    
     initTableTitles();    
+    initTableData();    
+
+    // init listener for paging-item
+    initPagingSelect();
+
+    // Init listener for page number buttons
+    initPagingBtnListener();
 }
 
 // add event listener to all dropdown items
@@ -46,4 +52,29 @@ function initTableTitles(){
     for(let i = 0; i < tableData.length; i++){    
         tableData[i].setAttribute('title', tableData[i].innerText);
     }
+}
+
+function initPagingSelect(){
+    var pagingItems = document.querySelectorAll('.paging-item');
+    pagingItems.forEach(item => {
+        item.setAttribute('onclick', 'changePageSize(this)')
+    })
+}
+
+function initPagingBtnListener(){
+    var pagingButtons = document.querySelectorAll('.button-page-number');
+    var btnFirstPage = document.querySelector('.button-firstpage');
+    var btnLastPage = document.querySelector('.button-lastpage');
+    var btnNext = document.querySelector('.button-next-page');
+    var btnPrev = document.querySelector('.button-prev-page');
+
+    pagingButtons.forEach(btn => {
+        btn.setAttribute('onclick','ChangePageNumber(this)');
+    });
+
+    btnFirstPage.setAttribute('onclick', 'FirstPage()');
+    btnLastPage.setAttribute('onclick', 'LastPage()');
+    btnNext.setAttribute('onclick', 'NextPage(this)');
+    btnPrev.setAttribute('onclick', 'PrevPage(this)');
+
 }
