@@ -1,6 +1,6 @@
 # Phần mềm quản lý nhân viên CUKCUK
 
-- Demo Deploy on Heroku    : https://hungnguyen81.github.io/cukcuk.page/1.UI/pages/employee.html
+- Demo Deploy on Heroku    : https://hungnguyen81.github.io/cukcuk.page/
 - Demo Deploy on Github.io : https://hungnguyen81.github.io/cukcuk.page/
 
 # My API:
