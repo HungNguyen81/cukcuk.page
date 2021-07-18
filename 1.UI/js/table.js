@@ -25,7 +25,7 @@ function GetNumberOfEmployeeRecord(){
                                     Number(document.querySelector('.button-current-page').innerText));     
         }
     }
-    xhttp.open("GET", `http://127.0.0.1:8080/api/Employee`, true);
+    xhttp.open("GET", `https://cukcuk-app.herokuapp.com/api/Employee`, true);
     xhttp.send();
 }
 
@@ -113,6 +113,6 @@ function fillTableData(pageSize, pageNumber){
             initTableRowListener();
         }
     }
-    xhttp.open("GET", `http://127.0.0.1:8080/api/Employee?pageNumber=${pageNumber}&pageSize=${pageSize}`, true);
+    xhttp.open("GET", `https://cukcuk-app.herokuapp.com/api/Employee?pageNumber=${pageNumber}&pageSize=${pageSize}`, true);
     xhttp.send();
 }
