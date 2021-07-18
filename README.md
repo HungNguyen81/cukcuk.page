@@ -14,4 +14,4 @@ Demo Deploy on Github.io : https://hungnguyen81.github.io/cukcuk.page/
 
 ![alt](https://github.com/HungNguyen81/cukcuk.page/blob/main/Captures/capture-2.png?raw=true)
 
-<img align="center" src="https://github.com/HungNguyen81/cukcuk.page/blob/main/Captures/capture-3.png?raw=true" alt="img">
+![alt](https://github.com/HungNguyen81/cukcuk.page/blob/main/Captures/capture-3.png?raw=true)
