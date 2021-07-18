@@ -43,9 +43,9 @@ function itemSelect(item) {
 
     if(parent.parentNode.classList.contains("combobox-container")){
         displayText.value = item.children[1].innerText;
-        
-        // hide drop data
-        parent.setAttribute('hidden', true);
+
+        // rotate drop icon and hide drop data
+        showDropData(parent.parentNode.children[0].children[2])
     } else {
         displayText.innerText = item.children[1].innerText;
     }
@@ -64,7 +64,7 @@ function ComboboxInputChange(input){
     }
 }
 
-// clear input when click x button
+// Clear input when click x button
 function ClearInputText(icon){
     var parent = icon.parentNode;
     var input  = parent.children[0];
