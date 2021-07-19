@@ -12,9 +12,11 @@
     <link rel="stylesheet" href="../css/components/popup-form.css">
     <link rel="stylesheet" href="../content/font/fontawesome-5.15.1/css/all.min.css">
     <link rel="stylesheet" href="../css/base/combobox.css">
+
+    <script src="../../2.JS/lib/jquery-3.6.0.min.js"></script>
 </head>
 
-<body onload="init()">
+<body onload="Init()">
     <div class="header">
         <div class="header-left">
             <div class="toggle"></div>
@@ -70,7 +72,7 @@
     <div class="content">
         <div class="content-heading">
             <b class="title">Danh sách nhân viên</b>
-            <div class="button button-icon" onclick="openPopup()">
+            <div class="button button-icon" onclick="OpenPopup()">
                 <div class="icon-button"></div>
                 <div>Thêm nhân viên</div>
             </div>
@@ -85,12 +87,12 @@
                     <div class="x-icon" hidden="true" onclick="ClearInputText(this)">
                         <i class="fas fa-times"></i>
                     </div>
-                    <div class="combobox-icon-container" onclick="showDropData(this)">
+                    <div class="combobox-icon-container" onclick="ShowDropData(this)">
                         <div class="combobox-icon"></div>
                     </div>
                 </div>
                 <div class="dropdown-data" id="departments" hidden="true">
-                    <div class="dropdown-item item-selected" onclick="itemSelect(this)">
+                    <div class="dropdown-item item-selected" onclick="ItemSelect(this)">
                         <i class="fas fa-check item-icon"></i>
                         <div class="item-text">Tất cả phòng ban</div>
                     </div>                    
@@ -103,12 +105,12 @@
                     <div class="x-icon" hidden="true" onclick="ClearInputText(this)">
                         <i class="fas fa-times"></i>
                     </div>
-                    <div class="combobox-icon-container" onclick="showDropData(this)">
+                    <div class="combobox-icon-container" onclick="ShowDropData(this)">
                         <div class="combobox-icon"></div>
                     </div>
                 </div>
                 <div class="dropdown-data" id="positions" hidden="true">
-                    <div class="dropdown-item  item-selected" onclick="itemSelect(this)">
+                    <div class="dropdown-item  item-selected" onclick="ItemSelect(this)">
                         <i class="fas fa-check item-icon"></i>
                         <div class="item-text">Tất cả vị trí</div>
                     </div>                    
@@ -181,7 +183,7 @@
         <div class="form-container" id="form-container">
             <div class="form-header">
                 <div class="header">THÔNG TIN NHÂN VIÊN</div>
-                <div class="close-button" onclick="closePopup()"></div>
+                <div class="close-button" onclick="ClosePopup()"></div>
             </div>
             <div class="form-body">
                 <div class="body-avatar body-column">
@@ -343,18 +345,18 @@
                 </div>
             </div>
             <div class="form-footer">
-                <div class="button button-cancel" onclick="closePopup()">Hủy</div>
-                <div class="button button-save" onclick="closePopup()">
+                <div class="button button-cancel" onclick="ClosePopup()">Hủy</div>
+                <div class="button button-save" onclick="ClosePopup()">
                     <div class="icon-save"></div>
                     Lưu
                 </div>
             </div>
         </div>
     </div>
+    <script src="../content/font/fontawesome-5.15.1/js/all.min.js"></script>     
     <script src="../js/init.js"></script>
     <script src="../js/form-popup.js"></script>
     <script src="../js/dropdown.js"></script>
-    <script src="../content/font/fontawesome-5.15.1/js/all.min.js"></script> 
     <script src="../../2.JS/get/get-drop-data.js"></script>   
     <script src="../js/table.js"></script>
     <script src="../js/page-navigator-button.js"></script>

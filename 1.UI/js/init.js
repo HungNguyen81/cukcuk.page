@@ -1,80 +1,79 @@
-function init(){
+function Init(){
     // initialize data
     GetDepartments();
     GetPositions();
 
     // initialize event listeners
-    initDropdownListener();    
-    initTableTitles();    
-    initTableData();    
+    InitDropdownListener();    
+    InitTableTitles();    
+    InitTableData();    
 
     // init listener for paging-item
-    initPagingSelect();
+    InitPagingSelect();
 
     // Init listener for page number buttons
-    initPagingBtnListener();
+    InitPagingBtnListener();
 }
 
 // add event listener to all dropdown items
-function initDropdownListener() {    
+function InitDropdownListener() {    
     var dropdownItems      = document.getElementsByClassName("dropdown-item");
     var dropdownContainers = document.getElementsByClassName("dropdown-container");
     
     for (let i = 0; i < dropdownItems.length; i++) {
-        dropdownItems[i].setAttribute('onclick', 'itemSelect(this)')
+        dropdownItems[i].setAttribute('onclick', 'ItemSelect(this)')
     }
 
     for (let i = 0; i < dropdownContainers.length; i++) {
-        dropdownContainers[i].setAttribute('onclick', 'showDropData(this)');
+        dropdownContainers[i].setAttribute('onclick', 'ShowDropData(this)');
     }
 }
 
 // // add event listener to all table data rows
-function initTableRowListener(){
+function InitTableRowListener(){
     var rows = document.querySelectorAll(".table-employee tbody > tr");    
 
     for(let i = 0; i < rows.length; i++){
-        rows[i].setAttribute('ondblclick', 'openPopup(this)');
+        rows[i].setAttribute('ondblclick', 'OpenPopup(this)');
     }
 }
 
 // Initialize title attribute for each table cell
-function initTableTitles(){
-    var tableHeaders = document.querySelectorAll("th");
-    var tableData    = document.querySelectorAll("td");
+function InitTableTitles(){
+    var tableHeaders = $("th");
+    var tableData    = $("td");
 
     // header title
-    for(let i = 0; i < tableHeaders.length; i++){ 
-        tableHeaders[i].setAttribute('title', tableHeaders[i].innerText);
-    }
+    tableHeaders.each(function(i){ 
+        $(this).attr('title', tableHeaders[i].innerText);
+    })
 
     // data title
-    for(let i = 0; i < tableData.length; i++){    
-        tableData[i].setAttribute('title', tableData[i].innerText);
-    }
+    tableData.each(function(i){
+        $(this).setAttribute('title', tableData[i].innerText);
+    }) 
 }
 
-function initPagingSelect(){
-    var pagingItems = document.querySelectorAll('.paging-item');
-    pagingItems.forEach(item => {
-        item.setAttribute('onclick', 'changePageSize(this)')
+function InitPagingSelect(){    
+    var pagingItems = $('.paging-item');
+    pagingItems.each(function () {
+        $(this).attr('onclick', 'ChangePageSize(this)')
     })
 }
 
-function initPagingBtnListener(){
-    var pagingButtons = document.querySelectorAll('.button-page-number');
-    var btnFirstPage = document.querySelector('.button-firstpage');
-    var btnLastPage = document.querySelector('.button-lastpage');
-    var btnNext = document.querySelector('.button-next-page');
-    var btnPrev = document.querySelector('.button-prev-page');
+function InitPagingBtnListener(){
+    var pagingButtons   = $('.button-page-number');    
+    var btnFirstPage    = $('.button-firstpage');
+    var btnLastPage     = $('.button-lastpage');
+    var btnNext         = $('.button-next-page');
+    var btnPrev         = $('.button-prev-page');
 
-    pagingButtons.forEach(btn => {
-        btn.setAttribute('onclick','ChangePageNumber(this)');
+    pagingButtons.each(function () {
+        $(this).attr('onclick','ChangePageNumber(this)');
     });
 
-    btnFirstPage.setAttribute('onclick', 'FirstPage()');
-    btnLastPage.setAttribute('onclick', 'LastPage()');
-    btnNext.setAttribute('onclick', 'NextPage(this)');
-    btnPrev.setAttribute('onclick', 'PrevPage(this)');
-
+    btnFirstPage.attr('onclick', 'FirstPage()');
+    btnLastPage.attr('onclick', 'LastPage()');
+    btnNext.attr('onclick', 'NextPage(this)');
+    btnPrev.attr('onclick', 'PrevPage(this)');
 }

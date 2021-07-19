@@ -1,10 +1,9 @@
 // show list of item when click
-function showDropData(container) {
+function ShowDropData(container) {
     var data, dropData, dropIcon;
 
     // if container is a combobox
     if(container.classList.contains("combobox-icon-container")){  
-               
         data = container.parentNode.parentNode.childNodes;
         dropIcon = data[1].childNodes[5].childNodes[1];
     } else {        
@@ -26,7 +25,7 @@ function showDropData(container) {
 }
 
 // handle when an item is selected
-function itemSelect(item) {
+function ItemSelect(item) {
     var parent = item.parentNode;
 
     // remove all item-selected class, make all item as non-selected
@@ -45,7 +44,7 @@ function itemSelect(item) {
         displayText.value = item.children[1].innerText;
 
         // rotate drop icon and hide drop data
-        showDropData(parent.parentNode.children[0].children[2])
+        ShowDropData(parent.parentNode.children[0].children[2])
     } else {
         displayText.innerText = item.children[1].innerText;
     }

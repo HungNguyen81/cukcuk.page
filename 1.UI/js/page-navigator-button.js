@@ -2,20 +2,20 @@ function ChangePageNumber(button){
     var currentPageNumber = button.innerText;
     document.querySelector('.navigator-center').setAttribute('currentpage', currentPageNumber);
 
-    fillTableData( getPageSizeDefault(), currentPageNumber );
+    FillTableData( GetPageSizeDefault(), currentPageNumber );
     UpdateCurrentPageButton();
 }
 
 function NextPage(btn){
     var pagingBar = btn.parentNode;
     var currentPageNumber = Number(pagingBar.getAttribute('currentpage'));
-    var pageSize = getPageSizeDefault();
+    var pageSize = GetPageSizeDefault();
 
     currentPageNumber++;
 
     if(currentPageNumber <= Number(pagingBar.getAttribute('numofpages'))){
-        fillTableData(pageSize, currentPageNumber);
-        changeCurrentPageLabel(pageSize, currentPageNumber);
+        FillTableData(pageSize, currentPageNumber);
+        ChangeCurrentPageLabel(pageSize, currentPageNumber);
         pagingBar.setAttribute('currentpage', currentPageNumber);
         UpdateCurrentPageButton();
     }
@@ -24,13 +24,13 @@ function NextPage(btn){
 function PrevPage(btn){
     var pagingBar = btn.parentNode;
     var currentPageNumber = Number(pagingBar.getAttribute('currentpage'));
-    var pageSize = getPageSizeDefault(); 
+    var pageSize = GetPageSizeDefault(); 
 
     currentPageNumber--;
 
     if(currentPageNumber > 0){
-        fillTableData(pageSize, currentPageNumber);
-        changeCurrentPageLabel(pageSize, currentPageNumber);
+        FillTableData(pageSize, currentPageNumber);
+        ChangeCurrentPageLabel(pageSize, currentPageNumber);
         pagingBar.setAttribute('currentpage', currentPageNumber);
         UpdateCurrentPageButton();
     }
@@ -46,14 +46,14 @@ function LastPage(){
 }
 
 // call when select another page size
-function changePageSize(item){
-    itemSelect(item);
+function ChangePageSize(item){
+    ItemSelect(item);
     var pageSize = item.children[1].innerText.split(' ')[0];
     // var pageNumber = pagingBar.getAttribute('currentpage');
 
-    changeCurrentPageLabel(pageSize, 1);
+    ChangeCurrentPageLabel(pageSize, 1);
 
-    fillTableData(pageSize, 1);
+    FillTableData(pageSize, 1);
     UpdatePagingBar();
 
     document.querySelector('.navigator-center').setAttribute('currentpage', 1);
@@ -77,13 +77,12 @@ function UpdateCurrentPageButton(){
     // pagingBar.children[currentPage + 1].classList.add('button-current-page');
 }
 
-function changeCurrentPageLabel(pageSize, pageNumber){
-    var numofrows   = Number(document.querySelector('.navigator-center').getAttribute('numberofrecords'));
+function ChangeCurrentPageLabel(pageSize, pageNumber){
+    var numofrows   = Number($('.navigator-center').attr('numberofrecords'));
     var start       = pageSize*(pageNumber-1)+1;
     var end         = (pageSize*pageNumber < numofrows)? pageSize*pageNumber : numofrows;
 
-    document.querySelector('#current-pagesize').innerHTML 
-        = `Hiển thị <b>${start}-${end}/${numofrows}</b> nhân viên`;
+    $('#current-pagesize').html(`Hiển thị <b>${start}-${end}/${numofrows}</b> nhân viên`);         
 }
 
 // call this funtion when page size has changed
@@ -91,7 +90,7 @@ function UpdatePagingBar(){
     var pagingBar = document.querySelector('.navigator-center');
     
     var numOfRecords = Number(pagingBar.getAttribute('numberofrecords'));    
-    var pageSize = getPageSizeDefault();
+    var pageSize = GetPageSizeDefault();
 
     var numOfPages = (numOfRecords % pageSize != 0)?   Math.floor(numOfRecords / pageSize) + 1
                                                      : Math.floor(numOfRecords/ pageSize);

@@ -1,6 +1,6 @@
 var form = document.getElementById("container");
 
-function openPopup(row) {
+function OpenPopup(row) {
     form.style.display = "block";
     form.addEventListener('click', myFunc);    
 
@@ -15,22 +15,22 @@ function openPopup(row) {
     employeeIdInput.focus();
 
     if(row){        
-        initForm();
+        InitForm();
     }
 }
 
-function closePopup() {
+function ClosePopup() {
     form.style.display = "none";
-    form.removeEventListener('click', myFunc);
+    form.removeEventListener('click', MyFunc);
 }
 
-function myFunc(e) {
+function MyFunc(e) {
     if (!document.getElementById('form-container').contains(e.target)) {
         closePopup();
     }
 }
 
 // Get row data and fill to the form
-function initForm(row) {
+function InitForm(row) {
     console.log("init form");
 }

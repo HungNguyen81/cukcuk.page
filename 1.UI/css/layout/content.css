@@ -108,7 +108,6 @@ body{
 }
 
 /* Table content */
-
 .content-table {
     position: absolute;
     top: 128px;
@@ -159,32 +158,77 @@ body{
     white-space: nowrap;
 }
 
-/* Gender column */
+
+/* Employee ID */
+.table-employee tbody td:nth-child(1),
+.table-employee th:nth-child(1) {
+    width: 100px;        
+}
+
+/* Full name */
+.table-employee tbody td:nth-child(2),
+.table-employee th:nth-child(2) {
+    width: 140px;
+}
+/* Gender */
 .table-employee tbody td:nth-child(3),
 .table-employee th:nth-child(3) {
-    width: 60px;
+    width: 100px;
 }
 
-/* Email column */
-.table-employee tbody td:nth-child(6),
-.table-employee th:nth-child(6) {
-    width: 150px;
-}
-
-/* salary column */
-.table-employee th:nth-child(9), 
-.table-employee tr td:nth-child(9) {
-    text-align: right;
-    padding-left: 10px;
-    padding-right: 10px;
-}
-
-/* birthday column */
+/* birthday */
 .table-employee thead th:nth-child(4),
 .table-employee tbody td:nth-child(4) {
     text-align: center;
     padding-left: 10px;
     padding-right: 10px;
+    width: 100px;
+}
+
+/* Phone number */
+.table-employee tbody td:nth-child(5),
+.table-employee th:nth-child(5) {
+    width: 140px;    
+}
+
+/* Email */
+.table-employee tbody td:nth-child(6),
+.table-employee th:nth-child(6) {
+    width: 150px;
+}
+
+/* Position */
+.table-employee tbody td:nth-child(7),
+.table-employee th:nth-child(7) {
+    width: 140px;    
+}
+
+/* Department */
+.table-employee tbody td:nth-child(8),
+.table-employee th:nth-child(8) {
+    width: 120px;    
+}
+
+/* salary */
+.table-employee th:nth-child(9), 
+.table-employee tr td:nth-child(9) {
+    text-align: right;
+    padding-left: 10px;
+    padding-right: 10px;
+    width: 120px;
+}
+
+/* Work status */
+.table-employee tbody td:nth-child(10),
+.table-employee th:nth-child(10) {
+    width: 140px;    
+}
+
+table thead,
+table tbody tr {
+    display: table;
+    width: 100%;
+    table-layout: fixed;
 }
 
 table tbody {
