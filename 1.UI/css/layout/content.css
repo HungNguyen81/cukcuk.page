@@ -302,7 +302,7 @@ table tbody tr {
 .button-firstpage{
     background-image: url('../../content/icon/btn-firstpage.svg');
     background-repeat: no-repeat;
-    background-position: center;
+    background-position: center;    
 }
 .button-lastpage{
     background-image: url('../../content/icon/btn-lastpage.svg');
@@ -318,6 +318,12 @@ table tbody tr {
     background-image: url('../../content/icon/btn-prev-page.svg');
     background-repeat: no-repeat;
     background-position: center;
+}
+
+.page-buttons{
+    max-width: 460px;        
+    background-color: red;
+    /* position: absolute; */
 }
 
 /* Number of rows dropdown box */

@@ -2,17 +2,19 @@ function InitTableData() {
     var pageSize = GetPageSizeDefault();
     var pageNumber = Number($('.button-current-page').text());
 
-    GetNumberOfEmployeeRecord();
+    GetNumberOfEmployees();
     FillTableData(pageSize, pageNumber);
 }
 
-function GetNumberOfEmployeeRecord() {
+function GetNumberOfEmployees() {
     $.ajax({
-        url: 'https://cukcuk-app.herokuapp.com/api/Employee',
+        url: 'http://cukcuk.manhnv.net/v1/Employees',
         method: 'GET'
     }).done(data => {
         var tableEmployee = $('.table-employee > tbody');
         tableEmployee.innerHTML = '';
+
+        localStorage['employees'] = JSON.stringify(FormatEmployeeData(data));
 
         console.log("number of rows", data.length);
         $('.navigator-center').attr('numberofrecords', data.length);
@@ -24,86 +26,92 @@ function GetNumberOfEmployeeRecord() {
     })
 }
 
+function FormatEmployeeData(data){
+    data.forEach(e => {
+        e.EmployeeCode = (e.EmployeeCode) ? e.EmployeeCode : '';
+        e.FullName = (e.FullName) ? e.FullName : '';
+        e.PhoneNumber = (e.PhoneNumber) ? e.PhoneNumber : '';
+        e.Email = (e.Email) ? e.Email : '';
+        e.PositionName = (e.PositionName) ? e.PositionName : '';
+        e.DepartmentName = (e.DepartmentName) ? e.DepartmentName : '';        
+
+        // Gender
+        
+            switch (e.Gender) {
+                case 0: e.Gender = "Nam"; break;
+                case 1: e.Gender = "Nữ"; break;
+                case 2: e.Gender = "Không xác định"; break;
+                default: e.Gender = ""; break;
+            }
+        
+
+        // Date of birth
+        if (!e.DateOfBirth) {
+            e.DateOfBirth = '';
+        } else {
+            e.DateOfBirth = DateFormat(e.DateOfBirth);
+        }
+
+        // Salary
+        if (!e.Salary) {
+            e.Salary = '';
+        } else {
+            e.Salary = e.Salary.toString().replace(/(\d)(?=(\d{3})+(?!\d))/g, '$1.');
+        }
+
+        // Work Status
+        if (!e.WorkStatus) {
+            e.WorkStatus = '';
+        } else {
+            switch (e.WorkStatus) {
+                case 0: e.WorkStatus = "Đang làm việc"; break;
+                case 1: e.WorkStatus = "Đang thử việc"; break;
+                case 2: e.WorkStatus = "Sắp nghỉ việc"; break;
+                default:e.WorkStatus = "Đã nghỉ việc"; break;
+            }
+        }
+    })
+    console.log(data);
+    return data;
+}
+
 function GetPageSizeDefault() {
-    return document.querySelector('#number-of-rows').innerText.split(' ')[0];
+    return Number(document.querySelector('#number-of-rows').innerText.split(' ')[0]);
 }
 
 function FillTableData(pageSize, pageNumber) {
-    $.ajax({
-        url: `https://cukcuk-app.herokuapp.com/api/Employee?pageNumber=${pageNumber}&pageSize=${pageSize}`,
-        method: 'GET'
-    }).done(data => {
+    var stored = localStorage['employees'];
+    var data;
+
+    if(stored){
+        let start = pageSize * (pageNumber - 1);
+        let end = pageSize * pageNumber;
+        data = JSON.parse(stored).slice(start, end);
+
         var tableEmployee = $('.table-employee > tbody');
         tableEmployee.html('');
 
         data.forEach(e => {
-            let EmployeeCode = (e.EmployeeCode) ? e.EmployeeCode : '';
-            let FullName = (e.FullName) ? e.FullName : '';
-            let Gender;
-            let DateOfBirth;
-            let PhoneNumber = (e.PhoneNumber) ? e.PhoneNumber : '';
-            let Email = (e.Email) ? e.Email : '';
-            let PositionName = (e.PositionName) ? e.PositionName : '';
-            let DepartmentName = (e.DepartmentName) ? e.DepartmentName : '';
-            let Salary = '';
-            let WorkStatus;
-
-            // Gender
-            if (!e.Gender) Gender = ''
-            else {
-                switch (e.Gender) {
-                    case 0: Gender = "Nữ"; break;
-                    case 1: Gender = "Nam"; break;
-                    case 2: Gender = "LGBT"; break;
-                    default: Gender = "Không xác định"; break;
-                }
-            }
-
-            // Date of birth
-            if (!e.DateOfBirth) {
-                DateOfBirth = '';
-            } else {
-                DateOfBirth = DateFormat(e.DateOfBirth);
-            }
-
-            // Salary
-            if (!e.Salary) {
-                Salary = '';
-            } else {
-                Salary = e.Salary.toString().replace(/(\d)(?=(\d{3})+(?!\d))/g, '$1.');
-            }
-
-            // Work Status
-            if (!e.WorkStatus) {
-                WorkStatus = '';
-            } else {
-                switch (e.WorkStatus) {
-                    case 0: WorkStatus = "Đang làm việc"; break;
-                    case 1: WorkStatus = "Đang thử việc"; break;
-                    case 2: WorkStatus = "Sắp nghỉ việc"; break;
-                    default: WorkStatus = "Đã nghỉ việc"; break;
-                }
-            }
-
+            
             // Add row to table body
-            let htmlText = `<tr><td title="${EmployeeCode}">${EmployeeCode}</td>
-                                <td title="${FullName}">${e.FullName}</td>
-                                <td title="${Gender}">${Gender}</td>
-                                <td title="${DateOfBirth}">${DateOfBirth}</td>
-                                <td title="${PhoneNumber}">${PhoneNumber}</td>
-                                <td title="${Email}">${Email}</td>
-                                <td title="${PositionName}">${PositionName}</td>
-                                <td title="${DepartmentName}">${DepartmentName}</td>
-                                <td title="${Salary}">${Salary}</td>
-                                <td title="${WorkStatus}">${WorkStatus}</td></tr>`;
+            let htmlText = `<tr><td title="${e.EmployeeCode}">${e.EmployeeCode}</td>
+                                <td title="${e.FullName}">${e.FullName}</td>
+                                <td title="${e.Gender}">${e.Gender}</td>
+                                <td title="${e.DateOfBirth}">${e.DateOfBirth}</td>
+                                <td title="${e.PhoneNumber}">${e.PhoneNumber}</td>
+                                <td title="${e.Email}">${e.Email}</td>
+                                <td title="${e.PositionName}">${e.PositionName}</td>
+                                <td title="${e.DepartmentName}">${e.DepartmentName}</td>
+                                <td title="${e.Salary}">${e.Salary}</td>
+                                <td title="${e.WorkStatus}">${e.WorkStatus}</td></tr>`;
             tableEmployee.append(htmlText);
         })
 
         // Set listener for currently inserted row
         InitTableRowListener();
-    }).fail(res => {
-        console.log(res);
-    })
+    } else {
+        //  ...
+    }    
 }
 
 /**
