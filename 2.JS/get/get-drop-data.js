@@ -1,6 +1,6 @@
 function GetDepartments() {    
     $.ajax({
-        url: 'https://cukcuk-app.herokuapp.com/api/Department',
+        url: 'http://cukcuk.manhnv.net/api/Department', //https://cukcuk-app.herokuapp.com/api/Department
         method: 'GET'
     }).done(data => {
         var departmentElements = document.querySelectorAll("#departments");
@@ -19,7 +19,7 @@ function GetDepartments() {
 
 function GetPositions() {
     $.ajax({
-        url: 'https://cukcuk-app.herokuapp.com/api/Position',
+        url: 'http://cukcuk.manhnv.net/v1/Positions', //https://cukcuk-app.herokuapp.com/api/Position
         method: 'GET'
     }).done(data => {
         var positionElements = document.querySelectorAll("#positions");

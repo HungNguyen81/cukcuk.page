@@ -2,7 +2,7 @@ var form = document.getElementById("container");
 
 function OpenPopup(row) {
     form.style.display = "block";
-    form.addEventListener('click', myFunc);    
+    form.addEventListener('click', MyFunc);    
 
     var employeeIdInput =   form.children[0]    
                                 .children[1]

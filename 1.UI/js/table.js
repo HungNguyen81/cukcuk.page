@@ -8,7 +8,7 @@ function InitTableData() {
 
 function GetNumberOfEmployeeRecord() {
     $.ajax({
-        url: 'https://cukcuk-app.herokuapp.com/api/Employee',
+        url: 'http://cukcuk.manhnv.net/v1/Employees',  // https://cukcuk-app.herokuapp.com/api/Employee
         method: 'GET'
     }).done(data => {
         var tableEmployee = $('.table-employee > tbody');
