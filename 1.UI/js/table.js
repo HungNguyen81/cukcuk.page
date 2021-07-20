@@ -1,6 +1,5 @@
 function InitTableData() {
     var pageSize = GetPageSizeDefault();
-    // var pageNumber = Number($('.button-current-page').text());
 
     GetNumberOfEmployees();
     FillTableData(pageSize, 1);
@@ -10,27 +9,10 @@ function InitTableData() {
     localStorage['currentpage'] = 1;
 }
 
-function BackupEmployees(){
+function BackupEmployees() {
     var data = localStorage['cached-employees'];
     localStorage['employees'] = data;
     localStorage['numofemployees'] = JSON.parse(data).length;
-}
-
-function GetNumberOfEmployees() {
-    $.ajax({
-        url: 'https://cukcuk-app.herokuapp.com/api/Employee', //http://cukcuk.manhnv.net/v1/Employees
-        method: 'GET'
-    }).done(data => {
-        var tableEmployee = $('.table-employee > tbody');
-        tableEmployee.innerHTML = '';
-
-        localStorage['employees'] = JSON.stringify(FormatEmployeeData(data));
-
-        console.log("number of rows", data.length);
-        localStorage['numofemployees'] = data.length;
-    }).fail(res => {
-        // ...
-    })
 }
 
 function FormatEmployeeData(data) {
@@ -43,12 +25,8 @@ function FormatEmployeeData(data) {
         e.DepartmentName = (e.DepartmentName) ? e.DepartmentName : '';
 
         // Gender
-        switch (e.Gender) {
-            case 0: e.Gender = "Nam"; break;
-            case 1: e.Gender = "Nữ"; break;
-            case 2: e.Gender = "Không xác định"; break;
-            default: e.Gender = ""; break;
-        }
+        e.Gender = GenderCode2Text(e.Gender);
+
 
         // Date of birth
         if (!e.DateOfBirth) {
@@ -61,19 +39,14 @@ function FormatEmployeeData(data) {
         if (!e.Salary) {
             e.Salary = '';
         } else {
-            e.Salary = e.Salary.toString().replace(/(\d)(?=(\d{3})+(?!\d))/g, '$1.');
+            e.Salary = FormatMoneyString(e.Salary);
         }
 
         // Work Status
-        if (!e.WorkStatus) {
+        if (e.WorkStatus == null) {
             e.WorkStatus = '';
         } else {
-            switch (e.WorkStatus) {
-                case 0: e.WorkStatus = "Đang làm việc"; break;
-                case 1: e.WorkStatus = "Đang thử việc"; break;
-                case 2: e.WorkStatus = "Sắp nghỉ việc"; break;
-                default: e.WorkStatus = "Đã nghỉ việc"; break;
-            }
+            e.WorkStatus = WorkStatusCode2Text(e.WorkStatus);
         }
     })
     return data;
@@ -118,17 +91,4 @@ function FillTableData(pageSize, pageNumber) {
     }
 }
 
-/**
-* Format Date String to dd/mm/yyyy
-* @param {datetime string} data 
-* @returns dd/mm/yyyy date format string
-* Author: HungNguyen81
-*/
-function DateFormat(data) {
-    let date = new Date(data);
-    let dd = date.getDate();
-    let mm = date.getMonth() + 1;
-    let yyyy = date.getFullYear();
 
-    return `${(dd < 10) ? '0' + dd : dd}/${(mm < 10) ? '0' + mm : mm}/${yyyy}`;
-}

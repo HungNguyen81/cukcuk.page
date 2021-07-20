@@ -151,7 +151,7 @@
     color: red;
 }
 .input-form{
-    width: 242px;
+    width: 240px;
     margin-top: 4px;
     margin-bottom: 16px;
     margin-left: 4px;
@@ -172,11 +172,11 @@
 .form-dropdown{
     margin-top: 4px;
     margin-bottom: 16px;
-    width: 242px;
+    width: 238px;
     margin-left: 4px;
 }
 
-#salary{
+#base-salary{
     display: flex;
     align-items: center;    
 }
@@ -244,7 +244,7 @@
 }
 
 /* Custom scrollbar */
-/* ::-webkit-scrollbar {
+::-webkit-scrollbar {
     width: 4px;
     height: 4px;
 }
@@ -256,5 +256,5 @@
 }
 ::-webkit-scrollbar-thumb:hover {
     background: #454545;
-} */
+}
 

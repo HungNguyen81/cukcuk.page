@@ -25,7 +25,7 @@
         <div class="header-right">
             <div class="dropdown-container drop-down-restaurant">
                 <div class="dropdown">
-                    <div id="gender">Nhà hàng Biển Đông</div>
+                    <div id="">Nhà hàng Biển Đông</div>
                     <div class="dropdown-icon"></div>
                 </div>
                 <div class="dropdown-data" id="restaurants" hidden="true">
@@ -87,11 +87,8 @@
                 placeholder="Tìm kiếm theo Mã, Tên hoặc Số điện thoại" onkeyup="TableLiveSearch(this)">
             <div class="combobox-container dropdown-departments">
                 <div class="combobox">
-                    <input type="text" class="combobox-input textbox-default" 
-                        value="Tất cả phòng ban"
-                        filter="department" 
-                        onkeyup="ComboboxInputChange(this)"
-                        onkeydown="ComboboxLiveSearch(this)">
+                    <input type="text" class="combobox-input textbox-default" value="Tất cả phòng ban"
+                        filter="department" onkeyup="ComboboxInputChange(this)" onkeydown="ComboboxLiveSearch(this)">
                     <div class="x-icon" hidden="true" onclick="ClearInputText(this)">
                         <i class="fas fa-times"></i>
                     </div>
@@ -103,17 +100,14 @@
                     <div class="dropdown-item item-selected" onclick="ItemSelect(this)">
                         <i class="fas fa-check item-icon"></i>
                         <div class="item-text">Tất cả phòng ban</div>
-                    </div>                    
+                    </div>
                 </div>
             </div>
 
             <div class="combobox-container dropdown-positions">
                 <div class="combobox">
-                    <input type="text" class="combobox-input textbox-default" 
-                        filter="position"
-                        value="Tất cả vị trí" 
-                        onkeyup="ComboboxInputChange(this)"
-                        onkeydown="ComboboxLiveSearch(this)">
+                    <input type="text" class="combobox-input textbox-default" filter="position" value="Tất cả vị trí"
+                        onkeyup="ComboboxInputChange(this)" onkeydown="ComboboxLiveSearch(this)">
                     <div class="x-icon" hidden="true" onclick="ClearInputText(this)">
                         <i class="fas fa-times"></i>
                     </div>
@@ -125,7 +119,7 @@
                     <div class="dropdown-item  item-selected" onclick="ItemSelect(this)">
                         <i class="fas fa-check item-icon"></i>
                         <div class="item-text">Tất cả vị trí</div>
-                    </div>                    
+                    </div>
                 </div>
             </div>
 
@@ -154,19 +148,19 @@
         </div>
         <div class="content-page-navigator">
             <div class="navigator-left" id="current-pagesize">Hiển thị <b>1-20/1000</b> nhân viên</div>
-            <div class="navigator-center" currentpage="1" >
+            <div class="navigator-center" currentpage="1">
                 <div class="button-firstpage button-navigator"></div>
                 <div class="button-prev-page button-navigator"></div>
-                
+
                 <div class="page-buttons">
                     <div class="button-page-number button-current-page first-page">1</div>
-                </div>                
-                
+                </div>
+
                 <div class="button-next-page button-navigator"></div>
                 <div class="button-lastpage button-navigator"></div>
             </div>
             <div class="navigator-right">
-                <div class="input-field">                    
+                <div class="input-field">
                     <div class="dropdown-container drop-number-of-row">
                         <div class="dropdown">
                             <div id="number-of-rows"><b>20</b> nhân viên/trang</div>
@@ -195,7 +189,7 @@
             </div>
         </div>
     </div>
-    
+
     <div class="container" id="container">
         <!-- Employee Detail Form -->
         <div class="form-container" id="form-container">
@@ -209,79 +203,29 @@
                     <div class="note">(Vui lòng chọn ảnh có định dạng <br>.jpg, .jpeg, .png, .gif)</div>
                 </div>
                 <div class="body-form body-column">
-                    <div class="column-1">
+                    <div class="header-row">
                         <div class="header-2">
                             A. THÔNG TIN CHUNG
                             <div class="header-line"></div>
                         </div>
+                    </div>
+                    <div class="input-row">
                         <div class="input-field">
                             <div class="input-label">Mã nhân viên (<span class="required">*</span>)</div>
-                            <input type="text" class="textbox-default input-form" id="employee-id" value="NV000001">
-                        </div>
-                        <div class="input-field">
-                            <div class="input-label">Ngày sinh</div>
-                            <input type="date" class="textbox-default input-form input-form" id="birthday" value="2000-01-08">
-                        </div>
-                        <div class="input-field">
-                            <div class="input-label">Số CMTND/ Căn cước (<span class="required">*</span>)</div>
-                            <input type="text" class="textbox-default input-form" id="identity-card" value="038200009999">
-                        </div>
-                        <div class="input-field">
-                            <div class="input-label">Nơi cấp </div>
-                            <input type="text" class="textbox-default input-form" id="identity-card-where" value="Tỉnh Thanh Hóa">
-                        </div>
-                        <div class="input-field">
-                            <div class="input-label">Email (<span class="required">*</span>)</div>
-                            <input type="text" class="textbox-default input-form" id="email"
-                                value="nguyenngochung.ncth@gmail.com">
-                        </div>
-                        <div class="header-2">
-                            B. THÔNG TIN CÔNG VIỆC
-                            <div class="header-line"></div>
-                        </div>
-                        <div class="input-field">
-                            <div class="input-label">Vị trí </div>
-                            <div class="form-dropdown dropdown-container">
-                                <div class="dropdown">
-                                    <div id="position">Giám đốc</div>
-                                    <div class="dropdown-icon"></div>
-                                </div>
-                                <div class="dropdown-data" hidden="true">
-                                    <div class="dropdown-item  item-selected">
-                                        <i class="fas fa-check item-icon"></i>
-                                        <div class="item-text">Giám đốc</div>
-                                    </div>
-                                    <div class="dropdown-item">
-                                        <i class="fas fa-check item-icon"></i>
-                                        <div class="item-text">Tổng giám đốc</div>
-                                    </div>
-                                    <div class="dropdown-item">
-                                        <i class="fas fa-check item-icon"></i>
-                                        <div class="item-text">Trưởng phòng kinh doanh</div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="input-field">
-                            <div class="input-label">Mã số thuế cá nhân </div>
-                            <input type="text" class="textbox-default input-form" id="tax-id" value="123456789">
-                        </div>
-                        <div class="input-field">
-                            <div class="input-label">Ngày gia nhập công ty</div>
-                            <input type="date" placeholder="dd-mm-yyyy" class="textbox-default input-form" id="join-date"
-                                value="2021-07-12">
-                        </div>
-                    </div>
-                    <div class="column-2">
-                        <div class="header-2 form-place-holder">
-                            H
-                            <div class="header-line"></div>
+                            <input type="text" class="textbox-default input-form" id="employee-code" value="NV000001">
                         </div>
                         <div class="input-field">
                             <div class="input-label">Họ và tên (<span class="required">*</span>)</div>
-                            <input type="text" class="textbox-default input-form" id="fullname" value="Nguyễn Ngọc Hưng">
+                            <input type="text" class="textbox-default input-form" id="fullname"
+                                value="Nguyễn Ngọc Hưng">
                         </div>
-
+                    </div>
+                    <div class="input-row">
+                        <div class="input-field">
+                            <div class="input-label">Ngày sinh</div>
+                            <input type="date" class="textbox-default input-form input-form" id="dob"
+                                value="2000-01-08">
+                        </div>
                         <div class="input-field">
                             <div class="input-label">Giới tính </div>
                             <div class="form-dropdown dropdown-container">
@@ -305,46 +249,96 @@
                                 </div>
                             </div>
                         </div>
-
+                    </div>
+                    <div class="input-row">
+                        <div class="input-field">
+                            <div class="input-label">Số CMTND/ Căn cước (<span class="required">*</span>)</div>
+                            <input type="text" class="textbox-default input-form" id="identity-number"
+                                value="038200009999">
+                        </div>
                         <div class="input-field">
                             <div class="input-label">Ngày cấp</div>
-                            <input type="date" class="textbox-default input-form input-form" id="identity-card-when" value="2020-01-08">
+                            <input type="date" class="textbox-default input-form" id="identity-date"
+                                value="2020-01-08">
                         </div>
-                        <div class="input-field form-place-holder">
-                            <div class="input-label">U</div>
-                            <input type="date" class="textbox-default input-form input-form">
+                    </div>
+                    <div class="input-row">
+                        <div class="input-field">
+                            <div class="input-label">Nơi cấp </div>
+                            <input type="text" class="textbox-default input-form" id="identity-place"
+                                value="Tỉnh Thanh Hóa">
+                        </div>
+                    </div>
+                    <div class="input-row">
+                        <div class="input-field">
+                            <div class="input-label">Email (<span class="required">*</span>)</div>
+                            <input type="text" class="textbox-default input-form" id="email"
+                                value="nguyenngochung.ncth@gmail.com">
                         </div>
                         <div class="input-field">
                             <div class="input-label">Số điện thoại (<span class="required">*</span>)</div>
-                            <input type="text" class="textbox-default input-form" id="phone-number" value="0334004653">
+                            <input type="text" class="textbox-default input-form" id="phone-number"
+                                value="0334004655">
                         </div>
-                        <div class="header-2 form-place-holder">
-                            N
+                    </div>
+                    <div class="header-row">
+                        <div class="header-2">
+                            B. THÔNG TIN CÔNG VIỆC
                             <div class="header-line"></div>
+                        </div>
+                    </div>
+                    <div class="input-row">
+                        <div class="input-field">
+                            <div class="input-label">Vị trí </div>
+                            <div class="form-dropdown dropdown-container">
+                                <div class="dropdown">
+                                    <div id="position-name"></div>
+                                    <div class="dropdown-icon"></div>
+                                </div>
+                                <div class="dropdown-data" id="positions" hidden="true">
+                                    <!-- positions go here -->
+                                </div>
+                            </div>
                         </div>
                         <div class="input-field">
                             <div class="input-label">Phòng ban </div>
                             <div class="form-dropdown dropdown-container">
                                 <div class="dropdown">
-                                    <div id="department">Phòng nhân sự</div>
+                                    <div id="department-name"></div>
                                     <div class="dropdown-icon"></div>
                                 </div>
                                 <div class="dropdown-data" id="departments" hidden="true">
-                                    
+                                    <!-- departments go here -->
                                 </div>
                             </div>
                         </div>
+                    </div>
+                    <div class="input-row">
+                        <div class="input-field">
+                            <div class="input-label">Mã số thuế cá nhân </div>
+                            <input type="text" class="textbox-default input-form" id="tax-code" value="123456789">
+                        </div>
                         <div class="input-field">
                             <div class="input-label">Mức lương cơ bản </div>
-                            <input type="text" class="textbox-default input-form input-salary" id="base-salary"
-                                value="100.000.000">
-                            <i class="money-unit">(VNĐ)</i>
+                            <input type="text" 
+                                class="textbox-default input-form input-salary" 
+                                id="salary"
+                                value="100.000.000"
+                                onkeyup="LiveFormatSalaryInput(this)">
+                        </div>
+                        <div class="money-unit">(VNĐ)</div>
+                    </div>
+                    <div class="input-row">
+                        <div class="input-field">
+                            <div class="input-label">Ngày gia nhập công ty</div>
+                            <input type="date" placeholder="dd-mm-yyyy" class="textbox-default input-form"
+                                id="join-date" value="2021-07-12">
                         </div>
                         <div class="input-field">
                             <div class="input-label">Tình trạng công việc </div>
                             <div class="form-dropdown dropdown-container">
                                 <div class="dropdown">
-                                    <div id="word-status">Đang làm việc</div>
+                                    <div id="work-status">Đang làm việc</div>
                                     <div class="dropdown-icon"></div>
                                 </div>
                                 <div class="dropdown-data" hidden="true">
@@ -356,30 +350,38 @@
                                         <i class="fas fa-check item-icon"></i>
                                         <div class="item-text">Đang thử việc</div>
                                     </div>
+                                    <div class="dropdown-item">
+                                        <i class="fas fa-check item-icon"></i>
+                                        <div class="item-text">Sắp nghỉ việc</div>
+                                    </div>
                                 </div>
                             </div>
                         </div>
                     </div>
                 </div>
             </div>
+
             <div class="form-footer">
                 <div class="button button-cancel" onclick="ClosePopup()">Hủy</div>
-                <div class="button button-save" onclick="ClosePopup()">
+                <div class="button button-save" onclick="PostNewEmployee()">
                     <div class="icon-save"></div>
                     Lưu
                 </div>
             </div>
         </div>
     </div>
-    <script src="../content/font/fontawesome-5.15.1/js/all.min.js"></script>     
+    <script src="../content/font/fontawesome-5.15.1/js/all.min.js"></script>
     <script src="../js/init.js"></script>
+    <script src="../../2.JS/utils.js"></script>
     <script src="../js/form-popup.js"></script>
-    <script src="../js/dropdown.js"></script>
-    <script src="../../2.JS/get/get-drop-data.js"></script>   
+    <script src="../js/dropdown.js"></script>    
     <script src="../js/table.js"></script>
     <script src="../js/page-navigator-button.js"></script>
     <script src="../js/employee-filter.js"></script>
-    <script src="../js/live-search.js"></script>
+    <script src="../js/live-search.js"></script>    
+    <script src="../../2.JS/request/department.js"></script>
+    <script src="../../2.JS/request/position.js"></script>
+    <script src="../../2.JS/request/employee.js"></script>
 </body>
 
 </html>

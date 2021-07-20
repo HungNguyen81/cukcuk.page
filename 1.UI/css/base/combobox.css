@@ -17,8 +17,8 @@
     margin: 0;    
     position: absolute;    
     right: 1px;        
-    border-radius: 0px 4px 4px 0px;   
-    border-left: 1px solid #ccc; 
+    border-radius: 0px 2px 2px 0px;   
+    border-left: 1px solid #bbbbbb; 
     display: flex;
     align-items: center;    
     justify-content: center;
@@ -33,10 +33,10 @@
     background-position: center;    
 }
 .combobox-icon-container:hover {
-    background-color: #ccc;
+    background-color: #bbbbbb;
 }
 .combobox-icon-container:active{
-    background-color: #bbb;
+    background-color: #454545;
 }
 
 .x-icon{
