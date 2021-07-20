@@ -3,6 +3,7 @@ function LiveSearch(input) {
 
     var employees = JSON.parse(localStorage['employees']);
 
+    // clear table content
     $('.table-employee > tbody').html('');
 
     localStorage['cached-employees'] = localStorage['employees'];

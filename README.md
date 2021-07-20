@@ -6,6 +6,11 @@
 
 - GET https://cukcuk-app.herokuapp.com/api/Department : get all department info
 - GET https://cukcuk-app.herokuapp.com/api/Position : get all position info
+- GET https://cukcuk-app.herokuapp.com/api/Employee : get all employee info
+
+# Cukcuk API
+
+- See API description at: http://cukcuk.manhnv.net/swagger/index.html
 
 # Some captures:
 
