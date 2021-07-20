@@ -235,7 +235,7 @@ table tbody {
     display: block;
     margin-top: 0;
     padding: 0;
-    height: calc(100vh - 275px);
+    height: calc(100vh - 277px);
     overflow-y: scroll;
 }
 
@@ -343,7 +343,7 @@ table tbody tr {
 /* width */
 ::-webkit-scrollbar {
     width: 4px;
-    height: 4px;
+    height: 4px;    
 }
 
 /* Track */

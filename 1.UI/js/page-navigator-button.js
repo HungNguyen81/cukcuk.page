@@ -37,7 +37,7 @@ function FirstPage() {
     localStorage['currentpage'] = 1;
     UpdatePagingBar();
     FillTableData(GetPageSizeDefault(), 1);
-    ChangeCurrentPageLabel(GetPageSizeDefault(), currentPage);
+    ChangeCurrentPageLabel(GetPageSizeDefault(), 1);
 }
 
 function LastPage() {
@@ -45,7 +45,7 @@ function LastPage() {
     localStorage['currentpage'] = number;
     UpdatePagingBar();
     FillTableData(GetPageSizeDefault(), number);
-    ChangeCurrentPageLabel(GetPageSizeDefault(), currentPage);
+    ChangeCurrentPageLabel(GetPageSizeDefault(), number);
 }
 
 // call when select another page size
