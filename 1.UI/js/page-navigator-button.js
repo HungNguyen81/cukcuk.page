@@ -4,7 +4,7 @@ function ChangePageNumber(button) {
     localStorage['currentpage'] = currentPageNumber;
 
     FillTableData(GetPageSizeDefault(), currentPageNumber);
-    UpdateCurrentPageButton();
+    // UpdateCurrentPageButton();
     ChangeCurrentPageLabel(GetPageSizeDefault(), currentPageNumber);
     UpdatePagingBar();
 }
@@ -19,6 +19,7 @@ function NextPage() {
     localStorage['currentpage'] = currentPage;
     UpdatePagingBar()
     FillTableData(GetPageSizeDefault(), currentPage);
+    ChangeCurrentPageLabel(GetPageSizeDefault(), currentPage);
 }
 
 function PrevPage() {
@@ -29,12 +30,14 @@ function PrevPage() {
     localStorage['currentpage'] = currentPage;
     UpdatePagingBar()
     FillTableData(GetPageSizeDefault(), currentPage);
+    ChangeCurrentPageLabel(GetPageSizeDefault(), currentPage);
 }
 
 function FirstPage() {
     localStorage['currentpage'] = 1;
     UpdatePagingBar();
     FillTableData(GetPageSizeDefault(), 1);
+    ChangeCurrentPageLabel(GetPageSizeDefault(), currentPage);
 }
 
 function LastPage() {
@@ -42,6 +45,7 @@ function LastPage() {
     localStorage['currentpage'] = number;
     UpdatePagingBar();
     FillTableData(GetPageSizeDefault(), number);
+    ChangeCurrentPageLabel(GetPageSizeDefault(), currentPage);
 }
 
 // call when select another page size
@@ -50,6 +54,7 @@ function ChangePageSize(item) {
 
     var pageSize = Number(item.children[1].innerText.split(' ')[0]);
     
+    localStorage['currentpage'] = 1;
     GetNumberOfEmployees();
     ChangeCurrentPageLabel(pageSize, 1);
     FillTableData(pageSize, 1);
