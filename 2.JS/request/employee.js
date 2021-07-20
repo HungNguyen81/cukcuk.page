@@ -1,6 +1,6 @@
 function GetNumberOfEmployees() {
     $.ajax({
-        url: 'http://cukcuk.manhnv.net/v1/Employees', // https://cukcuk-app.herokuapp.com/api/Employee
+        url: 'https://cukcuk-app.herokuapp.com/api/Employee', //http://cukcuk.manhnv.net/v1/Employees
         method: 'GET'
     }).done(data => {
         var tableEmployee = $('.table-employee > tbody');
