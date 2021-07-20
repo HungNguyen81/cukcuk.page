@@ -1,14 +1,24 @@
 function InitTableData() {
     var pageSize = GetPageSizeDefault();
-    var pageNumber = Number($('.button-current-page').text());
+    // var pageNumber = Number($('.button-current-page').text());
 
     GetNumberOfEmployees();
-    FillTableData(pageSize, pageNumber);
+    FillTableData(pageSize, 1);
+    ChangeCurrentPageLabel(pageSize, 1);
+    UpdatePagingBar();
+
+    localStorage['currentpage'] = 1;
+}
+
+function BackupEmployees(){
+    var data = localStorage['cached-employees'];
+    localStorage['employees'] = data;
+    localStorage['numofemployees'] = JSON.parse(data).length;
 }
 
 function GetNumberOfEmployees() {
     $.ajax({
-        url: 'http://cukcuk.manhnv.net/v1/Employees',
+        url: 'https://cukcuk-app.herokuapp.com/api/Employee', //http://cukcuk.manhnv.net/v1/Employees
         method: 'GET'
     }).done(data => {
         var tableEmployee = $('.table-employee > tbody');
@@ -17,33 +27,28 @@ function GetNumberOfEmployees() {
         localStorage['employees'] = JSON.stringify(FormatEmployeeData(data));
 
         console.log("number of rows", data.length);
-        $('.navigator-center').attr('numberofrecords', data.length);
-        UpdatePagingBar();
-
-        ChangeCurrentPageLabel(GetPageSizeDefault(), Number($('.button-current-page').text()));
+        localStorage['numofemployees'] = data.length;
     }).fail(res => {
         // ...
     })
 }
 
-function FormatEmployeeData(data){
+function FormatEmployeeData(data) {
     data.forEach(e => {
         e.EmployeeCode = (e.EmployeeCode) ? e.EmployeeCode : '';
         e.FullName = (e.FullName) ? e.FullName : '';
         e.PhoneNumber = (e.PhoneNumber) ? e.PhoneNumber : '';
         e.Email = (e.Email) ? e.Email : '';
         e.PositionName = (e.PositionName) ? e.PositionName : '';
-        e.DepartmentName = (e.DepartmentName) ? e.DepartmentName : '';        
+        e.DepartmentName = (e.DepartmentName) ? e.DepartmentName : '';
 
         // Gender
-        
-            switch (e.Gender) {
-                case 0: e.Gender = "Nam"; break;
-                case 1: e.Gender = "Nữ"; break;
-                case 2: e.Gender = "Không xác định"; break;
-                default: e.Gender = ""; break;
-            }
-        
+        switch (e.Gender) {
+            case 0: e.Gender = "Nam"; break;
+            case 1: e.Gender = "Nữ"; break;
+            case 2: e.Gender = "Không xác định"; break;
+            default: e.Gender = ""; break;
+        }
 
         // Date of birth
         if (!e.DateOfBirth) {
@@ -67,11 +72,10 @@ function FormatEmployeeData(data){
                 case 0: e.WorkStatus = "Đang làm việc"; break;
                 case 1: e.WorkStatus = "Đang thử việc"; break;
                 case 2: e.WorkStatus = "Sắp nghỉ việc"; break;
-                default:e.WorkStatus = "Đã nghỉ việc"; break;
+                default: e.WorkStatus = "Đã nghỉ việc"; break;
             }
         }
     })
-    console.log(data);
     return data;
 }
 
@@ -83,7 +87,7 @@ function FillTableData(pageSize, pageNumber) {
     var stored = localStorage['employees'];
     var data;
 
-    if(stored){
+    if (stored) {
         let start = pageSize * (pageNumber - 1);
         let end = pageSize * pageNumber;
         data = JSON.parse(stored).slice(start, end);
@@ -92,7 +96,7 @@ function FillTableData(pageSize, pageNumber) {
         tableEmployee.html('');
 
         data.forEach(e => {
-            
+
             // Add row to table body
             let htmlText = `<tr><td title="${e.EmployeeCode}">${e.EmployeeCode}</td>
                                 <td title="${e.FullName}">${e.FullName}</td>
@@ -111,7 +115,7 @@ function FillTableData(pageSize, pageNumber) {
         InitTableRowListener();
     } else {
         //  ...
-    }    
+    }
 }
 
 /**

@@ -37,6 +37,10 @@
                         <i class="fas fa-check item-icon"></i>
                         <div class="item-text">Nhà hàng Biển Tây</div>
                     </div>
+                    <div class="dropdown-item">
+                        <i class="fas fa-check item-icon"></i>
+                        <div class="item-text">Nhà hàng Bách Khoa</div>
+                    </div>
                 </div>
             </div>
             <div class="user-options">
@@ -80,7 +84,7 @@
         <div class="content-search">
             <div class="search-icon"></div>
             <input type="text" class="textbox-default search-field"
-                placeholder="Tìm kiếm theo Mã, Tên hoặc Số điện thoại">
+                placeholder="Tìm kiếm theo Mã, Tên hoặc Số điện thoại" onkeyup="LiveSearch(this)">
             <div class="combobox-container dropdown-departments">
                 <div class="combobox">
                     <input type="text" class="combobox-input textbox-default" value="Tất cả phòng ban" onkeyup="ComboboxInputChange(this)">
@@ -157,7 +161,7 @@
                 <div class="input-field">                    
                     <div class="dropdown-container drop-number-of-row">
                         <div class="dropdown">
-                            <div id="number-of-rows"><b>50</b> nhân viên/trang</div>
+                            <div id="number-of-rows"><b>20</b> nhân viên/trang</div>
                             <div class="dropdown-icon number-of-rows-icon"><i class="fas fa-chevron-up"></i></div>
                         </div>
                         <div class="dropdown-data" hidden="true">
@@ -165,11 +169,11 @@
                                 <i class="fas fa-check item-icon"></i>
                                 <div class="item-text"><b>10</b> nhân viên/trang</div>
                             </div>
-                            <div class="dropdown-item paging-item">
+                            <div class="dropdown-item paging-item item-selected">
                                 <i class="fas fa-check item-icon"></i>
                                 <div class="item-text"><b>20</b> nhân viên/trang</div>
                             </div>
-                            <div class="dropdown-item paging-item item-selected">
+                            <div class="dropdown-item paging-item">
                                 <i class="fas fa-check item-icon"></i>
                                 <div class="item-text"><b>50</b> nhân viên/trang</div>
                             </div>
@@ -366,6 +370,8 @@
     <script src="../../2.JS/get/get-drop-data.js"></script>   
     <script src="../js/table.js"></script>
     <script src="../js/page-navigator-button.js"></script>
+    <script src="../js/employee-filter.js"></script>
+    <script src="../js/search-box.js"></script>
 </body>
 
 </html>

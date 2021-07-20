@@ -72,8 +72,8 @@ function InitPagingBtnListener(){
         $(this).attr('onclick','ChangePageNumber(this)');
     });
 
-    btnFirstPage.attr('onclick', 'FirstPage()');
-    btnLastPage.attr('onclick', 'LastPage()');
-    btnNext.attr('onclick', 'NextPage(this)');
-    btnPrev.attr('onclick', 'PrevPage(this)');
+    btnFirstPage.click(FirstPage);
+    btnLastPage.click(LastPage);
+    btnNext.click(NextPage);
+    btnPrev.click(PrevPage);
 }
