@@ -60,7 +60,7 @@ function ComboboxInputChange(input){
         xIcon.setAttribute('hidden', true);
     } else {
         xIcon.removeAttribute('hidden');
-    }
+    }    
 }
 
 // Clear input when click x button
@@ -68,5 +68,5 @@ function ClearInputText(icon){
     var parent = icon.parentNode;
     var input  = parent.children[0];
     input.value = "";
-    icon.setAttribute('hidden', true);   
+    icon.setAttribute('hidden', true);
 }

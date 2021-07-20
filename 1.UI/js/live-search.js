@@ -1,4 +1,4 @@
-function LiveSearch(input) {
+function TableLiveSearch(input) {
     var searchContent = input.value.trim();
 
     var employees = JSON.parse(localStorage['employees']);
@@ -77,4 +77,30 @@ function LiveSearch(input) {
         ChangeCurrentPageLabel(pageSize, 1);                
         BackupEmployees();
     }
+}
+
+/**
+* Combobox live search
+* @param {input} input 
+* @returns not return
+* Author: HungNguyen81
+*/
+function ComboboxLiveSearch(input){
+    var filter = input.getAttribute('filter');
+    switch(filter){
+        case 'department':
+            CbxDepartmentFilter();
+            break;
+        case 'position':
+            CbxPositionFilter();
+            break;
+    }
+}
+
+function CbxDepartmentFilter(){
+    console.log('d');
+}
+
+function CbxPositionFilter(){
+    console.log('p');
 }

@@ -87,7 +87,11 @@
                 placeholder="Tìm kiếm theo Mã, Tên hoặc Số điện thoại" onkeyup="LiveSearch(this)">
             <div class="combobox-container dropdown-departments">
                 <div class="combobox">
-                    <input type="text" class="combobox-input textbox-default" value="Tất cả phòng ban" onkeyup="ComboboxInputChange(this)">
+                    <input type="text" class="combobox-input textbox-default" 
+                        value="Tất cả phòng ban"
+                        filter="department" 
+                        onkeyup="ComboboxInputChange(this)"
+                        onkeydown="ComboboxLiveSearch(this)">
                     <div class="x-icon" hidden="true" onclick="ClearInputText(this)">
                         <i class="fas fa-times"></i>
                     </div>
@@ -105,7 +109,11 @@
 
             <div class="combobox-container dropdown-positions">
                 <div class="combobox">
-                    <input type="text" class="combobox-input textbox-default" value="Tất cả vị trí" onkeyup="ComboboxInputChange(this)">
+                    <input type="text" class="combobox-input textbox-default" 
+                        filter="position"
+                        value="Tất cả vị trí" 
+                        onkeyup="ComboboxInputChange(this)"
+                        onkeydown="ComboboxLiveSearch(this)">
                     <div class="x-icon" hidden="true" onclick="ClearInputText(this)">
                         <i class="fas fa-times"></i>
                     </div>
@@ -371,7 +379,7 @@
     <script src="../js/table.js"></script>
     <script src="../js/page-navigator-button.js"></script>
     <script src="../js/employee-filter.js"></script>
-    <script src="../js/search-box.js"></script>
+    <script src="../js/live-search.js"></script>
 </body>
 
 </html>
