@@ -116,13 +116,14 @@ body{
     width: calc(100vw - 226px - 32px);
     margin-left: 16px;
     overflow-x: auto;
+    overflow-y: hidden; 
     z-index: 1;
 }
 
 .table-employee {
     height: 100%;
     width: 100%;
-    border-collapse: collapse;    
+    border-collapse: collapse;       
 }
 
 .table-employee th {
@@ -173,7 +174,7 @@ body{
 /* Gender */
 .table-employee tbody td:nth-child(3),
 .table-employee th:nth-child(3) {
-    width: 100px;
+    width: 60px;
 }
 
 /* birthday */
@@ -188,13 +189,13 @@ body{
 /* Phone number */
 .table-employee tbody td:nth-child(5),
 .table-employee th:nth-child(5) {
-    width: 140px;    
+    width: 100px;    
 }
 
 /* Email */
 .table-employee tbody td:nth-child(6),
 .table-employee th:nth-child(6) {
-    width: 150px;
+    width: 200px;
 }
 
 /* Position */
