@@ -243,25 +243,17 @@
 }
 
 /* Custom scrollbar */
-
-/* width */
-::-webkit-scrollbar {
+/* ::-webkit-scrollbar {
     width: 4px;
     height: 4px;
 }
-
-/* Track */
 ::-webkit-scrollbar-track {
     background: transparent;
 }
-
-/* Handle */
 ::-webkit-scrollbar-thumb {
     background: transparent;
 }
-
-/* Handle on hover */
 ::-webkit-scrollbar-thumb:hover {
     background: #454545;
-}
+} */
 
