@@ -1,6 +1,9 @@
 # Phần mềm quản lý nhân viên CUKCUK
 
 - Demo Deploy on Github.io : https://hungnguyen81.github.io/cukcuk.page/
+- Demo Deploy on Heroku    : http://cukcuk-hungnguyen81.herokuapp.com/
+
+* Note: github deploy version has a problem with unsecure http api
 
 # My API:
 
