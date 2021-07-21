@@ -1,15 +1,19 @@
 /**
 * Format Date String to dd/mm/yyyy
-* @param {datetime string} data 
+* @param {datetime string} data
+* @param {boolean} isForDateInput
 * @returns dd/mm/yyyy date format string
 * Author: HungNguyen81
 */
-function DateFormat(data) {
+function DateFormat(data, isForDateInput) {
     let date = new Date(data);
     let dd = date.getDate();
     let mm = date.getMonth() + 1;
     let yyyy = date.getFullYear();
 
+    if(isForDateInput){
+        return `${yyyy}-${(mm < 10) ? '0' + mm : mm}-${(dd < 10) ? '0' + dd : dd}`;
+    }
     return `${(dd < 10) ? '0' + dd : dd}/${(mm < 10) ? '0' + mm : mm}/${yyyy}`;
 }
 
@@ -60,7 +64,7 @@ function GetDepartmentIdFromName(name){
         let data = JSON.parse(stored);
         for(let i = 0; i < data.length; i++){
             if(data[i].DepartmentName == name){
-                console.log('dep', data[i].DepartmentId);
+                // console.log('dep', data[i].DepartmentId);
                 res = data[i].DepartmentId;
                 break;
             }
@@ -76,11 +80,20 @@ function GetPositionIdFromName(name){
         let data = JSON.parse(stored);
         for(let i = 0; i < data.length; i++){
             if(data[i].PositionName == name){
-                console.log('pos', data[i].PositionId);
+                // console.log('pos', data[i].PositionId);
                 res = data[i].PositionId;
                 break;
             }
         }
     }
     return res;
+}
+
+function GetEmployeeIdByEmployeeCode(code){
+    var data = JSON.parse(localStorage['employees']);
+    for(let i = 0; i < data.length; i++){
+        if(code == data[i].EmployeeCode){
+            return data[i].EmployeeId;
+        }
+    }
 }

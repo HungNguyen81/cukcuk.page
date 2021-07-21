@@ -6,7 +6,6 @@ function GetDepartments() {
         var departmentElements = document.querySelectorAll("#departments");
 
         localStorage['department'] = JSON.stringify(data);
-        console.log(data);
 
         departmentElements.forEach(department => {
             data.forEach(depart => {

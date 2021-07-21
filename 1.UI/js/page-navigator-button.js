@@ -13,7 +13,7 @@ function NextPage() {
     var currentPage = Number(localStorage['currentpage']);
     var numOfPages = Number(localStorage['numofpages']);
 
-    if(currentPage >= numOfPages) return;
+    if (currentPage >= numOfPages) return;
 
     currentPage++;
     localStorage['currentpage'] = currentPage;
@@ -53,27 +53,23 @@ function ChangePageSize(item) {
     ItemSelect(item);
 
     var pageSize = Number(item.children[1].innerText.split(' ')[0]);
-    
-    localStorage['currentpage'] = 1;
-    GetNumberOfEmployees();
-    ChangeCurrentPageLabel(pageSize, 1);
-    FillTableData(pageSize, 1);
-    UpdatePagingBar();
 
     localStorage['currentpage'] = 1;
-    // UpdateCurrentPageButton();
+    GetNumberOfEmployees(function () {
+        ChangeCurrentPageLabel(pageSize, 1);
+        FillTableData(pageSize, 1);
+        UpdatePagingBar();
+    });
 }
 
 function UpdateCurrentPageButton() {
     var currentPage = Number(localStorage['currentpage']);
 
     // New paging bar
-    $('.page-buttons > div').each(function (index) {
-        // console.log($(this).attr('class').split(' '));
+    $('.page-buttons > div').each(function (index) {;
         if ($(this).attr('class').split(' ').includes('button-current-page')) {
             $(this).removeClass('button-current-page');
         }
-        // console.log("this", $(this).text())
         if ($(this).text() == currentPage) {
             $(this).addClass('button-current-page');
         }

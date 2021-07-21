@@ -1,12 +1,13 @@
 function InitTableData() {
-    var pageSize = GetPageSizeDefault();
+    GetNumberOfEmployees(UpdateEmployeeTable);
+    localStorage['currentpage'] = 1;
+}
 
-    GetNumberOfEmployees();
+function UpdateEmployeeTable(){
+    var pageSize = GetPageSizeDefault();
     FillTableData(pageSize, 1);
     ChangeCurrentPageLabel(pageSize, 1);
     UpdatePagingBar();
-
-    localStorage['currentpage'] = 1;
 }
 
 function BackupEmployees() {
@@ -26,7 +27,6 @@ function FormatEmployeeData(data) {
 
         // Gender
         e.Gender = GenderCode2Text(e.Gender);
-
 
         // Date of birth
         if (!e.DateOfBirth) {
@@ -68,10 +68,12 @@ function FillTableData(pageSize, pageNumber) {
         var tableEmployee = $('.table-employee > tbody');
         tableEmployee.html('');
 
-        data.forEach(e => {
+        var promise = data.map(e => {
 
             // Add row to table body
-            let htmlText = `<tr><td title="${e.EmployeeCode}">${e.EmployeeCode}</td>
+            let htmlText = `<tr><td><span class="checkbox-container"><input type="checkbox" name="delete">
+                                    <span class="checkmark"><i class="fas fa-check check"></i></span></span></td>
+                                <td title="${e.EmployeeCode}">${e.EmployeeCode}</td>
                                 <td title="${e.FullName}">${e.FullName}</td>
                                 <td title="${e.Gender}">${e.Gender}</td>
                                 <td title="${e.DateOfBirth}">${e.DateOfBirth}</td>
@@ -84,11 +86,37 @@ function FillTableData(pageSize, pageNumber) {
             tableEmployee.append(htmlText);
         })
 
-        // Set listener for currently inserted row
-        InitTableRowListener();
+        Promise.all(promise).then(res => {
+            console.log('init row listener');
+
+            // Set listener for currently inserted row 
+            InitTableRowListener();
+            ToggleDeleteButton('hidden');
+            localStorage['checkedcount'] = 0;
+        })
     } else {
         //  ...
     }
 }
 
+function SelectTableRow(row){
+    // FillTableData(GetPageSizeDefault(), Number(localStorage['currentpage']));
+    
+    var checkbox = row.children[0].children[0].children[0];
+
+    row.style.backgroundColor = (checkbox.checked)? '#fff':'#EBF4FF';
+    checkbox.checked = !checkbox.checked;
+    var checkedCount = localStorage['checkedcount'];
+    localStorage['checkedcount'] = (checkbox.checked)? ++checkedCount : --checkedCount;
+        
+    if(!checkedCount){
+        ToggleDeleteButton('hidden');
+    } else {
+        ToggleDeleteButton('visible');
+    }
+}
+
+function ToggleDeleteButton(value){
+    $('#button-delete').css('visibility', value);
+}
 

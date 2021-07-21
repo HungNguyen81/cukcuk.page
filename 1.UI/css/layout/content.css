@@ -6,7 +6,9 @@ body{
     position: absolute;
     height: calc(100vh - 49px);
     top: 49px;
-    left: 226px;
+    left: 226px;  
+    width: 100%;
+    background-color: #ccc;  
 }
 
 /* Heading */
@@ -88,6 +90,15 @@ body{
     left: calc(335px + 32px + 220px);
 }
 
+/* Delete button */
+#button-delete{    
+    border: 1px solid #ccc;
+    position: absolute;
+    right: 72px;
+    top: 0px;   
+    visibility: hidden;
+}
+
 /* Refresh button */
 
 .button-refresh {
@@ -136,9 +147,9 @@ body{
     text-overflow: ellipsis;
 }
 
-.table-employee tbody tr:nth-child(odd) {
+/* .table-employee tbody tr:nth-child(odd) {
     background-color: #fafafa;
-}
+} */
 
 .table-employee tbody tr {
     border-top: 1px solid #ccc;
@@ -159,27 +170,71 @@ body{
     white-space: nowrap;
 }
 
+input[type="checkbox"]:checked + span {
+    border-color: red;
+  background-color:red;
+}
 
-/* Employee ID */
+.checkbox-container{    
+    cursor: pointer;
+    user-select: none;
+    display: flex;
+    align-items: center;
+}
+
+.checkbox-container input{
+    opacity: 0;
+    width: 0;
+    height: 0;
+}
+.checkbox-container .checkmark{
+    height: 16px;
+    width: 16px;
+    /* position: absolute; */
+    background-color: #fff;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+}
+.checkbox-container:hover input ~ .checkmark {
+    background-color: #ccc;
+    text-align: center;    
+}
+.checkmark>.check {    
+    color: white;
+    font-size: 12px;
+    margin: 2px;
+}
+.checkbox-container input:checked ~ .checkmark {
+    background-color: #019160;
+    border-color: #019160;    
+}
+
+/* Delete checkbox */
 .table-employee tbody td:nth-child(1),
 .table-employee th:nth-child(1) {
+    width: 42px;
+}
+
+/* Employee ID */
+.table-employee tbody td:nth-child(2),
+.table-employee th:nth-child(2) {
     width: 100px;        
 }
 
 /* Full name */
-.table-employee tbody td:nth-child(2),
-.table-employee th:nth-child(2) {
+.table-employee tbody td:nth-child(3),
+.table-employee th:nth-child(3) {
     width: 140px;
 }
 /* Gender */
-.table-employee tbody td:nth-child(3),
-.table-employee th:nth-child(3) {
+.table-employee tbody td:nth-child(4),
+.table-employee th:nth-child(4) {
     width: 60px;
 }
 
 /* birthday */
-.table-employee thead th:nth-child(4),
-.table-employee tbody td:nth-child(4) {
+.table-employee thead th:nth-child(5),
+.table-employee tbody td:nth-child(5) {
     text-align: center;
     padding-left: 10px;
     padding-right: 10px;
@@ -187,32 +242,32 @@ body{
 }
 
 /* Phone number */
-.table-employee tbody td:nth-child(5),
-.table-employee th:nth-child(5) {
+.table-employee tbody td:nth-child(6),
+.table-employee th:nth-child(6) {
     width: 100px;    
 }
 
 /* Email */
-.table-employee tbody td:nth-child(6),
-.table-employee th:nth-child(6) {
+.table-employee tbody td:nth-child(7),
+.table-employee th:nth-child(7) {
     width: 200px;
 }
 
 /* Position */
-.table-employee tbody td:nth-child(7),
-.table-employee th:nth-child(7) {
+.table-employee tbody td:nth-child(8),
+.table-employee th:nth-child(8) {
     width: 140px;    
 }
 
 /* Department */
-.table-employee tbody td:nth-child(8),
-.table-employee th:nth-child(8) {
+.table-employee tbody td:nth-child(9),
+.table-employee th:nth-child(9) {
     width: 120px;    
 }
 
 /* salary */
-.table-employee th:nth-child(9), 
-.table-employee tr td:nth-child(9) {
+.table-employee th:nth-child(10), 
+.table-employee tr td:nth-child(10) {
     text-align: right;
     padding-left: 10px;
     padding-right: 10px;
@@ -220,8 +275,8 @@ body{
 }
 
 /* Work status */
-.table-employee tbody td:nth-child(10),
-.table-employee th:nth-child(10) {
+.table-employee tbody td:nth-child(11),
+.table-employee th:nth-child(11) {
     width: 140px;    
 }
 

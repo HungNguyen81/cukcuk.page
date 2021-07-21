@@ -1,12 +1,12 @@
-function Init(){
+function Init() {
     // initialize data
     GetDepartments();
     GetPositions();
 
     // initialize event listeners
-    InitDropdownListener();    
-    InitTableTitles();    
-    InitTableData();    
+    InitDropdownListener();
+    InitTableTitles();
+    InitTableData();
 
     // init listener for paging-item
     InitPagingSelect();
@@ -16,10 +16,10 @@ function Init(){
 }
 
 // add event listener to all dropdown items
-function InitDropdownListener() {    
-    var dropdownItems      = document.getElementsByClassName("dropdown-item");
+function InitDropdownListener() {
+    var dropdownItems = document.getElementsByClassName("dropdown-item");
     var dropdownContainers = document.getElementsByClassName("dropdown-container");
-    
+
     for (let i = 0; i < dropdownItems.length; i++) {
         dropdownItems[i].setAttribute('onclick', 'ItemSelect(this)')
     }
@@ -30,46 +30,61 @@ function InitDropdownListener() {
 }
 
 // // add event listener to all table data rows
-function InitTableRowListener(){
-    var rows = document.querySelectorAll(".table-employee tbody > tr");    
+function InitTableRowListener() {
+    var rows = document.querySelectorAll(".table-employee tbody > tr");
 
-    for(let i = 0; i < rows.length; i++){
+    for (let i = 0; i < rows.length; i++) {
         rows[i].setAttribute('ondblclick', 'OpenPopup(this)');
+        rows[i].setAttribute('onclick', 'SelectTableRow(this)');
+    }
+
+    var checkboxes = document.querySelectorAll("input[name=checkbox]");
+
+    for(let i = 0; i < checkboxes.length; i++){
+        var checkbox = checkboxes[i]
+        checkbox.addEventListener('change', function () {
+            if (this.checked) {
+                console.log("Checkbox is checked..");
+                checkbox.parentNode.style.backgrounColor = '#EBF4FF';
+            } else {
+                console.log("Checkbox is not checked..");
+            }
+        });
     }
 }
 
 // Initialize title attribute for each table cell
-function InitTableTitles(){
+function InitTableTitles() {
     var tableHeaders = $("th");
-    var tableData    = $("td");
+    var tableData = $("td");
 
     // header title
-    tableHeaders.each(function(i){ 
+    tableHeaders.each(function (i) {
         $(this).attr('title', tableHeaders[i].innerText);
     })
 
     // data title
-    tableData.each(function(i){
+    tableData.each(function (i) {
         $(this).setAttribute('title', tableData[i].innerText);
-    }) 
+    })
 }
 
-function InitPagingSelect(){    
+function InitPagingSelect() {
     var pagingItems = $('.paging-item');
     pagingItems.each(function () {
         $(this).attr('onclick', 'ChangePageSize(this)')
     })
 }
 
-function InitPagingBtnListener(){
-    var pagingButtons   = $('.button-page-number');    
-    var btnFirstPage    = $('.button-firstpage');
-    var btnLastPage     = $('.button-lastpage');
-    var btnNext         = $('.button-next-page');
-    var btnPrev         = $('.button-prev-page');
+function InitPagingBtnListener() {
+    var pagingButtons = $('.button-page-number');
+    var btnFirstPage = $('.button-firstpage');
+    var btnLastPage = $('.button-lastpage');
+    var btnNext = $('.button-next-page');
+    var btnPrev = $('.button-prev-page');
 
     pagingButtons.each(function () {
-        $(this).attr('onclick','ChangePageNumber(this)');
+        $(this).attr('onclick', 'ChangePageNumber(this)');
     });
 
     btnFirstPage.click(FirstPage);

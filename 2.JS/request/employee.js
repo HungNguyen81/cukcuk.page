@@ -1,29 +1,30 @@
-function GetNumberOfEmployees() {
+function GetNumberOfEmployees(callback) {
     $.ajax({
-        url: 'https://cukcuk-app.herokuapp.com/api/Employee', //http://cukcuk.manhnv.net/v1/Employees
+        url: 'http://cukcuk.manhnv.net/v1/Employees', //https://cukcuk-app.herokuapp.com/api/Employee
         method: 'GET'
     }).done(data => {
         var tableEmployee = $('.table-employee > tbody');
         tableEmployee.innerHTML = '';
 
         localStorage['employees'] = JSON.stringify(FormatEmployeeData(data));
-
-        console.log("number of rows", data.length);
         localStorage['numofemployees'] = data.length;
+        console.log("number of rows", data.length);
+
+        callback();
     }).fail(res => {
         // ...
     })
 }
 
-function GetNewEmployeeCode(callback){
+function GetNewEmployeeCode(callback) {
     $.ajax({
         url: 'http://cukcuk.manhnv.net/v1/Employees/NewEmployeeCode',
         method: 'GET',
         success: callback
     }).done(res => {
-        console.log(res);
+        console.log("New Employee Code:", res);
     }).fail(res => {
-        callback(`NV${Math.round(Math.random()*100000)}`);
+        callback(`NV${Math.round(Math.random() * 100000)}`);
     })
 }
 
@@ -32,28 +33,35 @@ function PostNewEmployee() {
     //     SendRandomRequest(i);
     // }
 
-    var postData= ValidateForm();
+    var postData = ValidateForm();
+    var id = '';
+    var action = $('#save-button').attr('action');
+    if(action == "PUT"){
+        id = localStorage['employeeid'];
+    }
 
-    if(!postData){
+    if (!postData) {
         console.log("not validated");
         return;
     }
-    console.log("validated");
-    // console.log(postData);
+    console.log("validated", action);
+    // console.log('data:',postData);
+
     var settings = {
-        "url": "http://cukcuk.manhnv.net/v1/Employees/",
-        "method": "POST",
+        "url": `http://cukcuk.manhnv.net/v1/Employees/${id}`,
+        "method": action,
         "timeout": 0,
         "headers": {
-          "Content-Type": "application/json"
+            "Content-Type": "application/json"
         },
         "data": JSON.stringify(postData),
-      };
-      
-      $.ajax(settings).done(function (response) {
+    };
+
+    $.ajax(settings).done(function (response) {
         console.log(response);
         ClosePopup();
-      });
+        InitTableData();
+    });
 }
 
 

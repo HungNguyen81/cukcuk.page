@@ -1,6 +1,6 @@
 function GetPositions() {
     $.ajax({
-        url: 'https://cukcuk-app.herokuapp.com/api/Position',
+        url: 'http://cukcuk.manhnv.net/v1/Positions',
         method: 'GET'
     }).done(data => {
         var positionElements = document.querySelectorAll("#positions");

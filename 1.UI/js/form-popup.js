@@ -6,23 +6,26 @@ function OpenPopup(row) {
 
     var formContainer = form.children[0];
     var formBody = formContainer.children[1];
-    var inputBody = formBody.children[1];    
+    var inputBody = formBody.children[1];
     var inputRow = inputBody.children[1];
     var inputField = inputRow.children[0];
     var employeeIdInput = inputField.children[1];
-    
-    // Get new Employee Code from API
-    function ReturnNewEmployeeCode(result){
-        employeeIdInput.value = result;
-    }
-    // async action
-    GetNewEmployeeCode(ReturnNewEmployeeCode);
-
-    employeeIdInput.focus();
 
     if (row) {
-        InitForm();
+        InitForm(row);
+        $('#save-button').attr('action', 'PUT');
+    } else {
+        $('#save-button').attr('action', 'POST');
+
+        // Get new Employee Code from API
+        function ReturnNewEmployeeCode(result) {
+            employeeIdInput.value = result;
+        }
+        // async action
+        GetNewEmployeeCode(ReturnNewEmployeeCode);        
     }
+
+    employeeIdInput.focus();
 }
 
 function ClosePopup() {
@@ -36,30 +39,30 @@ function MyFunc(e) {
     }
 }
 
-function LiveFormatSalaryInput(input){
-    var rawNumber = input.value.replaceAll('.', '');    
+function LiveFormatSalaryInput(input) {
+    var rawNumber = input.value.replaceAll('.', '');
     input.value = FormatMoneyString(rawNumber)
 }
 
-function ValidateForm(){
-    var employeeCode    = $('#employee-code').val();
-    var fullName        = $('#fullname').val();
-    var dob             = $('#dob').val();
-    var gender          = GenderText2Code($('#gender').text());
-    var identityNumber  = $('#identity-number').val();
-    var identityDate    = $('#identity-date').val();
-    var identityPlace   = $('#identity-place').val();
-    var email           = $('#email').val();
-    var phoneNumber     = $('#phone-number').val();
-    var positionId      = GetPositionIdFromName($('#position-name').text());
-    var departmentId    = GetDepartmentIdFromName($('#department-name').text());
-    var taxCode         = $('#tax-code').val();
-    var salary          = $('#salary').val();
-    var joinDate        = $('#join-date').val();
-    var workStatus      = WorkStatusText2Code($('#work-status').text());
+function ValidateForm() {
+    var employeeCode = $('#employee-code').val();
+    var fullName = $('#fullname').val();
+    var dob = $('#dob').val();
+    var gender = GenderText2Code($('#gender').text());
+    var identityNumber = $('#identity-number').val();
+    var identityDate = $('#identity-date').val();
+    var identityPlace = $('#identity-place').val();
+    var email = $('#email').val();
+    var phoneNumber = $('#phone-number').val();
+    var positionId = GetPositionIdFromName($('#position-name').text());
+    var departmentId = GetDepartmentIdFromName($('#department-name').text());
+    var taxCode = $('#tax-code').val();
+    var salary = $('#salary').val();
+    var joinDate = $('#join-date').val();
+    var workStatus = WorkStatusText2Code($('#work-status').text());
 
     // make sure required field not empty
-    
+
     var isEmpty1 = IsEmpty(employeeCode, 'employee-code');
     var isEmpty2 = IsEmpty(fullName, 'fullname');
     var isEmpty3 = IsEmpty(identityNumber, 'identity-number');
@@ -67,7 +70,7 @@ function ValidateForm(){
     var isEmpty5 = IsEmpty(phoneNumber, 'phone-number');
     var isEmpty = isEmpty1 || isEmpty2 || isEmpty3 || isEmpty4 || isEmpty5;
 
-    if(isEmpty) return null;
+    if (isEmpty) return null;
 
     // validate email format
     // ...
@@ -84,21 +87,24 @@ function ValidateForm(){
         "dateOfBirth": new Date(dob).toISOString(),
         "phoneNumber": phoneNumber,
         "email": email,
-        "identityNumber":identityNumber,
-        "identityDate":new Date(identityDate).toISOString(),
+        "identityNumber": identityNumber,
+        "identityDate": new Date(identityDate).toISOString(),
         "identityPlace": identityPlace,
         "departmentId": departmentId,
         "positionId": positionId,
-        "personalTaxCode" : taxCode,
-        "salary" : Number(salary.replaceAll('.','')),
+        "personalTaxCode": taxCode,
+        "salary": Number(salary.replaceAll('.', '')),
         "workStatus": Number(workStatus),
         "joinDate": new Date(joinDate).toISOString()
     }
 }
 
-function IsEmpty(value, id){
-    console.log(value.trim(), id)
-    if(value.trim() == ""){
+function TextInputChange(input) {
+    IsEmpty(input.value, input.id);
+}
+
+function IsEmpty(value, id) {
+    if (value.trim() == "") {
         $(`#${id}`).css('border-color', 'red');
         return true;
     } else {
@@ -110,4 +116,53 @@ function IsEmpty(value, id){
 // Get row data and fill to the form
 function InitForm(row) {
     console.log("init form");
+
+    var employeeCode    = row.children[1].innerText;
+    var fullName        = row.children[2].innerText;
+    var gender          = row.children[3].innerText;
+    var dob             = row.children[4].innerText;
+    var identityNumber  = null;
+    var identityDate    = null;
+    var identityPlace   = null;
+    var phoneNumber     = row.children[5].innerText;
+    var email           = row.children[6].innerText;
+    var positionName    = row.children[7].innerText;
+    var departmentName  = row.children[8].innerText;
+    var taxCode         = null;
+    var salary          = row.children[9].innerText;
+    var joinDate        = null;
+    var workStatus      = row.children[10].innerText;
+
+    dobArray = dob.split('/');
+    dob = DateFormat(`${dobArray[1]}/${dobArray[0]}/${dobArray[2]}`, true);
+
+    var stored = JSON.parse(localStorage['employees']);
+
+    stored.forEach(e => {
+        if(e.EmployeeCode == employeeCode){
+            identityNumber = e.IdentityNumber;
+            identityDate = DateFormat(e.IdentityDate, true);
+            identityPlace = e.IdentityPlace;
+            taxCode = e.PersonalTaxCode;
+            joinDate = DateFormat(e.JoinDate, true);
+        }
+    });
+
+    localStorage['employeeid'] = GetEmployeeIdByEmployeeCode(employeeCode);
+
+    $('#employee-code').val(employeeCode);
+    $('#fullname').val(fullName);
+    $('#dob').val(dob);
+    $('#gender').text(gender);
+    $('#identity-number').val(identityNumber);
+    $('#identity-date').val(identityDate);
+    $('#identity-place').val(identityPlace);
+    $('#email').val(email);
+    $('#phone-number').val(phoneNumber);
+    $('#position-name').text(positionName);
+    $('#department-name').text(departmentName);
+    $('#tax-code').val(taxCode);
+    $('#salary').val(salary);
+    $('#join-date').val(joinDate);
+    $('#work-status').text(workStatus);
 }
