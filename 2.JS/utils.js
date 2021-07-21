@@ -97,3 +97,16 @@ function GetEmployeeIdByEmployeeCode(code){
         }
     }
 }
+
+function RemoveFromDeleteList(id){
+    var deleteList = JSON.parse(localStorage['deletelist']);
+
+    for(let i = 0; i < deleteList.length; i++){
+        if(deleteList[i].id == id){
+            deleteList.splice(i, 1);
+        }
+    }
+
+    localStorage['deletelist'] = JSON.stringify(deleteList);
+    return deleteList;
+}

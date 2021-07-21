@@ -7,16 +7,18 @@
     <title>Index - CUKCUK.VN</title>
     <link rel="stylesheet" href="./1.UI/css/main.css">
     <style>
-        body{
+        body {
             text-align: center;
             position: static;
         }
-        h1{            
+
+        h1 {
             top: 30%;
-            font-size: 40px;   
-            margin-top: 10%;         
+            font-size: 40px;
+            margin-top: 10%;
         }
-        .my-button{
+
+        .my-button {
             position: absolute;
             top: 50%;
             left: 50%;
@@ -25,23 +27,51 @@
             width: 300px;
             padding: 0px;
         }
-        .direct-link{
+
+        .direct-link {
             text-decoration: none;
             color: white;
             font-size: 20px;
-            line-height: 50px;            
+            line-height: 50px;
             padding: 10px 52px;
             margin: 0;
             white-space: nowrap;
         }
+
+        #count {
+            position: fixed;
+            left: 50%;
+            bottom: 50px;
+            transform: translate(-50%, 0);
+            background-color: #fff;
+            border-radius: 10px;
+            width: auto;
+            padding: 0 50px;
+            color: #019160;
+            border: 2px solid #019160;
+        }
     </style>
+    <script src="./2.JS/lib/jquery-3.6.0.min.js"></script>
+    <script>
+
+        $.ajax({
+            url: 'http://cukcuk-hungnguyen81.herokuapp.com/api/count',
+            method: 'GET'
+        }).done((data) => {
+            console.log(data);
+            data = JSON.parse(data);
+            $('#count > h2').text(`Số lượt truy cập: ${data[0].count}`);
+        })
+    </script>
 </head>
 
 <body">
     <h1>WELCOME TO CUKCUK.VN</h1>
     <div class="button my-button">
-        <a href="/cukcuk.page/1.UI/pages/employee.html" class="direct-link">Go to Employee page</a>
+        <a href="/1.UI/pages/employee.html" class="direct-link">Go to Employee page</a>
     </div>
-</body>
-
+    <div id="count">
+        <h2>Số lượt truy cập: </h2>
+    </div>
+    </body>
 </html>

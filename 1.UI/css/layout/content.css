@@ -92,10 +92,9 @@ body{
 
 /* Delete button */
 #button-delete{    
-    border: 1px solid #ccc;
     position: absolute;
-    right: 72px;
-    top: 0px;   
+    right: 180px;
+    /* top: 0px;    */
     visibility: hidden;
 }
 
@@ -170,11 +169,6 @@ body{
     white-space: nowrap;
 }
 
-input[type="checkbox"]:checked + span {
-    border-color: red;
-  background-color:red;
-}
-
 .checkbox-container{    
     cursor: pointer;
     user-select: none;
@@ -190,7 +184,6 @@ input[type="checkbox"]:checked + span {
 .checkbox-container .checkmark{
     height: 16px;
     width: 16px;
-    /* position: absolute; */
     background-color: #fff;
     border: 1px solid #ccc;
     border-radius: 4px;

@@ -12,7 +12,9 @@ function Init() {
     InitPagingSelect();
 
     // Init listener for page number buttons
-    InitPagingBtnListener();
+    InitPagingBtnListener();    
+
+    localStorage['deletelist'] = '[]';
 }
 
 // add event listener to all dropdown items

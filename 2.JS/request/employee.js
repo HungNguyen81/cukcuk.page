@@ -1,3 +1,8 @@
+
+/**
+ * GET All employee data
+ * @param {callback function} callback 
+ */
 function GetNumberOfEmployees(callback) {
     $.ajax({
         url: 'http://cukcuk.manhnv.net/v1/Employees', //https://cukcuk-app.herokuapp.com/api/Employee
@@ -6,8 +11,9 @@ function GetNumberOfEmployees(callback) {
         var tableEmployee = $('.table-employee > tbody');
         tableEmployee.innerHTML = '';
 
-        localStorage['employees'] = JSON.stringify(FormatEmployeeData(data));
-        localStorage['numofemployees'] = data.length;
+        localStorage['employees']       = JSON.stringify(FormatEmployeeData(data));
+        localStorage['numofemployees']  = data.length;
+        localStorage['currentpage']     = 1;
         console.log("number of rows", data.length);
 
         callback();
@@ -16,6 +22,10 @@ function GetNumberOfEmployees(callback) {
     })
 }
 
+/**
+ * GET recommend new employee code
+ * @param {function} callback 
+ */
 function GetNewEmployeeCode(callback) {
     $.ajax({
         url: 'http://cukcuk.manhnv.net/v1/Employees/NewEmployeeCode',
@@ -28,6 +38,11 @@ function GetNewEmployeeCode(callback) {
     })
 }
 
+
+/**
+ * POST new employee to server
+ * Author: Hungnguyen81
+ */
 function PostNewEmployee() {
     // for(let i = 1; i < 400; i++){
     //     SendRandomRequest(i);
@@ -125,13 +140,24 @@ function SendDELETERequest(id) {
         }
     };
 
-    $.ajax(settings).done(function (response) {
-        console.log(id);
+    $.ajax(settings).done(function () {
+        console.log('DELETE :', id);
+        RemoveFromDeleteList(id);
+        GetNumberOfEmployees(UpdateEmployeeTable);
     });
 }
 
-function SendDELETERequests() {
-    var settings = {
+function DeleteSelectedEmployees() {
+    var deleteList = JSON.parse(localStorage['deletelist']);
+
+    deleteList.forEach(e => {
+        SendDELETERequest(e.id);
+    });
+}
+
+
+/**
+ * var settings = {
         "url": "http://cukcuk.manhnv.net/v1/Employees/",
         "method": "GET",
         "timeout": 0,
@@ -144,4 +170,4 @@ function SendDELETERequests() {
             }
         });
     });
-}
+ */
