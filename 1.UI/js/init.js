@@ -12,23 +12,49 @@ function Init() {
     InitPagingSelect();
 
     // Init listener for page number buttons
-    InitPagingBtnListener();    
+    InitPagingBtnListener();
 
     localStorage['deletelist'] = '[]';
 }
 
 // add event listener to all dropdown items
 function InitDropdownListener() {
-    var dropdownItems = document.getElementsByClassName("dropdown-item");
-    var dropdownContainers = document.getElementsByClassName("dropdown-container");
+    var dropdownItems = document.querySelectorAll('.dropdown-item');
+    var dropdownContainers = document.querySelectorAll('.dropdown-container');
+    var comboboxInputs = document.querySelectorAll('.combobox-input');
 
     for (let i = 0; i < dropdownItems.length; i++) {
         dropdownItems[i].setAttribute('onclick', 'ItemSelect(this)')
     }
 
     for (let i = 0; i < dropdownContainers.length; i++) {
-        dropdownContainers[i].setAttribute('onclick', 'ShowDropData(this)');
+        dropdownContainers[i].setAttribute('onclick', 'ToggleDropData(this)');
     }
+
+    for (let i = 0; i < comboboxInputs.length; i++) {
+        comboboxInputs[i].setAttribute('onfocus', 'ComboboxInputChange(this)');
+        comboboxInputs[i].setAttribute('onblur', 'HideCloseButton(this)');
+    }
+
+    function HideDropDownWhenClickOutside(e) {
+        var dropdowns = document.querySelectorAll('.dropdown-data');
+        for (let i = 0; i < dropdowns.length; i++) {
+            if (!dropdowns[i].contains(e.target) && !dropdowns[i].parentNode.contains(e.target)) {
+                
+                var dropIcon;
+                if (dropdowns[i].parentNode.classList.contains('combobox-container')) {
+                    dropIcon = dropdowns[i].parentNode.children[0].children[2].children[0];
+                } else {
+                    dropIcon = dropdowns[i].parentNode.children[0].children[1];
+                }
+
+                dropdowns[i].setAttribute("hidden", true);
+                dropIcon.style.webkitTransitionDuration = "0.2s";
+                dropIcon.style.webkitTransform = 'rotate(0deg)';
+            }
+        }
+    }
+    document.addEventListener('click', HideDropDownWhenClickOutside)
 }
 
 // // add event listener to all table data rows
@@ -42,7 +68,7 @@ function InitTableRowListener() {
 
     var checkboxes = document.querySelectorAll("input[name=checkbox]");
 
-    for(let i = 0; i < checkboxes.length; i++){
+    for (let i = 0; i < checkboxes.length; i++) {
         var checkbox = checkboxes[i]
         checkbox.addEventListener('change', function () {
             if (this.checked) {

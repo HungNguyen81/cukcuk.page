@@ -8,6 +8,7 @@ function UpdateEmployeeTable(){
     FillTableData(pageSize, 1);    
     ChangeCurrentPageLabel(pageSize, 1);
     UpdatePagingBar();
+    ToggleDeleteButton('hidden');
 }
 
 function BackupEmployees() {

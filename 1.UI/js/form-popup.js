@@ -2,6 +2,9 @@ var form = document.getElementById("container");
 
 function OpenPopup(row) {
     form.style.display = "block";
+    form.children[0].style.top = '50%';
+    form.children[0].style.left = '50%';
+    form.children[0].style.transform = 'translate(-50%,-50%)';
     form.addEventListener('click', MyFunc);
 
     var formContainer = form.children[0];
@@ -16,6 +19,8 @@ function OpenPopup(row) {
         $('#save-button').attr('action', 'PUT');
     } else {
         $('#save-button').attr('action', 'POST');
+
+        FillForm();
 
         // Get new Employee Code from API
         function ReturnNewEmployeeCode(result) {
@@ -165,4 +170,39 @@ function InitForm(row) {
     $('#salary').val(salary);
     $('#join-date').val(joinDate);
     $('#work-status').text(workStatus);
+
+    if(gender) SetElementSelected(gender, 'gender');
+    if(positionName) SetElementSelected(positionName, 'position-name');
+    if(departmentName) SetElementSelected(departmentName, 'department-name');
+    if(workStatus) SetElementSelected(workStatus, 'work-status');
+}
+
+function SetElementSelected(value, id){
+    var combobox = document.getElementById(id).parentNode.parentNode;
+    var items = combobox.children[1].children;
+    
+    for(let i = 0; i < items.length; i++){
+        if(value.toUpperCase() == items[i].children[1].innerText.toUpperCase()){
+            items[i].classList.add('item-selected');
+        } else {
+            items[i].classList.remove('item-selected');
+        }
+    }
+}
+
+function FillForm(){
+    $('#fullname').val('');
+    $('#dob').val(DateFormat(new Date(), true));
+    $('#gender').text('Nam');
+    $('#identity-number').val('');
+    $('#identity-date').val(DateFormat(new Date(), true));
+    $('#identity-place').val('');
+    $('#email').val('');
+    $('#phone-number').val('');
+    $('#position-name').text('');
+    $('#department-name').text('');
+    $('#tax-code').val('');
+    $('#salary').val(0);
+    $('#join-date').val(DateFormat(new Date(), true));
+    $('#work-status').text('');
 }

@@ -66,7 +66,7 @@ body{
     width: 16px;
     height: 16px;
     position: absolute;
-    z-index: 9;
+    z-index: 5;
     left: 32px;
     top: 12px;
     background-image: url('../../content/icon/search.png');
@@ -93,6 +93,7 @@ body{
 /* Delete button */
 #button-delete{    
     position: absolute;
+    background-color: #f65454;
     right: 180px;
     /* top: 0px;    */
     visibility: hidden;
@@ -298,7 +299,7 @@ table tbody tr {
 /* Page navigator */
 
 .content-page-navigator {
-    position: absolute;
+    position: fixed;
     bottom: 0px;
     height: 56px;
     border-top: 4px solid #ccc;

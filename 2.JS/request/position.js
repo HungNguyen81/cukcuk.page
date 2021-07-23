@@ -3,19 +3,16 @@ function GetPositions() {
         url: 'http://cukcuk.manhnv.net/v1/Positions',
         method: 'GET'
     }).done(data => {
-        var positionElements = document.querySelectorAll("#positions");
 
         localStorage['position'] = JSON.stringify(data);
 
-        positionElements.forEach(position => {
-            data.forEach(pos => {
-                let htmlText = `<div class="dropdown-item"  onclick="ItemSelect(this)">
-                                    <i class="fas fa-check item-icon"></i>
-                                <div class="item-text">${pos.PositionName}</div></div>`
-                position.insertAdjacentHTML('beforeend', htmlText);
-            })
-        })
+        // FillDropdownData(data, true, 'positions');
+
+        // var selectedIndex = data.findIndex(obj => { return obj.PositionName == input.value });
+
+        // document.querySelector('#positions').children[0].classList.add('item-selected');
     }).fail(res => {
         console.log(res);
     })
 }
+

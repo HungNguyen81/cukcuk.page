@@ -38,7 +38,7 @@ function GetNewEmployeeCode(callback) {
     })
 }
 
-function PostNewEmployeeBigAmount(){
+function PostNewEmployee1(){
     for(let i = 1; i < 400; i++){
         SendRandomRequest(i);
     }
@@ -108,7 +108,6 @@ function SendRandomRequest(number) {
         "data": JSON.stringify({
             "createdDate": "2021-07-19T14:30:23.591Z",
             "createdBy": "Hungnn",
-            "modifiedDate": "2021-07-19T14:30:23.591Z",
             "modifiedBy": "Hungnn",
             "employeeId": "0760cdff-e8a0-11eb-94eb-42010a8c0002",
             "employeeCode": `MF-${number}`,

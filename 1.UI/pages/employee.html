@@ -28,7 +28,7 @@
                     <div id="">Nhà hàng Biển Đông</div>
                     <div class="dropdown-icon"></div>
                 </div>
-                <div class="dropdown-data" id="restaurants" hidden="true">
+                <div class="dropdown-data" id="restaurants" hidden>
                     <div class="dropdown-item  item-selected">
                         <i class="fas fa-check item-icon"></i>
                         <div class="item-text">Nhà hàng Biển Đông</div>
@@ -89,7 +89,7 @@
             <div class="combobox-container dropdown-departments">
                 <div class="combobox">
                     <input type="text" class="combobox-input textbox-default" value="Tất cả phòng ban"
-                        filter="department" onkeyup="ComboboxInputChange(this)" onkeydown="ComboboxLiveSearch(this)">
+                        filter="department" onkeyup="ComboboxInputChange(this)">
                     <div class="x-icon" hidden="true" onclick="ClearInputText(this)">
                         <i class="fas fa-times"></i>
                     </div>
@@ -97,18 +97,18 @@
                         <div class="combobox-icon"></div>
                     </div>
                 </div>
-                <div class="dropdown-data" id="departments" hidden="true">
-                    <div class="dropdown-item item-selected" onclick="ItemSelect(this)">
+                <div class="dropdown-data departments" id="departments" hidden="true">
+                    <!-- <div class="dropdown-item item-selected" onclick="ItemSelect(this)">
                         <i class="fas fa-check item-icon"></i>
                         <div class="item-text">Tất cả phòng ban</div>
-                    </div>
+                    </div> -->
                 </div>
             </div>
 
             <div class="combobox-container dropdown-positions">
                 <div class="combobox">
-                    <input type="text" class="combobox-input textbox-default" filter="position" value="Tất cả vị trí"
-                        onkeyup="ComboboxInputChange(this)" onkeydown="ComboboxLiveSearch(this)">
+                    <input type="text" class="combobox-input textbox-default" value="Tất cả vị trí"
+                        filter="position" onkeyup="ComboboxInputChange(this)">
                     <div class="x-icon" hidden="true" onclick="ClearInputText(this)">
                         <i class="fas fa-times"></i>
                     </div>
@@ -116,11 +116,11 @@
                         <div class="combobox-icon"></div>
                     </div>
                 </div>
-                <div class="dropdown-data" id="positions" hidden="true">
-                    <div class="dropdown-item  item-selected" onclick="ItemSelect(this)">
+                <div class="dropdown-data positions" id="positions" hidden="true">
+                    <!-- <div class="dropdown-item  item-selected" onclick="ItemSelect(this)">
                         <i class="fas fa-check item-icon"></i>
                         <div class="item-text">Tất cả vị trí</div>
-                    </div>
+                    </div> -->
                 </div>
             </div>            
             <div class="button-refresh"></div>
@@ -194,7 +194,7 @@
     <div class="container" id="container">
         <!-- Employee Detail Form -->
         <div class="form-container" id="form-container">
-            <div class="form-header">
+            <div class="form-header" id="form-container-header">
                 <div class="header">THÔNG TIN NHÂN VIÊN</div>
                 <div class="close-button" onclick="ClosePopup()"></div>
             </div>
@@ -240,7 +240,7 @@
                                     <div class="dropdown-icon"></div>
                                 </div>
                                 <div class="dropdown-data" hidden="true">
-                                    <div class="dropdown-item  item-selected">
+                                    <div class="dropdown-item">
                                         <i class="fas fa-check item-icon"></i>
                                         <div class="item-text">Nam</div>
                                     </div>
@@ -250,7 +250,7 @@
                                     </div>
                                     <div class="dropdown-item">
                                         <i class="fas fa-check item-icon"></i>
-                                        <div class="item-text">Khác</div>
+                                        <div class="item-text">Không xác định</div>
                                     </div>
                                 </div>
                             </div>
@@ -304,7 +304,7 @@
                                     <div id="position-name"></div>
                                     <div class="dropdown-icon"></div>
                                 </div>
-                                <div class="dropdown-data" id="positions" hidden="true">
+                                <div class="dropdown-data positions" id="form-positions" hidden="true">
                                     <!-- positions go here -->
                                 </div>
                             </div>
@@ -316,7 +316,7 @@
                                     <div id="department-name"></div>
                                     <div class="dropdown-icon"></div>
                                 </div>
-                                <div class="dropdown-data" id="departments" hidden="true">
+                                <div class="dropdown-data departments" id="form-departments" hidden="true">
                                     <!-- departments go here -->
                                 </div>
                             </div>
@@ -351,7 +351,7 @@
                                     <div class="dropdown-icon"></div>
                                 </div>
                                 <div class="dropdown-data" hidden="true">
-                                    <div class="dropdown-item  item-selected">
+                                    <div class="dropdown-item">
                                         <i class="fas fa-check item-icon"></i>
                                         <div class="item-text">Đang làm việc</div>
                                     </div>
@@ -391,6 +391,7 @@
     <script src="../../2.JS/request/department.js"></script>
     <script src="../../2.JS/request/position.js"></script>
     <script src="../../2.JS/request/employee.js"></script>
+    <script src="../../2.JS/draggable.js"></script>
 </body>
 
 </html>

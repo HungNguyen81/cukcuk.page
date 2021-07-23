@@ -106,7 +106,7 @@ function RemoveFromDeleteList(id){
             deleteList.splice(i, 1);
         }
     }
-
+    
     localStorage['deletelist'] = JSON.stringify(deleteList);
     return deleteList;
 }

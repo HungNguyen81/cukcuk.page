@@ -1,5 +1,5 @@
 function TableLiveSearch(input) {
-    var searchContent = input.value.trim();
+    var searchContent = input.value.trim().toUpperCase();
 
     var employees = JSON.parse(localStorage['employees']);
 
@@ -18,14 +18,14 @@ function TableLiveSearch(input) {
         let isPhoneNumFound = false;
 
         // Search by employee code
-        if (e.EmployeeCode.search(searchContent) != -1) {
+        if (e.EmployeeCode.toUpperCase().search(searchContent) != -1) {
             console.log("s1:", e.EmployeeCode);
             isEmpCodeFound = true;
             result.push(e);
         }
 
         // Search by fullname
-        if (e.FullName.search(searchContent) != -1) {
+        if (e.FullName.toUpperCase().search(searchContent) != -1) {
             console.log("s2:", e.EmployeeCode, e.FullName);
             isNameFound = true;
             if (!isEmpCodeFound) {
@@ -79,28 +79,22 @@ function TableLiveSearch(input) {
     }
 }
 
-/**
-* Combobox live search
-* @param {input} input 
-* @returns not return
-* Author: HungNguyen81
-*/
-function ComboboxLiveSearch(input){
-    var filter = input.getAttribute('filter');
-    switch(filter){
-        case 'department':
-            CbxDepartmentFilter();
-            break;
-        case 'position':
-            CbxPositionFilter();
-            break;
-    }
-}
+// function ComboboxLiveSearch(input){
+//     var filter = input.getAttribute('filter');
+//     switch(filter){
+//         case 'department':
+//             CbxDepartmentFilter();
+//             break;
+//         case 'position':
+//             CbxPositionFilter();
+//             break;
+//     }
+// }
 
-function CbxDepartmentFilter(){
-    console.log('d');
-}
+// function CbxDepartmentFilter(){
+//     console.log('d');
+// }
 
-function CbxPositionFilter(){
-    console.log('p');
-}
+// function CbxPositionFilter(){
+//     console.log('p');
+// }
