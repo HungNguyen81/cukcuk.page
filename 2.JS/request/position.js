@@ -6,7 +6,7 @@ function GetPositions() {
 
         localStorage['position'] = JSON.stringify(data);
 
-        // FillDropdownData(data, true, 'positions');
+        FillDropdownData(data, true, 'positions');
 
         // var selectedIndex = data.findIndex(obj => { return obj.PositionName == input.value });
 

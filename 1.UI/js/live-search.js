@@ -1,12 +1,12 @@
 function TableLiveSearch(input) {
     var searchContent = input.value.trim().toUpperCase();
-
+    BackupEmployees();
     var employees = JSON.parse(localStorage['employees']);
 
     // clear table content
     $('.table-employee > tbody').html('');
 
-    localStorage['cached-employees'] = localStorage['employees'];
+    // localStorage['cached-employees'] = localStorage['employees'];
 
     let result = [];
     let isFound = false;
@@ -41,25 +41,24 @@ function TableLiveSearch(input) {
                 result.push(e);
             }
         }
-        
-        if(isEmpCodeFound || isNameFound || isPhoneNumFound){
+
+        if (isEmpCodeFound || isNameFound || isPhoneNumFound) {
             isFound = true;
         }
     });
 
     console.log("..............................")
 
-    if (!isFound ) {
+    if (!isFound) {
         console.log("not found");
         // InitTableData();
         $('.table-employee > tbody').html('');
 
         localStorage['currentpage'] = 1;
         localStorage['numofemployees'] = result.length;
-        
+
         ChangeCurrentPageLabel(GetPageSizeDefault(), 1);
-        UpdatePagingBar();        
-        BackupEmployees();
+        UpdatePagingBar();
 
         // Toast Message
         // ...
@@ -74,8 +73,8 @@ function TableLiveSearch(input) {
 
         FillTableData(pageSize, 1);
         UpdatePagingBar();
-        ChangeCurrentPageLabel(pageSize, 1);                
-        BackupEmployees();
+        ChangeCurrentPageLabel(pageSize, 1);
+        // BackupEmployees();
     }
 }
 

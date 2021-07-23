@@ -15,6 +15,7 @@ function GetNumberOfEmployees(callback) {
         localStorage['numofemployees']  = data.length;
         localStorage['currentpage']     = 1;
         console.log("number of rows", data.length);
+        localStorage['cached-employees'] = localStorage['employees'];
 
         callback();
     }).fail(res => {
@@ -159,19 +160,3 @@ function DeleteSelectedEmployees() {
     });
 }
 
-
-/**
- * var settings = {
-        "url": "http://cukcuk.manhnv.net/v1/Employees/",
-        "method": "GET",
-        "timeout": 0,
-    };
-
-    $.ajax(settings).done(function (response) {
-        response.forEach(e => {
-            if (e.Address == "Thanh Hóa") {
-                SendDELETERequest(e.EmployeeId);
-            }
-        });
-    });
- */

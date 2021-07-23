@@ -3,9 +3,9 @@ function InitTableData() {
     localStorage['currentpage'] = 1;
 }
 
-function UpdateEmployeeTable(){
+function UpdateEmployeeTable() {
     var pageSize = GetPageSizeDefault();
-    FillTableData(pageSize, 1);    
+    FillTableData(pageSize, 1);
     ChangeCurrentPageLabel(pageSize, 1);
     UpdatePagingBar();
     ToggleDeleteButton('hidden');
@@ -13,8 +13,11 @@ function UpdateEmployeeTable(){
 
 function BackupEmployees() {
     var data = localStorage['cached-employees'];
-    localStorage['employees'] = data;
-    localStorage['numofemployees'] = JSON.parse(data).length;
+    if (data) {
+        // console.log(data)
+        localStorage['employees'] = data;
+        localStorage['numofemployees'] = JSON.parse(data).length;
+    }
 }
 
 function FormatEmployeeData(data) {
@@ -101,37 +104,37 @@ function FillTableData(pageSize, pageNumber) {
     }
 }
 
-function SelectTableRow(row){
+function SelectTableRow(row) {
     var checkbox = row.children[0].children[0].children[0];
 
-    row.style.backgroundColor = (checkbox.checked)? '#fff':'#EBF4FF';
+    row.style.backgroundColor = (checkbox.checked) ? '#fff' : '#EBF4FF';
     checkbox.checked = !checkbox.checked;
     var checkedCount = localStorage['checkedcount'];
     var employeeCode = row.children[1].innerText;
     var employeeId = GetEmployeeIdByEmployeeCode(employeeCode);
-    
-    console.log((checkbox.checked)? 'selected :':'un-selected :', employeeCode, employeeId);
 
-    localStorage['checkedcount'] = (checkbox.checked)? ++checkedCount : --checkedCount;
-    
+    console.log((checkbox.checked) ? 'selected :' : 'un-selected :', employeeCode, employeeId);
+
+    localStorage['checkedcount'] = (checkbox.checked) ? ++checkedCount : --checkedCount;
+
     var stored = localStorage['deletelist'];
     var deleteList = [];
 
-    if(stored){
+    if (stored) {
         deleteList = JSON.parse(stored);
     }
 
-    if(!checkedCount){
-        ToggleDeleteButton('hidden');       
+    if (!checkedCount) {
+        ToggleDeleteButton('hidden');
         localStorage['deletelist'] = '[]';
-        
+
     } else {
         ToggleDeleteButton('visible');
-        
-        if(checkbox.checked){
-            deleteList.push({     
-                "code" : employeeCode,           
-                "id" : employeeId
+
+        if (checkbox.checked) {
+            deleteList.push({
+                "code": employeeCode,
+                "id": employeeId
             });
         } else {
             deleteList = RemoveFromDeleteList(employeeId);
@@ -141,23 +144,23 @@ function SelectTableRow(row){
     }
 }
 
-function ToggleDeleteButton(value){
+function ToggleDeleteButton(value) {
     $('#button-delete').css('visibility', value);
 }
 
-function MarkSelectedEmployees(){
+function MarkSelectedEmployees() {
     var rows = document.querySelectorAll(".table-employee tbody > tr");
     var deleteList = JSON.parse(localStorage['deletelist']);
 
     for (let i = 0; i < rows.length; i++) {
-        let row = rows[i];        
+        let row = rows[i];
         let eCode = row.children[1].innerText;
-        for(let e = 0; e < deleteList.length; e++){
-            if(deleteList[e].code == eCode){
+        for (let e = 0; e < deleteList.length; e++) {
+            if (deleteList[e].code == eCode) {
                 row.children[0].children[0].children[0].checked = true;
                 row.style.backgroundColor = '#EBF4FF';
             }
-        }        
+        }
     }
 }
 

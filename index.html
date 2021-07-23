@@ -60,7 +60,7 @@
         }).done((data) => {
             console.log(data);
             data = JSON.parse(data);
-            $('#count > h2').text(`Số lượt truy cập: ${data[0].count}`);
+            $('#count > h2').text(`Số lượt truy cập: ${data.count}`);
         })
     </script>
 </head>

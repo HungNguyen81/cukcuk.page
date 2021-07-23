@@ -15,6 +15,7 @@ function Init() {
     InitPagingBtnListener();
 
     localStorage['deletelist'] = '[]';
+    
 }
 
 // add event listener to all dropdown items

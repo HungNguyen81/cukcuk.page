@@ -43,7 +43,7 @@ function ToggleDropData(container, mode) {
         dropData.removeAttribute("hidden");
         dropIcon.style.webkitTransitionDuration = "0.2s";
         dropIcon.style.webkitTransform = 'rotate(180deg)';
-        
+
         if (container.classList.contains("combobox-icon-container")) {
             container.setAttribute('onclick', 'ToggleDropData(this)');
             // set selected item
@@ -60,11 +60,11 @@ function ToggleDropData(container, mode) {
             }
         }
     } else {
-        if(mode != 'show'){
+        if (mode != 'show') {
             dropData.setAttribute("hidden", true);
             dropIcon.style.webkitTransitionDuration = "0.2s";
             dropIcon.style.webkitTransform = 'rotate(0deg)';
-            if(container.classList.contains("combobox-icon-container")){
+            if (container.classList.contains("combobox-icon-container")) {
                 container.setAttribute('onclick', 'ShowDropData(this)');
             }
         }
@@ -84,19 +84,21 @@ function ItemSelect(item) {
     // add class to selected item 
     item.classList.add("item-selected");
 
+    // if(parent.parentNode.classList.contains())
+
     // change display text content after selection
     var displayText = parent.parentNode.children[0].children[0];
 
     if (parent.parentNode.classList.contains("combobox-container")) {
         displayText.value = item.children[1].innerText;
 
+        DisplayFilterResult();
         // rotate drop icon and hide drop data
         ToggleDropData(parent.parentNode.children[0].children[2])
     } else {
         displayText.innerText = item.children[1].innerText;
     }
 }
-
 
 /**
  * on keyup and on focus
@@ -114,7 +116,7 @@ function ComboboxInputChange(input) {
     } else {
         xIcon.removeAttribute('hidden');
         AutoCompleteCombobox(input);
-    }    
+    }
 }
 
 /**
@@ -135,7 +137,7 @@ function AutoCompleteCombobox(input, isUpshift) {
 
     var data = JSON.parse(localStorage[`${dataFilter}`]);
 
-    if(isUpshift) data.unshift(item);
+    if (isUpshift) data.unshift(item);
 
     console.log("auto-data", data);
     newData = [];
@@ -153,6 +155,76 @@ function AutoCompleteCombobox(input, isUpshift) {
 
     FillDropdownData(newData, false, `${dataFilter}s`, (input.value) ? item : null); // input.value (= '' ~ = false)
     ToggleDropData(input.parentNode.children[2], 'show');
+}
+
+function DisplayFilterResult() {
+    BackupEmployees();
+    console.log('display filter result');
+    var positionFilter = $('.dropdown-positions input').val().trim().toUpperCase();
+    var departmentFilter = $('.dropdown-departments input').val().trim().toUpperCase();
+
+    console.log(positionFilter, departmentFilter);
+
+    if (positionFilter.includes('TẤT CẢ VỊ TRÍ')) {
+        positionFilter = '';
+    }
+    if (departmentFilter.includes('TẤT CẢ PHÒNG BAN')) {
+        departmentFilter = '';
+    }
+
+    var employees = JSON.parse(localStorage['employees']);
+
+    // clear table content
+    $('.table-employee > tbody').html('');
+
+    // backup employees data
+    // localStorage['cached-employees'] = localStorage['employees'];
+    let result = [];
+    let isFound = false;
+
+    for(let i = 0; i < employees.length; i++){
+        let e = employees[i];
+        if (!positionFilter && !departmentFilter) {
+            isFound = true;
+            result = employees;
+            break;
+        } else {
+            if (e.PositionName.toUpperCase().includes(positionFilter) 
+            && e.DepartmentName.toUpperCase().includes(departmentFilter)) 
+            {
+                isFound = true;
+                result.push(e);
+            }
+        }
+    };
+
+    if (!isFound) {
+        console.log("not found");
+        $('.table-employee > tbody').html('');
+
+        localStorage['currentpage'] = 1;
+        localStorage['numofemployees'] = result.length;
+
+        ChangeCurrentPageLabel(GetPageSizeDefault(), 1);
+        UpdatePagingBar();
+        // BackupEmployees();
+
+        // Toast Message
+        // ...
+    } else {
+        console.log("found", "----------------");
+        localStorage['currentpage'] = 1;
+        localStorage['numofemployees'] = result.length;
+        localStorage['employees'] = JSON.stringify(result);
+
+        console.log('Search result length:', result.length)
+
+        let pageSize = GetPageSizeDefault();
+
+        FillTableData(pageSize, 1);
+        UpdatePagingBar();
+        ChangeCurrentPageLabel(pageSize, 1);        
+    }
 }
 
 // Clear input when click x button
