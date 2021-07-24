@@ -11,59 +11,59 @@ function DateFormat(data, isForDateInput) {
     let mm = date.getMonth() + 1;
     let yyyy = date.getFullYear();
 
-    if(isForDateInput){
+    if (isForDateInput) {
         return `${yyyy}-${(mm < 10) ? '0' + mm : mm}-${(dd < 10) ? '0' + dd : dd}`;
     }
     return `${(dd < 10) ? '0' + dd : dd}/${(mm < 10) ? '0' + mm : mm}/${yyyy}`;
 }
 
-function FormatMoneyString(text){
+function FormatMoneyString(text) {
     return text.toString().replace(/(\d)(?=(\d{3})+(?!\d))/g, '$1.');
 }
 
-function WorkStatusCode2Text(statusCode){
+function WorkStatusCode2Text(statusCode) {
     switch (statusCode) {
-        case 1 : return "Đang làm việc";
-        case 2 : return "Đang thử việc";
-        case 3 : return "Sắp nghỉ việc";
+        case 1: return "Đang làm việc";
+        case 2: return "Đang thử việc";
+        case 3: return "Sắp nghỉ việc";
         default: return "Đã nghỉ việc";
     }
 }
 
-function WorkStatusText2Code(text){
+function WorkStatusText2Code(text) {
     switch (text) {
         case "Đang làm việc": return 1;
         case "Đang thử việc": return 2;
         case "Sắp nghỉ việc": return 3;
-        default: return 3; 
+        default: return 3;
     }
 }
 
-function GenderCode2Text(code){
+function GenderCode2Text(code) {
     switch (code) {
-        case 0 : return "Nữ";
-        case 1 : return "Nam";
-        case 2 : return "Không xác định";
+        case 0: return "Nữ";
+        case 1: return "Nam";
+        case 2: return "Không xác định";
         default: return "";
     }
 }
 
-function GenderText2Code(text){
+function GenderText2Code(text) {
     switch (text) {
-        case "Nữ"               : return 0;
-        case "Nam"              : return 1;
-        case "Không xác định"   : return 2;
-        default                 : return 3;
+        case "Nữ": return 0;
+        case "Nam": return 1;
+        case "Không xác định": return 2;
+        default: return 3;
     }
 }
 
-function GetDepartmentIdFromName(name){
+function GetDepartmentIdFromName(name) {
     var stored = localStorage['department'];
     var res = null;
-    if(stored){
+    if (stored) {
         let data = JSON.parse(stored);
-        for(let i = 0; i < data.length; i++){
-            if(data[i].DepartmentName == name){
+        for (let i = 0; i < data.length; i++) {
+            if (data[i].DepartmentName == name) {
                 // console.log('dep', data[i].DepartmentId);
                 res = data[i].DepartmentId;
                 break;
@@ -73,13 +73,13 @@ function GetDepartmentIdFromName(name){
     return res;
 }
 
-function GetPositionIdFromName(name){
+function GetPositionIdFromName(name) {
     var stored = localStorage['position'];
     var res = null;
-    if(stored){
+    if (stored) {
         let data = JSON.parse(stored);
-        for(let i = 0; i < data.length; i++){
-            if(data[i].PositionName == name){
+        for (let i = 0; i < data.length; i++) {
+            if (data[i].PositionName == name) {
                 // console.log('pos', data[i].PositionId);
                 res = data[i].PositionId;
                 break;
@@ -89,24 +89,24 @@ function GetPositionIdFromName(name){
     return res;
 }
 
-function GetEmployeeIdByEmployeeCode(code){
+function GetEmployeeIdByEmployeeCode(code) {
     var data = JSON.parse(localStorage['employees']);
-    for(let i = 0; i < data.length; i++){
-        if(code == data[i].EmployeeCode){
+    for (let i = 0; i < data.length; i++) {
+        if (code == data[i].EmployeeCode) {
             return data[i].EmployeeId;
         }
     }
 }
 
-function RemoveFromDeleteList(id){
+function RemoveFromDeleteList(id) {
     var deleteList = JSON.parse(localStorage['deletelist']);
 
-    for(let i = 0; i < deleteList.length; i++){
-        if(deleteList[i].id == id){
+    for (let i = 0; i < deleteList.length; i++) {
+        if (deleteList[i].id == id) {
             deleteList.splice(i, 1);
         }
     }
-    
+
     localStorage['deletelist'] = JSON.stringify(deleteList);
     return deleteList;
 }
@@ -118,8 +118,18 @@ function RemoveFromDeleteList(id){
  * @returns 
  * From stackoverflow
  */
- function getRandomInt(min, max) {
+function getRandomInt(min, max) {
     min = Math.ceil(min);
     max = Math.floor(max);
     return Math.floor(Math.random() * (max - min + 1)) + min;
+}
+
+function IsValidEmail(email) {
+    var reg = /\S+@\S+\.\S+/;
+    return reg.test(email);
+}
+
+function IsValidPhoneNumber(phoneNumber){
+    var reg = /0[0-9]{9,11}$/;
+    return reg.test(phoneNumber);
 }

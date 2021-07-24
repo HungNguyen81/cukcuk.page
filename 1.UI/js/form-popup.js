@@ -75,7 +75,14 @@ function ValidateForm() {
     var isEmpty5 = IsEmpty(phoneNumber, 'phone-number');
     var isEmpty = isEmpty1 || isEmpty2 || isEmpty3 || isEmpty4 || isEmpty5;
 
+    var isValidEmail = IsValidEmail(email);
+    var isValidPhoneNumber = IsValidPhoneNumber(phoneNumber);
+
+    console.log(isValidEmail, isValidPhoneNumber);
+
+    var isValid = isValidEmail && isValidPhoneNumber;
     if (isEmpty) return null;
+    if (!isValid) return null;
 
     // validate email format
     // ...
