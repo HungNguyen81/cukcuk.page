@@ -110,3 +110,16 @@ function RemoveFromDeleteList(id){
     localStorage['deletelist'] = JSON.stringify(deleteList);
     return deleteList;
 }
+
+/**
+ * 
+ * @param {any} min 
+ * @param {any} max 
+ * @returns 
+ * From stackoverflow
+ */
+ function getRandomInt(min, max) {
+    min = Math.ceil(min);
+    max = Math.floor(max);
+    return Math.floor(Math.random() * (max - min + 1)) + min;
+}

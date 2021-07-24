@@ -40,7 +40,7 @@ function GetNewEmployeeCode(callback) {
 }
 
 function PostNewEmployee1(){
-    for(let i = 1; i < 400; i++){
+    for(let i = 800; i < 1200; i++){
         SendRandomRequest(i);
     }
 }
@@ -81,24 +81,13 @@ function PostNewEmployee() {
     });
 }
 
-/**
- * 
- * @param {any} min 
- * @param {any} max 
- * @returns 
- * From stackoverflow
- */
-function getRandomInt(min, max) {
-    min = Math.ceil(min);
-    max = Math.floor(max);
-    return Math.floor(Math.random() * (max - min + 1)) + min;
-}
-
 function SendRandomRequest(number) {
     var Ho = ['Lê', 'Nguyễn', 'Trần', 'Lê Hữu', 'Lý', 'Lương', 'Phạm', 'Đỗ', 'Võ', 'Lưu', 'Đậu', 'Trương', 'Hồ', 'Văn', 'Mạc'];
     var TenLot = ['Ngọc', 'Đức', 'Văn', 'Việt', 'Tiến', 'Thị', 'Khánh', 'Thu', 'Thủy'];
     var Ten = ['Hưng', 'Hùng', 'Dũng', 'Lan', 'Thu', 'Huyền', 'Trâm', 'Huy', 'Đức', 'Long', 'Tú', 'Tùng', 'Đức', 'Ngọc', 'Loan', 'Hường', 'Tú', 'Lan', 'Mạnh'];
 
+    var pos = JSON.parse(localStorage['position']);
+    var dep = JSON.parse(localStorage['department']);
     var settings = {
         "url": "http://cukcuk.manhnv.net/v1/Employees",
         "method": "POST",
@@ -111,7 +100,7 @@ function SendRandomRequest(number) {
             "createdBy": "Hungnn",
             "modifiedBy": "Hungnn",
             "employeeId": "0760cdff-e8a0-11eb-94eb-42010a8c0002",
-            "employeeCode": `MF-${number}`,
+            "employeeCode": `NV-${number}`,
             "fullName": `${Ho[getRandomInt(0, Ho.length)]} ${TenLot[getRandomInt(0, TenLot.length)]} ${Ten[getRandomInt(0, Ten.length)]}`,
             "gender": getRandomInt(1,4),
             "dateOfBirth": "2000-01-08T12:00:23.591Z",
@@ -125,8 +114,8 @@ function SendRandomRequest(number) {
             "workStatus": getRandomInt(1,4),
             "personalTaxCode": `${Math.round(Math.random() * 10000000)}`,
             "salary": Math.floor(Math.random() * 1000000000),
-            "positionId": "548dce5f-5f29-4617-725d-e2ec561b0f41",
-            "departmentId": "17120d02-6ab5-3e43-18cb-66948daf6128",
+            "positionId": pos[getRandomInt(0,pos.length)%pos.length].PositionId,
+            "departmentId": dep[getRandomInt(0,dep.length)%dep.length].DepartmentId,
         }),
     };
 

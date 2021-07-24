@@ -5,6 +5,7 @@ function GetDepartments() {
     }).done(data => {        
 
         localStorage['department'] = JSON.stringify(data);
+        console.log(data);
 
         FillDropdownData(data, true, 'departments');
 
