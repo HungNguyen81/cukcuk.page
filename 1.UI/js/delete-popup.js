@@ -62,7 +62,8 @@ class Popup {
     SendRequests = () => {        
         this.CloseErrorPopup();
         this._data.forEach(e => {
-            SendDELETERequest(e.id);            
+            SendDELETERequest(e.id);              
         });
+        ToggleDeleteButton('hidden');
     }
 }

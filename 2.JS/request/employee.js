@@ -9,7 +9,7 @@ function GetNumberOfEmployees(callback) {
         url: 'http://cukcuk.manhnv.net/v1/Employees', //https://cukcuk-app.herokuapp.com/api/Employee
         method: 'GET'
     }).done(data => {
-        console.log("ok");
+        // console.log("ok");
         var tableEmployee = $('.table-employee > tbody');
         tableEmployee.innerHTML = '';
 
@@ -78,7 +78,6 @@ function PostNewEmployee() {
     };
 
     $.ajax(settings).done(function (response) {
-        // console.log(response);
         ClosePopup();
         InitTableData();
     });
@@ -138,7 +137,6 @@ function SendDELETERequest(id) {
     };
 
     $.ajax(settings).done(function () {
-        // console.log('DELETE :', id);
         RemoveFromDeleteList(id);
         GetNumberOfEmployees(UpdateEmployeeTable);
     });
