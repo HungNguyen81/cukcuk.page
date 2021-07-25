@@ -29,7 +29,9 @@ function InitDropdownListener() {
     }
 
     for (let i = 0; i < dropdownContainers.length; i++) {
-        if(dropdownContainers[i].classList.contains('drop-number-of-row')){
+        if(dropdownContainers[i].classList.contains('drop-number-of-row') 
+        || dropdownContainers[i].classList.contains('drop-down-restaurant'))
+        {
             dropdownContainers[i].setAttribute('onclick', 'ToggleDropData(this)');    
         } else {
             dropdownContainers[i].setAttribute('onclick', 'ShowDropData(this)');

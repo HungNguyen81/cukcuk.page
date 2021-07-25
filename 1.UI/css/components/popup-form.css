@@ -213,36 +213,6 @@
     justify-content: flex-end;
 }
 
-/* .form-footer .button-save{
-    margin-left: 16px;
-    margin-right: 24px;
-    display: flex;
-    align-items: center;
-    padding-left: 16px;
-    padding-right: 16px;
-}
-
-.form-footer .button-save .icon-save{
-    width: 16px;
-    height: 16px;
-    background-image: url('../../content/icon/document-online.png');
-    background-size: 16px;
-    filter: brightness(10);
-    margin-right: 8px;
-} */
-
-/* .form-footer .button-cancel{
-    background-color: #bbb;
-    color: #000;
-    box-sizing: border-box;
-}
-.form-footer .button-cancel:hover{
-    background-color: #fff;
-}
-.form-footer .button-cancel:active{
-    background-color: #ccc;
-} */
-
 /* Custom scrollbar */
 /* ::-webkit-scrollbar {
     width: 4px;

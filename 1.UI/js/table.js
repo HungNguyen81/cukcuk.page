@@ -111,7 +111,7 @@ function FillTableData(pageSize, pageNumber) {
             // Set listener for currently inserted row 
             InitTableRowListener();
             MarkSelectedEmployees();
-            localStorage['checkedcount'] = 0;
+            localStorage['checkedcount'] = 0;            
         })
     } else {
         //  ...

@@ -3,7 +3,8 @@
  * GET All employee data
  * @param {callback function} callback 
  */
-function GetNumberOfEmployees(callback) {
+function GetNumberOfEmployees(callback) {    
+    document.getElementById('loader').removeAttribute('hidden');
     $.ajax({
         url: 'http://cukcuk.manhnv.net/v1/Employees', //https://cukcuk-app.herokuapp.com/api/Employee
         method: 'GET'
@@ -12,12 +13,13 @@ function GetNumberOfEmployees(callback) {
         var tableEmployee = $('.table-employee > tbody');
         tableEmployee.innerHTML = '';
 
-        localStorage['employees']       = JSON.stringify(FormatEmployeeData(data));
-        localStorage['numofemployees']  = data.length;
-        localStorage['currentpage']     = 1;
+        localStorage['employees'] = JSON.stringify(FormatEmployeeData(data));
+        localStorage['numofemployees'] = data.length;
+        localStorage['currentpage'] = 1;
         console.log("number of rows", data.length);
         localStorage['cached-employees'] = localStorage['employees'];
-
+        
+        document.getElementById('loader').setAttribute('hidden', true);
         callback();
     }).fail(res => {
         // ...
@@ -40,8 +42,8 @@ function GetNewEmployeeCode(callback) {
     })
 }
 
-function PostNewEmployee1(){
-    for(let i = 1; i < 1500; i++){
+function PostNewEmployee1() {
+    for (let i = 1; i < 1500; i++) {
         SendRandomRequest(i);
     }
 }
@@ -50,11 +52,11 @@ function PostNewEmployee1(){
  * POST new employee to server
  * Author: Hungnguyen81
  */
-function PostNewEmployee() {    
+function PostNewEmployee() {
     var postData = ValidateForm();
     var id = '';
     var action = $('#save-button').attr('action');
-    if(action == "PUT"){
+    if (action == "PUT") {
         id = localStorage['employeeid'];
     }
 
@@ -103,7 +105,7 @@ function SendRandomRequest(number) {
             "employeeId": "0760cdff-e8a0-11eb-94eb-42010a8c0002",
             "employeeCode": `NV-${number}`,
             "fullName": `${Ho[getRandomInt(0, Ho.length)]} ${TenLot[getRandomInt(0, TenLot.length)]} ${Ten[getRandomInt(0, Ten.length)]}`,
-            "gender": getRandomInt(1,4),
+            "gender": getRandomInt(1, 4),
             "dateOfBirth": "2000-01-08T12:00:23.591Z",
             "phoneNumber": `0${Math.round(Math.random() * 1000000000)}`,
             "email": `nhanvien.MF${number}@misa.cukcuk.vn`,
@@ -112,11 +114,11 @@ function SendRandomRequest(number) {
             "identityDate": "2021-07-19T14:30:23.591Z",
             "identityPlace": "AMERICA",
             "joinDate": "2021-07-19T14:30:23.591Z",
-            "workStatus": getRandomInt(1,4),
+            "workStatus": getRandomInt(1, 4),
             "personalTaxCode": `${Math.round(Math.random() * 10000000)}`,
             "salary": Math.floor(Math.random() * 1000000000),
-            "positionId": pos[getRandomInt(0,pos.length)%pos.length].PositionId,
-            "departmentId": dep[getRandomInt(0,dep.length)%dep.length].DepartmentId,
+            "positionId": pos[getRandomInt(0, pos.length) % pos.length].PositionId,
+            "departmentId": dep[getRandomInt(0, dep.length) % dep.length].DepartmentId,
         }),
     };
 

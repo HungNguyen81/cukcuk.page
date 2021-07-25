@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta property="og:image" content="http://cukcuk-hungnguyen81.herokuapp.com/1.UI/content/img/thumb.png"/>
+    <meta property="og:image" content="http://cukcuk-hungnguyen81.herokuapp.com/1.UI/content/img/thumb.png" />
     <title>Phần mềm quản lý nhà hàng - CUKCUK.VN</title>
     <link rel="shortcut icon" href="../content/icon/favicon.ico" type="image/x-icon">
     <link rel="stylesheet" href="../css/main.css">
@@ -14,7 +14,8 @@
     <link rel="stylesheet" href="../css/components/popup-form.css">
     <link rel="stylesheet" href="../content/font/fontawesome-5.15.1/css/all.min.css">
     <link rel="stylesheet" href="../css/base/combobox.css">
-    <link rel="stylesheet" href="../css/base/delete-popup.css">
+    <link rel="stylesheet" href="../css/components/delete-popup.css">
+    <link rel="stylesheet" href="../css/base/loader.css">
 
     <script src="../../2.JS/lib/jquery-3.6.0.min.js"></script>
 </head>
@@ -110,8 +111,8 @@
 
             <div class="combobox-container dropdown-positions">
                 <div class="combobox">
-                    <input type="text" class="combobox-input textbox-default" value="Tất cả vị trí"
-                        filter="position" onkeyup="ComboboxInputChange(this)">
+                    <input type="text" class="combobox-input textbox-default" value="Tất cả vị trí" filter="position"
+                        onkeyup="ComboboxInputChange(this)">
                     <div class="x-icon" hidden="true" onclick="ClearInputText(this)">
                         <i class="fas fa-times"></i>
                     </div>
@@ -125,7 +126,7 @@
                         <div class="item-text">Tất cả vị trí</div>
                     </div> -->
                 </div>
-            </div>            
+            </div>
             <div class="button-refresh" onclick="GetNumberOfEmployees(UpdateEmployeeTable);"></div>
         </div>
         <div class="content-table">
@@ -216,28 +217,19 @@
                     <div class="input-row">
                         <div class="input-field">
                             <div class="input-label">Mã nhân viên (<span class="required">*</span>)</div>
-                            <input type="text" 
-                                class="textbox-default input-form" 
-                                id="employee-code" 
-                                value="NV000001"
-                                tabindex="1"
-                                onkeyup="TextInputChange(this)">
+                            <input type="text" class="textbox-default input-form" id="employee-code" value="NV000001"
+                                tabindex="1" onkeyup="TextInputChange(this)">
                         </div>
                         <div class="input-field">
                             <div class="input-label">Họ và tên (<span class="required">*</span>)</div>
-                            <input type="text" class="textbox-default input-form" id="fullname"
-                                value="Nguyễn Ngọc Hưng"
-                                tabindex="2"
-                                onkeyup="TextInputChange(this)">
+                            <input type="text" class="textbox-default input-form" id="fullname" value="Nguyễn Ngọc Hưng"
+                                tabindex="2" onkeyup="TextInputChange(this)">
                         </div>
                     </div>
                     <div class="input-row">
                         <div class="input-field">
                             <div class="input-label">Ngày sinh</div>
-                            <input type="date" 
-                                class="textbox-default input-form input-form" 
-                                id="dob"
-                                value="2000-01-08"
+                            <input type="date" class="textbox-default input-form input-form" id="dob" value="2000-01-08"
                                 tabindex="3">
                         </div>
                         <div class="input-field">
@@ -268,45 +260,31 @@
                         <div class="input-field">
                             <div class="input-label">Số CMTND/ Căn cước (<span class="required">*</span>)</div>
                             <input type="text" class="textbox-default input-form" id="identity-number"
-                                value="038200009999"
-                                tabindex="5"
-                                onkeyup="TextInputChange(this)">
+                                value="038200009999" tabindex="5" onkeyup="TextInputChange(this)">
                         </div>
                         <div class="input-field">
                             <div class="input-label">Ngày cấp</div>
-                            <input type="date" class="textbox-default input-form" id="identity-date"
-                                value="2020-01-08"
+                            <input type="date" class="textbox-default input-form" id="identity-date" value="2020-01-08"
                                 tabindex="6">
                         </div>
                     </div>
                     <div class="input-row">
                         <div class="input-field">
                             <div class="input-label">Nơi cấp </div>
-                            <input type="text" 
-                                class="textbox-default input-form" 
-                                id="identity-place"
-                                value="Tỉnh Thanh Hóa"
-                                tabindex="7">
+                            <input type="text" class="textbox-default input-form" id="identity-place"
+                                value="Tỉnh Thanh Hóa" tabindex="7">
                         </div>
                     </div>
                     <div class="input-row">
                         <div class="input-field">
                             <div class="input-label">Email (<span class="required">*</span>)</div>
-                            <input type="text" 
-                                class="textbox-default input-form" 
-                                id="email"
-                                value="nguyenngochung.ncth@gmail.com"
-                                tabindex="8"
-                                onkeyup="TextInputChange(this)">
+                            <input type="text" class="textbox-default input-form" id="email"
+                                value="nguyenngochung.ncth@gmail.com" tabindex="8" onkeyup="TextInputChange(this)">
                         </div>
                         <div class="input-field">
                             <div class="input-label">Số điện thoại (<span class="required">*</span>)</div>
-                            <input type="text" 
-                                class="textbox-default input-form" 
-                                id="phone-number"
-                                value="0334004655"
-                                tabindex="9"
-                                onkeyup="TextInputChange(this)">
+                            <input type="text" class="textbox-default input-form" id="phone-number" value="0334004655"
+                                tabindex="9" onkeyup="TextInputChange(this)">
                         </div>
                     </div>
                     <div class="header-row">
@@ -344,29 +322,21 @@
                     <div class="input-row">
                         <div class="input-field">
                             <div class="input-label">Mã số thuế cá nhân </div>
-                            <input type="text" class="textbox-default input-form" 
-                                id="tax-code" 
-                                value="123456789"
+                            <input type="text" class="textbox-default input-form" id="tax-code" value="123456789"
                                 tabindex="12">
                         </div>
                         <div class="input-field">
                             <div class="input-label">Mức lương cơ bản </div>
-                            <input type="text" 
-                                class="textbox-default input-form input-salary" 
-                                id="salary"
-                                value="100.000.000"
-                                tabindex="13"
-                                onkeyup="LiveFormatSalaryInput(this)">
+                            <input type="text" class="textbox-default input-form input-salary" id="salary"
+                                value="100.000.000" tabindex="13" onkeyup="LiveFormatSalaryInput(this)">
                         </div>
                         <div class="money-unit">(VNĐ)</div>
                     </div>
                     <div class="input-row">
                         <div class="input-field">
                             <div class="input-label">Ngày gia nhập công ty</div>
-                            <input type="date" placeholder="dd-mm-yyyy" 
-                                class="textbox-default input-form"
-                                id="join-date" value="2021-07-12"
-                                tabindex="14">
+                            <input type="date" placeholder="dd-mm-yyyy" class="textbox-default input-form"
+                                id="join-date" value="2021-07-12" tabindex="14">
                         </div>
                         <div class="input-field">
                             <div class="input-label">Tình trạng công việc </div>
@@ -406,15 +376,20 @@
     </div>
 
     <div id="popup"></div>
+    <div id="loader" hidden>
+        <div class="spinner-wrapper">
+            <div class="spinner"></div>
+        </div>
+    </div>
 
     <script src="../content/font/fontawesome-5.15.1/js/all.min.js"></script>
     <script src="../js/init.js"></script>
     <script src="../../2.JS/utils.js"></script>
     <script src="../js/form-popup.js"></script>
-    <script src="../js/dropdown.js"></script>    
+    <script src="../js/dropdown.js"></script>
     <script src="../js/table.js"></script>
     <script src="../js/page-navigator-button.js"></script>
-    <script src="../js/live-search.js"></script>    
+    <script src="../js/live-search.js"></script>
     <script src="../../2.JS/request/department.js"></script>
     <script src="../../2.JS/request/position.js"></script>
     <script src="../../2.JS/request/employee.js"></script>
