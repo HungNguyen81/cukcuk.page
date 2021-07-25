@@ -64,7 +64,6 @@ function GetDepartmentIdFromName(name) {
         let data = JSON.parse(stored);
         for (let i = 0; i < data.length; i++) {
             if (data[i].DepartmentName == name) {
-                // console.log('dep', data[i].DepartmentId);
                 res = data[i].DepartmentId;
                 break;
             }
@@ -80,7 +79,6 @@ function GetPositionIdFromName(name) {
         let data = JSON.parse(stored);
         for (let i = 0; i < data.length; i++) {
             if (data[i].PositionName == name) {
-                // console.log('pos', data[i].PositionId);
                 res = data[i].PositionId;
                 break;
             }
@@ -129,7 +127,16 @@ function IsValidEmail(email) {
     return reg.test(email);
 }
 
-function IsValidPhoneNumber(phoneNumber){
+function IsValidPhoneNumber(phoneNumber) {
     var reg = /0[0-9]{9,11}$/;
     return reg.test(phoneNumber);
+}
+
+/**
+ * Chuyển chuỗi từ có dấu về không dấu
+ * @param {string} str 
+ * @returns chuỗi không dấu
+ */
+function RemoveAccents(str) {
+    return str.normalize('NFD').replace(/[\u0300-\u036f]/g, '');
 }

@@ -70,3 +70,34 @@
 .button-navigator:hover{
     background-color: #fff;
 }
+
+.button-save{
+    margin-left: 16px;
+    margin-right: 24px;
+    display: flex;
+    align-items: center;
+    padding-left: 16px;
+    padding-right: 16px;
+}
+
+.button-save .icon-save{
+    width: 16px;
+    height: 16px;
+    background-image: url('../../content/icon/document-online.png');
+    background-size: 16px;
+    filter: brightness(10);
+    margin-right: 8px;
+}
+
+.button-cancel{
+    background-color: transparent;
+    color: #000;
+    box-sizing: border-box;
+}
+.button-cancel:hover{
+    background-color: #fff;
+}
+.button-cancel:active{
+    background-color: #ccc;
+}
+

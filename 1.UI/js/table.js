@@ -3,23 +3,31 @@ function InitTableData() {
     localStorage['currentpage'] = 1;
 }
 
+/**
+ * Refresh table
+ * Hungnn
+ */
 function UpdateEmployeeTable() {
     var pageSize = GetPageSizeDefault();
     FillTableData(pageSize, 1);
     ChangeCurrentPageLabel(pageSize, 1);
-    UpdatePagingBar();
-    // ToggleDeleteButton('hidden');
+    UpdatePagingBar();    
 }
 
 function BackupEmployees() {
     var data = localStorage['cached-employees'];
-    if (data) {
-        // console.log(data)
+    if (data) {        
         localStorage['employees'] = data;
         localStorage['numofemployees'] = JSON.parse(data).length;
     }
 }
 
+/**
+ * 
+ * @param {JSON} data 
+ * @returns formatted data from raw data
+ * Hungnn
+ */
 function FormatEmployeeData(data) {
     data.forEach(e => {
         e.EmployeeCode = (e.EmployeeCode) ? e.EmployeeCode : '';
@@ -56,10 +64,19 @@ function FormatEmployeeData(data) {
     return data;
 }
 
+/**
+ * 
+ * @returns page size from dropdown
+ */
 function GetPageSizeDefault() {
     return Number(document.querySelector('#number-of-rows').innerText.split(' ')[0]);
 }
 
+/**
+ * Append table row to table
+ * @param {Number} pageSize 
+ * @param {Number} pageNumber 
+ */
 function FillTableData(pageSize, pageNumber) {
     var stored = localStorage['employees'];
     var data;
@@ -91,11 +108,8 @@ function FillTableData(pageSize, pageNumber) {
         })
 
         Promise.all(promise).then(res => {
-            console.log('init row listener');
-
             // Set listener for currently inserted row 
             InitTableRowListener();
-            // ToggleDeleteButton('hidden');
             MarkSelectedEmployees();
             localStorage['checkedcount'] = 0;
         })
@@ -104,25 +118,26 @@ function FillTableData(pageSize, pageNumber) {
     }
 }
 
+/**
+ * Handle onclick event
+ * @param {tr element} row
+ * Hungnn 
+ */
 function SelectTableRow(row) {
     var checkbox = row.children[0].children[0].children[0];
 
     row.style.backgroundColor = (checkbox.checked) ? '#fff' : '#EBF4FF';
     checkbox.checked = !checkbox.checked;
-    var checkedCount = localStorage['checkedcount'];
+    var deleteList =  JSON.parse(localStorage['deletelist']);
+    var checkedCount = deleteList.length;
     var employeeCode = row.children[1].innerText;
-    var employeeId = GetEmployeeIdByEmployeeCode(employeeCode);
+    var employeeId = GetEmployeeIdByEmployeeCode(employeeCode);    
 
-    console.log((checkbox.checked) ? 'selected :' : 'un-selected :', employeeCode, employeeId);
-
-    localStorage['checkedcount'] = (checkbox.checked) ? ++checkedCount : --checkedCount;
-
-    var stored = localStorage['deletelist'];
-    var deleteList = [];
-
-    if (stored) {
-        deleteList = JSON.parse(stored);
-    }
+    if(checkbox.checked){
+        ++checkedCount 
+    } else {
+        --checkedCount;
+    }     
 
     if (!checkedCount) {
         ToggleDeleteButton('hidden');
@@ -135,12 +150,12 @@ function SelectTableRow(row) {
             deleteList.push({
                 "code": employeeCode,
                 "id": employeeId
-            });
+            });            
         } else {
             deleteList = RemoveFromDeleteList(employeeId);
         }
+        
         localStorage['deletelist'] = JSON.stringify(deleteList);
-        console.log(deleteList);
     }
 }
 
@@ -148,6 +163,10 @@ function ToggleDeleteButton(value) {
     $('#button-delete').css('visibility', value);
 }
 
+/**
+ * Mark selected rows when change page
+ * Hungnn
+ */
 function MarkSelectedEmployees() {
     var rows = document.querySelectorAll(".table-employee tbody > tr");
     var deleteList = JSON.parse(localStorage['deletelist']);

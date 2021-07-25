@@ -29,7 +29,13 @@ function InitDropdownListener() {
     }
 
     for (let i = 0; i < dropdownContainers.length; i++) {
-        dropdownContainers[i].setAttribute('onclick', 'ToggleDropData(this)');
+        if(dropdownContainers[i].classList.contains('drop-number-of-row')){
+            dropdownContainers[i].setAttribute('onclick', 'ToggleDropData(this)');    
+        } else {
+            dropdownContainers[i].setAttribute('onclick', 'ShowDropData(this)');
+        }
+        
+        // dropdownContainers[i].setAttribute('onfocus', 'ToggleDropData(this)');
     }
 
     for (let i = 0; i < comboboxInputs.length; i++) {

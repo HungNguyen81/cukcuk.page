@@ -66,7 +66,8 @@ function UpdateCurrentPageButton() {
     var currentPage = Number(localStorage['currentpage']);
 
     // New paging bar
-    $('.page-buttons > div').each(function (index) {;
+    $('.page-buttons > div').each(function (index) {
+        ;
         if ($(this).attr('class').split(' ').includes('button-current-page')) {
             $(this).removeClass('button-current-page');
         }
@@ -96,8 +97,7 @@ function UpdatePagingBar() {
 
     localStorage['numofpages'] = numOfPages;
 
-    // Remove all page btn (child of paging bar from index 3 to number-of-children - 3)
-
+    // Remove all page buttons
     for (let i = 0; i < pageBtns.children.length; i++) {
         let child = pageBtns.children[i];
         if (child.classList.contains('button-page-number')) {

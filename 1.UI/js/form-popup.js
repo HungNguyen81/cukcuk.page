@@ -78,7 +78,7 @@ function ValidateForm() {
     var isValidEmail = IsValidEmail(email);
     var isValidPhoneNumber = IsValidPhoneNumber(phoneNumber);
 
-    console.log(isValidEmail, isValidPhoneNumber);
+    // console.log(isValidEmail, isValidPhoneNumber);
 
     var isValid = isValidEmail && isValidPhoneNumber;
     if (isEmpty) return null;

@@ -8,6 +8,7 @@ function GetNumberOfEmployees(callback) {
         url: 'http://cukcuk.manhnv.net/v1/Employees', //https://cukcuk-app.herokuapp.com/api/Employee
         method: 'GET'
     }).done(data => {
+        console.log("ok");
         var tableEmployee = $('.table-employee > tbody');
         tableEmployee.innerHTML = '';
 
@@ -40,7 +41,7 @@ function GetNewEmployeeCode(callback) {
 }
 
 function PostNewEmployee1(){
-    for(let i = 800; i < 1200; i++){
+    for(let i = 1; i < 1500; i++){
         SendRandomRequest(i);
     }
 }
@@ -58,10 +59,10 @@ function PostNewEmployee() {
     }
 
     if (!postData) {
-        console.log("not validated");
+        // console.log("not validated");
         return;
     }
-    console.log("validated", action);
+    // console.log("validated", action);
     // console.log('data:',postData);
 
     var settings = {
@@ -75,7 +76,7 @@ function PostNewEmployee() {
     };
 
     $.ajax(settings).done(function (response) {
-        console.log(response);
+        // console.log(response);
         ClosePopup();
         InitTableData();
     });
@@ -135,7 +136,7 @@ function SendDELETERequest(id) {
     };
 
     $.ajax(settings).done(function () {
-        console.log('DELETE :', id);
+        // console.log('DELETE :', id);
         RemoveFromDeleteList(id);
         GetNumberOfEmployees(UpdateEmployeeTable);
     });
@@ -143,9 +144,6 @@ function SendDELETERequest(id) {
 
 function DeleteSelectedEmployees() {
     var deleteList = JSON.parse(localStorage['deletelist']);
-
-    deleteList.forEach(e => {
-        SendDELETERequest(e.id);
-    });
+    new Popup(deleteList);
 }
 

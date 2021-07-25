@@ -19,14 +19,14 @@ function TableLiveSearch(input) {
 
         // Search by employee code
         if (e.EmployeeCode.toUpperCase().search(searchContent) != -1) {
-            console.log("s1:", e.EmployeeCode);
+            // console.log("s1:", e.EmployeeCode);
             isEmpCodeFound = true;
             result.push(e);
         }
 
         // Search by fullname
         if (e.FullName.toUpperCase().search(searchContent) != -1) {
-            console.log("s2:", e.EmployeeCode, e.FullName);
+            // console.log("s2:", e.EmployeeCode, e.FullName);
             isNameFound = true;
             if (!isEmpCodeFound) {
                 result.push(e);
@@ -35,7 +35,7 @@ function TableLiveSearch(input) {
 
         // Search by phone number
         if (e.PhoneNumber.search(searchContent) != -1) {
-            console.log("s3:", e.PhoneNumber, e.FullName);
+            // console.log("s3:", e.PhoneNumber, e.FullName);
             isPhoneNumFound = true;
             if (!isEmpCodeFound && !isNameFound) {
                 result.push(e);
@@ -46,12 +46,11 @@ function TableLiveSearch(input) {
             isFound = true;
         }
     });
-
-    console.log("..............................")
+    // console.log("..............................")
 
     if (!isFound) {
         console.log("not found");
-        // InitTableData();
+
         $('.table-employee > tbody').html('');
 
         localStorage['currentpage'] = 1;
@@ -63,37 +62,23 @@ function TableLiveSearch(input) {
         // Toast Message
         // ...
     } else {
+        result.sort(function(x,y){
+            let X = x.FullName.split(' ');
+            let Y = y.FullName.split(' ');
+            let a = X[X.length-1];
+            let b = Y[Y.length-1];
+            return a.localeCompare(b);
+        });
         localStorage['currentpage'] = 1;
         localStorage['numofemployees'] = result.length;
         localStorage['employees'] = JSON.stringify(result);
 
-        console.log('Search result length:', result.length)
+        // console.log('Search result length:', result.length)
 
         let pageSize = GetPageSizeDefault();
 
         FillTableData(pageSize, 1);
         UpdatePagingBar();
         ChangeCurrentPageLabel(pageSize, 1);
-        // BackupEmployees();
     }
 }
-
-// function ComboboxLiveSearch(input){
-//     var filter = input.getAttribute('filter');
-//     switch(filter){
-//         case 'department':
-//             CbxDepartmentFilter();
-//             break;
-//         case 'position':
-//             CbxPositionFilter();
-//             break;
-//     }
-// }
-
-// function CbxDepartmentFilter(){
-//     console.log('d');
-// }
-
-// function CbxPositionFilter(){
-//     console.log('p');
-// }

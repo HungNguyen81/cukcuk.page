@@ -213,7 +213,7 @@
     justify-content: flex-end;
 }
 
-.form-footer .button-save{
+/* .form-footer .button-save{
     margin-left: 16px;
     margin-right: 24px;
     display: flex;
@@ -229,9 +229,9 @@
     background-size: 16px;
     filter: brightness(10);
     margin-right: 8px;
-}
+} */
 
-.form-footer .button-cancel{
+/* .form-footer .button-cancel{
     background-color: #bbb;
     color: #000;
     box-sizing: border-box;
@@ -241,7 +241,7 @@
 }
 .form-footer .button-cancel:active{
     background-color: #ccc;
-}
+} */
 
 /* Custom scrollbar */
 /* ::-webkit-scrollbar {

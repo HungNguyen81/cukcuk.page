@@ -1,6 +1,6 @@
 // on icon-container clicked
 function ShowDropData(container) {
-    console.log("show");
+    // console.log("show");
     var input = container.parentNode.children[0];
     var dataFilter = input.getAttribute('filter');
     var data = JSON.parse(localStorage[`${dataFilter}`]);
@@ -25,7 +25,7 @@ function ShowDropData(container) {
  * Hungnn
  */
 function ToggleDropData(container, mode) {
-    console.log("toggle");
+    // console.log("toggle");
     var data, dropData, dropIcon;
 
     // if container is a combobox
@@ -45,7 +45,7 @@ function ToggleDropData(container, mode) {
         dropIcon.style.webkitTransform = 'rotate(180deg)';
 
         if (container.classList.contains("combobox-icon-container")) {
-            container.setAttribute('onclick', 'ToggleDropData(this)');
+            container.setAttribute('onclick', 'ShowDropData(this)');
             // set selected item
             var items = dropData.children;
 
@@ -65,7 +65,7 @@ function ToggleDropData(container, mode) {
             dropIcon.style.webkitTransitionDuration = "0.2s";
             dropIcon.style.webkitTransform = 'rotate(0deg)';
             if (container.classList.contains("combobox-icon-container")) {
-                container.setAttribute('onclick', 'ShowDropData(this)');
+                container.setAttribute('onclick', 'ToggleDropData(this)');
             }
         }
     }
@@ -83,8 +83,6 @@ function ItemSelect(item) {
 
     // add class to selected item 
     item.classList.add("item-selected");
-
-    // if(parent.parentNode.classList.contains())
 
     // change display text content after selection
     var displayText = parent.parentNode.children[0].children[0];
@@ -125,7 +123,7 @@ function ComboboxInputChange(input) {
  * Hungnn (23/07/21)
  */
 function AutoCompleteCombobox(input, isUpshift) {
-    console.log("auto");
+    // console.log("auto");
     var dataFilter = input.getAttribute('filter');
     var key = dataFilter.charAt(0).toUpperCase() + dataFilter.slice(1);
     var value = 'Tất cả ' + ((dataFilter == 'position') ? 'vị trí' : 'phòng ban');
@@ -139,7 +137,6 @@ function AutoCompleteCombobox(input, isUpshift) {
 
     if (isUpshift) data.unshift(item);
 
-    console.log("auto-data", data);
     newData = [];
     for (let i = 0; i < data.length; i++) {
         if (dataFilter == 'position') {
@@ -159,11 +156,8 @@ function AutoCompleteCombobox(input, isUpshift) {
 
 function DisplayFilterResult() {
     BackupEmployees();
-    console.log('display filter result');
     var positionFilter = $('.dropdown-positions input').val().trim().toUpperCase();
     var departmentFilter = $('.dropdown-departments input').val().trim().toUpperCase();
-
-    console.log(positionFilter, departmentFilter);
 
     if (positionFilter.includes('TẤT CẢ VỊ TRÍ')) {
         positionFilter = '';
@@ -177,8 +171,6 @@ function DisplayFilterResult() {
     // clear table content
     $('.table-employee > tbody').html('');
 
-    // backup employees data
-    // localStorage['cached-employees'] = localStorage['employees'];
     let result = [];
     let isFound = false;
 
@@ -212,12 +204,12 @@ function DisplayFilterResult() {
         // Toast Message
         // ...
     } else {
-        console.log("found", "----------------");
+        // console.log("found", "----------------");
         localStorage['currentpage'] = 1;
         localStorage['numofemployees'] = result.length;
         localStorage['employees'] = JSON.stringify(result);
 
-        console.log('Search result length:', result.length)
+        // console.log('Search result length:', result.length)
 
         let pageSize = GetPageSizeDefault();
 
