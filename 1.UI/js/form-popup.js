@@ -242,4 +242,11 @@ function FillForm() {
     $('#salary').val(0);
     $('#join-date').val(DateFormat(new Date(), true));
     $('#work-status').text('');
+
+    // reset border color of required inputs
+    $('#employee-code').css('border-color', '#bbbbbb');
+    $('#fullname').css('border-color', '#bbbbbb');        
+    $('#identity-number').css('border-color', '#bbbbbb');        
+    $('#email').css('border-color', '#bbbbbb');
+    $('#phone-number').css('border-color', '#bbbbbb');
 }
