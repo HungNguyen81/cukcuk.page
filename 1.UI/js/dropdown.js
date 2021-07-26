@@ -1,4 +1,4 @@
-// on icon-container clicked
+// handle on icon-container clicked
 function ShowDropData(container) {
     // console.log("show");
     var input = container.parentNode.children[0];
@@ -155,7 +155,7 @@ function AutoCompleteCombobox(input, isUpshift) {
 }
 
 function DisplayFilterResult() {
-    BackupEmployees();
+    BackupEmployeesForFilter();
     var positionFilter = $('.dropdown-positions input').val().trim().toUpperCase();
     var departmentFilter = $('.dropdown-departments input').val().trim().toUpperCase();
 
@@ -199,17 +199,13 @@ function DisplayFilterResult() {
 
         ChangeCurrentPageLabel(GetPageSizeDefault(), 1);
         UpdatePagingBar();
-        // BackupEmployees();
 
         // Toast Message
         // ...
     } else {
-        // console.log("found", "----------------");
         localStorage['currentpage'] = 1;
         localStorage['numofemployees'] = result.length;
         localStorage['employees'] = JSON.stringify(result);
-
-        // console.log('Search result length:', result.length)
 
         let pageSize = GetPageSizeDefault();
 

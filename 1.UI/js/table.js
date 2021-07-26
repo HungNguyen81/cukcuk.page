@@ -17,8 +17,24 @@ function UpdateEmployeeTable() {
     UpdatePagingBar();    
 }
 
+/**
+ * Restore employee data when using search by code, name, phone-number
+ * Hungnn
+ */
 function BackupEmployees() {
     var data = localStorage['cached-employees'];
+    if (data) {        
+        localStorage['employees'] = data;
+        localStorage['numofemployees'] = JSON.parse(data).length;
+    }
+}
+
+/**
+ * Restore employee data when using search by filter
+ * Hungnn
+ */
+function BackupEmployeesForFilter(){
+    var data = localStorage['cached-employees-filter'];
     if (data) {        
         localStorage['employees'] = data;
         localStorage['numofemployees'] = JSON.parse(data).length;

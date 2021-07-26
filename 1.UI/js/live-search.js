@@ -72,8 +72,7 @@ function TableLiveSearch(input) {
         localStorage['currentpage'] = 1;
         localStorage['numofemployees'] = result.length;
         localStorage['employees'] = JSON.stringify(result);
-
-        // console.log('Search result length:', result.length)
+        localStorage['cached-employees-filter'] = JSON.stringify(result);
 
         let pageSize = GetPageSizeDefault();
 
