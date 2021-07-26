@@ -33,17 +33,19 @@ function OpenPopup(row) {
     employeeIdInput.focus();
 }
 
-function ClosePopup() {
-    new PopupMessage('Xác nhận đóng Form !', function(){
+function ClosePopup(msg, callback) {
+    new PopupMessage(msg, function(){
         console.log("close form");
         form.style.display = "none";
         form.removeEventListener('click', MyFunc);
-    });
+
+        if(callback) callback();
+    }, false);
 }
 
 function MyFunc(e) {
     if (!document.getElementById('form-container').contains(e.target)) {
-        ClosePopup();
+        ClosePopup('Xác nhận đóng Form !');
     }
 }
 
@@ -76,7 +78,8 @@ function ValidateForm(action) {
             for (let i = 0; i < stored.length; i++) {
                 let e = stored[i];
                 if (e.EmployeeCode == employeeCode) {
-                    new PopupMessage(`Mã nhân viên <b>${employeeCode}</b> đã tồn tại trong hệ thống. Vui lòng tạo mã nhân viên khác!`, 'OK');
+                    new PopupMessage(`Mã nhân viên <b>${employeeCode}</b> đã tồn tại trong hệ thống. Vui lòng tạo mã nhân viên khác!`,
+                                     'OK', true);
                     return null;
                 }
             }
@@ -109,11 +112,11 @@ function ValidateForm(action) {
     if (!isValidPhoneNumber) listValid.push('Số điện thoại');
 
     if (isEmpty) {
-        new PopupMessage(`<b>${listRequired.join(', ')}</b> đang để trống. Vui lòng nhập lại!`, 'OK');
+        new PopupMessage(`<b>${listRequired.join(', ')}</b> đang để trống. Vui lòng nhập lại!`, 'OK', true);
         return null
     };
     if (!isValid) {
-        new PopupMessage(`<b>${listValid.join(', ')}</b> chưa đúng định dạng. Vui lòng kiểm tra lại`, 'OK')
+        new PopupMessage(`<b>${listValid.join(', ')}</b> chưa đúng định dạng. Vui lòng kiểm tra lại`, 'OK', true)
         return null;
     }
 

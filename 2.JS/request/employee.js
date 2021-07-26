@@ -76,8 +76,8 @@ function PostNewEmployee() {
     };
 
     $.ajax(settings).done(function (response) {
-        ClosePopup();
-        InitTableData();
+        ClosePopup(`Đã ${(action == 'PUT')? 'sửa':'thêm'} nhân viên thành công!`, InitTableData);
+        // InitTableData();
     });
 }
 
