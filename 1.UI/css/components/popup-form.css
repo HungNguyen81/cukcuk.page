@@ -6,10 +6,10 @@
     width: 100%;
     height: 100%;
     display: none;
-    z-index: 9;
+    z-index: 9;    
 }
 
-.form-container{
+.form-container{    
     width: 666px;
     height: 850px;
     position: absolute;

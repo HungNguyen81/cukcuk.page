@@ -15,7 +15,7 @@ function Init() {
     InitPagingBtnListener();
 
     localStorage['deletelist'] = '[]';
-    
+
 }
 
 // add event listener to all dropdown items
@@ -29,15 +29,9 @@ function InitDropdownListener() {
     }
 
     for (let i = 0; i < dropdownContainers.length; i++) {
-        if(dropdownContainers[i].classList.contains('drop-number-of-row') 
-        || dropdownContainers[i].classList.contains('drop-down-restaurant'))
-        {
-            dropdownContainers[i].setAttribute('onclick', 'ToggleDropData(this)');    
-        } else {
-            dropdownContainers[i].setAttribute('onclick', 'ShowDropData(this)');
-        }
-        
-        // dropdownContainers[i].setAttribute('onfocus', 'ToggleDropData(this)');
+        dropdownContainers[i].setAttribute('onclick', 'ToggleDropData(this)');
+        dropdownContainers[i].setAttribute('onkeydown', 'SelectWhenPressKey(event, this)');
+        dropdownContainers[i].setAttribute('index', '0');
     }
 
     for (let i = 0; i < comboboxInputs.length; i++) {
@@ -45,11 +39,13 @@ function InitDropdownListener() {
         comboboxInputs[i].setAttribute('onblur', 'HideCloseButton(this)');
     }
 
+
+
     function HideDropDownWhenClickOutside(e) {
         var dropdowns = document.querySelectorAll('.dropdown-data');
         for (let i = 0; i < dropdowns.length; i++) {
             if (!dropdowns[i].contains(e.target) && !dropdowns[i].parentNode.contains(e.target)) {
-                
+
                 var dropIcon;
                 if (dropdowns[i].parentNode.classList.contains('combobox-container')) {
                     dropIcon = dropdowns[i].parentNode.children[0].children[2].children[0];

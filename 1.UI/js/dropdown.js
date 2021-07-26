@@ -52,10 +52,10 @@ function ToggleDropData(container, mode) {
             for (let i = 0; i < items.length; i++) {
                 var item = items[i];
                 // console.log(i,item)
-                if (item.children[1].innerText
-                    == container.parentNode.children[0].value) {
+                if (item.children[1].innerText == container.parentNode.children[0].value) {
                     item.classList.add('item-selected');
-                    return;
+                } else {
+                    item.classList.remove('item-selected');
                 }
             }
         }
@@ -262,4 +262,33 @@ function FillDropdownData(data, isAll, id, item) {
     })
 
     return data;
+}
+
+/**
+ * Select dropdown item by pressing up/down arrow key
+ * @param {Event} event 
+ * @param {.dropdown-container Element} dropContainer 
+ * Hungnn (26/07/21)
+ */
+function SelectWhenPressKey(event, dropContainer){
+    var name = event.key;
+    var items = dropContainer.children[1].children;
+    var maxIndex = items.length;
+    var index = Number(dropContainer.getAttribute('index'));    
+
+    if(name == 'Enter'){
+        ToggleDropData(dropContainer);
+    }
+    if(!dropContainer.getAttribute("hidden")){
+        if(name == 'ArrowDown'){            
+            ItemSelect(items[index]);
+            index = (index+1) % maxIndex;
+            dropContainer.setAttribute('index', index);         
+        }
+        if(name == 'ArrowUp'){            
+            ItemSelect(items[index]);
+            index = (index == 0)? maxIndex-1 : index-1;
+            dropContainer.setAttribute('index', index);         
+        }
+    }
 }

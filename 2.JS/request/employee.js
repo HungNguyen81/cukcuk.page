@@ -16,7 +16,6 @@ function GetNumberOfEmployees(callback) {
         localStorage['employees'] = JSON.stringify(FormatEmployeeData(data));
         localStorage['numofemployees'] = data.length;
         localStorage['currentpage'] = 1;
-        console.log("number of rows", data.length);
         localStorage['cached-employees'] = localStorage['employees'];
         
         document.getElementById('loader').setAttribute('hidden', true);
@@ -53,34 +52,13 @@ function PostNewEmployee1() {
  * Author: Hungnguyen81
  */
 function PostNewEmployee() {
+
     var postData = ValidateForm();
-    var id = '';
-    var action = $('#save-button').attr('action');
-    if (action == "PUT") {
-        id = localStorage['employeeid'];
-    }
-
-    if (!postData) {
-        // console.log("not validated");
+    if(!postData){
+        // new PopupMessage("Thông tin bạn nhập chưa đúng định dạng. Vui lòng nhập lại!", "OK");
         return;
-    }
-    // console.log("validated", action);
-    // console.log('data:',postData);
-
-    var settings = {
-        "url": `http://cukcuk.manhnv.net/v1/Employees/${id}`,
-        "method": action,
-        "timeout": 0,
-        "headers": {
-            "Content-Type": "application/json"
-        },
-        "data": JSON.stringify(postData),
     };
-
-    $.ajax(settings).done(function (response) {
-        ClosePopup();
-        InitTableData();
-    });
+    new PopupMessage()
 }
 
 function SendRandomRequest(number) {
@@ -144,6 +122,6 @@ function SendDELETERequest(id) {
 
 function DeleteSelectedEmployees() {
     var deleteList = JSON.parse(localStorage['deletelist']);
-    new Popup(deleteList);
+    new PopupDelete(deleteList);
 }
 

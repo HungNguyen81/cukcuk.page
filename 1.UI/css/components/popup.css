@@ -19,11 +19,11 @@
     background-color: #e5e5e5 !important;
 }
 
-.button-delete{
+.button-ok{
     margin-right: 24px;
     background-color: #f65454 !important;
 }
-.button-delete:hover{
+.button-ok:hover{
     background-color: #f84242 !important;
 }
 

@@ -18,7 +18,8 @@ function DateFormat(data, isForDateInput) {
 }
 
 function FormatMoneyString(text) {
-    return text.toString().replace(/(\d)(?=(\d{3})+(?!\d))/g, '$1.');
+    text = text.toString().replace(/\s+/, '');
+    return text.replace(/(\d)(?=(\d{3})+(?!\d))/g, '$1.');
 }
 
 function WorkStatusCode2Text(statusCode) {

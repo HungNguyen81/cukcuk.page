@@ -8,6 +8,9 @@ function InitTableData() {
  * Hungnn
  */
 function UpdateEmployeeTable() {
+    $('#search-box').val('');
+    $('.dropdown-positions .combobox input').val('Tất cả vị trí');
+    $('.dropdown-departments .combobox input').val('Tất cả phòng ban');
     var pageSize = GetPageSizeDefault();
     FillTableData(pageSize, 1);
     ChangeCurrentPageLabel(pageSize, 1);

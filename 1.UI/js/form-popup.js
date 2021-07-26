@@ -27,7 +27,7 @@ function OpenPopup(row) {
             employeeIdInput.value = result;
         }
         // async action
-        GetNewEmployeeCode(ReturnNewEmployeeCode);        
+        GetNewEmployeeCode(ReturnNewEmployeeCode);
     }
 
     employeeIdInput.focus();
@@ -45,7 +45,7 @@ function MyFunc(e) {
 }
 
 function LiveFormatSalaryInput(input) {
-    var rawNumber = input.value.replaceAll('.', '');
+    var rawNumber = input.value.replaceAll(/^0/g, '').replaceAll(/\.+/g, '');
     input.value = FormatMoneyString(rawNumber)
 }
 
@@ -66,6 +66,19 @@ function ValidateForm() {
     var joinDate = $('#join-date').val();
     var workStatus = WorkStatusText2Code($('#work-status').text());
 
+    // Check if employeeCode is existed
+
+    var stored = JSON.parse(localStorage['employees']);
+    if(stored){
+        for(let i = 0; i < stored.length; i++){
+            let e = stored[i];
+            if(e.EmployeeCode == employeeCode){
+                new PopupMessage(`Mã nhân viên <b>${employeeCode}</b> đã tồn tại trong hệ thống. Vui lòng tạo mã nhân viên khác!`, 'OK');
+                return null;
+            }
+        }
+    }
+
     // make sure required field not empty
 
     var isEmpty1 = IsEmpty(employeeCode, 'employee-code');
@@ -78,11 +91,27 @@ function ValidateForm() {
     var isValidEmail = IsValidEmail(email);
     var isValidPhoneNumber = IsValidPhoneNumber(phoneNumber);
 
-    // console.log(isValidEmail, isValidPhoneNumber);
+    var listRequired = [];
+    if (isEmpty1) listRequired.push('Mã NV');
+    if (isEmpty2) listRequired.push('Họ và tên');
+    if (isEmpty3) listRequired.push('Số CMND/CCCD');
+    if (isEmpty4) listRequired.push('Email');
+    if (isEmpty5) listRequired.push('Số điện thoại');
+
 
     var isValid = isValidEmail && isValidPhoneNumber;
-    if (isEmpty) return null;
-    if (!isValid) return null;
+    var listValid = [];
+    if (!isValidEmail) listValid.push('Email');
+    if (!isValidPhoneNumber) listValid.push('Số điện thoại');
+
+    if (isEmpty) {
+        new PopupMessage(`<b>${listRequired.join(', ')}</b> đang để trống. Vui lòng nhập lại!`, 'OK');
+        return null
+    };
+    if (!isValid) {
+        new PopupMessage(`<b>${listValid.join(', ')}</b> chưa đúng định dạng. Vui lòng kiểm tra lại`, 'OK')
+        return null;
+    }
 
     // validate email format
     // ...
@@ -129,21 +158,21 @@ function IsEmpty(value, id) {
 function InitForm(row) {
     console.log("init form");
 
-    var employeeCode    = row.children[1].innerText;
-    var fullName        = row.children[2].innerText;
-    var gender          = row.children[3].innerText;
-    var dob             = row.children[4].innerText;
-    var identityNumber  = null;
-    var identityDate    = null;
-    var identityPlace   = null;
-    var phoneNumber     = row.children[5].innerText;
-    var email           = row.children[6].innerText;
-    var positionName    = row.children[7].innerText;
-    var departmentName  = row.children[8].innerText;
-    var taxCode         = null;
-    var salary          = row.children[9].innerText;
-    var joinDate        = null;
-    var workStatus      = row.children[10].innerText;
+    var employeeCode = row.children[1].innerText;
+    var fullName = row.children[2].innerText;
+    var gender = row.children[3].innerText;
+    var dob = row.children[4].innerText;
+    var identityNumber = null;
+    var identityDate = null;
+    var identityPlace = null;
+    var phoneNumber = row.children[5].innerText;
+    var email = row.children[6].innerText;
+    var positionName = row.children[7].innerText;
+    var departmentName = row.children[8].innerText;
+    var taxCode = null;
+    var salary = row.children[9].innerText;
+    var joinDate = null;
+    var workStatus = row.children[10].innerText;
 
     dobArray = dob.split('/');
     dob = DateFormat(`${dobArray[1]}/${dobArray[0]}/${dobArray[2]}`, true);
@@ -151,7 +180,7 @@ function InitForm(row) {
     var stored = JSON.parse(localStorage['employees']);
 
     stored.forEach(e => {
-        if(e.EmployeeCode == employeeCode){
+        if (e.EmployeeCode == employeeCode) {
             identityNumber = e.IdentityNumber;
             identityDate = DateFormat(e.IdentityDate, true);
             identityPlace = e.IdentityPlace;
@@ -178,18 +207,18 @@ function InitForm(row) {
     $('#join-date').val(joinDate);
     $('#work-status').text(workStatus);
 
-    if(gender) SetElementSelected(gender, 'gender');
-    if(positionName) SetElementSelected(positionName, 'position-name');
-    if(departmentName) SetElementSelected(departmentName, 'department-name');
-    if(workStatus) SetElementSelected(workStatus, 'work-status');
+    if (gender) SetElementSelected(gender, 'gender');
+    if (positionName) SetElementSelected(positionName, 'position-name');
+    if (departmentName) SetElementSelected(departmentName, 'department-name');
+    if (workStatus) SetElementSelected(workStatus, 'work-status');
 }
 
-function SetElementSelected(value, id){
+function SetElementSelected(value, id) {
     var combobox = document.getElementById(id).parentNode.parentNode;
     var items = combobox.children[1].children;
-    
-    for(let i = 0; i < items.length; i++){
-        if(value.toUpperCase() == items[i].children[1].innerText.toUpperCase()){
+
+    for (let i = 0; i < items.length; i++) {
+        if (value.toUpperCase() == items[i].children[1].innerText.toUpperCase()) {
             items[i].classList.add('item-selected');
         } else {
             items[i].classList.remove('item-selected');
@@ -197,7 +226,7 @@ function SetElementSelected(value, id){
     }
 }
 
-function FillForm(){
+function FillForm() {
     $('#fullname').val('');
     $('#dob').val(DateFormat(new Date(), true));
     $('#gender').text('Nam');
