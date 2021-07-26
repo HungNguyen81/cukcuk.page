@@ -1,4 +1,5 @@
 function Init() {
+    document.getElementById('loader').removeAttribute('hidden');
     // initialize data
     GetDepartments();
     GetPositions();
