@@ -52,13 +52,33 @@ function PostNewEmployee1() {
  * Author: Hungnguyen81
  */
 function PostNewEmployee() {
+    var id = '';
+    var action = $('#save-button').attr('action');
+    var postData = ValidateForm(action);
 
-    var postData = ValidateForm();
     if(!postData){
         // new PopupMessage("Thông tin bạn nhập chưa đúng định dạng. Vui lòng nhập lại!", "OK");
         return;
     };
-    new PopupMessage()
+    
+    if (action == "PUT") {
+        id = localStorage['employeeid'];
+    }
+
+    var settings = {
+        "url": `http://cukcuk.manhnv.net/v1/Employees/${id}`,
+        "method": action,
+        "timeout": 0,
+        "headers": {
+            "Content-Type": "application/json"
+        },
+        "data": JSON.stringify(postData),
+    };
+
+    $.ajax(settings).done(function (response) {
+        ClosePopup();
+        InitTableData();
+    });
 }
 
 function SendRandomRequest(number) {

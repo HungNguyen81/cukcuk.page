@@ -49,7 +49,7 @@ function LiveFormatSalaryInput(input) {
     input.value = FormatMoneyString(rawNumber)
 }
 
-function ValidateForm() {
+function ValidateForm(action) {
     var employeeCode = $('#employee-code').val();
     var fullName = $('#fullname').val();
     var dob = $('#dob').val();
@@ -66,15 +66,16 @@ function ValidateForm() {
     var joinDate = $('#join-date').val();
     var workStatus = WorkStatusText2Code($('#work-status').text());
 
-    // Check if employeeCode is existed
-
-    var stored = JSON.parse(localStorage['employees']);
-    if(stored){
-        for(let i = 0; i < stored.length; i++){
-            let e = stored[i];
-            if(e.EmployeeCode == employeeCode){
-                new PopupMessage(`Mã nhân viên <b>${employeeCode}</b> đã tồn tại trong hệ thống. Vui lòng tạo mã nhân viên khác!`, 'OK');
-                return null;
+    if (action == 'POST') {
+        // Check if employeeCode is existed
+        var stored = JSON.parse(localStorage['employees']);
+        if (stored) {
+            for (let i = 0; i < stored.length; i++) {
+                let e = stored[i];
+                if (e.EmployeeCode == employeeCode) {
+                    new PopupMessage(`Mã nhân viên <b>${employeeCode}</b> đã tồn tại trong hệ thống. Vui lòng tạo mã nhân viên khác!`, 'OK');
+                    return null;
+                }
             }
         }
     }
