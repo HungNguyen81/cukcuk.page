@@ -17,8 +17,26 @@
 
 # Some captures:
 
+![alt](https://github.com/HungNguyen81/cukcuk.page/blob/main/Captures/capture-0.png?raw=true)
+
 ![alt](https://github.com/HungNguyen81/cukcuk.page/blob/main/Captures/capture-1.png?raw=true)
 
 ![alt](https://github.com/HungNguyen81/cukcuk.page/blob/main/Captures/capture-2.png?raw=true)
 
 ![alt](https://github.com/HungNguyen81/cukcuk.page/blob/main/Captures/capture-3.png?raw=true)
+
+![alt](https://github.com/HungNguyen81/cukcuk.page/blob/main/Captures/capture-4.png?raw=true)
+
+![alt](https://github.com/HungNguyen81/cukcuk.page/blob/main/Captures/capture-5.png?raw=true)
+
+![alt](https://github.com/HungNguyen81/cukcuk.page/blob/main/Captures/capture-6.png?raw=true)
+
+![alt](https://github.com/HungNguyen81/cukcuk.page/blob/main/Captures/capture-7.png?raw=true)
+
+![alt](https://github.com/HungNguyen81/cukcuk.page/blob/main/Captures/capture-8.png?raw=true)
+
+![alt](https://github.com/HungNguyen81/cukcuk.page/blob/main/Captures/capture-9.png?raw=true)
+
+![alt](https://github.com/HungNguyen81/cukcuk.page/blob/main/Captures/capture-10.png?raw=true)
+
+![alt](https://github.com/HungNguyen81/cukcuk.page/blob/main/Captures/capture-11.png?raw=true)
