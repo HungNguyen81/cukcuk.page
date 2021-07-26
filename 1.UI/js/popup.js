@@ -17,7 +17,7 @@ class Popup {
         return res;
     }
 
-    DisplayPopup(message, action) {
+    DisplayPopup(message, action, callback) {
         this._popup.append(`
             <div class="popup-wrapper">
                 <div class="popup-container">
@@ -39,7 +39,7 @@ class Popup {
         this._timeInterval = setInterval(this.Countdown, 1000);
         $('#popup .close-button').on('click', this.CloseErrorPopup);
         $('#popup .button-cancel').on('click', this.CloseErrorPopup);
-        $('#popup .button-ok').on('click', this.ButtonOkClicked);
+        $('#popup .button-ok').on('click', callback, this.ButtonOkClicked);
     }
 
     CloseErrorPopup = () => {
@@ -80,12 +80,13 @@ class PopupDelete extends Popup {
 }
 
 class PopupMessage extends Popup {
-    constructor(msg) {
+    constructor(msg, callback) {
         super();
-        this.DisplayPopup(msg, 'OK');
+        this.DisplayPopup(msg, 'OK', callback);
     }
 
-    ButtonOkClicked = () => {
-        this.CloseErrorPopup();        
+    ButtonOkClicked = (e) => {
+        this.CloseErrorPopup();
+        if(e.data) e.data(); 
     }
 }

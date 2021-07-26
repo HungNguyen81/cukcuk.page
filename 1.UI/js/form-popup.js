@@ -34,8 +34,11 @@ function OpenPopup(row) {
 }
 
 function ClosePopup() {
-    form.style.display = "none";
-    form.removeEventListener('click', MyFunc);
+    new PopupMessage('Xác nhận đóng Form !', function(){
+        console.log("close form");
+        form.style.display = "none";
+        form.removeEventListener('click', MyFunc);
+    });
 }
 
 function MyFunc(e) {
