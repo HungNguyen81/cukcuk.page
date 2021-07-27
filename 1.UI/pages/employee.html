@@ -195,12 +195,12 @@
         </div>
     </div>
 
-    <div class="container" id="container">
+    <div class="container close" id="container">
         <!-- Employee Detail Form -->
-        <div class="form-container" id="form-container">
+        <div class="form-container close" id="form-container">
             <div class="form-header" id="form-container-header">
                 <div class="header">THÔNG TIN NHÂN VIÊN</div>
-                <div class="close-button" onclick="ClosePopup()"></div>
+                <div id="close-button"></div>
             </div>
             <div class="form-body">
                 <div class="body-avatar body-column">
@@ -327,7 +327,7 @@
                         </div>
                         <div class="input-field">
                             <div class="input-label">Mức lương cơ bản </div>
-                            <input type="text" class="textbox-default input-form input-salary" id="salary"
+                            <input type="text" pattern="[0-9]" class="textbox-default input-form input-salary" id="salary"
                                 value="100.000.000" tabindex="13" onkeyup="LiveFormatSalaryInput(this)">
                         </div>
                         <div class="money-unit">(VNĐ)</div>
@@ -366,7 +366,7 @@
             </div>
 
             <div class="form-footer">
-                <div class="button button-cancel" onclick="ClosePopup()">Hủy</div>
+                <div class="button button-cancel">Hủy</div>
                 <div class="button button-save" id="save-button" action="POST" onclick="PostNewEmployee()">
                     <div class="icon-save"></div>
                     Lưu

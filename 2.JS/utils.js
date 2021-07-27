@@ -19,6 +19,7 @@ function DateFormat(data, isForDateInput) {
 
 function FormatMoneyString(text) {
     text = text.toString().replace(/\s+/, '');
+    text = text.replace(/[a-zA-Z@#$%^&*()<>?:";'{[}\]\|\\\/]+/, '');
     return text.replace(/(\d)(?=(\d{3})+(?!\d))/g, '$1.');
 }
 

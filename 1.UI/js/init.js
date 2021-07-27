@@ -17,6 +17,11 @@ function Init() {
 
     localStorage['deletelist'] = '[]';
 
+    const closeForm = function() {
+        ClosePopup('Xác nhận đóng Form !', 'Bạn có chắc chắn muốn hủy nhập liệu hay không ?');
+    }
+    $('.form-header #close-button').on('click', closeForm);
+    $('.form-footer .button-cancel').on('click', closeForm);
 }
 
 // add event listener to all dropdown items

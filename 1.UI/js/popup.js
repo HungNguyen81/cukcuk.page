@@ -5,7 +5,7 @@ class Popup {
      */
     constructor() {
         this._popup = $('#popup');
-        this._timeRemain = 55;
+        this._timeRemain = 59;
         this._popup.text('');
     }
 
@@ -24,15 +24,16 @@ class Popup {
      * @param {book} countdown 
      * @param {function} callback 
      */
-    DisplayPopup(message, action, countdown, callback) {
+    DisplayPopup(title, message, action, countdown, callback, popupType) {
         var countdownText = `<p>Tự động đóng sau <b class="countnumber">${this._timeRemain}</b> giây</p>`;
+        // this._popup.text('');
         this._popup.append(`
             <div class="popup-wrapper">
-                <div class="popup-container">
+                <div class="popup-container open">
                     <div class="close-button"></div>
-                    <div class="popup-header">Xóa bản ghi</div>
+                    <div class="popup-header">${title}</div>
                 <div class="popup-body">
-                    <div class="msg-icon"></div>
+                    <div class="msg-icon ${(popupType)?popupType:''}"></div>
                     <div class="msg-content">
                         <p>${message}</p>
                         ${(countdown)? countdownText:''}    
@@ -40,7 +41,7 @@ class Popup {
                 </div>
                 <div class="popup-footer">
                     <div class="button button-cancel popup-button">Hủy</div>
-                    <div class="button button-ok popup-button">${action}</div>
+                    <div class="button button-ok popup-button ${(popupType)?popupType:''}">${action}</div>
                 </div>
             </div>`
         );
@@ -52,7 +53,12 @@ class Popup {
     }
 
     CloseErrorPopup = () => {
-        this._popup.text('');
+        // this._popup.text('');
+        $('#popup .popup-container.open').removeClass('open');
+        $('#popup .popup-container').addClass('close');
+        setTimeout(() => {            
+            this._popup.text('');            
+        }, 500);
         if(this._timeInterval) clearInterval(this._timeInterval);
     }
 
@@ -76,7 +82,8 @@ class PopupDelete extends Popup {
         super();
         this._data = data;
         this._listEmployeeCodes = this.ConvertData(data);
-        this.DisplayPopup(`Bạn có chắc muốn xóa nhân viên "<b>${this._listEmployeeCodes.join(', ')}</b>" hay không ?`, 'Xóa', true);
+        this.DisplayPopup('Xóa bản ghi', `Bạn có chắc muốn xóa nhân viên "<b>${this._listEmployeeCodes.join(', ')}</b>" hay không ?`, 
+            'Xóa', true, null, 'error');
     }
 
     ButtonOkClicked = () => {
@@ -95,9 +102,9 @@ class PopupMessage extends Popup {
      * @param {function} callback 
      * @param {bool} countdown
      */
-    constructor(msg, callback, countdown) {
+    constructor(title, msg, callback, countdown, type) {
         super();
-        this.DisplayPopup(msg, 'OK', countdown, callback);
+        this.DisplayPopup(title, msg, 'OK', countdown, callback, type);
     }
 
     ButtonOkClicked = (e) => {

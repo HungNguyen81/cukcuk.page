@@ -1,10 +1,11 @@
 var form = document.getElementById("container");
 
 function OpenPopup(row) {
-    form.style.display = "block";
-    form.children[0].style.top = '50%';
-    form.children[0].style.left = '50%';
-    form.children[0].style.transform = 'translate(-50%,-50%)';
+    form.children[0].classList.toggle('open');
+    form.children[0].classList.toggle('close');    
+    form.style.visibility = 'visible';
+    form.children[0].style.top = '50px';
+    form.children[0].style.left = '50%';    
     form.addEventListener('click', MyFunc);
 
     var formContainer = form.children[0];
@@ -33,19 +34,22 @@ function OpenPopup(row) {
     employeeIdInput.focus();
 }
 
-function ClosePopup(msg, callback) {
-    new PopupMessage(msg, function(){
-        console.log("close form");
-        form.style.display = "none";
+function ClosePopup(title, msg, callback) {
+    new PopupMessage(title, msg, function () {
+        console.log("close form");        
+        form.children[0].classList.toggle('open');
+        form.children[0].classList.toggle('close');
         form.removeEventListener('click', MyFunc);
-
-        if(callback) callback();
-    }, false);
+        setTimeout(function(){
+            form.style.visibility = 'hidden';
+        }, 1000);
+        if (callback) callback();
+    }, false, null);
 }
 
 function MyFunc(e) {
     if (!document.getElementById('form-container').contains(e.target)) {
-        ClosePopup('Xác nhận đóng Form !');
+        ClosePopup('Xác nhận đóng Form !', 'Bạn có chắc chắn muốn hủy nhập liệu hay không ?');
     }
 }
 
@@ -78,8 +82,9 @@ function ValidateForm(action) {
             for (let i = 0; i < stored.length; i++) {
                 let e = stored[i];
                 if (e.EmployeeCode == employeeCode) {
-                    new PopupMessage(`Mã nhân viên <b>${employeeCode}</b> đã tồn tại trong hệ thống. Vui lòng tạo mã nhân viên khác!`,
-                                     'OK', true);
+                    new PopupMessage('Mã nhân viên đã tồn tạo',
+                    `Mã nhân viên <b>${employeeCode}</b> đã tồn tại trong hệ thống. Vui lòng tạo mã nhân viên khác!`,
+                        null, true);
                     return null;
                 }
             }
@@ -112,11 +117,13 @@ function ValidateForm(action) {
     if (!isValidPhoneNumber) listValid.push('Số điện thoại');
 
     if (isEmpty) {
-        new PopupMessage(`<b>${listRequired.join(', ')}</b> đang để trống. Vui lòng nhập lại!`, 'OK', true);
+        new PopupMessage('Thông tin chưa đúng định dạng', 
+                `<b>${listRequired.join(', ')}</b> đang để trống. Vui lòng nhập lại!`, null, true, 'warning');
         return null
     };
     if (!isValid) {
-        new PopupMessage(`<b>${listValid.join(', ')}</b> chưa đúng định dạng. Vui lòng kiểm tra lại`, 'OK', true)
+        new PopupMessage('Thông tin chưa đúng định dạng',
+                `<b>${listValid.join(', ')}</b> chưa đúng định dạng. Vui lòng kiểm tra lại`, null, true, 'warning');
         return null;
     }
 
@@ -221,8 +228,8 @@ function InitForm(row) {
 
     // reset border color of required inputs
     $('#employee-code').css('border-color', '#bbbbbb');
-    $('#fullname').css('border-color', '#bbbbbb');        
-    $('#identity-number').css('border-color', '#bbbbbb');        
+    $('#fullname').css('border-color', '#bbbbbb');
+    $('#identity-number').css('border-color', '#bbbbbb');
     $('#email').css('border-color', '#bbbbbb');
     $('#phone-number').css('border-color', '#bbbbbb');
 }
@@ -252,7 +259,7 @@ function FillForm() {
     $('#position-name').text('');
     $('#department-name').text('');
     $('#tax-code').val('');
-    $('#salary').val(0);
+    $('#salary').val('');
     $('#join-date').val(DateFormat(new Date(), true));
     $('#work-status').text('');
 }

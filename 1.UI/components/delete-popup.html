@@ -11,7 +11,7 @@
     <meta property="og:title" content="CUKCUK.VN - hungnguyen81" />
     <meta property="og:description" content="Trang quản lý nhân viên MISA CUKCUK" />
     <!-- <link rel="shortcut icon" href="./1.UI/content/icon/favicon.ico" type="image/x-icon"> -->
-    <link rel="stylesheet" href="../css/base/delete-popup.css">
+    <link rel="stylesheet" href="../css/components/popup.css">
     <title>Index - CUKCUK.VN</title>
     <link rel="stylesheet" href="../css/main.css">
     <!-- <link rel="stylesheet" href="./1.UI/css/base/button.css"> -->
@@ -252,7 +252,50 @@
 
     <!-- Popup -->
     <div id="popup"></div>
-    <!--     
+
+    <style>
+
+        .popup-container{
+            animation: open 0.5s forwards;
+        }
+
+        @keyframes open{
+            0% {
+                transform: translate(-50%, -50%) scale(0);
+            }
+            50% {
+                transform: translate(-50%, -50%) scale(1.2);
+            }
+            70% {
+                transform: translate(-50%, -50%) scale(0.95);
+            }
+            95% {
+                transform: translate(-50%, -50%) scale(1.1);
+            }
+            100% {
+                transform: translate(-50%, -50%) scale(1);
+            }
+        }
+
+        @keyframes close{
+            100% {
+                transform: translate(-50%, -50%) scale(0);
+            }
+            50% {
+                transform: translate(-50%, -50%) scale(1.2);
+            }
+            30% {
+                transform: translate(-50%, -50%) scale(0.95);
+            }
+            5% {
+                transform: translate(-50%, -50%) scale(1.1);
+            }
+            0% {
+                transform: translate(-50%, -50%) scale(1);
+            }
+        }
+
+    </style>        
     <div class="popup-wrapper">
         <div class="popup-container">
             <div class="close-button"></div>
@@ -273,15 +316,15 @@
                 </div>
             </div>
         </div>
-    </div> -->
+    </div>
 
     <script src="../../2.JS/lib/jquery-3.6.0.min.js"></script>
     <script src="../js/delete-popup.js"></script>
     <script>
-        $(document).ready(function () {
-            var data = [{ ode: "NV-01", id: "1" }, { code: "NV-02", id: "2" }];
-            var F = new Popup(data);
-        });
+        // $(document).ready(function () {
+        //     var data = [{ ode: "NV-01", id: "1" }, { code: "NV-02", id: "2" }];
+        //     var F = new Popup(data);
+        // });
     </script>
     </body>
 

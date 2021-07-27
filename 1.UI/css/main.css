@@ -6,7 +6,7 @@ body {
     font-family: MISAGoogleSans;
     font-size: 13px;
     margin: 0;
-    /* overflow: hidden; */
+    overflow: auto;
     position: fixed;
     -webkit-user-select: none;
     -khtml-user-select: none;
@@ -29,4 +29,48 @@ body {
 @font-face {
     font-family: MISAGoogleSans-Italic;
     src: url('../content/font/GoogleSans-Italic.otf');
+}
+
+@keyframes open {
+    0% {
+        transform: translate(-50%, -50%) scale(0);
+    }
+
+    50% {
+        transform: translate(-50%, -50%) scale(1.1);
+    }
+
+    70% {
+        transform: translate(-50%, -50%) scale(0.95);
+    }
+
+    95% {
+        transform: translate(-50%, -50%) scale(1.05);
+    }
+
+    100% {
+        transform: translate(-50%, -50%) scale(1);
+    }
+}
+
+@keyframes close {
+    100% {
+        transform: translate(-50%, -50%) scale(0);
+    }
+
+    50% {
+        transform: translate(-50%, -50%) scale(1.2);
+    }
+
+    30% {
+        transform: translate(-50%, -50%) scale(0.95);
+    }
+
+    5% {
+        transform: translate(-50%, -50%) scale(1.1);
+    }
+
+    0% {
+        transform: translate(-50%, -50%) scale(1);
+    }
 }
