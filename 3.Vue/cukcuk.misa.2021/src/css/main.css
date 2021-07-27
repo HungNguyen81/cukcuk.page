@@ -1,0 +1,101 @@
+@import url('./base/button.css');
+@import url('./base/text-box.css');
+@import url('./base/dropdown.css');
+@import url('./base/combobox.css');
+
+body {
+    font-family: MISAGoogleSans;
+    font-size: 13px;
+    margin: 0;
+    overflow: auto;
+    position: fixed;
+    -webkit-user-select: none;
+    -khtml-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    -o-user-select: none;
+    user-select: none;
+}
+
+@font-face {
+    font-family: MISAGoogleSans;
+    src: url('../assets/font/GoogleSans-Regular.otf');
+}
+
+@font-face {
+    font-family: MISAGoogleSans-Bold;
+    src: url('../assets/font/GoogleSans-Bold.otf');
+}
+
+@font-face {
+    font-family: MISAGoogleSans-Italic;
+    src: url('../assets/font/GoogleSans-Italic.otf');
+}
+
+@keyframes open {
+    0% {
+        transform: translate(-50%, -50%) scale(0);
+    }
+
+    50% {
+        transform: translate(-50%, -50%) scale(1.1);
+    }
+
+    70% {
+        transform: translate(-50%, -50%) scale(0.95);
+    }
+
+    95% {
+        transform: translate(-50%, -50%) scale(1.05);
+    }
+
+    100% {
+        transform: translate(-50%, -50%) scale(1);
+    }
+}
+
+@keyframes close {
+    100% {
+        transform: translate(-50%, -50%) scale(0);
+    }
+
+    50% {
+        transform: translate(-50%, -50%) scale(1.2);
+    }
+
+    30% {
+        transform: translate(-50%, -50%) scale(0.95);
+    }
+
+    5% {
+        transform: translate(-50%, -50%) scale(1.1);
+    }
+
+    0% {
+        transform: translate(-50%, -50%) scale(1);
+    }
+}
+
+/* Custom scrollbar */
+
+/* width */
+::-webkit-scrollbar {
+    width: 8px;
+    height: 4px;    
+    z-index: 20;
+}
+
+/* Track */
+::-webkit-scrollbar-track {
+    background: #e5e5e5;
+}
+
+/* Handle */
+::-webkit-scrollbar-thumb {
+    background: #bbbbbb;
+}
+
+/* Handle on hover */
+::-webkit-scrollbar-thumb:hover {
+    background: #454545;
+}

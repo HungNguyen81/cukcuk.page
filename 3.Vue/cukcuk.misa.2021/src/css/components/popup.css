@@ -1,0 +1,134 @@
+.popup-wrapper {
+    position: fixed;
+    top: 0;
+    height: 100%;
+    width: 100%;
+    background-color: rgba(0, 0, 0, 0.438);
+    z-index: 11;
+}
+
+.popup-button {
+    z-index: 12;
+    margin: 10px 0;
+}
+
+.button-cancel {
+    margin-right: 16px;
+}
+
+.button-cancel:hover {
+    background-color: #e5e5e5 !important;
+}
+
+.button-ok {
+    margin-right: 24px;
+    background-color: #019160 !important;
+}
+
+/* .button-ok:hover{
+    background-color: #027951 !important;
+} */
+.button-ok.error {
+    background-color: #f65454 !important;
+}
+
+.button-ok.error:hover {
+    background-color: #f84242 !important;
+}
+
+.close-button {
+    position: fixed;
+    top: 0;
+    right: 0;
+    height: 40px;
+    width: 40px;
+    background-image: url('../../content/icon/x.svg');
+    background-repeat: no-repeat;
+    background-size: 24px;
+    background-position: center;
+    background-color: transparent;
+    border-radius: 0 10px 0 10px;
+}
+
+.close-button:hover {
+    background-color: #f4f4f4;
+}
+
+.popup-container {
+    display: flex;
+    position: fixed;
+    flex-direction: column;
+    justify-content: space-between;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background-color: #fff;
+    width: 450px;
+    border-radius: 10px;
+}
+
+.popup-header {
+    font-size: 15px;
+    font-weight: bold;
+    text-align: left;
+    margin: 24px;
+
+}
+
+.popup-body {
+    height: fit-content;
+    width: 100%;
+    display: flex;
+    justify-content: start;
+}
+
+.popup-footer {
+    height: 60px;
+    width: 100%;
+    background-color: #f4f4f4;
+    border-radius: 0 0 10px 10px;
+    display: flex;
+    justify-content: flex-end;
+}
+
+.msg-icon {
+    height: 40px;
+    width: 40px;
+    border-radius: 50%;
+    background-color: #f4f4f4;
+    margin-left: 24px;
+    margin-right: 10px;
+    flex-shrink: 0;
+    background-size: contain;
+    background-position: center;
+    visibility: hidden;
+}
+
+.msg-icon.warning {
+    background-image: url('../../content/icon/warning.png');
+    visibility: visible;
+}
+
+.msg-icon.error {
+    background-image: url('../../content/icon/error.png');
+    visibility: visible;
+}
+
+.msg-content {
+    /* background-color: tomato; */
+    max-height: 100px;
+    overflow-y: auto;
+    text-align: left;
+    line-height: 15px;
+    transform: translate(0, -10px);
+    margin-right: 24px;
+}
+
+.popup-container.open {
+    animation: open 0.5s forwards;
+}
+
+.popup-container.close {
+    animation: close 0.5s forwards;
+}
+

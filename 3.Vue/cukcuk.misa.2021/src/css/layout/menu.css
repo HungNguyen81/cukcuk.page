@@ -1,0 +1,58 @@
+.menu {
+    width: 225px;
+    height: calc(100vh - 49px);
+    border-right: 1px solid #ccc;
+}
+
+.menu .menu-item{
+    height: 44px;
+    width: 100%;
+    background-color: #ffffff;
+    color: #454545;
+    display: flex;
+    align-items: center;
+    padding-left: 16px;
+    box-sizing: border-box;
+    cursor: pointer;        
+}
+
+.menu .menu-item:hover{
+    background-color: #5e5e5e;
+    color: #000000;
+}
+
+.menu .menu-item:hover > .menu-icon{
+    filter: brightness(5);
+}
+
+.menu .menu-item .menu-icon{
+    width: 20px;
+    height: 20px;
+    background-color: transparent;
+    margin-right: 10px;    
+    background-size: contain;
+}
+
+.item-dashboard > .menu-icon{
+    background-image: url('../../assets/icon/dashboard.png');
+}
+.item-report > .menu-icon{
+    background-image: url('../../assets/icon/report.png');
+}
+.item-shoping > .menu-icon{
+    background-image: url('../../assets/icon/dashboard.png');
+}
+.item-employee > .menu-icon{
+    background-image: url('../../assets/icon/dic-employee.png');
+}
+.item-setting > .menu-icon{
+    background-image: url('../../assets/icon/setting.png');
+}
+
+.menu .menu-item.menu-item-active{
+    background-color: #019160;   
+    color: #ffffff; 
+}
+.menu .menu-item.menu-item-active > .menu-icon{
+    filter: brightness(3);
+}
