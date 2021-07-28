@@ -17,6 +17,15 @@
     padding-left: 16px;
     padding-right: 16px;    
 }
+.icon-button.icon-add {
+    width: 18px;
+    height: 18px;
+    margin-right: 8px;
+    display: inline-block;
+    background-image: url('../../assets/icon/add.png');
+    background-repeat: no-repeat;
+    background-size: 18px;
+}
 
 .button:hover {
     background-color: #2FBE8E;
@@ -101,3 +110,38 @@
     background-color: #ccc;
 }
 
+/* Delete button */
+#button-delete{    
+    position: absolute;
+    background-color: #f65454;
+    right: 180px;
+    /* top: 0px;    */
+    visibility: visible;
+}
+#button-delete:hover{
+    background-color: #f33939;
+}
+
+/* Refresh button */
+.button-refresh {
+    width: 40px;
+    height: 40px;
+    background-color: #fff;
+    border: 1px solid #ccc;
+    position: absolute;
+    right: 16px;
+    top: 0px;
+    border-radius: 4px;
+    background-image: url('../../assets/icon/refresh.png');
+    background-repeat: no-repeat;
+    background-size: 24px;
+    background-position: 8px 8px;
+    cursor: pointer;
+    box-sizing: border-box;
+}
+.button-refresh:hover{
+    background-color: #bbb;
+}
+.button-refresh:active{
+    background-color: #454545;
+}

@@ -76,6 +76,10 @@ body {
     }
 }
 
+.hide{
+    display: none;
+}
+
 /* Custom scrollbar */
 
 /* width */

@@ -1,17 +1,13 @@
 <template>
-  <div class="button">
-      {{data().test}}
+  <div class="button" :id='type'>
+      {{value}}
   </div>
 </template>
 
 <script>
 export default {
   name: 'BaseButton',
-  data(){
-      return {
-          test : "Thêm nhân viên"
-      }
-  }
+  props: ['value', 'type']
 }
 </script>
 

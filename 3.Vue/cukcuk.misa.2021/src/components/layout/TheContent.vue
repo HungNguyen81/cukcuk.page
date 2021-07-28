@@ -2,80 +2,10 @@
   <div class="content">
     <div class="content-heading">
       <b class="title">Danh sách nhân viên</b>
-      <div
-        class="button"
-        id="button-delete"
-        onclick="DeleteSelectedEmployees()"
-      >
-        Xóa nhân viên
-      </div>
-      <div class="button button-icon" onclick="OpenPopup()">
-        <div class="icon-button"></div>
-        <div>Thêm nhân viên</div>
-      </div>
-      <!-- <BaseButton></BaseButton> -->
+      <BaseButton value="Xóa nhân viên" type="button-delete"></BaseButton>
+      <BaseButtonIcon value="Thêm nhân viên" icon="icon-add"></BaseButtonIcon>
     </div>
-    <div class="content-search">
-      <div class="search-icon"></div>
-      <input
-        type="text"
-        class="textbox-default search-field"
-        id="search-box"
-        placeholder="Tìm kiếm theo Mã, Tên hoặc Số điện thoại"
-        onkeyup="TableLiveSearch(this)"
-      />
-      <div class="combobox-container dropdown-departments">
-        <div class="combobox">
-          <input
-            type="text"
-            class="combobox-input textbox-default"
-            value="Tất cả phòng ban"
-            filter="department"
-            onkeyup="ComboboxInputChange(this)"
-          />
-          <div class="x-icon" hidden="true" onclick="ClearInputText(this)">
-            <i class="fas fa-times"></i>
-          </div>
-          <div class="combobox-icon-container" onclick="ShowDropData(this)">
-            <div class="combobox-icon"></div>
-          </div>
-        </div>
-        <div class="dropdown-data departments" id="departments" hidden="true">
-          <!-- <div class="dropdown-item item-selected" onclick="ItemSelect(this)">
-                        <i class="fas fa-check item-icon"></i>
-                        <div class="item-text">Tất cả phòng ban</div>
-                    </div> -->
-        </div>
-      </div>
-
-      <div class="combobox-container dropdown-positions">
-        <div class="combobox">
-          <input
-            type="text"
-            class="combobox-input textbox-default"
-            value="Tất cả vị trí"
-            filter="position"
-            onkeyup="ComboboxInputChange(this)"
-          />
-          <div class="x-icon" hidden="true" onclick="ClearInputText(this)">
-            <i class="fas fa-times"></i>
-          </div>
-          <div class="combobox-icon-container" onclick="ShowDropData(this)">
-            <div class="combobox-icon"></div>
-          </div>
-        </div>
-        <div class="dropdown-data positions" id="positions" hidden="true">
-          <!-- <div class="dropdown-item  item-selected" onclick="ItemSelect(this)">
-                        <i class="fas fa-check item-icon"></i>
-                        <div class="item-text">Tất cả vị trí</div>
-                    </div> -->
-        </div>
-      </div>
-      <div
-        class="button-refresh"
-        onclick="GetNumberOfEmployees(UpdateEmployeeTable);"
-      ></div>
-    </div>
+    <SearchBar></SearchBar>
     <div class="content-table">
       <table class="table-employee" id="table-employee">
         <thead>
@@ -102,16 +32,16 @@
                 <span class="checkmark"><i class="fas fa-check check"></i></span
               ></span>
             </td>
-            <td v-bind:title="[e.EmployeeCode]">{{e.EmployeeCode}}</td>
-            <td v-bind:title="[e.FullName]">{{e.FullName}}</td>
-            <td v-bind:title="[e.Gender]">{{e.Gender}}</td>
-            <td v-bind:title="[e.DateOfBirth]">{{e.DateOfBirth}}</td>
-            <td v-bind:title="[e.PhoneNumber]">{{e.PhoneNumber}}</td>
-            <td v-bind:title="[e.Email]">{{e.Email}}</td>
-            <td v-bind:title="[e.PositionName]">{{e.PositionName}}</td>
-            <td v-bind:title="[e.DepartmentName]">{{e.DepartmentName}}</td>
-            <td v-bind:title="[e.Salary]">{{e.Salary}}</td>
-            <td v-bind:title="[e.WorkStatus]">{{e.WorkStatus}}</td>
+            <td v-bind:title="[e.EmployeeCode]">{{ e.EmployeeCode }}</td>
+            <td v-bind:title="[e.FullName]">{{ e.FullName }}</td>
+            <td v-bind:title="[e.Gender]">{{ e.Gender }}</td>
+            <td v-bind:title="[e.DateOfBirth]">{{ e.DateOfBirth }}</td>
+            <td v-bind:title="[e.PhoneNumber]">{{ e.PhoneNumber }}</td>
+            <td v-bind:title="[e.Email]">{{ e.Email }}</td>
+            <td v-bind:title="[e.PositionName]">{{ e.PositionName }}</td>
+            <td v-bind:title="[e.DepartmentName]">{{ e.DepartmentName }}</td>
+            <td v-bind:title="[e.Salary]">{{ e.Salary }}</td>
+            <td v-bind:title="[e.WorkStatus]">{{ e.WorkStatus }}</td>
           </tr>
         </tbody>
       </table>
@@ -166,12 +96,16 @@
 </template>
 
 <script>
-// import BaseButton from '../base/BaseButton.vue'
+import BaseButton from "../base/BaseButton.vue";
+import BaseButtonIcon from "../base/BaseButtonIcon.vue";
+import SearchBar from '../base/BaseSearchBar.vue'
 
 export default {
   name: "Content",
   components: {
-    //   BaseButton
+    BaseButton,
+    BaseButtonIcon,
+    SearchBar
   },
   data() {
     return {
@@ -182,7 +116,7 @@ export default {
     this.axios
       .get("http://cukcuk.manhnv.net/v1/Employees/")
       .then((res) => {
-        console.log(res.data);
+        // console.log(res.data);
         this.employees = res.data;
       })
       .catch((err) => {
