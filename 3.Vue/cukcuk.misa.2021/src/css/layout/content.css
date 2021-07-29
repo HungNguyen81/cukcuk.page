@@ -51,6 +51,9 @@ body{
     margin-left: 16px;
     position: absolute;
 }
+.search-field::placeholder{
+    font-size: 13px;    
+}
 
 .search-icon {
     width: 16px;

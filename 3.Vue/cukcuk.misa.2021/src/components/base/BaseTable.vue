@@ -1,22 +1,30 @@
 <template>
   <div class="content-table">
-    <table :class="'table-' + [type.toLowerCase()]">      
+    <table :class="'table-' + [type.toLowerCase()]">
       <thead>
         <tr>
           <th></th>
-          <th v-for="(h, i) in thead" :key="i">{{ h }}</th>          
+          <th v-for="(header, i) in thead" :key="i">{{ header }}</th>
         </tr>
       </thead>
       <tbody>
-        <tr v-for="(e, index) in employees" :key="index">
+        <tr
+          v-for="(e, index) in employees"
+          :key="index"
+          @dblclick="$emit('rowDblClick', e[type + 'Id'], e.PositionName, e.DepartmentName)"
+          @click="rowClickHandle(e, type)"
+          :class="{'selected' : e.isSelected}"
+        >
           <td>
             <span class="checkbox-container">
-              <input type="checkbox" name="delete" />
+              <input type="checkbox" name="delete" v-model="e.isSelected"/>
               <span class="checkmark"><i class="fas fa-check check"></i></span>
             </span>
           </td>
           <td :title="e[cell]" v-for="(cell, k) in dataMap" :key="k">
-            {{ e[cell] }}
+            <span v-if="cell == 'Salary'">{{ FormatMoneyString(e[cell]) }}</span>
+            <span v-else-if="cell == 'DateOfBirth'">{{ DateFormat(e[cell], false) }}</span>
+            <span v-else>{{ e[cell] }}</span>
           </td>
         </tr>
       </tbody>
@@ -25,12 +33,15 @@
 </template>
 
 <script>
+import ultis from '../../mixins/ultis';
+
 export default {
   name: "BaseTable",
   components: {},
+  mixins: [ultis],
   props: {
     type: {
-      type: String,
+      type: String, // ex: type="Employee"
       required: true,
     },
     thead: {
@@ -48,23 +59,37 @@ export default {
   },
   data() {
     return {
-      employees: [],
+      employees: [],      
     };
   },
-  created() {
+  mounted() {    
     if (this.api)
       this.axios
         .get(this.api)
         .then((res) => {
           this.employees = res.data;          
+          this.$emit("dataLoaded", this.employees.length);
+          this.employees = this.employees.map(e => ({...e, isSelected : false}));
         })
         .catch((err) => {
           console.log(err);
         });
   },
+  computed: {
+    
+  },
+  watch:{
+    
+  },
+  methods:{
+      rowClickHandle(e, type){
+          this.$emit('rowClick', e[type + 'Id']);
+          e.isSelected = !e.isSelected;
+      }
+  }
 };
 </script>
 
 <style scoped>
-@import '../../css/base/table.css'
+@import "../../css/base/table.css";
 </style>

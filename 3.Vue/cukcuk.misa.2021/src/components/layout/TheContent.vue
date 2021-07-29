@@ -6,15 +6,16 @@
         <BaseButton
           value="Xóa nhân viên"
           type="button-delete"
-          :onclick="OpenForm"
+          :onclick="delBtnClick"
+          :class="{'hide': !delBtnActive}"
         ></BaseButton>
         <BaseButtonIcon
           value="Thêm nhân viên"
           icon="icon-add"
-          :onclick="OpenForm"
+          :onclick="BtnAddClick"
         ></BaseButtonIcon>
       </div>
-      <!-- <SearchBar></SearchBar> -->
+
       <div class="content-search">
         <div class="search-icon"></div>
         <input
@@ -36,83 +37,57 @@
 
         <div class="button-refresh"></div>
       </div>
-      <!-- <div class="content-table">
-        <table class="table-employee" id="table-employee">
-          <thead>
-            <tr>
-              <th></th>
-              <th>Mã nhân viên</th>
-              <th>Họ và tên</th>
-              <th>Giới tính</th>
-              <th>Ngày sinh</th>
-              <th>Điện thoại</th>
-              <th>Email</th>
-              <th>Chức vụ</th>
-              <th>Phòng ban</th>
-              <th>Mức lương cơ bản</th>
-              <th>Tình trạng công việc</th>
-            </tr>
-          </thead>
-          <tbody>
-            
-            <tr v-for="e in employees" :key="e.EmployeeCode">
-              <td>
-                <span class="checkbox-container"
-                  ><input type="checkbox" name="delete" />
-                  <span class="checkmark"
-                    ><i class="fas fa-check check"></i></span
-                ></span>
-              </td>
-              <td v-bind:title="[e.EmployeeCode]">{{ e.EmployeeCode }}</td>
-              <td v-bind:title="[e.FullName]">{{ e.FullName }}</td>
-              <td v-bind:title="[e.Gender]">{{ e.Gender }}</td>
-              <td v-bind:title="[e.DateOfBirth]">{{ e.DateOfBirth }}</td>
-              <td v-bind:title="[e.PhoneNumber]">{{ e.PhoneNumber }}</td>
-              <td v-bind:title="[e.Email]">{{ e.Email }}</td>
-              <td v-bind:title="[e.PositionName]">{{ e.PositionName }}</td>
-              <td v-bind:title="[e.DepartmentName]">{{ e.DepartmentName }}</td>
-              <td v-bind:title="[e.Salary]">{{ e.Salary }}</td>
-              <td v-bind:title="[e.WorkStatus]">{{ e.WorkStatus }}</td>
-            </tr>
-          </tbody>
-        </table>
-      </div> -->
+
       <Table
         :type="'Employee'"
         :thead="thead"
         :dataMap="tmap"
         :api="'http://cukcuk.manhnv.net/v1/Employees/'"
+        @dataLoaded="tableDataLoaded"
+        @rowDblClick="rowDoubleClick"
+        @rowClick="rowSelect"
+        :key="tableKey"
       ></Table>
 
       <div class="content-page-navigator">
         <div class="navigator-left" id="current-pagesize">
-          Hiển thị <b>1-20/{{ employees.length }}</b> nhân viên
+          Hiển thị <b>1-20/{{ tableSize }}</b> nhân viên
         </div>
-        <div class="navigator-center" currentpage="1">
+        <div class="navigator-center">
           <div class="button-firstpage button-navigator"></div>
           <div class="button-prev-page button-navigator"></div>
-
           <div class="page-buttons">
             <div class="button-page-number button-current-page first-page">
               1
             </div>
           </div>
-
           <div class="button-next-page button-navigator"></div>
           <div class="button-lastpage button-navigator"></div>
         </div>
         <div class="navigator-right">
-          <!-- <div class="input-field"> -->
           <Dropdown
-            direction="up"
-            :data="this.pageSize"
+            :direction="'up'"
+            :data="this.pageSizeDropData"
             :type="'drop-number-of-row'"
             :displayId="'number-of-rows'"
+            :currProp="this.pageSizeDropData[0].Name"
           ></Dropdown>
         </div>
       </div>
+    </div>    
+    <Form
+      :isOpen="this.formStatus"
+      :close="this.CloseForm"
+      :mode="action"
+      @closeForm="this.CloseForm"
+      :detailId="this.employeeId"
+      :moreDetail="this.moreDetail"      
+    ></Form>
+    <div id="loader" :class="{'hide' : !isTableLoading}">
+        <div class="spinner-wrapper">
+            <div class="spinner"></div>
+        </div>
     </div>
-    <Form :isOpen="this.formStatus" :close="this.CloseForm"></Form>
   </div>
 </template>
 
@@ -136,12 +111,17 @@ export default {
   },
   data() {
     return {
-      employees: [],
-      pageSize: [
-        "10 nhân viên/trang",
-        "20 nhân viên/trang",
-        "50 nhân viên/trang",
-        "100 nhân viên/trang",
+      tableSize: 0, // number of rows
+      action: 0,
+      employeeId: null,
+      moreDetail: null,
+      deleteList: [],
+      tableKey: 0,
+      pageSizeDropData: [
+        {Name:"10 nhân viên/trang"},
+        {Name:"20 nhân viên/trang"},
+        {Name:"50 nhân viên/trang"},
+        {Name:"100 nhân viên/trang"},
       ],
       thead: [
         "Mã nhân viên",
@@ -158,7 +138,7 @@ export default {
       tmap: [
         "EmployeeCode",
         "FullName",
-        "Gender",
+        "GenderName",
         "DateOfBirth",
         "PhoneNumber",
         "Email",
@@ -168,21 +148,72 @@ export default {
         "WorkStatus",
       ],
       formStatus: false,
+      isTableLoading: true
     };
   },
   created() {},
+  computed: {
+    delBtnActive: function(){
+      return this.deleteList.length > 0;
+    }
+  },
   methods: {
-    OpenForm() {
+    OpenForm(act) {
+      this.action = act;
       this.formStatus = true;
-      console.log("open form");
     },
     CloseForm() {
       this.formStatus = false;
+      this.employeeId = null;
     },
+    /**
+     * Change page label when number of rows change
+     */
+    tableDataLoaded(size) {
+      this.tableSize = size;
+      this.isTableLoading = false;
+    },
+    BtnAddClick(){      
+      this.OpenForm(0);
+    },
+    rowDoubleClick(id, pos, dep){      
+      console.log("row click", id);
+      this.employeeId = id;
+      this.moreDetail = {
+        PositionName: pos,
+        DepartmentName: dep
+      }
+      this.OpenForm(1);
+    },
+    rowSelect(id){
+      if(this.deleteList.includes(id)){
+        let i = this.deleteList.indexOf(id);
+        this.deleteList.splice(i,1);
+      }else{
+        this.deleteList.push(id);
+      }      
+    },
+    delBtnClick(){
+      for(let id of this.deleteList){
+        this.axios.delete(`http://cukcuk.manhnv.net/v1/Employees/${id}`)
+        .then(() => {
+          this.deleteList.splice(this.deleteList.indexOf(id));
+          this.isTableLoading = true;
+          this.ForceTableRerender();
+        })
+        .catch(err => {
+          console.log(err);
+        })
+      }
+    },
+    ForceTableRerender(){
+      this.tableKey++;
+    }
   },
 };
 </script>
 
 <style>
 @import "../../css/layout/content.css";
+@import "../../css/base/loader.css"
 </style>

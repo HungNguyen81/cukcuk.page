@@ -41,6 +41,10 @@ tr.select{
     height: 40px;
     cursor: pointer;
 }
+.table-employee tbody tr.selected {
+    background-color: #EBF4FF;
+}
+
 .table-employee tbody tr:hover{
     background-color: #E9EBEE;
 }

@@ -115,8 +115,6 @@
     position: absolute;
     background-color: #f65454;
     right: 180px;
-    /* top: 0px;    */
-    visibility: visible;
 }
 #button-delete:hover{
     background-color: #f33939;
