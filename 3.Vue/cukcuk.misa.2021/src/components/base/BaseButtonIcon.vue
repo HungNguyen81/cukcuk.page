@@ -1,5 +1,5 @@
 <template>
-  <div class="button button-icon" @click="OpenPopup()">
+  <div class="button button-icon" :class='type' @click="onclick">
     <div class='icon-button' :class='icon'></div>
     <div>{{value}}</div>
   </div>
@@ -9,7 +9,7 @@
 
 export default {
   name: "BaseButtonIcon",
-  props: ['value', 'icon'],
+  props: ['value', 'type', 'icon', 'onclick'],
   methods:{
     OpenPopup(){
       console.log("open popup");

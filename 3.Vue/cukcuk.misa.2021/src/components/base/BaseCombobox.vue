@@ -30,7 +30,13 @@
       :class="['dropdown-data', [type.toLowerCase() + 's'], { hide: isHide }]"
       :id="[type.toLowerCase() + 's']"
     >
-      <div class="dropdown-item" v-for="item in items" :key="item[typeName]">
+      <!-- item[typeName] -->
+      <div
+        :class="['dropdown-item', { 'item-selected': index == current }]"
+        v-for="(item, index) in items"
+        :key="index"
+        @click="current = index; isHide=true"
+      >
         <i class="fas fa-check item-icon"></i>
         <div class="item-text">{{ item[type + "Name"] }}</div>
       </div>

@@ -1,5 +1,5 @@
 <template>
-  <div class="button" :id='type'>
+  <div class="button" :class='type' @click="onclick">
       {{value}}
   </div>
 </template>
@@ -7,7 +7,7 @@
 <script>
 export default {
   name: 'BaseButton',
-  props: ['value', 'type']
+  props: ['value', 'type', 'onclick']
 }
 </script>
 

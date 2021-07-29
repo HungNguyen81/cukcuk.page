@@ -111,7 +111,7 @@
 }
 
 /* Delete button */
-#button-delete{    
+.button.button-delete{    
     position: absolute;
     background-color: #f65454;
     right: 180px;

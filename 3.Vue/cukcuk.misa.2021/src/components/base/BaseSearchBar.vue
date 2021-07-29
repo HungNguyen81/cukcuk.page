@@ -20,7 +20,6 @@
 
     <div
       class="button-refresh"
-      onclick="GetNumberOfEmployees(UpdateEmployeeTable);"
     ></div>
   </div>
 </template>
