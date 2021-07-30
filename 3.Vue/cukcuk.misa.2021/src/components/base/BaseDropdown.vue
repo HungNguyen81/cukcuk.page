@@ -1,10 +1,8 @@
 <template>
-  <div :class="['dropdown-container', type]">
-    <div class="dropdown" @click="toggle" v-if="isDataLoaded">
+  <div :class="['dropdown-container', type]" v-if="isDataLoaded">
+    <div class="dropdown" @click="toggle">
       <div :id="displayId">
-        {{
-          current >= 0 ? items[current][typeData ? typeData : "" + "Name"] : ""
-        }}
+        {{ current >= 0? items[current][typeData] : '...'}}
       </div>
       <div class="dropdown-icon number-of-rows-icon">
         <i :class="['fas', 'fa-chevron-' + direction.toLowerCase()]"></i>
@@ -15,11 +13,11 @@
         :class="['dropdown-item', { 'item-selected': index == current }]"
         v-for="(item, index) in items"
         :key="index"
-        @click="itemSelect(index)"
+        @click="itemSelect(item, index)"
       >
         <i class="fas fa-check item-icon"></i>
         <div class="item-text">
-          {{ item[typeData ? typeData : "" + "Name"] }}
+          {{ item[typeData] }}
         </div>
       </div>
     </div>
@@ -34,7 +32,7 @@ export default {
     type: {
       type: String,
     },
-    // typeData: Position/ Department
+    // typeData: PositionName / DepartmentName / Name
     typeData: {
       type: String,
     },
@@ -46,7 +44,7 @@ export default {
       type: Array,
       require: true,
     },
-    currProp: {
+    value: {
       type: String,
       required: false,
     },
@@ -69,52 +67,81 @@ export default {
     };
   },
   created() {
-    // this.typeData = (this.typeData)? this.typeData:'';
-    // this.displayItem = this.currProp;
-    console.log("currprop",this.currProp);
+    // console.log(this.displayId);
+    // console.log("value",this.value);
+    // console.log("typeData", this.typeData);    
+
+    // if(this.displayId == 'form-dropdown') this.current = -1
     if (this.api) {
       this.axios
         .get(this.api)
         .then((res) => {
           this.items = res.data;
           
-          console.log("data", this.items);
-          this.checkSelect();
+          // console.log("data " + this.displayId , this.items);
+                    
+          if(this.type == 'form-dropdown'){
+            this.current = -1;
+
+            if(this.value)
+            this.items.forEach((e, i) => {
+            // console.log("api",e, i);
+            if(this.value == this.items[i][this.typeData]){
+              this.current = i;
+            }
+          });
+
           this.isDataLoaded = true;
+               
+      }
+          
         })
         .catch((err) => {
           console.log(err);
         });
     } else {
-      
+
       this.items = this.data;
-      // console.log(this.items);
-      this.checkSelect();
-      this.isDataLoaded = true;
+      if(this.type == 'form-dropdown'){
+        this.current = -1;
+
+        if(this.value)
+        this.items.forEach((e, i) => {
+          if(this.value == this.items[i][this.typeData]){
+            this.current = i;
+          }
+        });
+
+        this.isDataLoaded = true;
+      }
     }
   },
-  computed: {},
+  computed: {
+    // dropData: function(){
+    //   return this.value? this.value : (this.current >= 0 ? this.items[this.current][this.typeData] : "")
+    // }
+  },
   methods: {
     toggle() {
       this.isHide = !this.isHide;
     },
-    itemSelect(index) {
+    itemSelect(item, index) {
       this.current = index;
-      this.toggle();
-    },
-    checkSelect() {
-      if (this.currProp) {
-        for (let i = 0; i < this.items.length; i++) {
-          if (
-            this.items[i][this.typeData ? this.typeData : "" + "Name"] == this.currProp
-          ) {
-            this.current = i;
-          }
-        }
-      }
-    },
+      this.toggle();      
+      this.$emit('itemChange', this.typeData, item);
+    },    
   },
-  watch: {},
+  watch: {
+    value: function(){
+      if(!this.value || this.value == 'undefined'){
+        console.log("value undef");
+        this.isDataLoaded = false;
+        this.current = -1;
+        this.isDataLoaded = true;
+      }
+      console.log("val change", this.displayId, this.value);
+    }
+  },
 };
 </script>
 

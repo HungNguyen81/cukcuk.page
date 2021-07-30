@@ -1,0 +1,153 @@
+:root{
+    --toast-width: 500px;
+    --toast-content-width: 420px
+}
+
+.toast-wrapper{
+    transform: translate(-270px, 0);
+}
+
+.toast {
+    width: var(--toast-width);
+    height: 48px;
+    margin: 10px 10px 0px 10px;
+    display: flex;
+    align-items: center;
+    box-sizing: border-box;
+    border-radius: 4px;
+    justify-content: space-between;
+}
+
+.toast-icon {
+    width: 24px;
+    height: 24px;
+    border-radius: 50%;
+    flex-shrink: 0;
+    margin-right: 10px;
+    margin-left: 16px;
+}
+
+.toast-close {
+    display: flex;
+    min-width: 24px;
+    height: 100%;
+    text-align: center;
+    margin-left: 10px;
+    margin-right: 16px;
+    border-radius: 0 8px 8px 0;
+    align-items: center;
+
+}
+
+.toast-content {
+    width: var(--toast-content-width);
+    text-align: left;
+}
+
+.toast-message {
+    max-width: 276px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.toast-close-button {
+    min-width: 24px;
+    min-height: 24px;
+    flex-shrink: 0;
+    line-height: 24px;
+    font-size: 18px;
+}
+
+/* ERROR TOAST */
+.toast.error {
+    background-color: #FFCECE;
+}
+.toast.error .toast-icon {
+    background-image: url('../../assets/icon/toast-error.png');
+    background-size: 24px;
+    background-repeat: no-repeat;
+}
+.toast-close .error {
+    color: #ca3a3a;
+}
+
+
+/* WARNING TOAST */
+.toast.warning {
+    background-color: #FFE7AF;
+}
+
+.toast.warning .toast-icon {
+    background-image: url('../../assets/icon/toast-warning.png');
+    background-size: 24px;
+    background-repeat: no-repeat;
+}
+
+.toast-close .warning {
+    color: #d3a12d;
+}
+
+
+/* SUCCESS TOAST */
+.toast.success {
+    background-color: #BAFFE7;
+}
+
+.toast.success .toast-icon {
+    background-image: url('../../assets/icon/toast-success.png');
+    background-size: 24px;
+    background-repeat: no-repeat;
+}
+
+.toast-close .success {
+    color: #37d19b;
+}
+
+
+/* INFO TOAST */
+.toast.info {
+    background-color: #D8EAFF;
+}
+.toast.toast.info .toast-icon {
+    background-image: url('../../assets/icon/toast-info.png');
+    background-size: 24px;
+    background-repeat: no-repeat;
+}
+.toast-close .info{
+    color: #397dca;
+}
+
+/* HOVER */
+.toast-close:hover{
+    filter: brightness(0.5);
+}
+.toast:hover{
+    filter: brightness(0.9);
+}
+
+/* LINE LOADER */
+.line {
+    width: var(--toast-width);
+    height: 2px;
+    background-color: rgba(0, 0, 0, 0.158);
+    border-radius: 0 0 4px 4px;
+    margin: 0 10px;
+    transform: translate(0, -2px);
+}
+
+.line::before {
+    content: '';
+    height: 2px;
+    display: block;
+    width: 0;
+    background-color: rgba(0, 0, 0, 0.473);
+    border-radius: 0 0 4px 4px;
+    animation: getWidth 3s ease-in-out;
+}
+
+@keyframes getWidth {
+    100% {
+        width: var(--toast-width);
+    }
+}

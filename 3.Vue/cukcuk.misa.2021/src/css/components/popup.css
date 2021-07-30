@@ -6,6 +6,26 @@
     background-color: rgba(0, 0, 0, 0.438);
     z-index: 11;
 }
+.popup-wrapper.close{
+    transition: visibility 0.5s;
+    visibility: visible;
+}
+.popup-wrapper.close{
+    transition: visibility 0.5s;
+    visibility: hidden;
+}
+.popup-wrapper.close .msg-icon {
+    visibility: hidden;
+}
+
+
+.popup-container.open {
+    animation: open 0.5s forwards;
+}
+
+.popup-container.close {
+    animation: close 0.5s forwards;
+}
 
 .popup-button {
     z-index: 12;
@@ -42,7 +62,7 @@
     right: 0;
     height: 40px;
     width: 40px;
-    background-image: url('../../content/icon/x.svg');
+    background-image: url('../../assets/icon/x.svg');
     background-repeat: no-repeat;
     background-size: 24px;
     background-position: center;
@@ -105,12 +125,12 @@
 }
 
 .msg-icon.warning {
-    background-image: url('../../content/icon/warning.png');
+    background-image: url('../../assets/icon/warning.png');
     visibility: visible;
 }
 
 .msg-icon.error {
-    background-image: url('../../content/icon/error.png');
+    background-image: url('../../assets/icon/error.png');
     visibility: visible;
 }
 
@@ -123,12 +143,3 @@
     transform: translate(0, -10px);
     margin-right: 24px;
 }
-
-.popup-container.open {
-    animation: open 0.5s forwards;
-}
-
-.popup-container.close {
-    animation: close 0.5s forwards;
-}
-

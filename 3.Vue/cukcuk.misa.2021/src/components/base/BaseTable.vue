@@ -83,7 +83,7 @@ export default {
   },
   methods:{
       rowClickHandle(e, type){
-          this.$emit('rowClick', e[type + 'Id']);
+          this.$emit('rowClick', e[type + 'Id'], e[type+'Code']);
           e.isSelected = !e.isSelected;
       }
   }

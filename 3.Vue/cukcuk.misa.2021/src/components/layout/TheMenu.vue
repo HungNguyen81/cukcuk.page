@@ -30,6 +30,6 @@ export default {
 }
 </script>
 
-<style>
+<style scoped>
 @import '../../css/layout/menu.css';
 </style>

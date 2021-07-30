@@ -13,6 +13,7 @@
     <link rel="stylesheet" href="./content/font/fontawesome-5.15.1/css/all.min.css">
     <link rel="stylesheet" href="./css/base/combobox.css">
     <script src="../2.JS/lib/jquery-3.6.0.min.js"></script>
+    <link rel="stylesheet" href="../1.UI/css/components/toast.css">
 </head>
 
 <body onload="initDropdownListener()">
@@ -82,8 +83,8 @@
             <!-- Combo box -->
             <div class="combobox-container">
                 <div class="combobox">
-                    <input type="text" class="combobox-input textbox-default" value="Nam" 
-                    onkeyup="ComboboxInputChange(this)">
+                    <input type="text" class="combobox-input textbox-default" value="Nam"
+                        onkeyup="ComboboxInputChange(this)">
 
                     <div class="x-icon" hidden="true" onclick="ClearInputText(this)">
                         <i class="fas fa-times"></i>
@@ -92,7 +93,7 @@
                     <div class="combobox-icon-container" onclick="showDropData(this)">
                         <div class="combobox-icon"></div>
                     </div>
-                </div>                
+                </div>
                 <div class="dropdown-data" hidden="true">
                     <div class="dropdown-item">
                         <i class="fas fa-check item-icon"></i>
@@ -107,105 +108,61 @@
         </div>
         <br><br>
         <style>
-            .toast-stack{
-                position: fixed;
-                bottom: 0;
-                right: 0;
-                height: calc(100vh - 49px);
-                width: 400px;
-                border: 1px solid red;
-                display: flex;
-                flex-direction: column;
-                align-items: center;
-            }
-            .toast{
-                width: 380px;
-                /* height: fit-content; */
-                height: 48px;
-                border: 1px solid red;
-                margin: 10px 10px 0px 10px;
-                display: flex;                
-                align-items: center;
-                /* padding: 16px; */
-                box-sizing: border-box;
-                border-radius: 8px;    
-                justify-content: space-between;            
-                /* line-height: 40px; */
-            }
-            .toast-icon{
-                width: 20px;
-                height: 20px;
-                border-radius: 50%;
-                border: 1px solid red;
-                flex-shrink: 0;
-                margin-right: 10px;
-                margin-left: 16px;
-            }
-            .toast-close{
-                display: flex;
-                min-width: 24px;
-                height: 100%;
-                text-align: center;                
-                margin-left: 10px;
-                margin-right: 16px;
-                border-radius: 0 8px 8px 0;
-                align-items: center;                
-            }
-            .toast-content{
-                width: 100%;
-                margin: 16px 0;                                
-                text-align: left;
-                border: 1px solid red;                
-            }
-            .toast-message{      
-                max-width: 276px;
-                white-space: nowrap;
-                overflow: hidden;
-                text-overflow: ellipsis;
-            }
-            .toast-close-button{
-                min-width: 24px;
-                min-height: 24px;
-                border: 1px solid red;
-                flex-shrink: 0;                
-            }
+            
         </style>
         <div class="toast-stack">
-            <div class="toast base-toast">
-                <div class="toast-icon"></div>
-                <div class="toast-content">
-                    <div class="toast-header"><b>This is a header</b></div>
-                    <div class="toast-message">This is a base toast message This is a base toast message This is a base toast message This is a base toast message </div>
-                </div>    
-                <div class="toast-close">
-                    <div class="toast-close-button">x</div>
+            <div>
+                <div class="toast error">
+                    <div class="toast-icon"></div>
+                    <div class="toast-content">
+                        <div class="toast-header"><b>This is a header</b></div>
+                        <div class="toast-message">This is a base toast message This is a base toast message This is a
+                            base
+                            toast message This is a base toast message </div>
+                    </div>
+                    <div class="toast-close">
+                        <div class="toast-close-button error"><i class="fas fa-times"></i></div>
+                    </div>
+                </div>
+                <div class="line">
+                    <div class="line-loader"></div>
                 </div>
             </div>
-            <div class="toast base-toast">
+            <div class="toast base-toast warning">
                 <div class="toast-icon"></div>
                 <div class="toast-content">
                     <div class="toast-header"><b>This is a header</b></div>
-                    <div class="toast-message">This is a base toast message </div>                    
+                    <div class="toast-message">This is a base toast message </div>
                 </div>
                 <div class="toast-close">
-                    <div class="toast-close-button">x</div>
+                    <div class="toast-close-button warning"><i class="fas fa-times"></i></div>
                 </div>
             </div>
-            <div class="toast base-toast">
+            <div class="toast base-toast success">
                 <div class="toast-icon"></div>
                 <div class="toast-content">
                     <div class="toast-header"><b>This is a header</b></div>
-                    <div class="toast-message">This is a base toast message </div>                    
+                    <div class="toast-message">This is a base toast message </div>
                 </div>
                 <div class="toast-close">
-                    <div class="toast-close-button">x</div>
+                    <div class="toast-close-button success"><i class="fas fa-times"></i></div>
+                </div>
+            </div>
+            <div class="toast base-toast info">
+                <div class="toast-icon"></div>
+                <div class="toast-content">
+                    <div class="toast-header"><b>This is a header</b></div>
+                    <div class="toast-message">This is a base toast message </div>
+                </div>
+                <div class="toast-close">
+                    <div class="toast-close-button info"><i class="fas fa-times"></i></div>
                 </div>
             </div>
         </div>
         <div class="button" onclick="showBaseToast()">Show Base Toast</div>
     </div>
     <script>
-        function showBaseToast(){
+        function showBaseToast() {
 
         }
     </script>

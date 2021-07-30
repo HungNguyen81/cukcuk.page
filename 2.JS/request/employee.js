@@ -42,7 +42,7 @@ function GetNewEmployeeCode(callback) {
 }
 
 function PostNewEmployee1() {
-    for (let i = 1; i < 1500; i++) {
+    for (let i = 1000; i < 1500; i++) {
         SendRandomRequest(i);
     }
 }

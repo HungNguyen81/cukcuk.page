@@ -72,11 +72,18 @@
               <div class="input-label">Giới tính</div>
               <BaseDropdown
                 :direction="'down'"
-                :data="[{Name:'Nam'}, {Name:'Nữ'}, {Name:'Không xác định'}]"
+                :data="[
+                  { GenderName: 'Nam' },
+                  { GenderName: 'Nữ' },
+                  { GenderName: 'Không xác định' },
+                ]"
                 :type="'form-dropdown'"
                 :displayId="'gender'"
-                :currProp="detail.GenderName"
+                :value="detail.GenderName"
+                :typeData="'GenderName'"
                 tabindex="4"
+                v-if="isDataLoaded"
+                @itemChange="dropDataChange"
               ></BaseDropdown>
             </div>
           </div>
@@ -159,13 +166,14 @@
               <BaseDropdown
                 :direction="'down'"
                 :type="'form-dropdown'"
-                :typeData="'Position'"
+                :typeData="'PositionName'"
                 :displayId="'position-name'"
                 tabindex="10"
-                :currProp="detail.PositionName"
+                :value="detail.PositionName"
                 id="form-positions"
                 :api="'http://cukcuk.manhnv.net/v1/Positions'"
                 v-if="isDataLoaded"
+                @itemChange="dropDataChange"
               ></BaseDropdown>
             </div>
             <div class="input-field">
@@ -173,14 +181,14 @@
               <BaseDropdown
                 :direction="'down'"
                 :type="'form-dropdown'"
-                :typeData="'Department'"
+                :typeData="'DepartmentName'"
                 :displayId="'department-name'"
                 tabindex="11"
-                :currProp="detail.DepartmentName"
+                :value="detail.DepartmentName"
                 id="form-departments"
                 :api="'http://cukcuk.manhnv.net/api/Department'"
                 v-if="isDataLoaded"
-                @dropSelect="selectDepartment"
+                @itemChange="dropDataChange"
               ></BaseDropdown>
             </div>
           </div>
@@ -218,17 +226,25 @@
                 id="join-date"
                 :value="'2021-07-12'"
                 tabindex="14"
+                v-model="detail.JoinDate"
               />
             </div>
             <div class="input-field">
               <div class="input-label">Tình trạng công việc</div>
               <BaseDropdown
                 :direction="'down'"
-                :data="['Đang làm việc', 'Đang thử việc', 'Sắp nghỉ việc']"
+                :data="[
+                  { WorkStatus: 'Đang làm việc' },
+                  { WorkStatus: 'Đang thử việc' },
+                  { WorkStatus: 'Sắp nghỉ việc' },
+                ]"
                 :type="'form-dropdown'"
+                :typeData="'WorkStatus'"
                 :displayId="'work-status'"
-                :currProp="String(detail.WorkStatus)"
+                :value="String(detail.WorkStatus)"
                 tabindex="15"
+                v-if="isDataLoaded"
+                @itemChange="dropDataChange"
               ></BaseDropdown>
             </div>
           </div>
@@ -240,12 +256,14 @@
           :value="'Hủy'"
           :type="'button-cancel'"
           :onclick="this.close"
+          z-index="16"
         ></BaseButton>
         <BaseButtonIcon
           :value="'Lưu'"
           :type="'button-save'"
           :icon="'icon-save'"
           :onclick="this.BtnSaveClick"
+          z-index="17"
         ></BaseButtonIcon>
       </div>
     </div>
@@ -293,22 +311,40 @@ export default {
   data() {
     return {
       detail: {},
-      isDataLoaded: false
+      isDataLoaded: false,
     };
   },
   mounted() {},
-  computed: {},
+  computed: {
+    // getDetail: function(){
+    //   return this.detail;
+    // }
+  },
   watch: {
     /**
      * Set auto focus on employee Code input field when open form
      */
     isOpen: function () {
-      this.$nextTick(() => {
-        if (this.isOpen) this.$refs.employeeCode.focus();
-      });
+      // this.$nextTick(() => {
+      //   if (this.isOpen) this.$refs.employeeCode.focus();
+      // });
+
+      if (this.isOpen) {
+        if (this.mode == 0) {
+          this.axios
+            .get("http://cukcuk.manhnv.net/v1/Employees/NewEmployeeCode")
+            .then((res) => {
+              console.log(res.data);
+              this.$refs.employeeCode.value = res.data;
+              this.$refs.employeeCode.focus();
+            })
+            .catch(err => {console.log(err);})
+        }
+      }
+
       this.isDataLoaded = false;
       console.log("form " + (this.isOpen ? "open" : "close"));
-      if (this.detailId) {
+      if (this.mode == 1 && this.detailId) {
         this.axios
           .get(`http://cukcuk.manhnv.net/v1/Employees/${this.detailId}`)
           .then((res) => {
@@ -317,13 +353,13 @@ export default {
             this.detail.PositionName = this.moreDetail.PositionName;
             this.detail.DepartmentName = this.moreDetail.DepartmentName;
             this.isDataLoaded = true;
-            // console.log("res", this.detail);
           })
           .catch((err) => {
             console.log(err);
           });
-      } else {
+      } else if (!this.mode) {
         this.detail = {};
+        this.isDataLoaded = true;
       }
     },
   },
@@ -334,46 +370,41 @@ export default {
         this.detail.IdentityDate,
         true
       );
+      this.detail.JoinDate = this.DateFormat(this.detail.JoinDate, true);
       this.detail.WorkStatus = this.WorkStatusCode2Text(this.detail.WorkStatus);
       this.detail.Salary = this.FormatMoneyString(this.detail.Salary);
     },
+    
     GetRawData() {
       let res = JSON.parse(JSON.stringify(this.detail));
       res.DateOfBirth = new Date(this.detail.DateOfBirth).toISOString();
-      res.IdentityDate = new Date(
-        this.detail.IdentityDate
-      ).toISOString();
+      res.IdentityDate = new Date(this.detail.IdentityDate).toISOString();
+      res.JoinDate = new Date(this.detail.JoinDate).toISOString();
       res.WorkStatus = this.WorkStatusText2Code(this.detail.WorkStatus);
+      res.Gender = this.GenderText2Code(this.detail.GenderName);
       let salary = this.detail.Salary;
       res.Salary = Number(salary.replaceAll(".", ""));
       return res;
     },
+
+
     BtnSaveClick() {
-      
-      console.log("save",this.GetRawData());
-      // if(this.mode){
-      //   this.axios.put(`http://cukcuk.manhnv.net/v1/Employees/${this.detailId}`, this.detail)
-      //   .then(res => {
-      //     if(res) alert("da SUA thanh cong");
-      //   })
-      //   .catch(err => {
-      //     console.log(err);
-      //   })
-      // } else {
-      //   // console.log(this.detail);
-      //   this.axios.post(`http://cukcuk.manhnv.net/v1/Employees/`, this.detail)
-      //   .then(res => {
-      //     if(res) alert("da THEM thanh cong");
-      //   })
-      //   .catch(err => {
-      //     console.log(err);
-      //   })
-      // }
+      this.$emit("saveClicked", this.mode, this.detailId, this.GetRawData());
     },
-    // selectDepartment(depart){      
-    //   this.detail.DepartmentName = depart;
-    //   console.log("drop select",this.detail.DepartmentName);
-    // }
+
+    /**
+     * Make Department Id, Position Id sync with its names
+     */
+    dropDataChange(typeName, obj) {
+      this.detail[typeName] = obj[typeName];
+
+      if (obj.DepartmentId) {
+        this.detail.DepartmentId = obj.DepartmentId;
+      }
+      if (obj.PositionId) {
+        this.detail.PositionId = obj.PositionId;
+      }
+    },
   },
 };
 </script>
