@@ -26,6 +26,21 @@
     /* line-height: 40px; */
 }
 
+.toast-wrapper{
+    animation: ToastAppear 0.5s linear;
+}
+
+@keyframes ToastAppear{
+    0% {
+        transform: translate(100px, 0);
+        opacity: 0;
+    }
+    100% {
+        transform: translate(0, 0);
+        opacity: 1;
+    }
+}
+
 .toast-icon {
     width: 24px;
     height: 24px;

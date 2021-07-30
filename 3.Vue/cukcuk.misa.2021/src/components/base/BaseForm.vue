@@ -325,20 +325,21 @@ export default {
      * Set auto focus on employee Code input field when open form
      */
     isOpen: function () {
-      // this.$nextTick(() => {
-      //   if (this.isOpen) this.$refs.employeeCode.focus();
-      // });
+      this.$nextTick(() => {
+        if (this.isOpen) this.$refs.employeeCode.focus();
+      });
 
       if (this.isOpen) {
         if (this.mode == 0) {
-          this.axios
-            .get("http://cukcuk.manhnv.net/v1/Employees/NewEmployeeCode")
-            .then((res) => {
-              console.log(res.data);
-              this.$refs.employeeCode.value = res.data;
-              this.$refs.employeeCode.focus();
-            })
-            .catch(err => {console.log(err);})
+          // this.axios
+          //   .get("http://cukcuk.manhnv.net/v1/Employees/NewEmployeeCode")
+          //   .then((res) => {
+          //     console.log(res.data);
+          //     this.$refs.employeeCode.value = res.data;
+          //     this.detail.EmployeeCode = res.data;
+          //     this.$refs.employeeCode.focus();
+          //   })
+          //   .catch(err => {console.log(err);})
         }
       }
 
@@ -357,9 +358,20 @@ export default {
           .catch((err) => {
             console.log(err);
           });
-      } else if (!this.mode) {
+      } else if (this.mode == 0) {
         this.detail = {};
         this.isDataLoaded = true;
+        this.axios
+          .get("http://cukcuk.manhnv.net/v1/Employees/NewEmployeeCode")
+          .then((res) => {
+            console.log(res.data);
+            this.$refs.employeeCode.value = res.data;
+            this.detail.EmployeeCode = res.data;
+            // this.$refs.employeeCode.focus();
+          })
+          .catch((err) => {
+            console.log(err);
+          });
       }
     },
   },
@@ -374,7 +386,7 @@ export default {
       this.detail.WorkStatus = this.WorkStatusCode2Text(this.detail.WorkStatus);
       this.detail.Salary = this.FormatMoneyString(this.detail.Salary);
     },
-    
+
     GetRawData() {
       let res = JSON.parse(JSON.stringify(this.detail));
       res.DateOfBirth = new Date(this.detail.DateOfBirth).toISOString();
@@ -386,7 +398,6 @@ export default {
       res.Salary = Number(salary.replaceAll(".", ""));
       return res;
     },
-
 
     BtnSaveClick() {
       this.$emit("saveClicked", this.mode, this.detailId, this.GetRawData());

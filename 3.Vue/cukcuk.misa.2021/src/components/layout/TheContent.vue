@@ -84,7 +84,7 @@
       :detailId="this.employeeId"
       :moreDetail="this.moreDetail"
       @saveClicked="this.FormSaveButtonClick"
-    ></Form>    
+    ></Form>
 
     <div id="loader" :class="{ hide: !isTableLoading }">
       <div class="spinner-wrapper">
@@ -102,8 +102,15 @@
       @closePopup="ClosePopup"
     ></Popup>
     <div class="toast-stack">
-      <Toast :type="t.type" :header="t.header" :msg="t.msg"
-        v-for="(t, i) in toasts" :key="i"></Toast>
+      <Toast
+        :type="t.type"
+        :header="t.header"
+        :msg="t.msg"
+        v-for="(t, i) in toasts"
+        :key="i"
+        transition="fade"
+        stagger="1000"
+      ></Toast>
     </div>
   </div>
 </template>
@@ -116,7 +123,7 @@ import Combobox from "../base/BaseCombobox.vue";
 import Form from "../base/BaseForm.vue";
 import Table from "../base/BaseTable.vue";
 import Popup from "../base/BasePopup.vue";
-import Toast from '../base/BaseToast.vue'
+import Toast from "../base/BaseToast.vue";
 
 export default {
   name: "Content",
@@ -180,7 +187,7 @@ export default {
       ],
       formStatus: false,
       isTableLoading: true,
-      toasts:[]
+      toasts: [],
     };
   },
   created() {},
@@ -198,13 +205,13 @@ export default {
       this.formStatus = false;
       // this.employeeId = null;
       this.popup.isHide = true;
-      this.RefreshTable();
+      // this.RefreshTable();
     },
-    
+
     /**
      * Close form without display a popup, handle click event for Cancel and Close Form buttons
      */
-    CloseFormWithoutSave(){
+    CloseFormWithoutSave() {
       this.popup = {
         title: "Xác nhận hủy",
         content: `Bạn có chắc chắn muốn <b>HỦY</b> nhập liệu hay không ?!`,
@@ -227,12 +234,19 @@ export default {
      * Show toast to notice to the client
      * params: {String}
      */
-    ShowToast(type, header, msg){
-      this.toasts.push({
-        type: type,
-        header: header.toUpperCase(),
-        msg: msg
-      })
+    ShowToast(type, header, msg, delay) {
+      const Show = () => {
+        this.toasts.push({
+          type: type,
+          header: header.toUpperCase(),
+          msg: msg,
+        });
+      }
+      if(delay){
+        setTimeout(Show, delay);
+      } else { 
+        Show();
+      }
     },
 
     /**
@@ -241,7 +255,9 @@ export default {
     FormSaveButtonClick(mode, id, detail) {
       this.popup = {
         title: "Thông báo",
-        content: `Bạn có chắc chắn muốn <b>${mode ? "sửa" : "thêm"}</b> nhân viên hay không ?!`,
+        content: `Bạn có chắc chắn muốn <b>${
+          mode ? "sửa" : "thêm"
+        }</b> nhân viên hay không ?!`,
         popupType: "",
         okAction: "Lưu",
         isHide: false,
@@ -261,14 +277,22 @@ export default {
           this.employeeDetail
         )
         .then(() => {
-          // if (res) console.log("da SUA thanh cong");     
-          this.ShowToast("success", "PUT", `Sửa nhân viên <strong>${this.employeeDetail.FullName}</strong> thành công`);
-          this.ClosePopup();   
+          // if (res) console.log("da SUA thanh cong");
+          this.ShowToast(
+            "success",
+            "PUT Success",
+            `Sửa nhân viên "<b>${this.employeeDetail.FullName}</b>" thành công`
+          );
+          this.ClosePopup();
           this.CloseForm();
           this.RefreshTable();
         })
-        .catch((err) => {
-          console.log(err);
+        .catch(() => {
+          this.ShowToast(
+            "error",
+            "PUT error",
+            `Sửa nhân viên "<b>${this.employeeDetail.FullName}</b>" không thành công`
+          );
         });
     },
 
@@ -280,14 +304,22 @@ export default {
         .post(`http://cukcuk.manhnv.net/v1/Employees/`, this.employeeDetail)
         .then(() => {
           // if (res) console.log("da THEM thanh cong");
-          this.ShowToast("success", "POST success", `Thêm nhân viên <strong>${this.employeeDetail.FullName}</strong> thành công`);
+          this.ShowToast(
+            "success",
+            "POST success",
+            `Thêm nhân viên "<b>${this.employeeDetail.FullName}</b>" thành công`
+          );
           this.ClosePopup();
           this.CloseForm();
           this.RefreshTable();
         })
         .catch(() => {
           // console.log(err);
-          this.ShowToast("error", "POST error", `Thêm nhân viên <strong>${this.employeeDetail.FullName}</strong> không thành công`)
+          this.ShowToast(
+            "error",
+            "POST error",
+            `Thêm nhân viên "<b>${this.employeeDetail.FullName}</b>" không thành công`
+          );
         });
     },
 
@@ -298,7 +330,7 @@ export default {
       this.isTableLoading = true;
       this.ForceTableRerender();
     },
-    
+
     /**
      * Change page label when number of rows change
      */
@@ -306,7 +338,7 @@ export default {
       this.tableSize = size;
       this.isTableLoading = false;
     },
-    
+
     BtnAddClick() {
       this.OpenForm(0);
     },
@@ -335,7 +367,9 @@ export default {
     delBtnClick() {
       this.popup = {
         title: "Xác nhận xóa",
-        content: `Bạn có chắc chắn muốn xóa <b>${this.deleteCodeList.join(", ")}</b> hay không ?!`,
+        content: `Bạn có chắc chắn muốn xóa "<b>${this.deleteCodeList.join(
+          ", "
+        )}</b>" hay không ?!`,
         popupType: "error",
         okAction: "Xóa",
         isHide: false,
@@ -349,17 +383,24 @@ export default {
      */
     SendDeleteRequests() {
       console.log("send delete");
-      for (let id of this.deleteIdList) {
+      for (const [i, id] of this.deleteIdList.entries()) {        
         this.axios
           .delete(`http://cukcuk.manhnv.net/v1/Employees/${id}`)
           .then(() => {
-            this.deleteIdList.splice(this.deleteIdList.indexOf(id));
+            let index = this.deleteIdList.indexOf(id);
+            this.deleteIdList.splice(index, 1);
+            this.deleteCodeList.splice(index, 1);
             console.log(id);
             this.ClosePopup();
             this.RefreshTable();
+            this.ShowToast("info", "DELETED", `Đã xóa "${id}"`, i*700);
           })
-          .catch((err) => {
-            console.log(err);
+          .catch(() => {
+            this.ShowToast(
+              "error",
+              "Delete error",
+              `Xóa nhân viên "<b>${id}</b>" không thành công`, i*700
+            );
           });
       }
     },
@@ -380,15 +421,14 @@ export default {
 @import "../../css/components/popup.css";
 
 .toast-stack {
-    position: fixed;
-    bottom: 0;
-    right: 0;
-    height: calc(100vh - 49px);
-    width: 8px;    
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    z-index: 100;
-    background-color: coral;
+  position: fixed;
+  bottom: 0;
+  right: 0;
+  height: calc(100vh - 49px);
+  width: 8px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  z-index: 100;
 }
 </style>

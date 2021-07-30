@@ -18,6 +18,21 @@
     justify-content: space-between;
 }
 
+.toast-wrapper{
+    animation: ToastAppear 1s linear;
+}
+
+@keyframes ToastAppear{
+    0% {
+        transform: translate(-200px, 0);
+        opacity: 0;
+    }
+    100% {
+        transform: translate(-270px, 0);
+        opacity: 1;
+    }
+}
+
 .toast-icon {
     width: 24px;
     height: 24px;
@@ -45,7 +60,7 @@
 }
 
 .toast-message {
-    max-width: 276px;
+    max-width: var(--toast-content-width);
     white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;
