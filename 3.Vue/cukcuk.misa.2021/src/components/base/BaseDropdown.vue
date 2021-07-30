@@ -2,7 +2,7 @@
   <div :class="['dropdown-container', type]" v-if="isDataLoaded">
     <div class="dropdown" @click="toggle">
       <div :id="displayId">
-        {{ current >= 0? items[current][typeData] : '...'}}
+        {{ current >= 0 ? items[current][typeData] : "..." }}
       </div>
       <div class="dropdown-icon number-of-rows-icon">
         <i :class="['fas', 'fa-chevron-' + direction.toLowerCase()]"></i>
@@ -69,7 +69,7 @@ export default {
   created() {
     // console.log(this.displayId);
     // console.log("value",this.value);
-    // console.log("typeData", this.typeData);    
+    // console.log("typeData", this.typeData);
 
     // if(this.displayId == 'form-dropdown') this.current = -1
     if (this.api) {
@@ -77,43 +77,39 @@ export default {
         .get(this.api)
         .then((res) => {
           this.items = res.data;
-          
+
           // console.log("data " + this.displayId , this.items);
-                    
-          if(this.type == 'form-dropdown'){
+
+          if (this.type == "form-dropdown") {
             this.current = -1;
 
-            if(this.value)
-            this.items.forEach((e, i) => {
-            // console.log("api",e, i);
-            if(this.value == this.items[i][this.typeData]){
-              this.current = i;
-            }
-          });
+            if (this.value)
+              this.items.forEach((e, i) => {
+                // console.log("api",e, i);
+                if (this.value == this.items[i][this.typeData]) {
+                  this.current = i;
+                }
+              });
 
-          this.isDataLoaded = true;
-               
-      }
-          
+            this.isDataLoaded = true;
+          }
         })
         .catch((err) => {
           console.log(err);
         });
     } else {
-
       this.items = this.data;
-      if(this.type == 'form-dropdown'){
+      if (this.type == "form-dropdown") {
         this.current = -1;
 
-        if(this.value)
-        this.items.forEach((e, i) => {
-          if(this.value == this.items[i][this.typeData]){
-            this.current = i;
-          }
-        });
-
-        this.isDataLoaded = true;
+        if (this.value)
+          this.items.forEach((e, i) => {
+            if (this.value == this.items[i][this.typeData]) {
+              this.current = i;
+            }
+          });
       }
+      this.isDataLoaded = true;
     }
   },
   computed: {
@@ -127,20 +123,20 @@ export default {
     },
     itemSelect(item, index) {
       this.current = index;
-      this.toggle();      
-      this.$emit('itemChange', this.typeData, item);
-    },    
+      this.toggle();
+      this.$emit("itemChange", this.typeData, item);
+    },
   },
   watch: {
-    value: function(){
-      if(!this.value || this.value == 'undefined'){
+    value: function () {
+      if (!this.value || this.value == "undefined") {
         console.log("value undef");
         this.isDataLoaded = false;
         this.current = -1;
         this.isDataLoaded = true;
       }
       console.log("val change", this.displayId, this.value);
-    }
+    },
   },
 };
 </script>
