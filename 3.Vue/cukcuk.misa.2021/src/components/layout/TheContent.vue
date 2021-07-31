@@ -4,12 +4,12 @@
       <div class="content-heading">
         <b class="title">Danh sách nhân viên</b>
         <!-- <div class="button" style="position: fixed" @click="ShowToast">click</div> -->
-        <BaseButton
+        <BaseButtonIcon
           value="Xóa nhân viên"
           type="button-delete"
           :onclick="delBtnClick"
           :class="{ hide: !delBtnActive }"
-        ></BaseButton>
+        ></BaseButtonIcon>
         <BaseButtonIcon
           value="Thêm nhân viên"
           icon="icon-add"
@@ -42,39 +42,22 @@
         :type="'Employee'"
         :thead="thead"
         :dataMap="tmap"
-        :api="'http://cukcuk.manhnv.net/v1/Employees/'"
+        :api="`http://cukcuk.manhnv.net/v1/Employees/Filter?pageSize=${pageSize}&pageNumber=${pageNumber}&employeeCode=${searchContent}`"
         @dataLoaded="tableDataLoaded"
         @rowDblClick="rowDoubleClick"
         @rowClick="rowSelect"
         :key="tableKey"
+        @getPagingInfo="transPagingInfo"
       ></Table>
 
-      <div class="content-page-navigator">
-        <div class="navigator-left" id="current-pagesize">
-          Hiển thị <b>1-20/{{ tableSize }}</b> nhân viên
-        </div>
-        <div class="navigator-center">
-          <div class="button-firstpage button-navigator"></div>
-          <div class="button-prev-page button-navigator"></div>
-          <div class="page-buttons">
-            <div class="button-page-number button-current-page first-page">
-              1
-            </div>
-          </div>
-          <div class="button-next-page button-navigator"></div>
-          <div class="button-lastpage button-navigator"></div>
-        </div>
-        <div class="navigator-right">
-          <Dropdown
-            :direction="'up'"
-            :data="this.pageSizeDropData"
-            :type="'drop-number-of-row'"
-            :displayId="'number-of-rows'"
-            :typeData="'Name'"
-            :value="this.pageSizeDropData[0].Name"
-          ></Dropdown>
-        </div>
-      </div>
+      <Paging
+        :pageNumber="this.pageNumber"
+        :pageSize="this.pageSize"
+        :totalPage="totalPage"
+        :totalRecord="totalRecord"
+        @pageSizeChange="onPageSizeChange"
+        @pageNumChange="onPageNumChange"
+      ></Paging>
     </div>
     <Form
       :isOpen="this.formStatus"
@@ -84,6 +67,7 @@
       :detailId="this.employeeId"
       :moreDetail="this.moreDetail"
       @saveClicked="this.FormSaveButtonClick"
+      @getNewCodeError="FailInGetNewCode"
     ></Form>
 
     <div id="loader" :class="{ hide: !isTableLoading }">
@@ -116,22 +100,21 @@
 </template>
 
 <script>
-import BaseButton from "../base/BaseButton.vue";
 import BaseButtonIcon from "../base/BaseButtonIcon.vue";
-import Dropdown from "../base/BaseDropdown.vue";
 import Combobox from "../base/BaseCombobox.vue";
 import Form from "../base/BaseForm.vue";
 import Table from "../base/BaseTable.vue";
 import Popup from "../base/BasePopup.vue";
 import Toast from "../base/BaseToast.vue";
+import Paging from "../base/BasePaging.vue";
 
 export default {
   name: "Content",
   components: {
-    BaseButton,
+    // BaseButton,
     BaseButtonIcon,
     Combobox,
-    Dropdown,
+    Paging,
     Form,
     Table,
     Popup,
@@ -139,7 +122,6 @@ export default {
   },
   data() {
     return {
-      tableSize: 0, // number of rows
       action: 0,
       employeeId: null,
       employeeDetail: null,
@@ -147,6 +129,13 @@ export default {
       deleteIdList: [],
       deleteCodeList: [],
       tableKey: 0,
+      // page
+      pageSize: 20,
+      pageNumber: 0, // = current - 1
+      totalRecord: 20,
+      totalPage: 3,
+      // 
+      searchContent: "nv",
       popup: {
         title: "Empty Title",
         content: "Empty Content",
@@ -155,12 +144,6 @@ export default {
         isHide: true,
         callback: null,
       },
-      pageSizeDropData: [
-        { Name: "10 nhân viên/trang" },
-        { Name: "20 nhân viên/trang" },
-        { Name: "50 nhân viên/trang" },
-        { Name: "100 nhân viên/trang" },
-      ],
       thead: [
         "Mã nhân viên",
         "Họ và tên",
@@ -192,11 +175,49 @@ export default {
   },
   created() {},
   computed: {
+    /**
+     * Toggle delete button status depend on number of selected rows
+     */
     delBtnActive: function () {
       return this.deleteIdList.length > 0;
     },
   },
+  watch: {
+    pageNumber: function (num) {
+      console.log("change page to", num);
+    },
+    pageSize: function (size) {
+      console.log("reset page size to", size);
+    },
+  },
   methods: {
+    /**
+     * When page size change from paging bar
+     */
+    onPageSizeChange(size) {
+      this.pageSize = size;
+      this.pageNumber = 0;
+      this.ForceTableRerender();
+    },
+    onPageNumChange(num){
+      console.log("on num change: ", num);
+      this.pageNumber = num;
+      this.ForceTableRerender();
+    },
+    /**
+     * Handle when table load completely
+     */
+    transPagingInfo(numPage, numRecord) {
+      this.totalRecord = numRecord;
+      this.totalPage = numPage;
+      
+      console.log("update page info", numPage, numRecord);
+    },
+    OnPageChange(size, num) {
+      this.pageSize = size;
+      this.pageNumber = num;
+    },
+    
     OpenForm(act) {
       this.action = act;
       this.formStatus = true;
@@ -241,10 +262,10 @@ export default {
           header: header.toUpperCase(),
           msg: msg,
         });
-      }
-      if(delay){
+      };
+      if (delay) {
         setTimeout(Show, delay);
-      } else { 
+      } else {
         Show();
       }
     },
@@ -293,6 +314,8 @@ export default {
             "PUT error",
             `Sửa nhân viên "<b>${this.employeeDetail.FullName}</b>" không thành công`
           );
+          this.ClosePopup();
+          // this.CloseForm();
         });
     },
 
@@ -320,6 +343,8 @@ export default {
             "POST error",
             `Thêm nhân viên "<b>${this.employeeDetail.FullName}</b>" không thành công`
           );
+          this.ClosePopup();
+          // this.CloseForm();
         });
     },
 
@@ -353,14 +378,15 @@ export default {
       this.OpenForm(1);
     },
 
-    rowSelect(id, code) {
+    rowSelect(id, code, name) {
       if (this.deleteIdList.includes(id)) {
         let i = this.deleteIdList.indexOf(id);
         this.deleteIdList.splice(i, 1);
         this.deleteCodeList.splice(i, 1);
       } else {
+        console.log(id, code, name);
         this.deleteIdList.push(id);
-        this.deleteCodeList.push(code);
+        this.deleteCodeList.push(name);
       }
     },
 
@@ -383,33 +409,45 @@ export default {
      */
     SendDeleteRequests() {
       console.log("send delete");
-      for (const [i, id] of this.deleteIdList.entries()) {        
+      for (const [i, id] of this.deleteIdList.entries()) {
+        let index = this.deleteIdList.indexOf(id);
+        let name = this.deleteCodeList[index];
         this.axios
           .delete(`http://cukcuk.manhnv.net/v1/Employees/${id}`)
           .then(() => {
-            let index = this.deleteIdList.indexOf(id);
             this.deleteIdList.splice(index, 1);
             this.deleteCodeList.splice(index, 1);
             console.log(id);
             this.ClosePopup();
             this.RefreshTable();
-            this.ShowToast("info", "DELETED", `Đã xóa "${id}"`, i*700);
+            this.ShowToast(
+              "info",
+              "DELETE successfully",
+              `Đã xóa "${name}"`,
+              i * 1000
+            );
           })
           .catch(() => {
             this.ShowToast(
               "error",
               "Delete error",
-              `Xóa nhân viên "<b>${id}</b>" không thành công`, i*700
+              `Xóa nhân viên "<b>${name}</b>" không thành công`,
+              i * 1000
             );
           });
       }
+    },
+
+    FailInGetNewCode() {
+      this.ShowToast("error", "GET error", `Không thể lấy mã nhân viên mới !`);
     },
 
     /**
      * Force the table re-render
      */
     ForceTableRerender() {
-      this.tableKey++;
+      this.isTableLoading = true;
+      this.tableKey = (this.tableKey +1)%100;
     },
   },
 };
@@ -418,7 +456,6 @@ export default {
 <style scoped>
 @import "../../css/layout/content.css";
 @import "../../css/base/loader.css";
-@import "../../css/components/popup.css";
 
 .toast-stack {
   position: fixed;

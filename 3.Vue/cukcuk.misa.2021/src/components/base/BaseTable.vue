@@ -11,20 +11,20 @@
         <tr
           v-for="(e, index) in employees"
           :key="index"
-          @dblclick="$emit('rowDblClick', e[type + 'Id'], e.PositionName, e.DepartmentName)"
+          @dblclick="$emit('rowDblClick', e[type +'Id'], e.PositionName, e.DepartmentName)"
           @click="rowClickHandle(e, type)"
           :class="{'selected' : e.isSelected}"
         >
           <td>
-            <span class="checkbox-container">
+            <span class="checkbox-container" @dblclick.stop="">
               <input type="checkbox" name="delete" v-model="e.isSelected"/>
               <span class="checkmark"><i class="fas fa-check check"></i></span>
             </span>
           </td>
           <td :title="e[cell]" v-for="(cell, k) in dataMap" :key="k">
-            <span v-if="cell == 'Salary'">{{ FormatMoneyString(e[cell]) }}</span>
-            <span v-else-if="cell == 'DateOfBirth'">{{ DateFormat(e[cell], false) }}</span>
-            <span v-else>{{ e[cell] }}</span>
+            <span v-if      ="cell == 'Salary'">      {{ FormatMoneyString(e[cell]) }}</span>
+            <span v-else-if ="cell == 'DateOfBirth'"> {{ DateFormat(e[cell], false) }}</span>
+            <span v-else>                             {{ e[cell] }}                   </span>
           </td>
         </tr>
       </tbody>
@@ -59,16 +59,19 @@ export default {
   },
   data() {
     return {
-      employees: [],      
+      employees: [],    
+      // test: 0  
     };
   },
   mounted() {    
+    // console.log("t",this.test++);
     if (this.api)
       this.axios
         .get(this.api)
         .then((res) => {
-          this.employees = res.data;          
+          this.employees = res.data.Data;          
           this.$emit("dataLoaded", this.employees.length);
+          this.$emit('getPagingInfo', res.data.TotalPage, res.data.TotalRecord);
           this.employees = this.employees.map(e => ({...e, isSelected : false}));
         })
         .catch((err) => {
@@ -83,7 +86,7 @@ export default {
   },
   methods:{
       rowClickHandle(e, type){
-          this.$emit('rowClick', e[type + 'Id'], e[type+'Code']);
+          this.$emit('rowClick', e[type + 'Id'], e[type+'Code'], e['FullName']);
           e.isSelected = !e.isSelected;
       }
   }

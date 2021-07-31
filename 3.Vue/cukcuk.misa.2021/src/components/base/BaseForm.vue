@@ -2,12 +2,12 @@
   <div
     :class="['container', { open: isOpen, close: !isOpen }]"
     id="container"
-    @click="$emit('closeForm')"
+    @click="$emit('closeForm')"    
   >
     <div
       :class="['form-container', { open: isOpen, close: !isOpen }]"
       id="form-container"
-      @click.stop=""
+      @click.stop=""      
     >
       <div class="form-header" id="form-container-header">
         <div class="header">THÔNG TIN NHÂN VIÊN</div>
@@ -32,13 +32,13 @@
               <div class="input-label">
                 Mã nhân viên (<span class="required">*</span>)
               </div>
-              <input
-                :type="'text'"
-                class="textbox-default input-form"
+              <base-input
+                :valueType="'text'"
+                type="input-form"
                 id="employee-code"
-                :value="'NV000001'"
                 tabindex="1"
                 ref="employeeCode"
+                @keyup="test"
                 v-model="detail.EmployeeCode"
               />
             </div>
@@ -46,11 +46,10 @@
               <div class="input-label">
                 Họ và tên (<span class="required">*</span>)
               </div>
-              <input
-                :type="'text'"
-                class="textbox-default input-form"
+              <base-input
+                :valueType="'text'"
+                type="input-form"
                 id="fullname"
-                :value="'Nguyễn Ngọc Hưng'"
                 tabindex="2"
                 v-model="detail.FullName"
               />
@@ -252,18 +251,18 @@
       </div>
 
       <div class="form-footer">
-        <BaseButton
+        <BaseButtonIcon
           :value="'Hủy'"
           :type="'button-cancel'"
           :onclick="this.close"
-          z-index="16"
-        ></BaseButton>
+          tabindex="16"
+        ></BaseButtonIcon>
         <BaseButtonIcon
           :value="'Lưu'"
           :type="'button-save'"
           :icon="'icon-save'"
           :onclick="this.BtnSaveClick"
-          z-index="17"
+          tabindex="17"
         ></BaseButtonIcon>
       </div>
     </div>
@@ -272,16 +271,16 @@
 
 <script>
 import ultis from "../../mixins/ultis";
-import BaseButton from "../base/BaseButton.vue";
 import BaseButtonIcon from "../base/BaseButtonIcon.vue";
 import BaseDropdown from "../base/BaseDropdown.vue";
+import BaseInput from '../base/BaseInput.vue'
 
 export default {
   name: "Form",
-  components: {
-    BaseButton,
+  components: {    
     BaseButtonIcon,
     BaseDropdown,
+    BaseInput
   },
   mixins: [ultis],
   props: {
@@ -296,9 +295,10 @@ export default {
     mode: {
       type: Number,
       required: false,
-      default: 0, // 0: For POST action, 1: For PUT action
+      default(){
+        return 0;
+      }, // 0: For POST action, 1: For PUT action
     },
-    // detailId = id of employee / customer
     detailId: {
       type: String,
       required: false,
@@ -315,91 +315,83 @@ export default {
     };
   },
   mounted() {},
-  computed: {
-    // getDetail: function(){
-    //   return this.detail;
-    // }
-  },
+  computed: { },
   watch: {
     /**
      * Set auto focus on employee Code input field when open form
      */
-    isOpen: function () {
+    isOpen: function (val) {
       this.$nextTick(() => {
-        if (this.isOpen) this.$refs.employeeCode.focus();
+        if (val) this.$refs.employeeCode.$el.focus();
       });
-
-      if (this.isOpen) {
-        if (this.mode == 0) {
-          // this.axios
-          //   .get("http://cukcuk.manhnv.net/v1/Employees/NewEmployeeCode")
-          //   .then((res) => {
-          //     console.log(res.data);
-          //     this.$refs.employeeCode.value = res.data;
-          //     this.detail.EmployeeCode = res.data;
-          //     this.$refs.employeeCode.focus();
-          //   })
-          //   .catch(err => {console.log(err);})
-        }
-      }
-
+      
       this.isDataLoaded = false;
-      console.log("form " + (this.isOpen ? "open" : "close"));
+      console.log("form " + (val ? "open" : "close"), this.mode);
+
+      if (this.isOpen) 
       if (this.mode == 1 && this.detailId) {
         this.axios
           .get(`http://cukcuk.manhnv.net/v1/Employees/${this.detailId}`)
           .then((res) => {
-            this.detail = res.data;
+            this.detail = Object.assign({}, res.data);
             this.FormatData();
-            this.detail.PositionName = this.moreDetail.PositionName;
-            this.detail.DepartmentName = this.moreDetail.DepartmentName;
+            this.$set(this.detail, 'PositionName', this.moreDetail.PositionName);
+            this.$set(this.detail, 'DepartmentName', this.moreDetail.DepartmentName)
             this.isDataLoaded = true;
+            // console.log(this.detail);
           })
           .catch((err) => {
             console.log(err);
           });
       } else if (this.mode == 0) {
-        this.detail = {};
+        this.detail = Object.assign({});
         this.isDataLoaded = true;
         this.axios
           .get("http://cukcuk.manhnv.net/v1/Employees/NewEmployeeCode")
-          .then((res) => {
-            console.log(res.data);
-            this.$refs.employeeCode.value = res.data;
-            this.detail.EmployeeCode = res.data;
-            // this.$refs.employeeCode.focus();
+          .then((res) => {            
+            this.$refs.employeeCode.$el.value = res.data;            
+            this.$set(this.detail, 'EmployeeCode', res.data)
           })
-          .catch((err) => {
-            console.log(err);
+          .catch(() => {
+            this.$emit('getNewCodeError');
+            let newCode = `NV-${Math.round(Math.random()*100000)}`
+            this.$refs.employeeCode.$el.value = newCode;
+
+            // Thay đổi giá trị bằng phép gán làm mất tính reactivity của component
+            this.$set(this.detail, 'EmployeeCode', newCode)
+
           });
       }
     },
   },
   methods: {
     FormatData() {
-      this.detail.DateOfBirth = this.DateFormat(this.detail.DateOfBirth, true);
-      this.detail.IdentityDate = this.DateFormat(
-        this.detail.IdentityDate,
-        true
-      );
-      this.detail.JoinDate = this.DateFormat(this.detail.JoinDate, true);
-      this.detail.WorkStatus = this.WorkStatusCode2Text(this.detail.WorkStatus);
-      this.detail.Salary = this.FormatMoneyString(this.detail.Salary);
+      this.$set(this.detail, 'DateOfBirth', this.DateFormat(this.detail.DateOfBirth, true));
+      this.$set(this.detail, 'IdentityDate', this.DateFormat(this.detail.IdentityDate,true));
+      this.$set(this.detail, 'JoinDate', this.DateFormat(this.detail.JoinDate, true));
+      this.$set(this.detail, 'WorkStatus', this.WorkStatusCode2Text(this.detail.WorkStatus));
+      this.$set(this.detail, 'Salary', this.FormatMoneyString(this.detail.Salary));
     },
 
     GetRawData() {
-      let res = JSON.parse(JSON.stringify(this.detail));
-      res.DateOfBirth = new Date(this.detail.DateOfBirth).toISOString();
-      res.IdentityDate = new Date(this.detail.IdentityDate).toISOString();
-      res.JoinDate = new Date(this.detail.JoinDate).toISOString();
-      res.WorkStatus = this.WorkStatusText2Code(this.detail.WorkStatus);
-      res.Gender = this.GenderText2Code(this.detail.GenderName);
-      let salary = this.detail.Salary;
-      res.Salary = Number(salary.replaceAll(".", ""));
+      console.log(this.detail);
+      let dob           = this.detail.DateOfBirth;
+      let identityDate  = this.detail.IdentityDate;
+      let joinDate      = this.detail.JoinDate;
+      let salary        = this.detail.Salary;
+      let res           = JSON.parse(JSON.stringify(this.detail));
+
+      res.DateOfBirth   = dob         ? new Date(dob).toISOString()           :null;
+      res.IdentityDate  = identityDate? new Date(identityDate).toISOString()  :null;
+      res.JoinDate      = joinDate    ? new Date(joinDate).toISOString()      :null;
+      res.WorkStatus    = this.WorkStatusText2Code(this.detail.WorkStatus);
+      res.Gender        = this.GenderText2Code(this.detail.GenderName);      
+      res.Salary        = salary==null? null : Number(salary.replaceAll(".", ""));
       return res;
     },
 
     BtnSaveClick() {
+      console.log('click', this.detail);
       this.$emit("saveClicked", this.mode, this.detailId, this.GetRawData());
     },
 
@@ -407,15 +399,25 @@ export default {
      * Make Department Id, Position Id sync with its names
      */
     dropDataChange(typeName, obj) {
-      this.detail[typeName] = obj[typeName];
+      // this.detail[typeName] = obj[typeName];
+      this.$set(this.detail, typeName, obj[typeName])
 
       if (obj.DepartmentId) {
-        this.detail.DepartmentId = obj.DepartmentId;
+        this.$set(this.detail, 'DepartmentId', obj.DepartmentId);
       }
       if (obj.PositionId) {
-        this.detail.PositionId = obj.PositionId;
+        this.$set(this.detail, 'PositionId', obj.PositionId);
       }
     },
+
+    test(){
+      console.log(this.detail);
+    },
+
+    keyPressHandle : function($event){
+      console.log("keypress");
+      $event.preventDefault();
+    }
   },
 };
 </script>

@@ -27,7 +27,7 @@
 }
 
 .toast-wrapper{
-    animation: ToastAppear 0.5s linear;
+    animation: ToastAppear 2.5s linear;
 }
 
 @keyframes ToastAppear{
@@ -35,9 +35,17 @@
         transform: translate(100px, 0);
         opacity: 0;
     }
-    100% {
+    50% {
         transform: translate(0, 0);
         opacity: 1;
+    }
+    80% {
+        transform: translate(0, 0);
+        opacity: 1;
+    }
+    100% {
+        transform: translate(0, -20px);
+        opacity: 0;
     }
 }
 

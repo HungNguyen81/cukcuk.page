@@ -9,7 +9,7 @@
           <div class="toast-message" v-html="toastMsg">
           </div>
         </div>
-        <div class="toast-close">
+        <div class="toast-close" @click="CloseToast">
           <div :class="['toast-close-button', toastType]">
             <i class="fas fa-times"></i>
           </div>
@@ -56,6 +56,8 @@ export default {
   methods: {
     CloseToast() {
       console.log("close toast");
+
+      clearTimeout(this.timeOut)
 
       // destroy the vue listeners, etc
       this.$destroy();

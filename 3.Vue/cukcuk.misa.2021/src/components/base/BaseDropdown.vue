@@ -1,5 +1,11 @@
 <template>
-  <div :class="['dropdown-container', type]" v-if="isDataLoaded">
+  <div
+    :class="['dropdown-container', type]"
+    v-if="isDataLoaded"
+    @keydown="handleKeyPress"
+    @keyup.enter="toggle"
+    @blur="isHide = true"
+  >
     <div class="dropdown" @click="toggle">
       <div :id="displayId">
         {{ current >= 0 ? items[current][typeData] : "..." }}
@@ -67,25 +73,17 @@ export default {
     };
   },
   created() {
-    // console.log(this.displayId);
-    // console.log("value",this.value);
-    // console.log("typeData", this.typeData);
-
-    // if(this.displayId == 'form-dropdown') this.current = -1
     if (this.api) {
       this.axios
         .get(this.api)
         .then((res) => {
           this.items = res.data;
 
-          // console.log("data " + this.displayId , this.items);
-
           if (this.type == "form-dropdown") {
             this.current = -1;
 
             if (this.value)
               this.items.forEach((e, i) => {
-                // console.log("api",e, i);
                 if (this.value == this.items[i][this.typeData]) {
                   this.current = i;
                 }
@@ -99,24 +97,20 @@ export default {
         });
     } else {
       this.items = this.data;
-      if (this.type == "form-dropdown") {
-        this.current = -1;
+      // if (this.type == "form-dropdown") {
+      this.current = -1;
 
-        if (this.value)
-          this.items.forEach((e, i) => {
-            if (this.value == this.items[i][this.typeData]) {
-              this.current = i;
-            }
-          });
-      }
+      if (this.value)
+        this.items.forEach((e, i) => {
+          if (this.value == this.items[i][this.typeData]) {
+            this.current = i;
+          }
+        });
+      // }
       this.isDataLoaded = true;
     }
   },
-  computed: {
-    // dropData: function(){
-    //   return this.value? this.value : (this.current >= 0 ? this.items[this.current][this.typeData] : "")
-    // }
-  },
+  computed: {},
   methods: {
     toggle() {
       this.isHide = !this.isHide;
@@ -126,20 +120,33 @@ export default {
       this.toggle();
       this.$emit("itemChange", this.typeData, item);
     },
+    handleKeyPress(event) {
+      if (event.code == "ArrowDown") {
+        event.preventDefault();
+        this.current = this.current < 0 ? 0 : this.current;
+        this.current = (this.current + 1) % this.items.length;
+      } else if (event.code == "ArrowUp") {
+        event.preventDefault();
+        this.current = this.current < 0 ? 0 : this.current;
+        this.current =
+          this.current == 0 ? this.items.length - 1 : this.current - 1;
+      }
+    },
   },
   watch: {
-    value: function () {
-      if (!this.value || this.value == "undefined") {
+    value: function (val) {
+      if (!val || val == "undefined") {
         console.log("value undef");
         this.isDataLoaded = false;
         this.current = -1;
         this.isDataLoaded = true;
       }
-      console.log("val change", this.displayId, this.value);
+      console.log("val change", this.displayId, val);
     },
   },
 };
 </script>
 
 <style scoped>
+@import "../../css/base/dropdown.css";
 </style>

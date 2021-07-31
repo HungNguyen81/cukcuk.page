@@ -86,3 +86,8 @@ export default {
   },
 };
 </script>
+
+<style scoped>
+@import '../../css/base/text-box.css';
+@import '../../css/base/combobox.css';
+</style>
