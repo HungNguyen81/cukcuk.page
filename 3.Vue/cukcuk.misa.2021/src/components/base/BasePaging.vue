@@ -66,10 +66,8 @@ export default {
   mounted() {
     // console.log("MOUNTED");
     this.pSize = this.pageSize;
-    // console.log("reset paging bar at currpage:", this.pageNumber, this.pSize);
     this.current = this.pageNumber + 1;
     this.allPage = this.totalPage;
-    // this.pSize =
   },
   data() {
     return {
@@ -89,20 +87,10 @@ export default {
     };
   },
   watch: {
-    // pageSize: function (p) {
-    //   console.log("page size", p);
-    // },
-
     totalPage: function (tp) {
       this.allPage = tp;
-      // console.log("tp", tp);
-      // console.log("+ALLPAGE", this.allPage);
     },
-    // totalRecord: function (tr) {
-    //   console.log("tr", tr);
-    // },
     pageNumber: function (c) {
-      // console.log("pg-num", c + 1);
       this.current = c + 1;
     },
   },
@@ -114,7 +102,6 @@ export default {
       return Math.min(this.current * this.pSize, Number(this.totalRecord));
     },
     offset: function () {
-      // console.log("offset change", this.allPage, this.totalPage);
       return this.current < 3
         ? 1
         : this.current - 2 - Math.max(0, 2 - this.allPage + this.current);
@@ -122,8 +109,7 @@ export default {
   },
   methods: {
     pageSizeChange(type, data) {
-      this.pSize = data.Size;
-      // console.log("M: page size changed to", data.Size);
+      this.pSize = data.Size;      
       this.$emit("pageSizeChange", this.pSize);
     },
     next() {

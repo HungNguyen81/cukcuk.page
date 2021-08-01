@@ -402,7 +402,7 @@ export default {
     },
 
     GetRawData() {
-      // console.log(this.detail);
+
       let dob           = this.detail.DateOfBirth;
       let identityDate  = this.detail.IdentityDate;
       let joinDate      = this.detail.JoinDate;
@@ -419,7 +419,6 @@ export default {
     },
 
     BtnSaveClick() {
-      // console.log('click', this.detail);
       this.$emit("saveClicked", this.mode, this.detailId, this.GetRawData());
     },
 
@@ -427,7 +426,6 @@ export default {
      * Make Department Id, Position Id sync with its names
      */
     dropDataChange(typeName, obj) {
-      // this.detail[typeName] = obj[typeName];
       this.$set(this.detail, typeName, obj[typeName])
 
       if (obj.DepartmentId) {
@@ -437,14 +435,6 @@ export default {
         this.$set(this.detail, 'PositionId', obj.PositionId);
       }
     },
-
-    // required(label, val){
-    //   if(!val){
-    //     this.$emit('showToast', 'warning', 'Required', `<b>"${label}"</b> không được để trống`);
-    //     return false;
-    //   }
-    //   return true;
-    // }
   },
 };
 </script>

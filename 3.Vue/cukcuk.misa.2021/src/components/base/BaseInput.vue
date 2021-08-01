@@ -44,7 +44,6 @@ export default {
   computed: {
     inputListeners: function () {
       var vm = this;
-      // `Object.assign` merges objects together to form a new object
       return Object.assign(
         {},
         // We add all the listeners from the parent
@@ -61,9 +60,6 @@ export default {
     },
   },
   watch:{
-    // value: function(){
-    //   this.inputValidate();
-    // },
     renderFlag: function(){
       this.isValidate = true;
     }

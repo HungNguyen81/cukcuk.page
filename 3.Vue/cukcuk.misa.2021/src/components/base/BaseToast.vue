@@ -63,7 +63,7 @@ export default {
       this.$destroy();
 
       // remove the element from the DOM
-    //   console.log(this.$el.children[0]);
+      // console.log(this.$el.children[0]);
       this.$el.parentNode.removeChild(this.$el);
     },
   },

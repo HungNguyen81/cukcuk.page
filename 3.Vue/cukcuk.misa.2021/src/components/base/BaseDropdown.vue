@@ -38,7 +38,7 @@ export default {
     type: {
       type: String,
     },
-    // typeData: PositionName / DepartmentName / Name
+    // typeData: PositionName / DepartmentName / Name ...
     typeData: {
       type: String,
     },
@@ -97,7 +97,6 @@ export default {
         });
     } else {
       this.items = this.data;
-      // if (this.type == "form-dropdown") {
       this.current = -1;
 
       if (this.value)
@@ -106,7 +105,6 @@ export default {
             this.current = i;
           }
         });
-      // }
       this.isDataLoaded = true;
     }
   },

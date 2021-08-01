@@ -103,7 +103,6 @@ export default {
     });
   },
   mounted() {
-    // console.log("t",this.test++);
     if (this.api)
       this.axios
         .get(this.api)
@@ -136,8 +135,8 @@ export default {
     rowClickHandle(e, type) {
       this.$emit("rowClick", e[type + "Id"], e[type + "Code"], e["FullName"]);
       e.isSelected = !e.isSelected;
-      // localStorage.setItem('select', JSON.stringify([]));
       let stored = localStorage.getItem("select");
+
       if (stored) {
         stored = JSON.parse(stored);
         if (e.isSelected) {
@@ -153,12 +152,7 @@ export default {
           "select",
           JSON.stringify([].push(e[type + "Code"]))
         );
-      }
-      console.log(localStorage.getItem("select"));
-
-      // if (e.isSelected) {
-      // } else {
-      // }
+      }  // console.log(localStorage.getItem("select"));
     },
     checkSelected(e) {
       let code = e[this.type + "Code"];
@@ -177,7 +171,6 @@ export default {
         list = [];
         localStorage.setItem("select", JSON.stringify([]));
       }
-      // localStorage.setItem('select', JSON.stringify([]));
 
       for (let e of this.employees) {
         let code = e[this.type + "Code"];

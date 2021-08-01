@@ -30,7 +30,6 @@
       :class="['dropdown-data', [type.toLowerCase() + 's'], { hide: isHide }]"
       :id="[type.toLowerCase() + 's']"
     >
-      <!-- item[typeName] -->
       <div
         :class="['dropdown-item', { 'item-selected': index == current }]"
         v-for="(item, index) in items"

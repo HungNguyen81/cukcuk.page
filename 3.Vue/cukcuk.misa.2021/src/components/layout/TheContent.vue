@@ -3,7 +3,6 @@
     <div class="content">
       <div class="content-heading">
         <b class="title">Danh sách nhân viên</b>
-        <!-- <div class="button" style="position: fixed" @click="ShowToast">click</div> -->
         <BaseButtonIcon
           value="Xóa nhân viên"
           type="button-delete"
@@ -194,24 +193,13 @@ export default {
     }
   },
   watch: {
-    // searchInput: function(s){
-    //   console.log('s:', s);
-    //   this.searchContent = s? s: 'nv';
-    // },
     searchContent: function(c){      
       if(this.searchTimeOut) clearTimeout(this.searchTimeOut);
       this.searchTimeOut = setTimeout(() => {
         this.tableFlag = !this.tableFlag;
         console.log('c:', c);
       }, 500);      
-    }
-    // pageNumber: function (num) {
-    //   console.log("change page to", num);
-    // },
-    // pageSize: function (size) {
-    //   console.log("reset page size to", size);
-    // },
-    
+    }    
   },
   methods: {
     /**
