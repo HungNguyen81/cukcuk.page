@@ -6,6 +6,7 @@ export default {
         FormatMoneyString(text) {
             if(!text) return null;
             text = String(text);
+            text = text.replaceAll('.', '');
             text = text.replace(/\s+/, "");
             text = text.replace(/[a-zA-Z@#$%^&*()<>?:";'{[}\]|\\/]+/, "");
             return text.replace(/(\d)(?=(\d{3})+(?!\d))/g, "$1.");
@@ -57,6 +58,6 @@ export default {
                 case "Không xác định": return 2;
                 default: return 3;
             }
-        }
+        },
     }
 }

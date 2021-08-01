@@ -223,6 +223,8 @@
                 tabindex="13"
                 v-model="detail.Salary"
                 :label="'Mức lương cơ bản'"
+                @input="formatSalaryOnInput"
+                ref="salary"
               />
             </div>
             <div class="money-unit">(VNĐ)</div>
@@ -282,9 +284,10 @@
 
 <script>
 import ultis from "../../mixins/ultis";
+import validate from "../../mixins/validate";
 import BaseButtonIcon from "../base/BaseButtonIcon.vue";
 import BaseDropdown from "../base/BaseDropdown.vue";
-import BaseInput from '../base/BaseInput.vue'
+import BaseInput from '../base/BaseInput.vue';
 
 export default {
   name: "Form",
@@ -293,7 +296,7 @@ export default {
     BaseDropdown,
     BaseInput
   },
-  mixins: [ultis],
+  mixins: [ultis, validate],
   props: {
     isOpen: {
       type: Boolean,
@@ -375,7 +378,7 @@ export default {
 
           });
       }
-    },
+    },    
   },
   methods: {
     FormatData() {
@@ -384,6 +387,18 @@ export default {
       this.$set(this.detail, 'JoinDate', this.DateFormat(this.detail.JoinDate, true));
       this.$set(this.detail, 'WorkStatus', this.WorkStatusCode2Text(this.detail.WorkStatus));
       this.$set(this.detail, 'Salary', this.FormatMoneyString(this.detail.Salary));
+    },
+
+    formatSalaryOnInput(){
+      let salaryInput = this.$refs.salary.$el;
+      let selecStart = salaryInput.selectionStart;
+      let selecEnd = salaryInput.selectionEnd;
+      this.$set(this.detail, 'Salary', this.FormatMoneyString(this.detail.Salary));
+      console.log(this.$refs.salary.$el.selectionEnd);
+      this.$nextTick(() => {
+        let offset = (salaryInput.value.replaceAll('.', '').length % 3 == 1)? 1: 0;        
+        salaryInput.setSelectionRange(selecStart + offset, selecEnd + offset);
+      });
     },
 
     GetRawData() {
@@ -417,30 +432,19 @@ export default {
 
       if (obj.DepartmentId) {
         this.$set(this.detail, 'DepartmentId', obj.DepartmentId);
-        // console.log("DEPARTMENT:",this.detail.DepartmentId);
       }
       if (obj.PositionId) {
         this.$set(this.detail, 'PositionId', obj.PositionId);
-        // console.log("POSITION:",this.detail.PositionId);
       }
     },
 
-    // test(){
-    //   console.log(this.detail);
-    // },
-
-    // keyPressHandle : function($event){
-    //   console.log("keypress");
-    //   $event.preventDefault();
-    // },
-    required(label, val){
-      // console.log("REQUIRED", label, val);
-      if(!val){
-        this.$emit('showToast', 'warning', 'Required', `<b>"${label}"</b> không được để trống`);
-        return false;
-      }
-      return true;
-    }
+    // required(label, val){
+    //   if(!val){
+    //     this.$emit('showToast', 'warning', 'Required', `<b>"${label}"</b> không được để trống`);
+    //     return false;
+    //   }
+    //   return true;
+    // }
   },
 };
 </script>

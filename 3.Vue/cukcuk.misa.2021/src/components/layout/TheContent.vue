@@ -23,6 +23,7 @@
           type="text"
           class="textbox-default search-field"
           placeholder="Tìm kiếm theo Mã, Tên hoặc Số điện thoại"
+          v-model="searchInput"
         />
         <Combobox
           :api="'http://cukcuk.manhnv.net/api/Department'"
@@ -43,14 +44,13 @@
           :type="'Employee'"
           :thead="thead"
           :dataMap="tmap"
-          :api="`http://cukcuk.manhnv.net/v1/Employees/Filter?pageSize=${pageSize}&pageNumber=${
-            pageNumber * pageSize
-          }&employeeCode=${searchContent}`"
+          :api="`http://cukcuk.manhnv.net/v1/Employees/employeeFilter?pageSize=${pageSize}&pageNumber=${pageNumber*pageSize}&employeeFilter=${searchContent}`"
           @dataLoaded="tableDataLoaded"
           @rowDblClick="rowDoubleClick"
           @rowClick="rowSelect"
-          :key="tableKey"
+          :key="tableFlag"
           @getPagingInfo="transPagingInfo"
+          @showToast="ShowToast"
         ></Table>
         <div id="loader" :class="{ hide: !isTableLoading }">
           <div class="spinner-wrapper">
@@ -133,7 +133,7 @@ export default {
       moreDetail: null,
       deleteIdList: [],
       deleteCodeList: [],
-      tableKey: 0,
+      tableFlag: false,
       // page
       pageSize: 20,
       pageNumber: 0, // = current - 1
@@ -141,7 +141,9 @@ export default {
       totalPage: 3,
       pageItems: [],
       //
-      searchContent: "nv",
+      // searchContent: "nv",
+      searchInput: '',
+      searchTimeOut: null,
       popup: {
         title: "Empty Title",
         content: "Empty Content",
@@ -187,14 +189,29 @@ export default {
     delBtnActive: function () {
       return this.deleteIdList.length > 0;
     },
+    searchContent: function(){      
+      return this.searchInput? this.searchInput:'nv';
+    }
   },
   watch: {
+    // searchInput: function(s){
+    //   console.log('s:', s);
+    //   this.searchContent = s? s: 'nv';
+    // },
+    searchContent: function(c){      
+      if(this.searchTimeOut) clearTimeout(this.searchTimeOut);
+      this.searchTimeOut = setTimeout(() => {
+        this.tableFlag = !this.tableFlag;
+        console.log('c:', c);
+      }, 500);      
+    }
     // pageNumber: function (num) {
     //   console.log("change page to", num);
     // },
     // pageSize: function (size) {
     //   console.log("reset page size to", size);
     // },
+    
   },
   methods: {
     /**
@@ -465,7 +482,8 @@ export default {
      */
     ForceTableRerender() {
       this.isTableLoading = true;
-      this.tableKey = (this.tableKey + 1) % 100;
+      // this.tableKey = (this.tableKey + 1) % 100;
+      this.tableFlag = !this.tableFlag;
     },
   },
 };
