@@ -11,3 +11,7 @@
 .textbox-default:focus {
     border-color: #019160;
 }
+
+.textbox-default.unvalid{
+    border-color: red;
+}

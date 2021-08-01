@@ -1,8 +1,7 @@
 <template>
   <div class="content-page-navigator">
     <div class="navigator-left" id="current-pagesize">
-      Hiển thị <b>{{ `${startRow}-${endRow}` }}/{{ totalRecord }}</b> nhân
-      viên
+      Hiển thị <b>{{ `${startRow}-${endRow}` }}/{{ totalRecord }}</b> nhân viên
     </div>
     <div class="navigator-center">
       <div class="button-firstpage button-navigator" @click="first"></div>
@@ -10,12 +9,12 @@
       <div class="page-buttons">
         <div
           class="button-page-number"
-          :class="{ 'button-current-page': current == index + 1 }"
-          v-for="(item, index) in items"
+          :class="{ 'button-current-page': current == item + offset - 1 }"
+          v-for="(item, index) in Math.min(5, allPage)"
           :key="index"
-          @click="$emit('pageNumChange', index)"
+          @click="$emit('pageNumChange', item + offset - 2)"
         >
-          {{ index + 1 }}
+          {{ item + offset - 1 }}
         </div>
       </div>
       <div class="button-next-page button-navigator" @click="next"></div>
@@ -52,22 +51,25 @@ export default {
       type: Number,
       require: true,
     },
-    totalRecord:{
-        type: Number,
-        require: true
+    totalRecord: {
+      type: Number,
+      require: true,
     },
     totalPage: {
-        type: Number,
-        require: true
-    }
+      type: Number,
+      require: true,
+    },
+    items: {
+      type: Array,
+    },
   },
-  mounted(){
-      console.log("MOUNTED");
-      this.pSize = this.pageSize;
-    //   this.$on('pagingInfo', this.UpdatePagingInfo)
-    console.log("reset paging bar at currpage:", this.pageNumber, this.pSize);
+  mounted() {
+    // console.log("MOUNTED");
+    this.pSize = this.pageSize;
+    // console.log("reset paging bar at currpage:", this.pageNumber, this.pSize);
     this.current = this.pageNumber + 1;
-    // this.pSize = 
+    this.allPage = this.totalPage;
+    // this.pSize =
   },
   data() {
     return {
@@ -82,55 +84,67 @@ export default {
         end: 20,
       },
       pSize: 20,
-      current: 1,            
-      items: [1,2,3],
+      current: 1,
+      allPage: 5,
     };
   },
-  watch:{
-      pageSize: function(p){
-          console.log("page size", p);
-      },
-      
-      totalPage: function(tp){
-          console.log('tp', tp);
-      },
-      totalRecord: function(tr){
-          console.log('tr', tr);
-      },
-      pageNumber: function(c){
-          console.log("pg-num", c);
-          this.current = c+1;
-      }
-  },
-  computed:{
-      startRow: function(){
-          return Math.min((this.current-1) * this.pSize, Number(this.totalRecord));
-      },
-      endRow: function(){
-          return Math.min(this.current * this.pSize, Number(this.totalRecord));
-      },      
-  },
-  methods:{
-      pageSizeChange(type, data){
-          this.pSize = data.Size;
-          console.log("M: page size changed to", data.Size);
-          this.$emit("pageSizeChange", this.pSize);
-      },
-      next(){
-          this.current = (this.current < this.totalPage)? this.current+1 : 1;
-          console.log('next', this.current +'/'+ this.totalPage, this.totalRecord);
-      },
-      prev(){
-          this.current = (this.current > 1)? this.current-1: this.totalPage;
-          console.log('prev', this.current +'/'+ this.totalPage);
-      },
-      first(){
+  watch: {
+    // pageSize: function (p) {
+    //   console.log("page size", p);
+    // },
 
-      },
-      last(){
-
-      }
-  }
+    totalPage: function (tp) {
+      this.allPage = tp;
+      // console.log("tp", tp);
+      // console.log("+ALLPAGE", this.allPage);
+    },
+    // totalRecord: function (tr) {
+    //   console.log("tr", tr);
+    // },
+    pageNumber: function (c) {
+      // console.log("pg-num", c + 1);
+      this.current = c + 1;
+    },
+  },
+  computed: {
+    startRow: function () {
+      return Math.min((this.current - 1) * this.pSize + 1, Number(this.totalRecord));
+    },
+    endRow: function () {
+      return Math.min(this.current * this.pSize, Number(this.totalRecord));
+    },
+    offset: function () {
+      // console.log("offset change", this.allPage, this.totalPage);
+      return this.current < 3
+        ? 1
+        : this.current - 2 - Math.max(0, 2 - this.allPage + this.current);
+    },
+  },
+  methods: {
+    pageSizeChange(type, data) {
+      this.pSize = data.Size;
+      // console.log("M: page size changed to", data.Size);
+      this.$emit("pageSizeChange", this.pSize);
+    },
+    next() {
+      this.current = this.current < this.totalPage ? this.current + 1 : 1;
+      console.log("next", this.current + "/" + this.totalPage);
+      this.$emit('pageNumChange', this.current-1);
+    },
+    prev() {
+      this.current = this.current > 1 ? this.current - 1 : this.totalPage;
+      console.log("prev", this.current + "/" + this.totalPage);
+      this.$emit('pageNumChange', this.current-1);
+    },
+    first() {
+      this.current = 1;
+      this.$emit('pageNumChange', 0);
+    },
+    last() {
+      this.current = this.totalPage;
+      this.$emit('pageNumChange', this.current-1);
+    },
+  },
 };
 </script>
 <style scoped>

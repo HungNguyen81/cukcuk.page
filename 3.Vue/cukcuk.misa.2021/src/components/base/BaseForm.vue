@@ -32,39 +32,44 @@
               <div class="input-label">
                 Mã nhân viên (<span class="required">*</span>)
               </div>
-              <base-input
+              <BaseInput
                 :valueType="'text'"
                 type="input-form"
                 id="employee-code"
                 tabindex="1"
                 ref="employeeCode"
-                @keyup="test"
                 v-model="detail.EmployeeCode"
+                label="Mã nhân viên"
+                :validates="[required]"
+                :renderFlag="isRerender"
               />
             </div>
             <div class="input-field">
               <div class="input-label">
                 Họ và tên (<span class="required">*</span>)
               </div>
-              <base-input
+              <BaseInput
                 :valueType="'text'"
                 type="input-form"
                 id="fullname"
                 tabindex="2"
                 v-model="detail.FullName"
+                label="Họ và tên"
+                :validates="[required]"
+                :renderFlag="isRerender"
               />
             </div>
           </div>
           <div class="input-row">
             <div class="input-field">
               <div class="input-label">Ngày sinh</div>
-              <input
-                :type="'date'"
-                class="textbox-default input-form input-form"
+              <BaseInput
+                :valueType="'date'"
+                class="input-form"
                 id="dob"
-                :value="'2000-01-08'"
                 tabindex="3"
                 v-model="detail.DateOfBirth"
+                :label="'Ngày sinh'"
               />
             </div>
             <div class="input-field">
@@ -91,37 +96,39 @@
               <div class="input-label">
                 Số CMTND/ Căn cước (<span class="required">*</span>)
               </div>
-              <input
-                :type="'text'"
-                class="textbox-default input-form"
+              <BaseInput
+                :valueType="'text'"
+                class="input-form"
                 id="identity-number"
-                :value="'038200009999'"
                 tabindex="5"
                 v-model="detail.IdentityNumber"
+                :label="'Số CMTND/ Căn cước'"
+                :validates="[required]"
+                :renderFlag="isRerender"
               />
             </div>
             <div class="input-field">
               <div class="input-label">Ngày cấp</div>
-              <input
-                :type="'date'"
-                class="textbox-default input-form"
+              <BaseInput
+                :valueType="'date'"
+                class="input-form"
                 id="identity-date"
-                :value="'2020-01-08'"
                 tabindex="6"
                 v-model="detail.IdentityDate"
+                :label="'Ngày cấp'"
               />
             </div>
           </div>
           <div class="input-row">
             <div class="input-field">
               <div class="input-label">Nơi cấp</div>
-              <input
-                :type="'text'"
-                class="textbox-default input-form"
+              <BaseInput
+                :valueType="'text'"
+                class="input-form"
                 id="identity-place"
-                :value="'Tỉnh Thanh Hóa'"
                 tabindex="7"
                 v-model="detail.IdentityPlace"
+                :label="'Nơi cấp'"
               />
             </div>
           </div>
@@ -130,26 +137,30 @@
               <div class="input-label">
                 Email (<span class="required">*</span>)
               </div>
-              <input
-                :type="'text'"
-                class="textbox-default input-form"
+              <BaseInput
+                :valueType="'text'"
+                class="input-form"
                 id="email"
-                :value="'nguyenngochung.ncth@gmail.com'"
                 tabindex="8"
                 v-model="detail.Email"
+                :label="'Email'"
+                :validates="[required]"
+                :renderFlag="isRerender"
               />
             </div>
             <div class="input-field">
               <div class="input-label">
                 Số điện thoại (<span class="required">*</span>)
               </div>
-              <input
-                :type="'text'"
-                class="textbox-default input-form"
+              <BaseInput
+                :valueType="'text'"
+                class="input-form"
                 id="phone-number"
-                :value="'0334004655'"
                 tabindex="9"
                 v-model="detail.PhoneNumber"
+                :label="'Số điện thoại'"
+                :validates="[required]"
+                :renderFlag="isRerender"
               />
             </div>
           </div>
@@ -194,24 +205,24 @@
           <div class="input-row">
             <div class="input-field">
               <div class="input-label">Mã số thuế cá nhân</div>
-              <input
-                :type="'text'"
-                class="textbox-default input-form"
+              <BaseInput
+                :valueType="'text'"
+                class="input-form"
                 id="tax-code"
-                :value="'123456789'"
                 tabindex="12"
                 v-model="detail.PersonalTaxCode"
+                :label="'Mã số thuế cá nhân'"
               />
             </div>
             <div class="input-field">
               <div class="input-label">Mức lương cơ bản</div>
-              <input
-                :type="'text'"
+              <BaseInput
+                :valueType="'text'"
                 class="textbox-default input-form input-salary"
                 id="salary"
-                :value="'100.000.000'"
                 tabindex="13"
                 v-model="detail.Salary"
+                :label="'Mức lương cơ bản'"
               />
             </div>
             <div class="money-unit">(VNĐ)</div>
@@ -219,13 +230,13 @@
           <div class="input-row">
             <div class="input-field">
               <div class="input-label">Ngày gia nhập công ty</div>
-              <input
-                :type="'date'"
-                class="textbox-default input-form"
+              <BaseInput
+                :valueType="'date'"
+                class="input-form"
                 id="join-date"
-                :value="'2021-07-12'"
                 tabindex="14"
                 v-model="detail.JoinDate"
+                :label="'Ngày gia nhập công ty'"
               />
             </div>
             <div class="input-field">
@@ -312,6 +323,7 @@ export default {
     return {
       detail: {},
       isDataLoaded: false,
+      isRerender: false
     };
   },
   mounted() {},
@@ -326,6 +338,7 @@ export default {
       });
       
       this.isDataLoaded = false;
+      this.isRerender = !this.isRerender;
       console.log("form " + (val ? "open" : "close"), this.mode);
 
       if (this.isOpen) 
@@ -374,7 +387,7 @@ export default {
     },
 
     GetRawData() {
-      console.log(this.detail);
+      // console.log(this.detail);
       let dob           = this.detail.DateOfBirth;
       let identityDate  = this.detail.IdentityDate;
       let joinDate      = this.detail.JoinDate;
@@ -391,7 +404,7 @@ export default {
     },
 
     BtnSaveClick() {
-      console.log('click', this.detail);
+      // console.log('click', this.detail);
       this.$emit("saveClicked", this.mode, this.detailId, this.GetRawData());
     },
 
@@ -404,19 +417,29 @@ export default {
 
       if (obj.DepartmentId) {
         this.$set(this.detail, 'DepartmentId', obj.DepartmentId);
+        // console.log("DEPARTMENT:",this.detail.DepartmentId);
       }
       if (obj.PositionId) {
         this.$set(this.detail, 'PositionId', obj.PositionId);
+        // console.log("POSITION:",this.detail.PositionId);
       }
     },
 
-    test(){
-      console.log(this.detail);
-    },
+    // test(){
+    //   console.log(this.detail);
+    // },
 
-    keyPressHandle : function($event){
-      console.log("keypress");
-      $event.preventDefault();
+    // keyPressHandle : function($event){
+    //   console.log("keypress");
+    //   $event.preventDefault();
+    // },
+    required(label, val){
+      // console.log("REQUIRED", label, val);
+      if(!val){
+        this.$emit('showToast', 'warning', 'Required', `<b>"${label}"</b> không được để trống`);
+        return false;
+      }
+      return true;
     }
   },
 };

@@ -1,5 +1,5 @@
 <template>
-  <div :class="['button', {'button-icon': icon}, type]" @click="onclick" @keydown="handleButtonPress">
+  <div :class="['button', {'button-icon': icon}, type]" @click="onclick" @keydown.enter="onclick">
     <div class='icon-button' :class='icon' v-if="icon"></div>
     <div>{{value}}</div>
   </div>
@@ -23,17 +23,7 @@ export default {
       type: Function
     }
   },
-  methods:{
-    OpenPopup(){
-      console.log("open popup");
-    },
-    handleButtonPress(event){
-      if(event.code == 'Enter'){
-        // console.log("enter");
-        this.onclick();
-      }
-    }
-  }
+  methods:{}
 };
 </script>
 

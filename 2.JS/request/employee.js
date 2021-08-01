@@ -41,8 +41,8 @@ function GetNewEmployeeCode(callback) {
     })
 }
 
-function PostNewEmployee1() {
-    for (let i = 1000; i < 1500; i++) {
+function PostNewEmployee() {
+    for (let i = 1500; i < 2500; i++) {
         SendRandomRequest(i);
     }
 }
@@ -51,7 +51,7 @@ function PostNewEmployee1() {
  * POST new employee to server
  * Author: Hungnguyen81
  */
-function PostNewEmployee() {
+function PostNewEmployee1() {
     var id = '';
     var action = $('#save-button').attr('action');
     var postData = ValidateForm(action);

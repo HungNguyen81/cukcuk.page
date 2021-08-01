@@ -38,23 +38,33 @@
         <div class="button-refresh" @click="RefreshTable"></div>
       </div>
 
-      <Table
-        :type="'Employee'"
-        :thead="thead"
-        :dataMap="tmap"
-        :api="`http://cukcuk.manhnv.net/v1/Employees/Filter?pageSize=${pageSize}&pageNumber=${pageNumber}&employeeCode=${searchContent}`"
-        @dataLoaded="tableDataLoaded"
-        @rowDblClick="rowDoubleClick"
-        @rowClick="rowSelect"
-        :key="tableKey"
-        @getPagingInfo="transPagingInfo"
-      ></Table>
+      <div class="table-wrap">
+        <Table
+          :type="'Employee'"
+          :thead="thead"
+          :dataMap="tmap"
+          :api="`http://cukcuk.manhnv.net/v1/Employees/Filter?pageSize=${pageSize}&pageNumber=${
+            pageNumber * pageSize
+          }&employeeCode=${searchContent}`"
+          @dataLoaded="tableDataLoaded"
+          @rowDblClick="rowDoubleClick"
+          @rowClick="rowSelect"
+          :key="tableKey"
+          @getPagingInfo="transPagingInfo"
+        ></Table>
+        <div id="loader" :class="{ hide: !isTableLoading }">
+          <div class="spinner-wrapper">
+            <div class="spinner"></div>
+          </div>
+        </div>
+      </div>
 
       <Paging
         :pageNumber="this.pageNumber"
         :pageSize="this.pageSize"
         :totalPage="totalPage"
         :totalRecord="totalRecord"
+        :items="pageItems"
         @pageSizeChange="onPageSizeChange"
         @pageNumChange="onPageNumChange"
       ></Paging>
@@ -68,13 +78,8 @@
       :moreDetail="this.moreDetail"
       @saveClicked="this.FormSaveButtonClick"
       @getNewCodeError="FailInGetNewCode"
+      @showToast="ShowToast"
     ></Form>
-
-    <div id="loader" :class="{ hide: !isTableLoading }">
-      <div class="spinner-wrapper">
-        <div class="spinner"></div>
-      </div>
-    </div>
 
     <Popup
       :title="popup.title"
@@ -134,7 +139,8 @@ export default {
       pageNumber: 0, // = current - 1
       totalRecord: 20,
       totalPage: 3,
-      // 
+      pageItems: [],
+      //
       searchContent: "nv",
       popup: {
         title: "Empty Title",
@@ -183,12 +189,12 @@ export default {
     },
   },
   watch: {
-    pageNumber: function (num) {
-      console.log("change page to", num);
-    },
-    pageSize: function (size) {
-      console.log("reset page size to", size);
-    },
+    // pageNumber: function (num) {
+    //   console.log("change page to", num);
+    // },
+    // pageSize: function (size) {
+    //   console.log("reset page size to", size);
+    // },
   },
   methods: {
     /**
@@ -199,34 +205,35 @@ export default {
       this.pageNumber = 0;
       this.ForceTableRerender();
     },
-    onPageNumChange(num){
-      console.log("on num change: ", num);
+
+    onPageNumChange(num) {
+      console.log("PAGE NUMBER: ", num);
       this.pageNumber = num;
       this.ForceTableRerender();
     },
+
     /**
-     * Handle when table load completely
+     * Handle when table load completely, send totalPage, totalRecord to paging component
      */
     transPagingInfo(numPage, numRecord) {
       this.totalRecord = numRecord;
-      this.totalPage = numPage;
-      
-      console.log("update page info", numPage, numRecord);
+      this.totalPage = numPage - 1;
+
+      // console.log("update page info", numPage, numRecord);
     },
+
     OnPageChange(size, num) {
       this.pageSize = size;
       this.pageNumber = num;
     },
-    
+
     OpenForm(act) {
       this.action = act;
       this.formStatus = true;
     },
     CloseForm() {
       this.formStatus = false;
-      // this.employeeId = null;
       this.popup.isHide = true;
-      // this.RefreshTable();
     },
 
     /**
@@ -302,7 +309,7 @@ export default {
           this.ShowToast(
             "success",
             "PUT Success",
-            `Sửa nhân viên "<b>${this.employeeDetail.FullName}</b>" thành công`
+            `Sửa nhân viên <b>"${this.employeeDetail.FullName}"</b> thành công`
           );
           this.ClosePopup();
           this.CloseForm();
@@ -312,7 +319,7 @@ export default {
           this.ShowToast(
             "error",
             "PUT error",
-            `Sửa nhân viên "<b>${this.employeeDetail.FullName}</b>" không thành công`
+            `Sửa nhân viên <b>"${this.employeeDetail.FullName}"</b> không thành công`
           );
           this.ClosePopup();
           // this.CloseForm();
@@ -330,7 +337,7 @@ export default {
           this.ShowToast(
             "success",
             "POST success",
-            `Thêm nhân viên "<b>${this.employeeDetail.FullName}</b>" thành công`
+            `Thêm nhân viên <b>"${this.employeeDetail.FullName}  - ${this.Gender}"</b> thành công`
           );
           this.ClosePopup();
           this.CloseForm();
@@ -341,7 +348,7 @@ export default {
           this.ShowToast(
             "error",
             "POST error",
-            `Thêm nhân viên "<b>${this.employeeDetail.FullName}</b>" không thành công`
+            `Thêm nhân viên <b>"${this.employeeDetail.FullName}"</b> không thành công`
           );
           this.ClosePopup();
           // this.CloseForm();
@@ -369,7 +376,7 @@ export default {
     },
 
     rowDoubleClick(id, pos, dep) {
-      console.log("row click", id);
+      // console.log("row click", id);
       this.employeeId = id;
       this.moreDetail = {
         PositionName: pos,
@@ -378,15 +385,26 @@ export default {
       this.OpenForm(1);
     },
 
+    /**
+     * Handle when click table row
+     */
     rowSelect(id, code, name) {
       if (this.deleteIdList.includes(id)) {
         let i = this.deleteIdList.indexOf(id);
         this.deleteIdList.splice(i, 1);
         this.deleteCodeList.splice(i, 1);
       } else {
-        console.log(id, code, name);
+        // console.log(id, code, name);
         this.deleteIdList.push(id);
         this.deleteCodeList.push(name);
+
+        if (this.deleteIdList.length > 100) {
+          this.ShowToast(
+            "warning",
+            "OUT OF LIMITATION",
+            `Số nhân viên vượt quá <b>"100"</b> người !`
+          );
+        }
       }
     },
 
@@ -408,7 +426,7 @@ export default {
      * Callback for delete popup
      */
     SendDeleteRequests() {
-      console.log("send delete");
+      // console.log("send delete");
       for (const [i, id] of this.deleteIdList.entries()) {
         let index = this.deleteIdList.indexOf(id);
         let name = this.deleteCodeList[index];
@@ -417,7 +435,7 @@ export default {
           .then(() => {
             this.deleteIdList.splice(index, 1);
             this.deleteCodeList.splice(index, 1);
-            console.log(id);
+            // console.log(id);
             this.ClosePopup();
             this.RefreshTable();
             this.ShowToast(
@@ -447,7 +465,7 @@ export default {
      */
     ForceTableRerender() {
       this.isTableLoading = true;
-      this.tableKey = (this.tableKey +1)%100;
+      this.tableKey = (this.tableKey + 1) % 100;
     },
   },
 };

@@ -1,7 +1,8 @@
 <template>
   <input
+    @blur="inputValidate"
     :type="valueType"
-    :class="['textbox-default', type]"
+    :class="['textbox-default', type, {'unvalid': !isValidate}]"
     v-bind:value="value"
     v-on="inputListeners"
   />
@@ -21,9 +22,24 @@ export default {
     type: {
       type: String,
     },
+    validates: {
+      type: Array, // Array of Function
+    },
+    label: {
+      type: String,
+    },
+    renderFlag:{
+      type: Boolean,
+      require: false
+    }
   },
   data() {
-    return {};
+    return {
+      isValidate: true
+    };
+  },
+  mounted(){
+    // console.log('MOUNTED', this.label);
   },
   computed: {
     inputListeners: function () {
@@ -42,6 +58,25 @@ export default {
           },
         }
       );
+    },
+  },
+  watch:{
+    // value: function(){
+    //   this.inputValidate();
+    // },
+    renderFlag: function(){
+      this.isValidate = true;
+    }
+  },
+  methods: {
+    inputValidate() {
+      if (this.validates) {
+        for (let func of this.validates) {
+          this.isValidate = func(this.label, this.value);
+        }
+      } else {
+        console.log("NO validations");
+      }
     },
   },
 };
