@@ -227,7 +227,7 @@
             <div class="input-field">
               <div class="input-label">Mức lương cơ bản</div>
               <BaseInput
-                :valueType="'text'"
+                :valueType="'tel'"
                 class="textbox-default input-form input-salary"
                 id="salary"
                 tabindex="13"
@@ -445,17 +445,19 @@ export default {
     },
     formatSalaryOnInput() {
       let salaryInput = this.$refs.salary.$el;
-      let selecStart = salaryInput.selectionStart;
-      let selecEnd = salaryInput.selectionEnd;
+      let selecStart = salaryInput.selectionStart-1;
+      let selecEnd = salaryInput.selectionEnd-1;
+      let oldLen = salaryInput.value.length-1;
       this.$set(
         this.detail,
         "Salary",
         this.FormatMoneyString(this.detail.Salary)
       );
-      console.log(this.$refs.salary.$el.selectionEnd);
+      // console.log(this.$refs.salary.$el.selectionEnd);
+
+      // Giữ vị trí dấu nháy khi nhập (ko bị nhảy về cuối)
       this.$nextTick(() => {
-        let offset =
-          salaryInput.value.replaceAll(".", "").length % 3 == 1 ? 1 : 0;
+        let offset = salaryInput.value.length - oldLen;
         salaryInput.setSelectionRange(selecStart + offset, selecEnd + offset);
       });
     },

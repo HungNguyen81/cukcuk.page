@@ -8,7 +8,7 @@ export default {
             text = String(text);
             text = text.replaceAll('.', '');
             text = text.replace(/\s+/, "");
-            text = text.replace(/[a-zA-Z@#$%^&*()<>?:";'{[}\]|\\/]+/, "");
+            text = text.replace(/[^\d]+/, "");
             return text.replace(/(\d)(?=(\d{3})+(?!\d))/g, "$1.");
         },
 
