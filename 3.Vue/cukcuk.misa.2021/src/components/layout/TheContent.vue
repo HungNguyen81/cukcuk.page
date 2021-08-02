@@ -78,6 +78,7 @@
       @saveClicked="this.FormSaveButtonClick"
       @getNewCodeError="FailInGetNewCode"
       @showToast="ShowToast"
+      @showPopup="ShowPopup"
     ></Form>
 
     <Popup
@@ -280,6 +281,13 @@ export default {
       } else {
         Show();
       }
+    },
+
+    ShowPopup(options){
+      if(!options.callback){
+        options.callback = this.ClosePopup;
+      }
+      this.popup = options;
     },
 
     /**

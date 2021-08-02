@@ -80,6 +80,20 @@ body {
     display: none;
 }
 
+
+div:focus {
+    outline: none;
+    border: 1px solid #016e4a;
+    border-radius: 4px;
+    animation: outline-animate 1s infinite;
+}
+
+@keyframes outline-animate {
+    50% {
+        border-color: transparent;
+    }
+}
+
 /* Custom scrollbar */
 
 /* width */

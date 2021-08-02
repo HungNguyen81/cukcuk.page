@@ -116,6 +116,7 @@ export default {
     itemSelect(item, index) {
       this.current = index;
       this.toggle();
+      console.log('item', item);
       this.$emit("itemChange", this.typeData, item);
     },
     handleKeyPress(event) {
@@ -141,6 +142,12 @@ export default {
       }
       console.log("val change", this.displayId, val);
     },
+
+    current: function(c){
+      if(c >= 0){
+        this.$emit("itemChange", this.typeData, this.items[c]);
+      }
+    }
   },
 };
 </script>

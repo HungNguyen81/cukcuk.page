@@ -1,8 +1,8 @@
 <template>
   <input
-    @blur="inputValidate"
+    @blur="inputValidate()"
     :type="valueType"
-    :class="['textbox-default', type, {'unvalid': !isValidate}]"
+    :class="['textbox-default', type, { unvalid: !isValidate }]"
     v-bind:value="value"
     v-on="inputListeners"
   />
@@ -28,17 +28,17 @@ export default {
     label: {
       type: String,
     },
-    renderFlag:{
+    renderFlag: {
       type: Boolean,
-      require: false
-    }
+      require: false,
+    },
   },
   data() {
     return {
-      isValidate: true
+      isValidate: true,
     };
   },
-  mounted(){
+  mounted() {
     // console.log('MOUNTED', this.label);
   },
   computed: {
@@ -59,16 +59,35 @@ export default {
       );
     },
   },
-  watch:{
-    renderFlag: function(){
+  watch: {
+    renderFlag: function () {
       this.isValidate = true;
-    }
+    },
+    isValidate: function (isValid) {
+      console.log("validate", this.label, isValid);
+      if (isValid) {
+        this.$emit("valid");
+      } else {
+        this.$emit("invalid");
+      }
+    },
+    value: function () {
+      // console.log("v: ", v);
+      // this.inputValidate();  
+    },
   },
   methods: {
     inputValidate() {
       if (this.validates) {
+        let res = true;
         for (let func of this.validates) {
-          this.isValidate = func(this.label, this.value);
+          res = res && func(this.label, this.value);
+        }
+        this.isValidate = res;
+        if (this.isValidate) {
+          this.$emit("valid");
+        } else {
+          this.$emit("invalid");
         }
       } else {
         console.log("NO validations");

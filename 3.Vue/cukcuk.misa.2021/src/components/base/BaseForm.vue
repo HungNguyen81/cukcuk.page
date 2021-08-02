@@ -2,12 +2,12 @@
   <div
     :class="['container', { open: isOpen, close: !isOpen }]"
     id="container"
-    @click="$emit('closeForm')"    
+    @click="$emit('closeForm')"
   >
     <div
       :class="['form-container', { open: isOpen, close: !isOpen }]"
       id="form-container"
-      @click.stop=""      
+      @click.stop=""
     >
       <div class="form-header" id="form-container-header">
         <div class="header">THÔNG TIN NHÂN VIÊN</div>
@@ -42,6 +42,8 @@
                 label="Mã nhân viên"
                 :validates="[required]"
                 :renderFlag="isRerender"
+                @valid="validate.employeeCode = true"
+                @invalid="validate.employeeCode = false"
               />
             </div>
             <div class="input-field">
@@ -57,6 +59,8 @@
                 label="Họ và tên"
                 :validates="[required]"
                 :renderFlag="isRerender"
+                @valid="validate.fullName = true"
+                @invalid="validate.fullName = false"
               />
             </div>
           </div>
@@ -105,6 +109,8 @@
                 :label="'Số CMTND/ Căn cước'"
                 :validates="[required]"
                 :renderFlag="isRerender"
+                @valid="validate.identityNumber = true"
+                @invalid="validate.identityNumber = false"
               />
             </div>
             <div class="input-field">
@@ -144,8 +150,10 @@
                 tabindex="8"
                 v-model="detail.Email"
                 :label="'Email'"
-                :validates="[required]"
+                :validates="[required, email]"
                 :renderFlag="isRerender"
+                @valid="validate.email = true"
+                @invalid="validate.email = false"
               />
             </div>
             <div class="input-field">
@@ -159,8 +167,10 @@
                 tabindex="9"
                 v-model="detail.PhoneNumber"
                 :label="'Số điện thoại'"
-                :validates="[required]"
+                :validates="[required, phone]"
                 :renderFlag="isRerender"
+                @valid="validate.phoneNumber = true"
+                @invalid="validate.phoneNumber = false"
               />
             </div>
           </div>
@@ -287,14 +297,14 @@ import ultis from "../../mixins/ultis";
 import validate from "../../mixins/validate";
 import BaseButtonIcon from "../base/BaseButtonIcon.vue";
 import BaseDropdown from "../base/BaseDropdown.vue";
-import BaseInput from '../base/BaseInput.vue';
+import BaseInput from "../base/BaseInput.vue";
 
 export default {
   name: "Form",
-  components: {    
+  components: {
     BaseButtonIcon,
     BaseDropdown,
-    BaseInput
+    BaseInput,
   },
   mixins: [ultis, validate],
   props: {
@@ -309,7 +319,7 @@ export default {
     mode: {
       type: Number,
       required: false,
-      default(){
+      default() {
         return 0;
       }, // 0: For POST action, 1: For PUT action
     },
@@ -326,12 +336,22 @@ export default {
     return {
       detail: {},
       isDataLoaded: false,
-      isRerender: false
+      isRerender: false,
+      validate: {
+        employeeCode: false,
+        fullName: false,
+        identityNumber: false,
+        email: false,
+        phoneNumber: false,
+      },
     };
   },
   mounted() {},
-  computed: { },
+  computed: {},
   watch: {
+    isValidate: function (v) {
+      console.log("v:", v);
+    },
     /**
      * Set auto focus on employee Code input field when open form
      */
@@ -339,86 +359,138 @@ export default {
       this.$nextTick(() => {
         if (val) this.$refs.employeeCode.$el.focus();
       });
-      
+
       this.isDataLoaded = false;
       this.isRerender = !this.isRerender;
       console.log("form " + (val ? "open" : "close"), this.mode);
 
-      if (this.isOpen) 
-      if (this.mode == 1 && this.detailId) {
-        this.axios
-          .get(`http://cukcuk.manhnv.net/v1/Employees/${this.detailId}`)
-          .then((res) => {
-            this.detail = Object.assign({}, res.data);
-            this.FormatData();
-            this.$set(this.detail, 'PositionName', this.moreDetail.PositionName);
-            this.$set(this.detail, 'DepartmentName', this.moreDetail.DepartmentName)
-            this.isDataLoaded = true;
-            // console.log(this.detail);
-          })
-          .catch((err) => {
-            console.log(err);
-          });
-      } else if (this.mode == 0) {
-        this.detail = Object.assign({});
-        this.isDataLoaded = true;
-        this.axios
-          .get("http://cukcuk.manhnv.net/v1/Employees/NewEmployeeCode")
-          .then((res) => {            
-            this.$refs.employeeCode.$el.value = res.data;            
-            this.$set(this.detail, 'EmployeeCode', res.data)
-          })
-          .catch(() => {
-            this.$emit('getNewCodeError');
-            let newCode = `NV-${Math.round(Math.random()*100000)}`
-            this.$refs.employeeCode.$el.value = newCode;
+      if (this.isOpen)
+        if (this.mode == 1 && this.detailId) {
+          this.axios
+            .get(`http://cukcuk.manhnv.net/v1/Employees/${this.detailId}`)
+            .then((res) => {
+              this.detail = Object.assign({}, res.data);
+              this.FormatData();
+              this.$set(
+                this.detail,
+                "PositionName",
+                this.moreDetail.PositionName
+              );
+              this.$set(
+                this.detail,
+                "DepartmentName",
+                this.moreDetail.DepartmentName
+              );
+              this.isDataLoaded = true;
+              // console.log(this.detail);
+            })
+            .catch((err) => {
+              console.log(err);
+            });
+        } else if (this.mode == 0) {
+          this.detail = Object.assign({});
+          this.isDataLoaded = true;
+          this.axios
+            .get("http://cukcuk.manhnv.net/v1/Employees/NewEmployeeCode")
+            .then((res) => {
+              this.$refs.employeeCode.$el.value = res.data;
+              this.$set(this.detail, "EmployeeCode", res.data);
+            })
+            .catch(() => {
+              this.$emit("getNewCodeError");
+              let newCode = `NV-${Math.round(Math.random() * 100000)}`;
+              this.$refs.employeeCode.$el.value = newCode;
 
-            // Thay đổi giá trị bằng phép gán làm mất tính reactivity của component
-            this.$set(this.detail, 'EmployeeCode', newCode)
-
-          });
-      }
-    },    
+              // Thay đổi giá trị bằng phép gán làm mất tính reactivity của component
+              this.$set(this.detail, "EmployeeCode", newCode);
+            });
+        }
+    },
   },
   methods: {
     FormatData() {
-      this.$set(this.detail, 'DateOfBirth', this.DateFormat(this.detail.DateOfBirth, true));
-      this.$set(this.detail, 'IdentityDate', this.DateFormat(this.detail.IdentityDate,true));
-      this.$set(this.detail, 'JoinDate', this.DateFormat(this.detail.JoinDate, true));
-      this.$set(this.detail, 'WorkStatus', this.WorkStatusCode2Text(this.detail.WorkStatus));
-      this.$set(this.detail, 'Salary', this.FormatMoneyString(this.detail.Salary));
+      this.$set(
+        this.detail,
+        "DateOfBirth",
+        this.DateFormat(this.detail.DateOfBirth, true)
+      );
+      this.$set(
+        this.detail,
+        "IdentityDate",
+        this.DateFormat(this.detail.IdentityDate, true)
+      );
+      this.$set(
+        this.detail,
+        "JoinDate",
+        this.DateFormat(this.detail.JoinDate, true)
+      );
+      this.$set(
+        this.detail,
+        "WorkStatus",
+        this.WorkStatusCode2Text(this.detail.WorkStatus)
+      );
+      this.$set(
+        this.detail,
+        "Salary",
+        this.FormatMoneyString(this.detail.Salary)
+      );
     },
-
-    formatSalaryOnInput(){
+    isValidate() {
+      let res = true;
+      Object.keys(this.validate).forEach((key) => {
+        res = res && this.validate[key];
+      });
+      console.log("RES:", res);
+      return res;
+    },
+    formatSalaryOnInput() {
       let salaryInput = this.$refs.salary.$el;
       let selecStart = salaryInput.selectionStart;
       let selecEnd = salaryInput.selectionEnd;
-      this.$set(this.detail, 'Salary', this.FormatMoneyString(this.detail.Salary));
+      this.$set(
+        this.detail,
+        "Salary",
+        this.FormatMoneyString(this.detail.Salary)
+      );
       console.log(this.$refs.salary.$el.selectionEnd);
       this.$nextTick(() => {
-        let offset = (salaryInput.value.replaceAll('.', '').length % 3 == 1)? 1: 0;        
+        let offset =
+          salaryInput.value.replaceAll(".", "").length % 3 == 1 ? 1 : 0;
         salaryInput.setSelectionRange(selecStart + offset, selecEnd + offset);
       });
     },
 
     GetRawData() {
+      let dob = this.detail.DateOfBirth;
+      let identityDate = this.detail.IdentityDate;
+      let joinDate = this.detail.JoinDate;
+      let salary = this.detail.Salary;
+      let res = JSON.parse(JSON.stringify(this.detail));
 
-      let dob           = this.detail.DateOfBirth;
-      let identityDate  = this.detail.IdentityDate;
-      let joinDate      = this.detail.JoinDate;
-      let salary        = this.detail.Salary;
-      let res           = JSON.parse(JSON.stringify(this.detail));
-
-      res.DateOfBirth   = dob         ? new Date(dob).toISOString()           :null;
-      res.IdentityDate  = identityDate? new Date(identityDate).toISOString()  :null;
-      res.JoinDate      = joinDate    ? new Date(joinDate).toISOString()      :null;
-      res.WorkStatus    = this.WorkStatusText2Code(this.detail.WorkStatus);
-      res.Gender        = this.GenderText2Code(this.detail.GenderName);      
-      res.Salary        = salary==null? null : Number(salary.replaceAll(".", ""));
+      res.DateOfBirth = dob ? new Date(dob).toISOString() : null;
+      res.IdentityDate = identityDate
+        ? new Date(identityDate).toISOString()
+        : null;
+      res.JoinDate = joinDate ? new Date(joinDate).toISOString() : null;
+      res.WorkStatus = this.WorkStatusText2Code(this.detail.WorkStatus);
+      res.Gender = this.GenderText2Code(this.detail.GenderName);
+      res.Salary = salary == null ? null : Number(salary.replaceAll(".", ""));
       return res;
     },
 
     BtnSaveClick() {
+      if (!this.isValidate()) {
+        // this.$emit('showToast', 'warning', 'NOT VALIDATE', `Dữ liệu không hợp lệ, vui lòng nhập lại`);
+        this.$emit("showPopup", {
+          title: "Thông báo",
+          content: `Dữ liệu không hợp lệ, vui lòng nhập lại`,
+          popupType: "warning",
+          okAction: "OK",
+          isHide: false,
+          callback: null,
+        });
+        return;
+      }
       this.$emit("saveClicked", this.mode, this.detailId, this.GetRawData());
     },
 
@@ -426,13 +498,13 @@ export default {
      * Make Department Id, Position Id sync with its names
      */
     dropDataChange(typeName, obj) {
-      this.$set(this.detail, typeName, obj[typeName])
+      this.$set(this.detail, typeName, obj[typeName]);
 
       if (obj.DepartmentId) {
-        this.$set(this.detail, 'DepartmentId', obj.DepartmentId);
+        this.$set(this.detail, "DepartmentId", obj.DepartmentId);
       }
       if (obj.PositionId) {
-        this.$set(this.detail, 'PositionId', obj.PositionId);
+        this.$set(this.detail, "PositionId", obj.PositionId);
       }
     },
   },
