@@ -28,11 +28,13 @@
           :api="'http://cukcuk.manhnv.net/api/Department'"
           type="Department"
           mode="1"
+          @filterActive="activeFilter"
         ></Combobox>
         <Combobox
           :api="'http://cukcuk.manhnv.net/v1/Positions'"
           type="Position"
           mode="1"
+          @filterActive="activeFilter"
         ></Combobox>
 
         <div class="button-refresh" @click="RefreshTable"></div>
@@ -43,7 +45,13 @@
           :type="'Employee'"
           :thead="thead"
           :dataMap="tmap"
-          :api="`http://cukcuk.manhnv.net/v1/Employees/employeeFilter?pageSize=${pageSize}&pageNumber=${pageNumber*pageSize}&employeeFilter=${searchContent}`"
+
+          :api="`http://cukcuk.manhnv.net/v1/Employees/employeeFilter?pageSize=${pageSize}&pageNumber=${
+            pageNumber * pageSize
+          }&employeeFilter=${searchContent}&departmentId=${
+            filter.DepartmentId ? filter.DepartmentId : ''
+          }&positionId=${filter.PositionId ? filter.PositionId : ''}`"
+
           @dataLoaded="tableDataLoaded"
           @rowDblClick="rowDoubleClick"
           @rowClick="rowSelect"
@@ -142,8 +150,13 @@ export default {
       pageItems: [],
       //
       // searchContent: "nv",
-      searchInput: '',
+      searchInput: "",
       searchTimeOut: null,
+      // Filter
+      filter: {
+        DepartmentId: "",
+        PositionId: "",
+      },
       popup: {
         title: "Empty Title",
         content: "Empty Content",
@@ -189,33 +202,43 @@ export default {
     delBtnActive: function () {
       return this.deleteIdList.length > 0;
     },
-    searchContent: function(){      
-      return this.searchInput? this.searchInput:'nv';
-    }
+    searchContent: function () {
+      return this.searchInput ? this.searchInput : "nv";
+    },
   },
   watch: {
-    searchContent: function(c){      
-      if(this.searchTimeOut) clearTimeout(this.searchTimeOut);
+    searchContent: function (c) {
+      if (this.searchTimeOut) clearTimeout(this.searchTimeOut);
       this.searchTimeOut = setTimeout(() => {
         this.tableFlag = !this.tableFlag;
-        console.log('c:', c);
-      }, 500);      
-    }    
+        console.log("c:", c);
+      }, 500);
+    },
+    pageSize: function(){
+      this.ForceTableRerender();
+    },
+    pageNumber: function(){
+      this.ForceTableRerender();
+    }
   },
   methods: {
+    activeFilter(type, id) {
+      this.filter[type + "Id"] = id;
+      console.log("filter:", this.filter.DepartmentId);
+      this.ForceTableRerender();
+    },
+
     /**
      * When page size change from paging bar
      */
     onPageSizeChange(size) {
       this.pageSize = size;
       this.pageNumber = 0;
-      this.ForceTableRerender();
     },
 
     onPageNumChange(num) {
       console.log("PAGE NUMBER: ", num);
       this.pageNumber = num;
-      this.ForceTableRerender();
     },
 
     /**
@@ -223,9 +246,7 @@ export default {
      */
     transPagingInfo(numPage, numRecord) {
       this.totalRecord = numRecord;
-      this.totalPage = numPage - 1;
-
-      // console.log("update page info", numPage, numRecord);
+      this.totalPage = numPage;
     },
 
     OnPageChange(size, num) {
@@ -283,8 +304,8 @@ export default {
       }
     },
 
-    ShowPopup(options){
-      if(!options.callback){
+    ShowPopup(options) {
+      if (!options.callback) {
         options.callback = this.ClosePopup;
       }
       this.popup = options;
@@ -350,7 +371,7 @@ export default {
           this.ShowToast(
             "success",
             "POST success",
-            `Thêm nhân viên <b>"${this.employeeDetail.FullName}  - ${this.Gender}"</b> thành công`
+            `Thêm nhân viên <b>"${this.employeeDetail.FullName}"</b> thành công`
           );
           this.ClosePopup();
           this.CloseForm();

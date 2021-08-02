@@ -480,7 +480,7 @@ export default {
 
     BtnSaveClick() {
       if (!this.isValidate()) {
-        // this.$emit('showToast', 'warning', 'NOT VALIDATE', `Dữ liệu không hợp lệ, vui lòng nhập lại`);
+        this.$emit('showToast', 'warning', 'NOT VALIDATE', `Dữ liệu không hợp lệ !`);
         this.$emit("showPopup", {
           title: "Thông báo",
           content: `Dữ liệu không hợp lệ, vui lòng nhập lại`,

@@ -91,7 +91,7 @@ export default {
       if (this.employees) {
         for (let e of this.employees) {
           let stored = localStorage.getItem("select");
-          if(stored) stored = JSON.parse(stored);
+          if (stored) stored = JSON.parse(stored);
           else return;
           if (!stored.includes(e[this.type + "Code"])) {
             this.isSelectAll = false;
@@ -103,7 +103,8 @@ export default {
     });
   },
   mounted() {
-    if (this.api)
+    if (this.api) {
+      // console.log(this.api);
       this.axios
         .get(this.api)
         .then((res) => {
@@ -120,14 +121,15 @@ export default {
               isSelected: false,
             }));
           } else {
-            this.$emit('showToast', 'error', this.type, 'Not found !')
+            this.$emit("showToast", "error", this.type, "Not found !");
           }
 
-          localStorage.setItem('select', JSON.stringify([]));
+          localStorage.setItem("select", JSON.stringify([]));
         })
         .catch((err) => {
           console.log(err);
         });
+    }
   },
   computed: {},
   watch: {},
@@ -152,7 +154,7 @@ export default {
           "select",
           JSON.stringify([].push(e[type + "Code"]))
         );
-      }  // console.log(localStorage.getItem("select"));
+      } // console.log(localStorage.getItem("select"));
     },
     checkSelected(e) {
       let code = e[this.type + "Code"];

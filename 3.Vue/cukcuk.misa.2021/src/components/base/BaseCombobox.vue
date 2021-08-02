@@ -6,20 +6,14 @@
       <input
         type="text"
         :class="['combobox-input', 'textbox-default']"
-        :value="items[current][type + 'Name']"
-        v-bind:filter="type"
-        onkeyup="ComboboxInputChange(this)"
-        v-if="mode == 1 && isDataLoaded"
+        :filter="type"
+        @input="comboboxInput"
+        @focus="comboboxInput"
+        @keyup="handleKeyPress"
+        v-model="value"
+        v-if="isDataLoaded"
       />
-      <input
-        type="text"
-        :class="['combobox-input', 'textbox-default']"
-        value=""
-        v-bind:filter="type"
-        onkeyup="ComboboxInputChange(this)"
-        v-else
-      />
-      <div class="x-icon" hidden="true">
+      <div :class="['x-icon', { hide: isEmptyVal }]" @click="emptyInput">
         <i class="fas fa-times"></i>
       </div>
       <div class="combobox-icon-container" @click="isHide = !isHide">
@@ -31,10 +25,13 @@
       :id="[type.toLowerCase() + 's']"
     >
       <div
-        :class="['dropdown-item', { 'item-selected': index == current }]"
+        :class="[
+          'dropdown-item',
+          { 'item-selected': index == current, hide: item.Hidden },
+        ]"
         v-for="(item, index) in items"
         :key="index"
-        @click="current = index; isHide=true"
+        @click="current = index; itemClicked();"
       >
         <i class="fas fa-check item-icon"></i>
         <div class="item-text">{{ item[type + "Name"] }}</div>
@@ -44,12 +41,14 @@
 </template>
 
 <script>
+import utils from '../../mixins/ultis';
 export default {
   name: "Combobox",
   components: {},
   // type: Position, Department,
   // mode: 1- add "Tat ca ...", 0/null- normal
-  props: ["type", "api", "data", "mode"],
+  props: ["type", "api", "mode"],
+  mixins: [utils],
   data() {
     return {
       value: "",
@@ -57,11 +56,12 @@ export default {
       isHide: true,
       isDataLoaded: false,
       typeName: this.type + "Name",
-      items: this.data,
+      items: [],
       map: {
         Position: "vị trí",
         Department: "phòng ban",
       },
+      isEmptyVal: true,
     };
   },
   created() {
@@ -69,6 +69,7 @@ export default {
       .get(this.api)
       .then((res) => {
         this.items = [];
+
         if (this.mode == 1) {
           this.items.push({
             [this.typeName]: "Tất cả " + this.map[this.type],
@@ -77,16 +78,86 @@ export default {
         res.data.forEach((e) => {
           this.items.push(e);
         });
+
+        this.items = this.items.map((e) => ({
+          ...e,
+          Hidden: false,
+        }));
+
         this.isDataLoaded = true;
+        this.value = this.items[0][this.type + "Name"];
       })
       .catch((err) => {
         console.log(err);
       });
   },
+  updated() {
+    this.$nextTick(function () {
+      // this.value = this.items[this.current][this.type + 'Name'];
+    });
+  },
+  watch:{
+    value: function(){
+      this.isEmptyVal = !(this.value || this.value.trim());
+    },
+    current: function(c){
+      this.value = this.items[c][this.type + 'Name'];
+    }
+  },
+  methods: {
+    itemClicked(){
+      this.isHide = true;
+      this.$emit('filterActive', this.type, this.items[this.current][this.type+'Id']);
+    },
+    handleKeyPress(event) {
+      let maxOffset = 0;
+      for (let item of this.items) {
+        maxOffset = maxOffset + (item.Hidden ? 0 : 1);
+      }
+
+      if (event.code == "ArrowDown") {
+        event.preventDefault();
+        this.current = this.current < 0 ? 0 : this.current;
+        this.current = (this.current + 1) % maxOffset;
+      } else if (event.code == "ArrowUp") {
+        event.preventDefault();
+        this.current = this.current < 0 ? 0 : this.current;
+        this.current =
+          this.current == 0 ? maxOffset - 1 : this.current - 1;
+      } else if (event.code == "Enter"){
+        this.isHide = true;
+        this.value = this.items[this.current][this.type + "Name"];
+        this.$emit('filterActive', this.type, this.items[this.current][this.type+'Id']);
+      }
+    },
+
+    comboboxInput() {
+      if (this.value) {
+        this.isHide = false;
+      }
+      if (this.items) {
+        for (let item of this.items) {
+          let comparedString = (this.value)? this.RemoveAccents(this.value.toUpperCase()):' ';
+          let itemString = this.RemoveAccents(item[this.type + "Name"].toUpperCase());
+          if (
+            itemString.includes(comparedString)
+          ) {
+            item.Hidden = false;
+          } else {
+            item.Hidden = true;
+          }
+        }
+      }
+    },
+    emptyInput(){
+      this.value='';
+      this.$emit('filterActive', this.type, '');
+    }
+  },
 };
 </script>
 
 <style scoped>
-@import '../../css/base/text-box.css';
-@import '../../css/base/combobox.css';
+@import "../../css/base/text-box.css";
+@import "../../css/base/combobox.css";
 </style>
