@@ -94,6 +94,8 @@ export default {
         })
         .catch((err) => {
           console.log(err);
+          this.$emit("showToast", "error", "SERVER ERROR", `Cannot load ${this.type} for dropdowns!`);
+          this.isDataLoaded = true;
         });
     } else {
       this.items = this.data;

@@ -28,54 +28,59 @@
             </div>
           </div>
           <div class="input-row">
-            <div class="input-field">
+            <!-- <div class="input-field">
               <div class="input-label">
                 Mã nhân viên (<span class="required">*</span>)
-              </div>
-              <BaseInput
-                :valueType="'text'"
-                type="input-form"
-                id="employee-code"
-                tabindex="1"
-                ref="employeeCode"
-                v-model="detail.EmployeeCode"
-                label="Mã nhân viên"
-                :validates="[required]"
-                :renderFlag="isRerender"
-                @valid="validate.employeeCode = true"
-                @invalid="validate.employeeCode = false"
-              />
-            </div>
-            <div class="input-field">
+              </div> -->
+            <BaseInput
+              :valueType="'text'"
+              type="input-form"
+              id="employee-code"
+              :tabindex="1"
+              ref="employeeCode"
+              v-model="detail.EmployeeCode"
+              label="Mã nhân viên"
+              :required="true"
+              :validates="[required]"
+              :renderFlag="isRerender"
+              @valid="validate.employeeCode = true"
+              @invalid="validate.employeeCode = false"
+            />
+            <!-- </div> -->
+            <!-- <div class="input-field">
               <div class="input-label">
                 Họ và tên (<span class="required">*</span>)
-              </div>
-              <BaseInput
-                :valueType="'text'"
-                type="input-form"
-                id="fullname"
-                tabindex="2"
-                v-model="detail.FullName"
-                label="Họ và tên"
-                :validates="[required]"
-                :renderFlag="isRerender"
-                @valid="validate.fullName = true"
-                @invalid="validate.fullName = false"
-              />
-            </div>
+              </div> -->
+            <BaseInput
+              :valueType="'text'"
+              type="input-form"
+              id="fullname"
+              tabindex="2"
+              v-model="detail.FullName"
+              label="Họ và tên"
+              :required="true"
+              ref="fullName"
+              :validates="[required]"
+              :renderFlag="isRerender"
+              @valid="validate.fullName = true"
+              @invalid="validate.fullName = false"
+            />
+            <!-- </div> -->
           </div>
           <div class="input-row">
-            <div class="input-field">
-              <div class="input-label">Ngày sinh</div>
-              <BaseInput
-                :valueType="'date'"
-                class="input-form"
-                id="dob"
-                tabindex="3"
-                v-model="detail.DateOfBirth"
-                :label="'Ngày sinh'"
-              />
-            </div>
+            <!-- <div class="input-field">
+              <div class="input-label">Ngày sinh</div> -->
+            <BaseInput
+              :valueType="'date'"
+              :type="'input-form'"
+              id="dob"
+              tabindex="3"
+              :renderFlag="isRerender"
+              v-model="detail.DateOfBirth"
+              :label="'Ngày sinh'"
+              @dateChange="dateChange"
+            />
+            <!-- </div> -->
             <div class="input-field">
               <div class="input-label">Giới tính</div>
               <BaseDropdown
@@ -96,83 +101,89 @@
             </div>
           </div>
           <div class="input-row">
-            <div class="input-field">
+            <!-- <div class="input-field">
               <div class="input-label">
                 Số CMTND/ Căn cước (<span class="required">*</span>)
-              </div>
-              <BaseInput
-                :valueType="'text'"
-                class="input-form"
-                id="identity-number"
-                tabindex="5"
-                v-model="detail.IdentityNumber"
-                :label="'Số CMTND/ Căn cước'"
-                :validates="[required]"
-                :renderFlag="isRerender"
-                @valid="validate.identityNumber = true"
-                @invalid="validate.identityNumber = false"
-              />
-            </div>
-            <div class="input-field">
-              <div class="input-label">Ngày cấp</div>
-              <BaseInput
-                :valueType="'date'"
-                class="input-form"
-                id="identity-date"
-                tabindex="6"
-                v-model="detail.IdentityDate"
-                :label="'Ngày cấp'"
-              />
-            </div>
+              </div> -->
+            <BaseInput
+              :valueType="'text'"
+              type="input-form"
+              id="identity-number"
+              tabindex="5"
+              v-model="detail.IdentityNumber"
+              :label="'Số CMTND/ Căn cước'"
+              :validates="[required]"
+              ref="identityNumber"
+              :renderFlag="isRerender"
+              @valid="validate.identityNumber = true"
+              @invalid="validate.identityNumber = false"
+            />
+            <!-- </div> -->
+            <!-- <div class="input-field">
+              <div class="input-label">Ngày cấp</div> -->
+            <BaseInput
+              :valueType="'date'"
+              type="input-form"
+              id="identity-date"
+              tabindex="6"
+              v-model="detail.IdentityDate"
+              :label="'Ngày cấp'"
+              @dateChange="dateChange"
+            />
+            <!-- </div> -->
           </div>
           <div class="input-row">
-            <div class="input-field">
-              <div class="input-label">Nơi cấp</div>
-              <BaseInput
-                :valueType="'text'"
-                class="input-form"
-                id="identity-place"
-                tabindex="7"
-                v-model="detail.IdentityPlace"
-                :label="'Nơi cấp'"
-              />
-            </div>
+            <!-- <div class="input-field">
+              <div class="input-label">Nơi cấp</div> -->
+            <BaseInput
+              :valueType="'text'"
+              type="input-form"
+              id="identity-place"
+              tabindex="7"
+              v-model="detail.IdentityPlace"
+              :label="'Nơi cấp'"
+            />
+            <!-- </div> -->
           </div>
           <div class="input-row">
-            <div class="input-field">
+            <!-- <div class="input-field">
               <div class="input-label">
                 Email (<span class="required">*</span>)
-              </div>
-              <BaseInput
-                :valueType="'text'"
-                class="input-form"
-                id="email"
-                tabindex="8"
-                v-model="detail.Email"
-                :label="'Email'"
-                :validates="[required, email]"
-                :renderFlag="isRerender"
-                @valid="validate.email = true"
-                @invalid="validate.email = false"
-              />
-            </div>
-            <div class="input-field">
-              <div class="input-label">
+              </div> -->
+            <BaseInput
+              :valueType="'text'"
+              type="input-form"
+              id="email"
+              tabindex="8"
+              v-model="detail.Email"
+              :label="'Email'"
+              :validates="[required, email]"
+              :renderFlag="isRerender"
+              ref="email"
+              :required="true"
+              @valid="validate.email = true"
+              @invalid="validate.email = false"
+            />
+            <!-- </div> -->
+            <!-- <div class="input-field"> -->
+            <!-- <div class="input-label">
                 Số điện thoại (<span class="required">*</span>)
-              </div>
-              <BaseInput
-                :valueType="'text'"
-                class="input-form"
-                id="phone-number"
-                tabindex="9"
-                v-model="detail.PhoneNumber"
-                :label="'Số điện thoại'"
-                :validates="[required, phone]"
-                :renderFlag="isRerender"
-                @valid="validate.phoneNumber = true"
-                @invalid="validate.phoneNumber = false"
-              />
-            </div>
+              </div> -->
+            <BaseInput
+              :valueType="'text'"
+              type="input-form"
+              id="phone-number"
+              tabindex="9"
+              v-model="detail.PhoneNumber"
+              :label="'Số điện thoại'"
+              :validates="[required, phone]"
+              :renderFlag="isRerender"
+              ref="phoneNumber"
+              :required="true"
+              @valid="validate.phoneNumber = true"
+              @invalid="validate.phoneNumber = false"
+            />
+            <!-- </div> -->
           </div>
           <div class="header-row">
             <div class="header-2">
@@ -194,6 +205,7 @@
                 :api="'http://cukcuk.manhnv.net/v1/Positions'"
                 v-if="isDataLoaded"
                 @itemChange="dropDataChange"
+                @showToast="emitShowToast"
               ></BaseDropdown>
             </div>
             <div class="input-field">
@@ -213,44 +225,45 @@
             </div>
           </div>
           <div class="input-row">
-            <div class="input-field">
-              <div class="input-label">Mã số thuế cá nhân</div>
-              <BaseInput
-                :valueType="'text'"
-                class="input-form"
-                id="tax-code"
-                tabindex="12"
-                v-model="detail.PersonalTaxCode"
-                :label="'Mã số thuế cá nhân'"
-              />
-            </div>
-            <div class="input-field">
-              <div class="input-label">Mức lương cơ bản</div>
-              <BaseInput
-                :valueType="'tel'"
-                class="textbox-default input-form input-salary"
-                id="salary"
-                tabindex="13"
-                v-model="detail.Salary"
-                :label="'Mức lương cơ bản'"
-                @input="formatSalaryOnInput"
-                ref="salary"
-              />
-            </div>
+            <!-- <div class="input-field">
+              <div class="input-label">Mã số thuế cá nhân</div> -->
+            <BaseInput
+              :valueType="'text'"
+              type="input-form"
+              id="tax-code"
+              tabindex="12"
+              v-model="detail.PersonalTaxCode"
+              :label="'Mã số thuế cá nhân'"
+            />
+            <!-- </div> -->
+            <!-- <div class="input-field">
+              <div class="input-label">Mức lương cơ bản</div> -->
+            <BaseInput
+              :valueType="'tel'"
+              :type="'input-form input-salary'"
+              id="salary"
+              :tabindex="13"
+              v-model="detail.Salary"
+              :label="'Mức lương cơ bản'"
+              @input="formatSalaryOnInput"
+              ref="salary"
+            />
+            <!-- </div> -->
             <div class="money-unit">(VNĐ)</div>
           </div>
           <div class="input-row">
-            <div class="input-field">
-              <div class="input-label">Ngày gia nhập công ty</div>
-              <BaseInput
-                :valueType="'date'"
-                class="input-form"
-                id="join-date"
-                tabindex="14"
-                v-model="detail.JoinDate"
-                :label="'Ngày gia nhập công ty'"
-              />
-            </div>
+            <!-- <div class="input-field">
+              <div class="input-label">Ngày gia nhập công ty</div> -->
+            <BaseInput
+              :valueType="'date'"
+              type="input-form"
+              id="join-date"
+              tabindex="14"
+              v-model="detail.JoinDate"
+              :label="'Ngày gia nhập công ty'"
+              @dateChange="dateChange"
+            />
+            <!-- </div> -->
             <div class="input-field">
               <div class="input-label">Tình trạng công việc</div>
               <BaseDropdown
@@ -344,6 +357,23 @@ export default {
         email: false,
         phoneNumber: false,
       },
+      validateRefs: [
+        "employeeCode",
+        "fullName",
+        "identityNumber",
+        "email",
+        "phoneNumber",
+      ],
+      dateMap: {
+        dob: "DateOfBirth",
+        "identity-date": "IdentityDate",
+        "join-date": "JoinDate",
+      },
+      dateName: {
+        dob: "Ngày sinh",
+        "identity-date": "Ngày cấp",
+        "join-date": "Ngày gia nhập",
+      },
     };
   },
   mounted() {},
@@ -357,7 +387,7 @@ export default {
      */
     isOpen: function (val) {
       this.$nextTick(() => {
-        if (val) this.$refs.employeeCode.$el.focus();
+        if (val) this.$refs.employeeCode.$el.children[1].focus();
       });
 
       this.isDataLoaded = false;
@@ -388,7 +418,9 @@ export default {
               console.log(err);
             });
         } else if (this.mode == 0) {
-          this.detail = Object.assign({});
+          // Reset dữ liệu trên form
+          this.detail = {};
+
           this.isDataLoaded = true;
           this.axios
             .get("http://cukcuk.manhnv.net/v1/Employees/NewEmployeeCode")
@@ -404,10 +436,35 @@ export default {
               // Thay đổi giá trị bằng phép gán làm mất tính reactivity của component
               this.$set(this.detail, "EmployeeCode", newCode);
             });
+        } else {
+          this.detail = {};
         }
     },
   },
   methods: {
+    dateChange(key, val, input, v) {
+      console.log(key, val, input);
+      let keyName = this.dateMap[key];
+      let oldVal = this.detail[keyName];
+      if (oldVal != val) {
+        // this.detail[keyName] = val;
+        // console.log(input.selectionStart);
+        if (!/^(0[1-9]|[12][0-9]|3[01])[-/.](0[1-9]|1[012])[-/.](19|20)\d\d$/g.test(v)) {
+          this.$emit(
+            "showToast",
+            "warning",
+            "DATETIME format",
+            `<b>"${this.dateName[key]}"</b> ${v} chưa đúng định dạng, vui lòng kiểm tra lại !`
+          );
+        }
+        let start = input.selectionStart;
+        this.$set(this.detail, keyName, val);
+        this.$nextTick(() => {
+          input.setSelectionRange(start + 1, start + 1);
+        });
+      }
+      // this.detail[key] = val;
+    },
     FormatData() {
       this.$set(
         this.detail,
@@ -443,11 +500,16 @@ export default {
       console.log("RES:", res);
       return res;
     },
+
+    /**
+     *
+     * Định dạng tiền tệ trong khi nhập
+     */
     formatSalaryOnInput() {
-      let salaryInput = this.$refs.salary.$el;
-      let selecStart = salaryInput.selectionStart-1;
-      let selecEnd = salaryInput.selectionEnd-1;
-      let oldLen = salaryInput.value.length-1;
+      let salaryInput = this.$refs.salary.$el.children[1];
+      let selecStart = salaryInput.selectionStart - 1;
+      let selecEnd = salaryInput.selectionEnd - 1;
+      let oldLen = salaryInput.value.length - 1;
       this.$set(
         this.detail,
         "Salary",
@@ -481,19 +543,25 @@ export default {
     },
 
     BtnSaveClick() {
-      if (!this.isValidate()) {
-        this.$emit('showToast', 'warning', 'NOT VALIDATE', `Dữ liệu không hợp lệ !`);
-        this.$emit("showPopup", {
-          title: "Thông báo",
-          content: `Dữ liệu không hợp lệ, vui lòng nhập lại`,
-          popupType: "warning",
-          okAction: "OK",
-          isHide: false,
-          callback: null,
-        });
-        return;
-      }
-      this.$emit("saveClicked", this.mode, this.detailId, this.GetRawData());
+      console.log("save", this.detail);
+
+      // for(let ref of this.validateRefs){
+      //   this.$refs[ref].inputValidate();
+      // }
+      // if (!this.isValidate()) {
+      //   this.$emit('showToast', 'warning', 'NOT VALIDATE', `Dữ liệu không hợp lệ !`);
+      //   this.$emit("showPopup", {
+      //     title: "Thông báo",
+      //     content: `Dữ liệu không hợp lệ, vui lòng nhập lại`,
+      //     popupType: "warning",
+      //     okAction: "OK",
+      //     isHide: false,
+      //     callback: null,
+      //   });
+      //   return;
+      // }
+      // console.log("EMIT");
+      // this.$emit("saveClicked", this.mode, this.detailId, this.GetRawData());
     },
 
     /**
@@ -508,6 +576,9 @@ export default {
       if (obj.PositionId) {
         this.$set(this.detail, "PositionId", obj.PositionId);
       }
+    },
+    emitShowToast(type, header, msg) {
+      this.$emit("showToast", type, header, msg);
     },
   },
 };

@@ -81,6 +81,10 @@ export default {
     return {
       employees: [],
       isSelectAll: false,
+      typeMap:{
+        Position: "Vị trí",
+        Department: "Phòng ban"
+      }
       // test: 0
     };
   },
@@ -110,7 +114,7 @@ export default {
         .then((res) => {
           this.employees = res.data.Data;
           if (this.employees) {
-            this.$emit("dataLoaded", this.employees.length);
+            this.$emit("dataLoaded");
             this.$emit(
               "getPagingInfo",
               res.data.TotalPage,
@@ -121,13 +125,16 @@ export default {
               isSelected: false,
             }));
           } else {
-            this.$emit("showToast", "error", this.type, "Not found !");
+            this.$emit("showToast", "error", this.typeMap[this.type], "Không có dữ liệu phản hồi !");
+            this.$emit("dataLoaded");
           }
 
           localStorage.setItem("select", JSON.stringify([]));
         })
         .catch((err) => {
           console.log(err);
+          this.$emit("dataLoaded");
+          this.$emit("showToast", "error", "LỖI SERVER", "Không nhận được dữ liệu nhân viên !");
         });
     }
   },

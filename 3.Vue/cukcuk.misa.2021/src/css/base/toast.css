@@ -19,7 +19,7 @@
 }
 
 .toast-wrapper{
-    animation: ToastAppear 3.2s linear;
+    animation: ToastAppear 7.2s linear;
 }
 
 @keyframes ToastAppear{
@@ -27,11 +27,11 @@
         transform: translate(-200px, 0);
         opacity: 0;
     }
-    50% {
+    20% {
         transform: translate(-270px, 0);
         opacity: 1;
     }
-    85%{
+    75%{
         transform: translate(-270px, 0);
         opacity: 1;
     }
@@ -166,7 +166,7 @@
     width: 0;
     background-color: rgba(0, 0, 0, 0.473);
     border-radius: 0 0 4px 4px;
-    animation: getWidth 3s ease-in-out;
+    animation: getWidth 7s ease-in-out;
 }
 
 @keyframes getWidth {

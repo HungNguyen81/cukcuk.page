@@ -7,7 +7,7 @@
     height: 100%;
     /* transform: scale(0); */
     /* visibility: hidden; */
-    z-index: 9;    
+    z-index: 12;    
     overflow-y: auto;
 }
 .container.close{
@@ -28,6 +28,7 @@
     transform: translate(-50%, 0) ;
     background-color: #fff;
     border-radius: 4px;        
+    z-index: 13;
 }
 
 .form-container.open {
@@ -129,7 +130,7 @@
     /* align-items: center; */
     flex-flow: row; 
     /* overflow: auto;  */
-    z-index: 12;   
+    z-index: 13;   
 }
 
 .form-body .body-avatar{
@@ -141,7 +142,7 @@
     /* height: calc(850px - 56px - 60px);  */
     position: absolute;
     right: 16px;
-    z-index: 12;        
+    z-index: 13;        
     
 }
 
@@ -235,7 +236,7 @@
     margin-left: 4px;
 }
 
-#salary{
+#salary input{
     display: flex;
     align-items: center;    
 }
@@ -271,7 +272,7 @@
     background-color: #bbb;
     border-radius: 0 0 4px 4px;
     justify-content: flex-end;
-    z-index: 11;
+    z-index: 13;
 }
 
 /* Custom scrollbar */

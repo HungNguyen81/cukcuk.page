@@ -51,7 +51,7 @@ export default {
     this.toastType = this.type;
     this.toastHeader = this.header;
     this.toastMsg = this.msg;
-    this.timeOut = setTimeout(this.CloseToast, 3000);
+    this.timeOut = setTimeout(this.CloseToast, 7000);
   },
   methods: {
     CloseToast() {

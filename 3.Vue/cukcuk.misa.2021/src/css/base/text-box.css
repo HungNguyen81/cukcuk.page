@@ -12,6 +12,52 @@
     border-color: #019160;
 }
 
-.textbox-default.unvalid{
+.textbox-default.invalid {
     border-color: red;
+}
+
+.date-input {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+.date-edit{
+    font-size: 13px;
+    font-family: MISAGoogleSans;
+    letter-spacing: 1px;
+    padding: 0;
+    border: 0px;
+}
+
+input[type=date]{
+    background-color: transparent;
+    outline: none;
+    border-color: transparent;
+    padding: 0;
+    height: 24px;
+}
+
+input[type=date]:focus{
+    border: 1px solid #019160;
+}
+
+input[type=date]::-webkit-datetime-edit {
+    display: none;
+    background-color: yellow;
+}
+
+input[type=date]::-webkit-inner-spin-button,
+input[type=date]::-webkit-clear-button {
+    display: none;
+}
+input[type=date]::-webkit-calendar-picker-indicator{
+    margin: 0;
+    left: 0;
+}
+.textbox-default > input{
+    border-color: transparent;
+    outline: none;
+}
+.input-focus{
+    border-color: #019160;
 }

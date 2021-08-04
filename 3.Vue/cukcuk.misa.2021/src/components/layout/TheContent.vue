@@ -29,12 +29,14 @@
           type="Department"
           mode="1"
           @filterActive="activeFilter"
+          @showToast="showToast"
         ></Combobox>
         <Combobox
           :api="'http://cukcuk.manhnv.net/v1/Positions'"
           type="Position"
           mode="1"
           @filterActive="activeFilter"
+          @showToast="showToast"
         ></Combobox>
 
         <div class="button-refresh" @click="RefreshTable"></div>
@@ -57,7 +59,7 @@
           @rowClick="rowSelect"
           :key="tableFlag"
           @getPagingInfo="transPagingInfo"
-          @showToast="ShowToast"
+          @showToast="showToast"
         ></Table>
         <div id="loader" :class="{ hide: !isTableLoading }">
           <div class="spinner-wrapper">
@@ -74,19 +76,20 @@
         :items="pageItems"
         @pageSizeChange="onPageSizeChange"
         @pageNumChange="onPageNumChange"
+        @showToast="showToast"
       ></Paging>
     </div>
     <Form
       :isOpen="this.formStatus"
-      :close="this.CloseFormWithoutSave"
+      :close="this.closeFormWithoutSave"
       :mode="action"
-      @closeForm="this.CloseFormWithoutSave"
+      @closeForm="this.closeFormWithoutSave"
       :detailId="this.employeeId"
       :moreDetail="this.moreDetail"
       @saveClicked="this.FormSaveButtonClick"
-      @getNewCodeError="FailInGetNewCode"
-      @showToast="ShowToast"
-      @showPopup="ShowPopup"
+      @getNewCodeError="failInGetNewCode"
+      @showToast="showToast"
+      @showPopup="showPopup"
     ></Form>
 
     <Popup
@@ -146,7 +149,7 @@ export default {
       pageSize: 20,
       pageNumber: 0, // = current - 1
       totalRecord: 20,
-      totalPage: 3,
+      totalPage: 1,
       pageItems: [],
       //
       // searchContent: "nv",
@@ -197,7 +200,7 @@ export default {
   created() {},
   computed: {
     /**
-     * Toggle delete button status depend on number of selected rows
+     * Toggle trạng thái nút xóa nv theo số dòng được select
      */
     delBtnActive: function () {
       return this.deleteIdList.length > 0;
@@ -210,6 +213,8 @@ export default {
     searchContent: function (c) {
       if (this.searchTimeOut) clearTimeout(this.searchTimeOut);
       this.searchTimeOut = setTimeout(() => {
+        // re-render table
+        this.pageNumber = 0;
         this.tableFlag = !this.tableFlag;
         console.log("c:", c);
       }, 500);
@@ -266,7 +271,7 @@ export default {
     /**
      * Close form without display a popup, handle click event for Cancel and Close Form buttons
      */
-    CloseFormWithoutSave() {
+    closeFormWithoutSave() {
       this.popup = {
         title: "Xác nhận hủy",
         content: `Bạn có chắc chắn muốn <b>HỦY</b> nhập liệu hay không ?!`,
@@ -289,7 +294,7 @@ export default {
      * Show toast to notice to the client
      * params: {String}
      */
-    ShowToast(type, header, msg, delay) {
+    showToast(type, header, msg, delay) {
       const Show = () => {
         this.toasts.push({
           type: type,
@@ -301,10 +306,11 @@ export default {
         setTimeout(Show, delay);
       } else {
         Show();
+        
       }
     },
 
-    ShowPopup(options) {
+    showPopup(options) {
       if (!options.callback) {
         options.callback = this.ClosePopup;
       }
@@ -340,7 +346,7 @@ export default {
         )
         .then(() => {
           // if (res) console.log("da SUA thanh cong");
-          this.ShowToast(
+          this.showToast(
             "success",
             "PUT Success",
             `Sửa nhân viên <b>"${this.employeeDetail.FullName}"</b> thành công`
@@ -350,7 +356,7 @@ export default {
           this.RefreshTable();
         })
         .catch(() => {
-          this.ShowToast(
+          this.showToast(
             "error",
             "PUT error",
             `Sửa nhân viên <b>"${this.employeeDetail.FullName}"</b> không thành công`
@@ -368,7 +374,7 @@ export default {
         .post(`http://cukcuk.manhnv.net/v1/Employees/`, this.employeeDetail)
         .then(() => {
           // if (res) console.log("da THEM thanh cong");
-          this.ShowToast(
+          this.showToast(
             "success",
             "POST success",
             `Thêm nhân viên <b>"${this.employeeDetail.FullName}"</b> thành công`
@@ -379,7 +385,7 @@ export default {
         })
         .catch(() => {
           // console.log(err);
-          this.ShowToast(
+          this.showToast(
             "error",
             "POST error",
             `Thêm nhân viên <b>"${this.employeeDetail.FullName}"</b> không thành công`
@@ -400,8 +406,8 @@ export default {
     /**
      * Change page label when number of rows change
      */
-    tableDataLoaded(size) {
-      this.tableSize = size;
+    tableDataLoaded() {
+      console.log("LOADED");
       this.isTableLoading = false;
     },
 
@@ -433,7 +439,7 @@ export default {
         this.deleteCodeList.push(name);
 
         if (this.deleteIdList.length > 100) {
-          this.ShowToast(
+          this.showToast(
             "warning",
             "OUT OF LIMITATION",
             `Số nhân viên vượt quá <b>"100"</b> người !`
@@ -472,7 +478,7 @@ export default {
             // console.log(id);
             this.ClosePopup();
             this.RefreshTable();
-            this.ShowToast(
+            this.showToast(
               "info",
               "DELETE successfully",
               `Đã xóa "${name}"`,
@@ -480,7 +486,7 @@ export default {
             );
           })
           .catch(() => {
-            this.ShowToast(
+            this.showToast(
               "error",
               "Delete error",
               `Xóa nhân viên "<b>${name}</b>" không thành công`,
@@ -490,8 +496,8 @@ export default {
       }
     },
 
-    FailInGetNewCode() {
-      this.ShowToast("error", "GET error", `Không thể lấy mã nhân viên mới !`);
+    failInGetNewCode() {
+      this.showToast("error", "GET error", `Không thể lấy mã nhân viên mới !`);
     },
 
     /**

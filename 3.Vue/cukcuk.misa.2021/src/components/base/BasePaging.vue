@@ -83,7 +83,7 @@ export default {
       },
       pSize: 20,
       current: 1,
-      allPage: 5,
+      allPage: 1,
     };
   },
   watch: {

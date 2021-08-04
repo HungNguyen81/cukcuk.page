@@ -1,11 +1,62 @@
 <template>
-  <input
+  <!-- <input
     @blur="inputValidate()"
     :type="valueType"
-    :class="['textbox-default', type, { unvalid: !isValidate }]"
+    :class="['textbox-default', type, { invalid: !isValidate }]"
     v-bind:value="value"
     v-on="inputListeners"
-  />
+    :data-date="dataDate"
+  /> -->
+  <div class="input-field">
+    <div class="input-label" v-if="required">
+      {{ label }} (<span class="required">*</span>)
+    </div>
+    <div class="input-label" v-else>
+      {{ label }}
+    </div>
+
+    <div
+      :class="[
+        'date-input',
+        'textbox-default',
+        type,
+        { 'input-focus': isDateFocus },
+        { invalid: !isValidate }
+      ]"
+      v-if="valueType == 'date'"
+    >
+      <input
+        type="text"
+        placeholder="dd / mm / yyyy"
+        class="date-edit"
+        :tabindex="tabindex"
+        v-model="formatedValue"
+        @focus="isDateFocus = true"
+        @blur="isDateFocus = false"
+        ref="dateView"
+      />
+      <input
+        @blur="
+          isDateFocus = false;
+          inputValidate();
+        "
+        @focus="isDateFocus = true"
+        :type="valueType"
+        v-bind:value="value"
+        v-on="inputListeners"
+        :tabindex="Number(tabindex) + 1"
+      />
+    </div>
+    <input
+      v-else
+      @blur="inputValidate()"
+      :type="valueType"
+      :class="['textbox-default', type, { invalid: !isValidate }]"
+      v-bind:value="value"
+      v-on="inputListeners"
+      :tabindex="tabindex"
+    />
+  </div>
 </template>
 
 <script>
@@ -32,10 +83,17 @@ export default {
       type: Boolean,
       require: false,
     },
+    required: {
+      type: Boolean,
+    },
+    tabindex: {},
   },
   data() {
     return {
       isValidate: true,
+      isDateFocus: false,
+      formatedValue: null,
+      dateTimeOut: null,
     };
   },
   mounted() {
@@ -60,28 +118,68 @@ export default {
     },
   },
   watch: {
+    /**
+     * Tắt border cảnh báo invalid khi mở form (hoặc re-render form)
+     */
     renderFlag: function () {
       this.isValidate = true;
     },
     isValidate: function (isValid) {
       console.log("validate", this.label, isValid);
-      if (isValid) {
-        this.$emit("valid");
-      } else {
-        this.$emit("invalid");
+      // if (isValid) {
+      //   this.$emit("valid");
+      // } else {
+      //   this.$emit("invalid");
+      // }
+    },
+    value: function (val) {
+      if (this.valueType == "date") {
+        if (!val) {
+          this.formatedValue = "";
+          return;
+        }
+        let data = val.split("-");
+        let yyyy = this.zeroPad(data[0], 4);
+        let mm = this.zeroPad(data[1], 2);
+        let dd = this.zeroPad(data[2], 2);
+        this.formatedValue = `${dd}/${mm}/${yyyy}`;
       }
     },
-    value: function () {
-      // console.log("v: ", v);
-      // this.inputValidate();  
+    formatedValue: function (val) {
+      console.log("format value editing");
+
+      clearTimeout(this.dateTimeOut);
+
+      let newVal;
+      if (!val) {
+        newVal = "";
+      } else {
+        let data = val.split("/");
+        if (data.length < 3 || !data[2] || !data[1] || !data[0]) return;
+        let yyyy = this.zeroPad(data[2], 4);
+        let mm = this.zeroPad(data[1], 2);
+        let dd = this.zeroPad(data[0], 2);
+
+        newVal = `${yyyy}-${mm}-${dd}`;
+      }
+      
+      this.dateTimeOut = setTimeout(() => {
+        this.$emit("dateChange", this.$el.id, newVal, this.$refs.dateView, val);
+      }, 500);
     },
   },
   methods: {
+    zeroPad: function (num, places) {
+      let res = String(num).padStart(places, "0");
+      return res.substr(res.length - places);
+    },
     inputValidate() {
       if (this.validates) {
         let res = true;
-        for (let func of this.validates) {
-          res = res && func(this.label, this.value);
+        for (let [i, func] of this.validates.entries()) {
+          let isValid = func(this.label, this.value);
+          res = res && isValid;
+          console.log("index: --->", i);
         }
         this.isValidate = res;
         if (this.isValidate) {
@@ -99,4 +197,5 @@ export default {
 
 <style scoped>
 @import "../../css/base/text-box.css";
+/* @import "../../css/components/popup-form.css"; */
 </style>

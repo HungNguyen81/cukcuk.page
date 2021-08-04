@@ -1,6 +1,7 @@
 <template>
   <div
     :class="['combobox-container', ['dropdown-' + type.toLowerCase() + 's']]"
+    v-if="isDataLoaded"
   >
     <div class="combobox">
       <input
@@ -11,7 +12,6 @@
         @focus="comboboxInput"
         @keyup="handleKeyPress"
         v-model="value"
-        v-if="isDataLoaded"
       />
       <div :class="['x-icon', { hide: isEmptyVal }]" @click="emptyInput">
         <i class="fas fa-times"></i>
@@ -89,6 +89,8 @@ export default {
       })
       .catch((err) => {
         console.log(err);
+        this.$emit("showToast", "error", "SERVER ERROR", `Cannot load ${this.type}!`);
+        this.isDataLoaded = true;
       });
   },
   updated() {

@@ -22,11 +22,4 @@ export default {
 </script>
 
 <style>
-/* @import '../../css/main.css'; */
-/* .employee-page{
-    display: block;
-    position: absolute;
-    top: 0;
-    left: 0;
-} */
 </style>
