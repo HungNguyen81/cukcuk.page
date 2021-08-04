@@ -7,11 +7,9 @@
 
 # My API:
 
-- GET https://cukcuk-app.herokuapp.com/api/Department : get all department info
-- GET https://cukcuk-app.herokuapp.com/api/Position : get all position info
-- GET https://cukcuk-app.herokuapp.com/api/Employee : get all employee info
+- See API description at: http://cukcuk-hungnguyen81.herokuapp.com/
 
-# Cukcuk API
+# Cukcuk API of Mr.NVMANH
 
 - See API description at: http://cukcuk.manhnv.net/swagger/index.html
 
