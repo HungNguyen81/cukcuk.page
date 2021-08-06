@@ -1,0 +1,17 @@
+{
+  "version": 2,
+  "dgSpecHash": "9ABlsIeeI2pAmPUa+iJr8/xlZdM2rFHEk18z9i6fagU4yNTzxyNB017+DA0Z4jzkSWvsOlRYZGKAAp+ceTakqw==",
+  "success": true,
+  "projectFilePath": "D:\\0. Subjects\\20203\\MISA fresher Trainning - GĐ1\\Trainning\\Buổi 1 - 13.07.2021\\Bài tập\\cukcuk.page\\4.ASP\\MISA.CukCuk\\MISA.CukCuk.API\\MISA.CukCuk.API.csproj",
+  "expectedPackageFiles": [
+    "C:\\Users\\nguye\\.nuget\\packages\\dapper\\2.0.90\\dapper.2.0.90.nupkg.sha512",
+    "C:\\Users\\nguye\\.nuget\\packages\\microsoft.extensions.apidescription.server\\3.0.0\\microsoft.extensions.apidescription.server.3.0.0.nupkg.sha512",
+    "C:\\Users\\nguye\\.nuget\\packages\\microsoft.openapi\\1.2.3\\microsoft.openapi.1.2.3.nupkg.sha512",
+    "C:\\Users\\nguye\\.nuget\\packages\\mysqlconnector\\1.4.0-beta.1\\mysqlconnector.1.4.0-beta.1.nupkg.sha512",
+    "C:\\Users\\nguye\\.nuget\\packages\\swashbuckle.aspnetcore\\5.6.3\\swashbuckle.aspnetcore.5.6.3.nupkg.sha512",
+    "C:\\Users\\nguye\\.nuget\\packages\\swashbuckle.aspnetcore.swagger\\5.6.3\\swashbuckle.aspnetcore.swagger.5.6.3.nupkg.sha512",
+    "C:\\Users\\nguye\\.nuget\\packages\\swashbuckle.aspnetcore.swaggergen\\5.6.3\\swashbuckle.aspnetcore.swaggergen.5.6.3.nupkg.sha512",
+    "C:\\Users\\nguye\\.nuget\\packages\\swashbuckle.aspnetcore.swaggerui\\5.6.3\\swashbuckle.aspnetcore.swaggerui.5.6.3.nupkg.sha512"
+  ],
+  "logs": []
+}
