@@ -66,9 +66,15 @@ namespace MISA.CukCuk.API.Controllers
 
             parameters.Add("@CustomerId", customerId);
 
-            var customer = _dbConnection.QueryFirstOrDefault<Customer>(sqlQuery, param: parameters);
-
-            return StatusCode(200, customer);
+            try
+            {
+                var customer = _dbConnection.QueryFirstOrDefault<Customer>(sqlQuery, param: parameters);
+                return StatusCode(200, customer != null? customer : "Not found!");
+            }
+            catch (Exception)
+            {
+                return StatusCode(500, Properties.Resources.MISAErrorMessage);
+            }
         }
 
         #endregion
@@ -174,7 +180,30 @@ namespace MISA.CukCuk.API.Controllers
 
         #region Delete Requests
 
+        /// <summary>
+        /// Xóa khách hàng với id tương ứng
+        /// </summary>
+        /// <param name="customerId">Id của khách hàng muốn xóa</param>
+        /// <returns></returns>
 
+        [HttpDelete("{CustomerId}")]
+        public IActionResult DeleteCustomerById(string customerId)
+        {
+            var sqlQuery = $"DELETE FROM Customer WHERE CustomerId = @CustomerId";
+            var parameters = new DynamicParameters();
+
+            parameters.Add("@CustomerId", customerId);
+
+            try
+            {
+                var rowAffects = _dbConnection.Execute(sqlQuery, param: parameters);
+                return StatusCode(200, $"Đã xóa {rowAffects} bản ghi.");
+            }
+            catch (Exception)
+            {
+                return StatusCode(500, Properties.Resources.MISAErrorMessage);
+            }
+        }
 
         #endregion
     }
