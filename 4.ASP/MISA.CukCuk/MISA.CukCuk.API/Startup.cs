@@ -26,7 +26,7 @@ namespace MISA.CukCuk.API
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-
+            //services.AddCors();
             services.AddControllers();
             services.AddSwaggerGen(c =>
             {
@@ -36,7 +36,17 @@ namespace MISA.CukCuk.API
             {
                 jsonOptions.JsonSerializerOptions.PropertyNamingPolicy = null;
             });
-            services.AddCors();
+            services.AddCors(options =>
+            {
+                options.AddPolicy("VueCorsPolicy", builder =>
+                {
+                    builder
+                      .AllowAnyHeader()
+                      .AllowAnyMethod()
+                      .AllowCredentials()
+                      .WithOrigins("http://localhost:8080");
+                });
+            });
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -49,17 +59,19 @@ namespace MISA.CukCuk.API
                 app.UseSwaggerUI(c => c.SwaggerEndpoint("/swagger/v1/swagger.json", "MISA.CukCuk.API v1"));
             }
 
+            app.UseCors("VueCorsPolicy");
+
             app.UseHttpsRedirection();
 
             app.UseRouting();
 
             app.UseAuthorization();
 
-            app.UseCors(x => x
-               .AllowAnyMethod()
-               .AllowAnyHeader()
-               .SetIsOriginAllowed(origin => true) // allow any origin
-               .AllowCredentials()); // allow credentials
+            //app.UseCors(x => x
+            //   .AllowAnyMethod()
+            //   .AllowAnyHeader()
+            //   .SetIsOriginAllowed(origin => true) // allow any origin
+            //   .AllowCredentials()); // allow credentials
 
             app.UseEndpoints(endpoints =>
             {
