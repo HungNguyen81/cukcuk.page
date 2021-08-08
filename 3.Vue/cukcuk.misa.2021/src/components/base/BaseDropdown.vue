@@ -115,12 +115,20 @@ export default {
     toggle() {
       this.isHide = !this.isHide;
     },
+
+    /**
+     * Handle khi click chọn item
+     */
     itemSelect(item, index) {
       this.current = index;
       this.toggle();
       console.log('item', item);
       this.$emit("itemChange", this.typeData, item);
     },
+
+    /**
+     * handle khi select bằng cách bấm phím mũi tên lên/xuống
+     */
     handleKeyPress(event) {
       if (event.code == "ArrowDown") {
         event.preventDefault();
@@ -145,6 +153,9 @@ export default {
       console.log("val change", this.displayId, val);
     },
 
+    /**
+     * Watch sự thay đổi của current: chỉ số của item selected
+     */
     current: function(c){
       if(c >= 0){
         this.$emit("itemChange", this.typeData, this.items[c]);

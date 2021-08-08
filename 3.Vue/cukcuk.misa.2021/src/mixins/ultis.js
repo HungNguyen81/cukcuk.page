@@ -16,7 +16,7 @@ export default {
          * convert date to display type or input value type
          */
         DateFormat(data, isForDateInput) {
-            if(!data) return null;
+            if(!data) return "";
             let date = new Date(data);
             let dd = date.getDate();
             let mm = date.getMonth() + 1;

@@ -62,21 +62,21 @@ export default {
     items: {
       type: Array,
     },
-  },
-  mounted() {
-    // console.log("MOUNTED");
-    this.pSize = this.pageSize;
-    this.current = this.pageNumber + 1;
-    this.allPage = this.totalPage;
+    entityName: {
+      type: String,
+      require: true,
+      default() {
+        return "Employee";
+      },
+    },
   },
   data() {
     return {
-      pageSizeDropData: [
-        { Name: " 10 nhân viên/trang", Size: 10 },
-        { Name: " 20 nhân viên/trang", Size: 20 },
-        { Name: " 50 nhân viên/trang", Size: 50 },
-        { Name: "100 nhân viên/trang", Size: 100 },
-      ],
+      entityNameMap: {
+        Employee: "Nhân viên",
+        Customer: "Khách hàng",
+      },
+      pageSizeDropData: [],
       page: {
         start: 1,
         end: 20,
@@ -85,6 +85,20 @@ export default {
       current: 1,
       allPage: 1,
     };
+  },
+  mounted() {
+    // console.log("MOUNTED");
+    this.pSize = this.pageSize;
+    this.current = this.pageNumber + 1;
+    this.allPage = this.totalPage;
+  },
+  created() {
+    this.pageSizeDropData = [
+      { Name: ` 10 ${this.entityNameMap[this.entityName]}/trang`, Size: 10 },
+      { Name: ` 20 ${this.entityNameMap[this.entityName]}/trang`, Size: 20 },
+      { Name: ` 50 ${this.entityNameMap[this.entityName]}/trang`, Size: 50 },
+      { Name: `100 ${this.entityNameMap[this.entityName]}/trang`, Size: 100 },
+    ];
   },
   watch: {
     totalPage: function (tp) {
@@ -96,7 +110,10 @@ export default {
   },
   computed: {
     startRow: function () {
-      return Math.min((this.current - 1) * this.pSize + 1, Number(this.totalRecord));
+      return Math.min(
+        (this.current - 1) * this.pSize + 1,
+        Number(this.totalRecord)
+      );
     },
     endRow: function () {
       return Math.min(this.current * this.pSize, Number(this.totalRecord));
@@ -109,26 +126,26 @@ export default {
   },
   methods: {
     pageSizeChange(type, data) {
-      this.pSize = data.Size;      
+      this.pSize = data.Size;
       this.$emit("pageSizeChange", this.pSize);
     },
     next() {
       this.current = this.current < this.totalPage ? this.current + 1 : 1;
       console.log("next", this.current + "/" + this.totalPage);
-      this.$emit('pageNumChange', this.current-1);
+      this.$emit("pageNumChange", this.current - 1);
     },
     prev() {
       this.current = this.current > 1 ? this.current - 1 : this.totalPage;
       console.log("prev", this.current + "/" + this.totalPage);
-      this.$emit('pageNumChange', this.current-1);
+      this.$emit("pageNumChange", this.current - 1);
     },
     first() {
       this.current = 1;
-      this.$emit('pageNumChange', 0);
+      this.$emit("pageNumChange", 0);
     },
     last() {
       this.current = this.totalPage;
-      this.$emit('pageNumChange', this.current-1);
+      this.$emit("pageNumChange", this.current - 1);
     },
   },
 };

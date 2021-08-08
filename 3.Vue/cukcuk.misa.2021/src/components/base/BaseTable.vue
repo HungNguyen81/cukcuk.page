@@ -82,8 +82,8 @@ export default {
       employees: [],
       isSelectAll: false,
       typeMap:{
-        Position: "Vị trí",
-        Department: "Phòng ban"
+        Employee: "Nhân Viên",
+        Customer: "Khách Hàng"
       }
       // test: 0
     };
@@ -108,7 +108,7 @@ export default {
   },
   mounted() {
     if (this.api) {
-      // console.log(this.api);
+      console.log(this.api);
       this.axios
         .get(this.api)
         .then((res) => {
@@ -125,7 +125,7 @@ export default {
               isSelected: false,
             }));
           } else {
-            this.$emit("showToast", "error", this.typeMap[this.type], "Không có dữ liệu phản hồi !");
+            this.$emit("showToast", "warning", this.typeMap[this.type], "Không có dữ liệu phản hồi !");
             this.$emit("dataLoaded");
           }
 
@@ -163,9 +163,11 @@ export default {
         );
       } // console.log(localStorage.getItem("select"));
     },
+
     checkSelected(e) {
       let code = e[this.type + "Code"];
       let stored = localStorage["select"];
+
       if (stored) {
         e.isSelected = JSON.parse(stored).includes(code);
         return e.isSelected;

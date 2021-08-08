@@ -60,6 +60,7 @@ export default {
       map: {
         Position: "vị trí",
         Department: "phòng ban",
+        CustomerGroup: "nhóm khách hàng"
       },
       isEmptyVal: true,
     };
@@ -73,6 +74,7 @@ export default {
         if (this.mode == 1) {
           this.items.push({
             [this.typeName]: "Tất cả " + this.map[this.type],
+            [this.type + 'Id']: ""
           });
         }
         res.data.forEach((e) => {

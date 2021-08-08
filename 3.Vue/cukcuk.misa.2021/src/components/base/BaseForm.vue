@@ -28,10 +28,6 @@
             </div>
           </div>
           <div class="input-row">
-            <!-- <div class="input-field">
-              <div class="input-label">
-                Mã nhân viên (<span class="required">*</span>)
-              </div> -->
             <BaseInput
               :valueType="'text'"
               type="input-form"
@@ -46,11 +42,6 @@
               @valid="validate.employeeCode = true"
               @invalid="validate.employeeCode = false"
             />
-            <!-- </div> -->
-            <!-- <div class="input-field">
-              <div class="input-label">
-                Họ và tên (<span class="required">*</span>)
-              </div> -->
             <BaseInput
               :valueType="'text'"
               type="input-form"
@@ -65,11 +56,8 @@
               @valid="validate.fullName = true"
               @invalid="validate.fullName = false"
             />
-            <!-- </div> -->
           </div>
           <div class="input-row">
-            <!-- <div class="input-field">
-              <div class="input-label">Ngày sinh</div> -->
             <BaseInput
               :valueType="'date'"
               :type="'input-form'"
@@ -79,8 +67,8 @@
               v-model="detail.DateOfBirth"
               :label="'Ngày sinh'"
               @dateChange="dateChange"
+              :validates="[date]"
             />
-            <!-- </div> -->
             <div class="input-field">
               <div class="input-label">Giới tính</div>
               <BaseDropdown
@@ -101,10 +89,6 @@
             </div>
           </div>
           <div class="input-row">
-            <!-- <div class="input-field">
-              <div class="input-label">
-                Số CMTND/ Căn cước (<span class="required">*</span>)
-              </div> -->
             <BaseInput
               :valueType="'text'"
               type="input-form"
@@ -118,9 +102,6 @@
               @valid="validate.identityNumber = true"
               @invalid="validate.identityNumber = false"
             />
-            <!-- </div> -->
-            <!-- <div class="input-field">
-              <div class="input-label">Ngày cấp</div> -->
             <BaseInput
               :valueType="'date'"
               type="input-form"
@@ -130,11 +111,8 @@
               :label="'Ngày cấp'"
               @dateChange="dateChange"
             />
-            <!-- </div> -->
           </div>
           <div class="input-row">
-            <!-- <div class="input-field">
-              <div class="input-label">Nơi cấp</div> -->
             <BaseInput
               :valueType="'text'"
               type="input-form"
@@ -143,13 +121,8 @@
               v-model="detail.IdentityPlace"
               :label="'Nơi cấp'"
             />
-            <!-- </div> -->
           </div>
           <div class="input-row">
-            <!-- <div class="input-field">
-              <div class="input-label">
-                Email (<span class="required">*</span>)
-              </div> -->
             <BaseInput
               :valueType="'text'"
               type="input-form"
@@ -164,11 +137,6 @@
               @valid="validate.email = true"
               @invalid="validate.email = false"
             />
-            <!-- </div> -->
-            <!-- <div class="input-field"> -->
-            <!-- <div class="input-label">
-                Số điện thoại (<span class="required">*</span>)
-              </div> -->
             <BaseInput
               :valueType="'text'"
               type="input-form"
@@ -183,7 +151,6 @@
               @valid="validate.phoneNumber = true"
               @invalid="validate.phoneNumber = false"
             />
-            <!-- </div> -->
           </div>
           <div class="header-row">
             <div class="header-2">
@@ -202,7 +169,7 @@
                 tabindex="10"
                 :value="detail.PositionName"
                 id="form-positions"
-                :api="'http://cukcuk.manhnv.net/v1/Positions'"
+                :api="'https://localhost:44372/api/Positions'"
                 v-if="isDataLoaded"
                 @itemChange="dropDataChange"
                 @showToast="emitShowToast"
@@ -218,15 +185,13 @@
                 tabindex="11"
                 :value="detail.DepartmentName"
                 id="form-departments"
-                :api="'http://cukcuk.manhnv.net/api/Department'"
+                :api="'https://localhost:44372/api/Departments'"
                 v-if="isDataLoaded"
                 @itemChange="dropDataChange"
               ></BaseDropdown>
             </div>
           </div>
           <div class="input-row">
-            <!-- <div class="input-field">
-              <div class="input-label">Mã số thuế cá nhân</div> -->
             <BaseInput
               :valueType="'text'"
               type="input-form"
@@ -235,9 +200,6 @@
               v-model="detail.PersonalTaxCode"
               :label="'Mã số thuế cá nhân'"
             />
-            <!-- </div> -->
-            <!-- <div class="input-field">
-              <div class="input-label">Mức lương cơ bản</div> -->
             <BaseInput
               :valueType="'tel'"
               :type="'input-form input-salary'"
@@ -248,12 +210,9 @@
               @input="formatSalaryOnInput"
               ref="salary"
             />
-            <!-- </div> -->
             <div class="money-unit">(VNĐ)</div>
           </div>
           <div class="input-row">
-            <!-- <div class="input-field">
-              <div class="input-label">Ngày gia nhập công ty</div> -->
             <BaseInput
               :valueType="'date'"
               type="input-form"
@@ -263,7 +222,6 @@
               :label="'Ngày gia nhập công ty'"
               @dateChange="dateChange"
             />
-            <!-- </div> -->
             <div class="input-field">
               <div class="input-label">Tình trạng công việc</div>
               <BaseDropdown
@@ -290,14 +248,14 @@
         <BaseButtonIcon
           :value="'Hủy'"
           :type="'button-cancel'"
-          :onclick="this.close"
+          :onclick="close"
           tabindex="16"
         ></BaseButtonIcon>
         <BaseButtonIcon
           :value="'Lưu'"
           :type="'button-save'"
           :icon="'icon-save'"
-          :onclick="this.BtnSaveClick"
+          :onclick="BtnSaveClick"
           tabindex="17"
         ></BaseButtonIcon>
       </div>
@@ -383,11 +341,14 @@ export default {
       console.log("v:", v);
     },
     /**
-     * Set auto focus on employee Code input field when open form
+     * Watch sự thay đổi của isOpen để
+     * - Auto focus vào trường mã nhân viên khi mở form
+     * - Gọi API lấy thông tin đối tượng nếu form mode = 0 <sửa>
      */
     isOpen: function (val) {
       this.$nextTick(() => {
         if (val) this.$refs.employeeCode.$el.children[1].focus();
+        if(this.mode == 0) this.detail = {};
       });
 
       this.isDataLoaded = false;
@@ -395,11 +356,13 @@ export default {
       console.log("form " + (val ? "open" : "close"), this.mode);
 
       if (this.isOpen)
+        // mode : 1 = thêm nv, mode : 0 = sửa nv <0 = không thêm>
         if (this.mode == 1 && this.detailId) {
           this.axios
-            .get(`http://cukcuk.manhnv.net/v1/Employees/${this.detailId}`)
+            .get(`https://localhost:44372/api/Employees/${this.detailId}`)
             .then((res) => {
               this.detail = Object.assign({}, res.data);
+              console.log(this.detail);
               this.FormatData();
               this.$set(
                 this.detail,
@@ -412,59 +375,55 @@ export default {
                 this.moreDetail.DepartmentName
               );
               this.isDataLoaded = true;
-              // console.log(this.detail);
             })
             .catch((err) => {
               console.log(err);
             });
         } else if (this.mode == 0) {
-          // Reset dữ liệu trên form
-          this.detail = {};
-
           this.isDataLoaded = true;
           this.axios
             .get("http://cukcuk.manhnv.net/v1/Employees/NewEmployeeCode")
             .then((res) => {
               this.$refs.employeeCode.$el.value = res.data;
+              if(!res.data){
+                this.$emit("showToast","error", "GET error", `Không thể lấy mã nhân viên mới !`);
+              }
               this.$set(this.detail, "EmployeeCode", res.data);
             })
             .catch(() => {
-              this.$emit("getNewCodeError");
+              this.$emit("showToast","error", "GET error", `Không thể lấy mã nhân viên mới !`);
               let newCode = `NV-${Math.round(Math.random() * 100000)}`;
               this.$refs.employeeCode.$el.value = newCode;
 
               // Thay đổi giá trị bằng phép gán làm mất tính reactivity của component
               this.$set(this.detail, "EmployeeCode", newCode);
             });
-        } else {
-          this.detail = {};
         }
     },
   },
   methods: {
-    dateChange(key, val, input, v) {
+    /**
+     * Handle mỗi khi date input value thay đổi
+     */
+    dateChange(key, val, input, formatedVal) {
       console.log(key, val, input);
       let keyName = this.dateMap[key];
       let oldVal = this.detail[keyName];
-      if (oldVal != val) {
-        // this.detail[keyName] = val;
-        // console.log(input.selectionStart);
-        if (!/^(0[1-9]|[12][0-9]|3[01])[-/.](0[1-9]|1[012])[-/.](19|20)\d\d$/g.test(v)) {
-          this.$emit(
-            "showToast",
-            "warning",
-            "DATETIME format",
-            `<b>"${this.dateName[key]}"</b> ${v} chưa đúng định dạng, vui lòng kiểm tra lại !`
-          );
-        }
+      if (oldVal != val && val) {
+        // validate định dạng ngày
+        !this.date(this.dateName[key], formatedVal);
+
         let start = input.selectionStart;
         this.$set(this.detail, keyName, val);
         this.$nextTick(() => {
           input.setSelectionRange(start + 1, start + 1);
         });
       }
-      // this.detail[key] = val;
     },
+
+    /**
+     * Format dữ liệu để hiển thị
+     */
     FormatData() {
       this.$set(
         this.detail,
@@ -492,6 +451,10 @@ export default {
         this.FormatMoneyString(this.detail.Salary)
       );
     },
+
+    /**
+     * Kiểm tra tính hợp lệ của các trường dữ liệu trên form
+     */
     isValidate() {
       let res = true;
       Object.keys(this.validate).forEach((key) => {
@@ -515,7 +478,6 @@ export default {
         "Salary",
         this.FormatMoneyString(this.detail.Salary)
       );
-      // console.log(this.$refs.salary.$el.selectionEnd);
 
       // Giữ vị trí dấu nháy khi nhập (ko bị nhảy về cuối)
       this.$nextTick(() => {
@@ -524,6 +486,10 @@ export default {
       });
     },
 
+
+    /**
+     * Lấy dữ liệu thô để post/put
+     */
     GetRawData() {
       let dob = this.detail.DateOfBirth;
       let identityDate = this.detail.IdentityDate;
@@ -542,30 +508,34 @@ export default {
       return res;
     },
 
+    /**
+     * Handle khi click nút lưu
+     */
     BtnSaveClick() {
       console.log("save", this.detail);
 
-      // for(let ref of this.validateRefs){
-      //   this.$refs[ref].inputValidate();
-      // }
-      // if (!this.isValidate()) {
-      //   this.$emit('showToast', 'warning', 'NOT VALIDATE', `Dữ liệu không hợp lệ !`);
-      //   this.$emit("showPopup", {
-      //     title: "Thông báo",
-      //     content: `Dữ liệu không hợp lệ, vui lòng nhập lại`,
-      //     popupType: "warning",
-      //     okAction: "OK",
-      //     isHide: false,
-      //     callback: null,
-      //   });
-      //   return;
-      // }
-      // console.log("EMIT");
-      // this.$emit("saveClicked", this.mode, this.detailId, this.GetRawData());
+      for(let ref of this.validateRefs){
+        this.$refs[ref].inputValidate();
+      }
+      if (!this.isValidate()) {
+        this.$emit('showToast', 'warning', 'NOT VALIDATE', `Dữ liệu không hợp lệ !`);
+        this.$emit("showPopup", {
+          title: "Thông báo",
+          content: `Dữ liệu không hợp lệ, vui lòng nhập lại`,
+          popupType: "warning",
+          okAction: "OK",
+          isHide: false,
+          callback: null,
+        });
+        return;
+      }
+      console.log("EMIT");
+      this.$emit("saveClicked", this.mode, this.detailId, this.GetRawData());
     },
 
     /**
-     * Make Department Id, Position Id sync with its names
+     * Khi select trong dropdown, chỉ có DepartmentName thay đổi mà DepartmentId không thay đổi
+     * Tương tự với PositionId
      */
     dropDataChange(typeName, obj) {
       this.$set(this.detail, typeName, obj[typeName]);

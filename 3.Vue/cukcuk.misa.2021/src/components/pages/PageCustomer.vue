@@ -2,7 +2,7 @@
   <div>
     <Header></Header>
     <Menu></Menu>
-    <Content entityName="Employee" :filterName="['DepartmentId', 'PositionId']" :thead="thead" :theadMap="theadMap"></Content>
+    <Content entityName="Customer" :filterName="['CustomerGroupId']" :thead="thead" :theadMap="theadMap"></Content>
   </div>
 </template>
 
@@ -12,7 +12,7 @@ import Menu   from "../layout/TheMenu.vue"
 import Content from "../base/BaseContent.vue"
 
 export default {
-  name: "EmployeePage",
+  name: "CustomerPage",
   components: {
     Header,
     Menu,
@@ -21,28 +21,26 @@ export default {
   data(){
     return {
       thead: [
-        "Mã nhân viên",
+        "Mã khách hàng",
         "Họ và tên",
         "Giới tính",
         "Ngày sinh",
         "Điện thoại",
         "Email",
-        "Chức vụ",
-        "Phòng ban",
-        "Mức lương cơ bản",
-        "Tình trạng công việc",
+        "Nhóm khách hàng",
+        "Tên công ty",
+        "Dừng theo dõi",
       ],
       theadMap: [
-        "EmployeeCode",
+        "CustomerCode",
         "FullName",
         "GenderName",
         "DateOfBirth",
         "PhoneNumber",
         "Email",
-        "PositionName",
-        "DepartmentName",
-        "Salary",
-        "WorkStatus",
+        "CustomerGroupName",
+        "CompanyName",
+        "IsStopFollow",
       ],
     }
   }

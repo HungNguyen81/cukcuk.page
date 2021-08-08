@@ -54,7 +54,9 @@
 .drop-down-restaurant > .dropdown{
     border: none;
 }
-
+.drop-down-restaurant .dropdown-icon {
+    background-image: url('../../assets/icon/drop-icon.png');
+}
 /* Username and options */
 
 .header-right .user-options {

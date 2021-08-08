@@ -5,12 +5,12 @@
       <div class="logo"></div>
     </div>
     <div class="header-right">
-      <div class="dropdown-container drop-down-restaurant">
+      <div class="dropdown-container drop-down-restaurant" @click="isHide = !isHide">
         <div class="dropdown">
           <div>Nhà hàng Biển Đông</div>
           <div class="dropdown-icon"></div>
         </div>
-        <div class="dropdown-data" id="restaurants" hidden>
+        <div :class="['dropdown-data', {hide : isHide}]" id="restaurants">
           <div class="dropdown-item item-selected">
             <i class="fas fa-check item-icon"></i>
             <div class="item-text">Nhà hàng Biển Đông</div>
@@ -40,9 +40,15 @@
 export default {
   name: "Header",
   components: {},
+  data(){
+    return {
+      isHide: true,
+    }
+  }
 };
 </script>
 
 <style scoped>
 @import "../../css/layout/header.css";
+@import "../../css/base/dropdown.css";
 </style>

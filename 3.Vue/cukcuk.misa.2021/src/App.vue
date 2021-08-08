@@ -1,16 +1,16 @@
 <template>
   <div id="app">
-    <Employee></Employee>
+    <Entity></Entity>
   </div>
 </template>
 
 <script>
-import Employee from './components/pages/PageEmployee.vue';
+import Entity from './components/pages/PageEmployee.vue';
 
 export default {
   name: "App",
   components: {
-    Employee
+    Entity
   },
 };
 </script>

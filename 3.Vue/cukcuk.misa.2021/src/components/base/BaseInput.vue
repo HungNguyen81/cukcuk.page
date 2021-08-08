@@ -32,7 +32,7 @@
         :tabindex="tabindex"
         v-model="formatedValue"
         @focus="isDateFocus = true"
-        @blur="isDateFocus = false"
+        @blur="isDateFocus = false;inputValidate();"
         ref="dateView"
       />
       <input
@@ -126,16 +126,11 @@ export default {
     },
     isValidate: function (isValid) {
       console.log("validate", this.label, isValid);
-      // if (isValid) {
-      //   this.$emit("valid");
-      // } else {
-      //   this.$emit("invalid");
-      // }
     },
     value: function (val) {
       if (this.valueType == "date") {
         if (!val) {
-          this.formatedValue = "";
+          this.formatedValue = null;
           return;
         }
         let data = val.split("-");
@@ -145,8 +140,8 @@ export default {
         this.formatedValue = `${dd}/${mm}/${yyyy}`;
       }
     },
-    formatedValue: function (val) {
-      console.log("format value editing");
+    formatedValue: function (val) {      
+      console.log("format value editing", val);
 
       clearTimeout(this.dateTimeOut);
 
@@ -155,7 +150,7 @@ export default {
         newVal = "";
       } else {
         let data = val.split("/");
-        if (data.length < 3 || !data[2] || !data[1] || !data[0]) return;
+        if (data.length < 3 || !data[2] || !data[1] || !data[0] || data[2].length < 4) return;
         let yyyy = this.zeroPad(data[2], 4);
         let mm = this.zeroPad(data[1], 2);
         let dd = this.zeroPad(data[0], 2);

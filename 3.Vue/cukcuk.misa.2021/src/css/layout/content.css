@@ -69,7 +69,8 @@ body{
 /* dropdowns */
 
 .dropdown-departments,
-.dropdown-positions {
+.dropdown-positions,
+.dropdown-customergroups {
     width: 220px;
     position: absolute;
     line-height: 40px;
@@ -83,4 +84,6 @@ body{
     left: calc(335px + 32px + 220px);
 }
 
-
+.dropdown-customergroups{
+    left: calc(335px + 16px);
+}

@@ -23,6 +23,16 @@ export default {
                 this.$emit('showToast', 'warning', 'Phone Number invalid', `<b>"${label}"</b> phải bắt đầu bằng 0 và dài 10-12 kí tự !`);
             }
             return res;
+        },
+        date(label, dateString){
+            if(!/^(0[1-9]|[12][0-9]|3[01])[-/.](0[1-9]|1[012])[-/.]\d{4}$/g.test(dateString)){
+                this.$emit(
+                    "showToast",
+                    "warning",
+                    "DATETIME format",
+                    `<b>"${label}"</b> ${dateString} chưa đúng định dạng, vui lòng kiểm tra lại !`
+                  );
+            }
         }
     }
 }
