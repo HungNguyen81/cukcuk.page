@@ -12,6 +12,7 @@
     <link rel="stylesheet" href="./css/components/popup-form.css">
     <link rel="stylesheet" href="./content/font/fontawesome-5.15.1/css/all.min.css">
     <link rel="stylesheet" href="./css/base/combobox.css">
+    <link rel="stylesheet" href="./css/base/text-box.css">
     <script src="../2.JS/lib/jquery-3.6.0.min.js"></script>
     <link rel="stylesheet" href="../1.UI/css/components/toast.css">
 </head>
@@ -107,9 +108,6 @@
             </div>
         </div>
         <br><br>
-        <style>
-            
-        </style>
         <div class="toast-stack">
             <div class="toast-wrapper">
                 <div class="toast error">
@@ -160,7 +158,55 @@
             </div>
         </div>
         <div class="button" onclick="showBaseToast()">Show Base Toast</div>
+
+        <br>
+        <br>
+        <style>
+            .input-field {
+                position: relative;
+            }
+
+            .input-field .tooltiptext {
+                /* visibility: hidden; */
+                width: 120px;
+                background-color: black;
+                color: #fff;
+                text-align: center;
+                border-radius: 6px;
+                padding: 5px 0;
+                position: absolute;
+                z-index: 1;
+                /* bottom: 150%;
+                left: 50%; */
+                margin-left: 60px;
+                transform: translate(0, -10px);
+            }
+
+            .input-field .tooltiptext::after {
+                content: "";
+                position: absolute;
+                top: 100%;
+                left: 50%;
+                margin-left: -5px;
+                border-width: 5px;
+                border-style: solid;
+                border-color: black transparent transparent transparent;
+            }
+
+            .input-field:hover .tooltiptext {
+                visibility: visible;
+            }
+        </style>
+        <div class="input-field">
+            <span class="tooltiptext">Tooltip</span>
+            <div class="input-label">
+                label
+            </div>
+            <input type="text" class="textbox-default input-form" />
+        </div>
     </div>
+
+
     <script>
         function showBaseToast() {
 

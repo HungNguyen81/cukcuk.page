@@ -33,6 +33,8 @@
     cursor: pointer;
     box-sizing: border-box;
     background-color: #fff;
+    position: absolute;
+    width: 100%;
 }
 
 .dropdown-data .dropdown-item{    

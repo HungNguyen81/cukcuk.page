@@ -47,13 +47,11 @@
           :type="'Employee'"
           :thead="thead"
           :dataMap="tmap"
-
           :api="`http://cukcuk.manhnv.net/v1/Employees/employeeFilter?pageSize=${pageSize}&pageNumber=${
             pageNumber * pageSize
           }&employeeFilter=${searchContent}&departmentId=${
             filter.DepartmentId ? filter.DepartmentId : ''
           }&positionId=${filter.PositionId ? filter.PositionId : ''}`"
-
           @dataLoaded="tableDataLoaded"
           @rowDblClick="rowDoubleClick"
           @rowClick="rowSelect"
@@ -219,12 +217,12 @@ export default {
         console.log("c:", c);
       }, 500);
     },
-    pageSize: function(){
+    pageSize: function () {
       this.ForceTableRerender();
     },
-    pageNumber: function(){
+    pageNumber: function () {
       this.ForceTableRerender();
-    }
+    },
   },
   methods: {
     activeFilter(type, id) {
@@ -306,7 +304,6 @@ export default {
         setTimeout(Show, delay);
       } else {
         Show();
-        
       }
     },
 
@@ -383,7 +380,7 @@ export default {
           this.CloseForm();
           this.RefreshTable();
         })
-        .catch(() => {
+        .catch(() => { 
           // console.log(err);
           this.showToast(
             "error",
@@ -399,7 +396,7 @@ export default {
      * Make the table re-render and display loading spinner
      */
     RefreshTable() {
-      this.isTableLoading = true;
+      // this.isTableLoading = true;
       this.ForceTableRerender();
     },
 
@@ -408,7 +405,7 @@ export default {
      */
     tableDataLoaded() {
       console.log("LOADED");
-      this.isTableLoading = false;
+      // this.isTableLoading = false;
     },
 
     BtnAddClick() {

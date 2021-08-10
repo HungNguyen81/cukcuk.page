@@ -31,7 +31,7 @@
             <BaseInput
               :valueType="'text'"
               type="input-form"
-              id="employee-code"
+              inputKey="employee-code"
               :tabindex="1"
               ref="employeeCode"
               v-model="detail.EmployeeCode"
@@ -39,13 +39,12 @@
               :required="true"
               :validates="[required]"
               :renderFlag="isRerender"
-              @valid="validate.employeeCode = true"
-              @invalid="validate.employeeCode = false"
+              @valid="ValidateForm"
             />
             <BaseInput
               :valueType="'text'"
               type="input-form"
-              id="fullname"
+              inputKey="fullname"
               tabindex="2"
               v-model="detail.FullName"
               label="Họ và tên"
@@ -53,20 +52,21 @@
               ref="fullName"
               :validates="[required]"
               :renderFlag="isRerender"
-              @valid="validate.fullName = true"
-              @invalid="validate.fullName = false"
+              @valid="ValidateForm"
             />
           </div>
           <div class="input-row">
             <BaseInput
               :valueType="'date'"
               :type="'input-form'"
-              id="dob"
+              inputKey="date-of-birth"
+              ref="dateOfBirth"
               tabindex="3"
               :renderFlag="isRerender"
               v-model="detail.DateOfBirth"
               :label="'Ngày sinh'"
               @dateChange="dateChange"
+              @valid="ValidateForm"
               :validates="[date]"
             />
             <div class="input-field">
@@ -92,24 +92,27 @@
             <BaseInput
               :valueType="'text'"
               type="input-form"
-              id="identity-number"
+              inputKey="identity-number"
               tabindex="5"
               v-model="detail.IdentityNumber"
               :label="'Số CMTND/ Căn cước'"
               :validates="[required]"
+              :required="true"
               ref="identityNumber"
               :renderFlag="isRerender"
-              @valid="validate.identityNumber = true"
-              @invalid="validate.identityNumber = false"
+              @valid="ValidateForm"
             />
             <BaseInput
               :valueType="'date'"
               type="input-form"
-              id="identity-date"
+              inputKey="identity-date"
+              ref="identityDate"
               tabindex="6"
               v-model="detail.IdentityDate"
               :label="'Ngày cấp'"
+              :validates="[date]"
               @dateChange="dateChange"
+              @valid="ValidateForm"
             />
           </div>
           <div class="input-row">
@@ -126,7 +129,7 @@
             <BaseInput
               :valueType="'text'"
               type="input-form"
-              id="email"
+              inputKey="email"
               tabindex="8"
               v-model="detail.Email"
               :label="'Email'"
@@ -134,13 +137,12 @@
               :renderFlag="isRerender"
               ref="email"
               :required="true"
-              @valid="validate.email = true"
-              @invalid="validate.email = false"
+              @valid="ValidateForm"
             />
             <BaseInput
               :valueType="'text'"
               type="input-form"
-              id="phone-number"
+              inputKey="phone-number"
               tabindex="9"
               v-model="detail.PhoneNumber"
               :label="'Số điện thoại'"
@@ -148,8 +150,7 @@
               :renderFlag="isRerender"
               ref="phoneNumber"
               :required="true"
-              @valid="validate.phoneNumber = true"
-              @invalid="validate.phoneNumber = false"
+              @valid="ValidateForm"
             />
           </div>
           <div class="header-row">
@@ -216,11 +217,14 @@
             <BaseInput
               :valueType="'date'"
               type="input-form"
-              id="join-date"
+              inputKey="join-date"
+              ref="joinDate"
               tabindex="14"
               v-model="detail.JoinDate"
               :label="'Ngày gia nhập công ty'"
+              :validates="[date]"
               @dateChange="dateChange"
+              @valid="ValidateForm"
             />
             <div class="input-field">
               <div class="input-label">Tình trạng công việc</div>
@@ -309,11 +313,14 @@ export default {
       isDataLoaded: false,
       isRerender: false,
       validate: {
-        employeeCode: false,
-        fullName: false,
-        identityNumber: false,
-        email: false,
-        phoneNumber: false,
+        'employee-code': false,
+        'fullname': false,
+        'email': false,
+        'identity-number': false,
+        'phone-number': false,
+        'date-of-birth': false,
+        'identity-date': false,
+        'join-date': false,
       },
       validateRefs: [
         "employeeCode",
@@ -321,14 +328,17 @@ export default {
         "identityNumber",
         "email",
         "phoneNumber",
+        "dateOfBirth",
+        "identityDate",
+        "joinDate"
       ],
       dateMap: {
-        dob: "DateOfBirth",
+        "date-of-birth": "DateOfBirth",
         "identity-date": "IdentityDate",
         "join-date": "JoinDate",
       },
       dateName: {
-        dob: "Ngày sinh",
+        "date-of-birth": "Ngày sinh",
         "identity-date": "Ngày cấp",
         "join-date": "Ngày gia nhập",
       },
@@ -382,7 +392,7 @@ export default {
         } else if (this.mode == 0) {
           this.isDataLoaded = true;
           this.axios
-            .get("http://cukcuk.manhnv.net/v1/Employees/NewEmployeeCode")
+            .get("https://localhost:44372/api/Employees/NewEmployeeCode")
             .then((res) => {
               this.$refs.employeeCode.$el.value = res.data;
               if(!res.data){
@@ -460,7 +470,7 @@ export default {
       Object.keys(this.validate).forEach((key) => {
         res = res && this.validate[key];
       });
-      console.log("RES:", res);
+      console.table(JSON.parse(JSON.stringify(this.validate)));
       return res;
     },
 
@@ -547,9 +557,20 @@ export default {
         this.$set(this.detail, "PositionId", obj.PositionId);
       }
     },
+
+    /**
+     * Emit sự kiện showToast cho parent(base content)
+     */
     emitShowToast(type, header, msg) {
       this.$emit("showToast", type, header, msg);
     },
+
+    /**
+     * Handle khi validate input
+     */
+    ValidateForm(key, isValid){
+      this.$set(this.validate, key, isValid);
+    }
   },
 };
 </script>

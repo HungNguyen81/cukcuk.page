@@ -76,7 +76,7 @@ body {
     }
 }
 
-.hide{
+.hide {
     display: none;
 }
 
@@ -98,8 +98,8 @@ div:focus {
 
 /* width */
 ::-webkit-scrollbar {
-    width: 8px;
-    height: 4px;    
+    width: 6px;
+    height: 6px;
     z-index: 20;
 }
 

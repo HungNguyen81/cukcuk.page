@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace MISA.CukCuk.API.Response
+namespace MISA.CukCuk.API.Responses
 {
     public class EmployeeFilterResponse
     {

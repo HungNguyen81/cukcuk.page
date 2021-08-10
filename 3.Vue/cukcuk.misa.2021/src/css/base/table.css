@@ -7,13 +7,15 @@ tr.select {
 .content-table {
     position: absolute;
     top: 128px;
-    max-height: calc(100vh - 225px);
+    max-height: calc(100vh - 225px - 8px);
     background-color: #fff;
     width: calc(100vw - 226px - 32px);
     margin-left: 16px;
-    overflow-x: auto;
-    overflow-y: hidden;
+    /* overflow-x: auto;
+    overflow-y: hidden; */
     z-index: 1;
+    overflow: auto;
+
 }
 
 .table-employee,
@@ -25,7 +27,7 @@ tr.select {
 
 .table-employee th,
 .table-customer th {
-    height: 40px;
+    height: 48px;
     text-align: left;
     padding-left: 10px;
     font-family: MISAGoogleSans-Bold;
@@ -41,7 +43,7 @@ tr.select {
 .table-employee tbody tr,
 .table-customer tbody tr {
     border-top: 1px solid #ccc;
-    height: 40px;
+    height: 48px;
     cursor: pointer;
 }
 
@@ -66,6 +68,28 @@ tr.select {
     overflow-x: hidden;
     text-overflow: ellipsis;
     white-space: nowrap;
+}
+
+table thead,
+table tbody tr {
+    display: table;
+    width: 100%;
+    table-layout: fixed;
+}
+
+table tbody {
+    display: block;
+    margin-top: 0;
+    padding: 0;
+    height: calc(100vh - 277px);
+    /* overflow-y: scroll; */
+}
+
+table thead,
+table tbody tr {
+    display: table;
+    width: 100%;
+    table-layout: fixed;
 }
 
 .checkbox-container {
@@ -178,29 +202,6 @@ tr.select {
 .table-employee th:nth-child(11) {
     width: 140px;
 }
-
-table thead,
-table tbody tr {
-    display: table;
-    width: 100%;
-    table-layout: fixed;
-}
-
-table tbody {
-    display: block;
-    margin-top: 0;
-    padding: 0;
-    height: calc(100vh - 277px);
-    overflow-y: scroll;
-}
-
-table thead,
-table tbody tr {
-    display: table;
-    width: 100%;
-    table-layout: fixed;
-}
-
 
 /* TABLE CUSTOMER */
 

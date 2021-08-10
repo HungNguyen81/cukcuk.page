@@ -4,13 +4,13 @@
     position: fixed;
     bottom: 0px;
     height: 56px;
-    border-top: 4px solid #ccc;
+    border-top: 4px solid #E9EBEE;
     width: calc(100vw - 258px + 32px);
     margin-left: 0px;
     display: flex;
     align-items: center;
     justify-content: center;    
-    background-color: #ccc;
+    background-color: #E9EBEE;
     box-sizing: border-box;
     z-index: 5;
 }
@@ -83,8 +83,15 @@
     flex-direction: column-reverse;    
     position: fixed;
     right: 16px;
-    bottom: 8px;   
+    bottom: 12px;   
 }
+.drop-number-of-row .dropdown{
+    height: 32px;    
+}
+.drop-number-of-row .dropdown-data{
+    transform: translate(0, -35px);
+}
+
 /* .number-of-rows-icon{
     background-image: none;
     text-align: center;

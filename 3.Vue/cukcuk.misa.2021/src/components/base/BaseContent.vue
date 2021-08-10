@@ -25,7 +25,9 @@
           v-model="searchInput"
         />
         <Combobox
-          :api="`https://localhost:44372/api/${filterName[index].split('Id')[0]}s`"
+          :api="`https://localhost:44372/api/${
+            filterName[index].split('Id')[0]
+          }s`"
           :type="filterName[index].split('Id')[0]"
           mode="1"
           @filterActive="activeFilter"
@@ -37,6 +39,7 @@
       </div>
 
       <div class="table-wrap">
+      <!-- <keep-alive> -->
         <Table
           :type="entityName"
           :thead="thead"
@@ -47,10 +50,11 @@
           @dataLoaded="tableDataLoaded"
           @rowDblClick="rowDoubleClick"
           @rowClick="rowSelect"
-          :key="tableFlag"
+          :tableKey="tableFlag"
           @getPagingInfo="transPagingInfo"
           @showToast="showToast"
         ></Table>
+      <!-- </keep-alive> -->
         <div id="loader" :class="{ hide: !isTableLoading }">
           <div class="spinner-wrapper">
             <div class="spinner"></div>
@@ -170,7 +174,7 @@ export default {
       filter: {
         DepartmentId: "",
         PositionId: "",
-        CustomerGroupId: ""
+        CustomerGroupId: "",
       },
       popup: {
         title: "Empty Title",
@@ -206,7 +210,7 @@ export default {
         // re-render table
         this.pageNumber = 0;
         this.tableFlag = !this.tableFlag;
-        console.log("c:", c);
+        console.log("search:", c);
       }, 500);
     },
 
@@ -216,7 +220,7 @@ export default {
     },
     // chuyển trang => render bảng
     pageNumber: function () {
-      // this.ForceTableRerender();
+      this.ForceTableRerender();
     },
   },
   methods: {
@@ -260,7 +264,7 @@ export default {
     OpenForm(mode) {
       //   this.formMode = act;
       //   this.formStatus = true;
-      console.log("mode:",mode);
+      console.log("mode:", mode);
       if (this.entityName == "Employee") {
         // this.OpenForm(0);
         this.formMode = mode;
@@ -268,7 +272,7 @@ export default {
       } else {
         this.showPopup({
           title: "Thông báo",
-          content: `Chức năng ${mode? "Sửa" : "Thêm"}  ${
+          content: `Chức năng ${mode ? "Sửa" : "Thêm"}  ${
             this.entityMap[this.entityName]
           } chưa được thực hiện,<br> Vui lòng liên hệ MISA !`,
           popupType: "warning",
@@ -413,7 +417,7 @@ export default {
      * Làm cho table render lại và hiện spinner
      */
     RefreshTable() {
-      this.isTableLoading = true;
+      // this.isTableLoading = true;
       this.ForceTableRerender();
     },
 
@@ -430,7 +434,7 @@ export default {
      */
     BtnAddClick() {
       //   if (this.entityName == "Employee") {
-          this.OpenForm(0);
+      this.OpenForm(0);
       //   } else {
       //     this.showPopup({
       //       title: "Thông báo",
@@ -493,44 +497,32 @@ export default {
     },
 
     /**
-     * Callback khi bấm OK trong popup
+     * Callback khi bấm OK trong popup, gửi toàn bộ id cần xóa lên 1 request
      */
     SendDeleteRequests() {
-      for (const [i, id] of this.deleteIdList.entries()) {
-        let index = this.deleteIdList.indexOf(id);
-        let name = this.deleteCodeList[index];
-        this.axios
-          .delete(`https://localhost:44372/api/${this.entityName}s/${id}`)
-          .then(() => {
-            let index = this.deleteIdList.indexOf(id);
-            this.deleteIdList.splice(index, 1);
-            this.deleteCodeList.splice(index, 1);
+      console.table(this.deleteIdList);
+      this.axios
+        .delete(`https://localhost:44372/api/${this.entityName}s/deleteMany`, {
+          data: this.deleteIdList,
+        })
+        .then((res) => {
+          this.deleteIdList = [];
+          this.deleteCodeList = [];
 
-            // Đóng popup và làm mới bảng
-            this.ClosePopup();
-            this.RefreshTable();
+          // Đóng popup và làm mới bảng
+          this.ClosePopup();
+          this.RefreshTable();
 
-            // hiển thị toast thông báo đã xóa thành công
-            this.showToast(
-              "info",
-              "DELETE successfully",
-              `Đã xóa ${this.entityMap[
-                this.entityName
-              ].toLowerCase()} "<b>${name}</b>"`,
-              i * 1000
-            );
-          })
-          .catch(() => {
-            this.showToast(
-              "error",
-              "Delete error",
-              `Xóa ${this.entityMap[
-                this.entityName
-              ].toLowerCase()} "<b>${name}</b>" không thành công`,
-              i * 1000
-            );
-          });
-      }
+          // hiển thị toast thông báo đã xóa thành công
+          this.showToast(
+            "info",
+            "DELETE successfully",
+            `Xóa <b>${res.data}</b> ${this.entityMap[this.entityName]} thành công !`
+          );
+        })
+        .catch(() => {
+          this.showToast("error", "Delete error", `Xóa không thành công`);
+        });
     },
 
     /**

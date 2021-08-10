@@ -1,13 +1,6 @@
 <template>
-  <!-- <input
-    @blur="inputValidate()"
-    :type="valueType"
-    :class="['textbox-default', type, { invalid: !isValidate }]"
-    v-bind:value="value"
-    v-on="inputListeners"
-    :data-date="dataDate"
-  /> -->
-  <div class="input-field">
+  <div class="input-field tooltip">
+    <span class="tooltip-text" v-if="!isValidate">{{invalidTooltip}}</span>
     <div class="input-label" v-if="required">
       {{ label }} (<span class="required">*</span>)
     </div>
@@ -64,6 +57,10 @@ export default {
   name: "BaseInput",
   components: {},
   props: {
+    inputKey:{
+      type: String,
+      required: false
+    },
     value: {
       type: String,
     },
@@ -94,6 +91,7 @@ export default {
       isDateFocus: false,
       formatedValue: null,
       dateTimeOut: null,
+      invalidTooltip: '',
     };
   },
   mounted() {
@@ -154,12 +152,12 @@ export default {
         let yyyy = this.zeroPad(data[2], 4);
         let mm = this.zeroPad(data[1], 2);
         let dd = this.zeroPad(data[0], 2);
-
+        
         newVal = `${yyyy}-${mm}-${dd}`;
       }
       
       this.dateTimeOut = setTimeout(() => {
-        this.$emit("dateChange", this.$el.id, newVal, this.$refs.dateView, val);
+        this.$emit("dateChange", this.inputKey, newVal, this.$refs.dateView, val);
       }, 500);
     },
   },
@@ -171,17 +169,15 @@ export default {
     inputValidate() {
       if (this.validates) {
         let res = true;
-        for (let [i, func] of this.validates.entries()) {
-          let isValid = func(this.label, this.value);
-          res = res && isValid;
-          console.log("index: --->", i);
+        for (let func of this.validates) {
+          let valid = func(this.label, this.valueType=='date'?this.formatedValue:this.value);
+          res = res && valid.isValid;
+          this.invalidTooltip = valid.msg;
+          if(!res) break;
         }
         this.isValidate = res;
-        if (this.isValidate) {
-          this.$emit("valid");
-        } else {
-          this.$emit("invalid");
-        }
+
+        this.$emit("valid", this.inputKey, res);
       } else {
         console.log("NO validations");
       }
@@ -192,5 +188,6 @@ export default {
 
 <style scoped>
 @import "../../css/base/text-box.css";
+@import "../../css/base/tooltip.css";
 /* @import "../../css/components/popup-form.css"; */
 </style>

@@ -60,6 +60,7 @@ export default {
   components: {},
   mixins: [ultis],
   props: {
+    tableKey: {},
     type: {
       type: String, // ex: type="Employee"
       required: true,
@@ -79,12 +80,12 @@ export default {
   },
   data() {
     return {
-      employees: [],
+      employees: null,
       isSelectAll: false,
-      typeMap:{
+      typeMap: {
         Employee: "Nhân Viên",
-        Customer: "Khách Hàng"
-      }
+        Customer: "Khách Hàng",
+      },
       // test: 0
     };
   },
@@ -106,40 +107,53 @@ export default {
       }
     });
   },
-  mounted() {
-    if (this.api) {
-      console.log(this.api);
-      this.axios
-        .get(this.api)
-        .then((res) => {
-          this.employees = res.data.Data;
-          if (this.employees) {
+  mounted() {},
+  computed: {},
+  watch: {
+    tableKey: function (val) {
+      console.log("KEY:", val);
+      if (this.api) {
+        console.log(this.api);
+        this.axios
+          .get(this.api)
+          .then((res) => {
+            this.employees = res.data.Data;
+            if (this.employees) {
+              this.$emit("dataLoaded");
+              this.$emit(
+                "getPagingInfo",
+                res.data.TotalPage,
+                res.data.TotalRecord
+              );
+              this.employees = this.employees.map((e) => ({
+                ...e,
+                isSelected: false,
+              }));
+            } else {
+              this.$emit(
+                "showToast",
+                "warning",
+                this.typeMap[this.type],
+                "Không có dữ liệu phản hồi !"
+              );
+              this.$emit("dataLoaded");
+            }
+
+            localStorage.setItem("select", JSON.stringify([]));
+          })
+          .catch((err) => {
+            console.log(err);
             this.$emit("dataLoaded");
             this.$emit(
-              "getPagingInfo",
-              res.data.TotalPage,
-              res.data.TotalRecord
+              "showToast",
+              "error",
+              "LỖI SERVER",
+              "Không nhận được dữ liệu nhân viên !"
             );
-            this.employees = this.employees.map((e) => ({
-              ...e,
-              isSelected: false,
-            }));
-          } else {
-            this.$emit("showToast", "warning", this.typeMap[this.type], "Không có dữ liệu phản hồi !");
-            this.$emit("dataLoaded");
-          }
-
-          localStorage.setItem("select", JSON.stringify([]));
-        })
-        .catch((err) => {
-          console.log(err);
-          this.$emit("dataLoaded");
-          this.$emit("showToast", "error", "LỖI SERVER", "Không nhận được dữ liệu nhân viên !");
-        });
-    }
+          });
+      }
+    },
   },
-  computed: {},
-  watch: {},
   methods: {
     rowClickHandle(e, type) {
       this.$emit("rowClick", e[type + "Id"], e[type + "Code"], e["FullName"]);
