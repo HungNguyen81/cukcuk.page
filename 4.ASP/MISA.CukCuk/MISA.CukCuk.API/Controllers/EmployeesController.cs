@@ -1,21 +1,16 @@
 ﻿using Dapper;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
 using MISA.CukCuk.API.Models;
-using MISA.CukCuk.API.Requests;
 using MISA.CukCuk.API.Responses;
 using MySqlConnector;
 using System;
 using System.Collections.Generic;
 using System.Data;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace MISA.CukCuk.API.Controllers
 {
-    [Route("api/[controller]")]
+    [Route("api/v1/[controller]")]
     [ApiController]
     public class EmployeesController : ControllerBase
     {
@@ -56,15 +51,38 @@ namespace MISA.CukCuk.API.Controllers
             // Lấy dữ liệu
             var sqlQuery = "SELECT * FROM Employee";
 
-            var employees = _dbConnection.Query<Employee>(sqlQuery);
+            try
+            {
+                var employees = _dbConnection.Query<Employee>(sqlQuery);
 
-            return StatusCode(200, employees);
+                if (employees == null)
+                {
+                    var response = new
+                    {
+                        userMsg = Properties.Resources.MISANoContentMsg,
+                    };
+                    return StatusCode(204, response);
+                }
+
+                return StatusCode(200, employees);
+            }
+            catch (Exception e)
+            {
+                var response = new
+                {
+                    devMsg = e.Message,
+                    userMsg = Properties.Resources.MISAErrorMessage,
+                    errorCode = "MISA_003",
+                    traceId = Guid.NewGuid().ToString()
+                };
+                return StatusCode(500, response);
+            }
         }
 
         /// <summary>
         /// Lấy dữ liệu khách hàng ứng với id
         /// </summary>
-        /// <param name="EmployeeId">Id khách hàng</param>
+        /// <param name="employeeId">Id khách hàng</param>
         /// <returns></returns>
         [HttpGet("{EmployeeId}")]
         public IActionResult GetEmployeeByid(string employeeId)
@@ -84,23 +102,44 @@ namespace MISA.CukCuk.API.Controllers
             try
             {
                 var employee = _dbConnection.QueryFirstOrDefault<object>(sqlQuery, param: parameters);
-                return StatusCode(200, employee != null ? employee : "Not found!");
+
+                if (employee == null)
+                {
+                    var response = new
+                    {
+                        userMsg = Properties.Resources.MISANoContentMsg,
+                    };
+                    return StatusCode(204, response);
+                }
+
+                return StatusCode(200, employee);
             }
-            catch (Exception)
+            catch (Exception e)
             {
-                return StatusCode(500, Properties.Resources.MISAErrorMessage);
+                var response = new
+                {
+                    devMsg = e.Message,
+                    userMsg = Properties.Resources.MISAErrorMessage,
+                    errorCode = "MISA_003",
+                    traceId = Guid.NewGuid().ToString()
+                };
+                return StatusCode(500, response);
             }
         }
 
+
+        /// <summary>
+        /// Lấy mã nhân viên mới
+        /// </summary>
+        /// <returns></returns>
         [HttpGet("NewEmployeeCode")]
         public IActionResult GetNewEmPloyeeCode()
         {
             var sqlQuery = "SELECT e.EmployeeCode FROM Employee e ORDER BY e.EmployeeCode DESC LIMIT 1";
 
-            var employeeCode = _dbConnection.QueryFirstOrDefault<string>(sqlQuery);
-
             try
             {
+                var employeeCode = _dbConnection.QueryFirstOrDefault<string>(sqlQuery);
                 var employeeNumber = int.Parse(employeeCode.Split("NV")[1]);
                 var newEmployeeCode = "";
 
@@ -111,26 +150,37 @@ namespace MISA.CukCuk.API.Controllers
 
                 employeeNumber++;
                 newEmployeeCode = $"NV{employeeNumber.ToString().PadLeft(5, '0')}";
-                return StatusCode(200, newEmployeeCode);
+
+                return StatusCode(200, new
+                {
+                    Code = newEmployeeCode
+                });
             }
-            catch (Exception)
+            catch (Exception e)
             {
-                return StatusCode(500, Properties.Resources.MISAErrorMessage);
+                var response = new
+                {
+                    devMsg = e.Message,
+                    userMsg = Properties.Resources.MISAErrorMessage,
+                    errorCode = "MISA_003",
+                    traceId = Guid.NewGuid().ToString()
+                };
+                return StatusCode(500, response);
             }            
         }
 
         /// <summary>
         /// Lọc danh sách khách hàng theo các tiêu chí: phân trang, tìm kiếm, lọc theo nhóm khách hàng
         /// </summary>
-        /// <param name="pageSize">Số bản ghi trên một trang</param>
-        /// <param name="pageNumber">Chỉ số trang cần xem</param>
-        /// <param name="filterString">Chuỗi cần tìm kiếm</param>
+        /// <param name="pageSize">     Số bản ghi trên một trang</param>
+        /// <param name="pageNumber">   Chỉ số trang cần xem</param>
+        /// <param name="filterString"> Chuỗi cần tìm kiếm</param>
         /// <returns></returns>
         [HttpGet("employeeFilter")]
         public IActionResult GetEmployeeFilter(int pageSize, int pageNumber,
                                                 string filterString, string departmentId, string positionId)
         {
-            var sqlSelectCount = "SELECT COUNT(e.EmployeeId) FROM Employee e ";
+            var sqlSelectCount = "SELECT COUNT(*) FROM Employee e ";
 
             var sqlQuery = $"SELECT e.*, d.DepartmentName, p.PositionName, CASE " +
                                 $"WHEN e.Gender = 0 THEN 'Nữ' " +
@@ -166,27 +216,50 @@ namespace MISA.CukCuk.API.Controllers
             sqlQuery += sqlWhere;
             sqlSelectCount += sqlWhere;
 
+            // Sắp xếp theo chiều giảm dần mã nv
             sqlQuery += "ORDER BY e.EmployeeCode DESC ";
 
             // Phân trang cho kết quả truy vấn
             sqlQuery += (pageSize > 0) ? "LIMIT @pageStart, @pageSize;" : "";
             sqlSelectCount += "ORDER BY e.EmployeeId";
 
-            // Thực hiện truy vấn lấy dữ liệu
-            var employees = _dbConnection.Query<object>(sqlQuery, param: parameters);
-
-            var totalRecord = _dbConnection.QueryFirstOrDefault<int>(sqlSelectCount, param: parameters);
-
-            var totalPage = (int)(totalRecord / pageSize) + ((totalRecord % pageSize != 0) ? 1 : 0);
-            
-            var response = new EmployeeFilterResponse
+            try
             {
-                TotalRecord = totalRecord,
-                TotalPage = totalPage,
-                Data = (List<object>)employees
-            };
-            // Trả dữ liệu về cho client
-            return StatusCode(200, response);
+                // Thực hiện truy vấn lấy dữ liệu
+                var employees = _dbConnection.Query<object>(sqlQuery, param: parameters);
+
+                if (employees == null)
+                {
+                    var response = new
+                    {
+                        userMsg = Properties.Resources.MISANoContentMsg,
+                    };
+                    return StatusCode(204, response);
+                }
+
+                var totalRecord = _dbConnection.QueryFirstOrDefault<int>(sqlSelectCount, param: parameters);
+                var totalPage = (int)(totalRecord / pageSize) + ((totalRecord % pageSize != 0) ? 1 : 0);
+
+                var filterResponse = new FilterResponse
+                {
+                    TotalRecord = totalRecord,
+                    TotalPage = totalPage,
+                    Data = (List<object>)employees
+                };
+                // Trả dữ liệu về cho client
+                return StatusCode(200, filterResponse);
+            }
+            catch (Exception e)
+            {
+                var response = new
+                {
+                    devMsg = e.Message,
+                    userMsg = Properties.Resources.MISAErrorMessage,
+                    errorCode = "MISA_003",
+                    traceId = Guid.NewGuid().ToString()
+                };
+                return StatusCode(500, response);
+            }
         }
 
         #endregion
@@ -196,7 +269,7 @@ namespace MISA.CukCuk.API.Controllers
         /// <summary>
         /// Thêm thông tin khách hàng mới vào db
         /// </summary>
-        /// <param name="Employee">Object thông tin khách hàng muốn thêm vào db</param>
+        /// <param name="employee">Object thông tin khách hàng muốn thêm vào db</param>
         /// <returns></returns>
         [HttpPost]
         public IActionResult InsertEmployee(Employee employee)
@@ -232,12 +305,34 @@ namespace MISA.CukCuk.API.Controllers
             {
                 var numberRowAffects = _dbConnection.Execute(sqlQuery, param: parameters);
 
-                // Trả lại số dòng được thêm vào db cho client
-                return StatusCode(200, $"{numberRowAffects} row(s) affected");
+                if (numberRowAffects < 1)
+                {
+                    return StatusCode(500, new
+                    {
+                        devMsg = Properties.Resources.MISASqlErrorMsg,
+                        userMsg = Properties.Resources.MISAErrorMessage,
+                        errorCode = "MISA_001",
+                        traceId = Guid.NewGuid().ToString()
+                    });
+                }
+
+                var response = new
+                {
+                    userMsg = Properties.Resources.MISAInsertMsg
+                };
+                
+                return StatusCode(200, response);
             }
-            catch (Exception)
+            catch (Exception e)
             {
-                return StatusCode(400, Properties.Resources.MISAErrorMessage);
+                var response = new
+                {
+                    devMsg = e.Message,
+                    userMsg = Properties.Resources.MISAErrorMessage,
+                    errorCode = "MISA_003",
+                    traceId = Guid.NewGuid().ToString()
+                };
+                return StatusCode(400, response);
             }
         }
 
@@ -248,17 +343,17 @@ namespace MISA.CukCuk.API.Controllers
         /// <summary>
         /// Cập nhật thông tin của 1 khách hàng vào trong db
         /// </summary>
-        /// <param name="EmployeeId">Id khách hàng</param>
-        /// <param name="Employee">Dữ liệu muốn cập nhật</param>
+        /// <param name="employeeId">Id khách hàng</param>
+        /// <param name="employee">Dữ liệu muốn cập nhật</param>
         /// <returns></returns>
         [HttpPut("{EmployeeId}")]
-        public IActionResult EditEmployee(string EmployeeId, Employee Employee)
+        public IActionResult EditEmployee(string employeeId, Employee employee)
         {
             var queryLine = new List<string>();
             var parameters = new DynamicParameters();
 
             // Đọc từng property của object
-            var properties = Employee.GetType().GetProperties();
+            var properties = employee.GetType().GetProperties();
 
             foreach (var prop in properties)
             {
@@ -266,13 +361,13 @@ namespace MISA.CukCuk.API.Controllers
                 var propName = prop.Name;
 
                 // Giá tri thuộc tính
-                var propValue = prop.GetValue(Employee);
+                var propValue = prop.GetValue(employee);
 
                 queryLine.Add($"{propName} = @{propName}");
                 parameters.Add($"@{propName}", propValue);
             }
 
-            parameters.Add("@OldEmployeeId", EmployeeId);
+            parameters.Add("@OldEmployeeId", employeeId);
             var sqlQuery = $"UPDATE Employee SET {String.Join(", ", queryLine.ToArray())} " +
                             $"WHERE EmployeeId = @OldEmployeeId";
 
@@ -281,11 +376,34 @@ namespace MISA.CukCuk.API.Controllers
             try
             {
                 var numberRowAffects = _dbConnection.Execute(sqlQuery, param: parameters);
-                return StatusCode(200, $"Đã cập nhật {numberRowAffects} dòng trong database.");
+
+                if (numberRowAffects < 1)
+                {
+                    return StatusCode(500, new
+                    {
+                        devMsg = Properties.Resources.MISASqlErrorMsg,
+                        userMsg = Properties.Resources.MISAErrorMessage,
+                        errorCode = "MISA_001",
+                        traceId = Guid.NewGuid().ToString()
+                    });
+                }
+
+                var response = new
+                {
+                    userMsg = Properties.Resources.MISAUpdateMsg
+                };
+                return StatusCode(200, response);
             }
-            catch (Exception)
+            catch (Exception e)
             {
-                return StatusCode(400, Properties.Resources.MISAErrorMessage);
+                var response = new
+                {
+                    devMsg = e.Message,
+                    userMsg = Properties.Resources.MISAErrorMessage,
+                    errorCode = "MISA_003",
+                    traceId = Guid.NewGuid().ToString()
+                };
+                return StatusCode(400, response);
             }
         }
 
@@ -296,29 +414,59 @@ namespace MISA.CukCuk.API.Controllers
         /// <summary>
         /// Xóa khách hàng với id tương ứng
         /// </summary>
-        /// <param name="EmployeeId">Id của khách hàng muốn xóa</param>
+        /// <param name="employeeId">Id của khách hàng muốn xóa</param>
         /// <returns></returns>
 
-        [HttpDelete("{EmployeeId}")]
-        public IActionResult DeleteEmployeeById(string EmployeeId)
+        [HttpDelete("{employeeId}")]
+        public IActionResult DeleteEmployeeById(string employeeId)
         {
             var sqlQuery = $"DELETE FROM Employee WHERE EmployeeId = @EmployeeId";
             var parameters = new DynamicParameters();
 
-            parameters.Add("@EmployeeId", EmployeeId);
+            parameters.Add("@EmployeeId", employeeId);
 
             try
             {
-                var rowAffects = _dbConnection.Execute(sqlQuery, param: parameters);
-                return StatusCode(200, $"Đã xóa {rowAffects} bản ghi.");
+                var numberRowAffects = _dbConnection.Execute(sqlQuery, param: parameters);
+
+                if (numberRowAffects < 1)
+                {
+                    return StatusCode(500, new
+                    {
+                        devMsg = Properties.Resources.MISASqlErrorMsg,
+                        userMsg = Properties.Resources.MISAErrorMessage,
+                        errorCode = "MISA_001",
+                        traceId = Guid.NewGuid().ToString()
+                    });
+                }
+
+                var response = new
+                {
+                    userMsg = Properties.Resources.MISADeleteMsg
+                };
+
+                return StatusCode(200, response);
             }
-            catch (Exception)
+            catch (Exception e)
             {
-                return StatusCode(500, Properties.Resources.MISAErrorMessage);
+                var response = new
+                {
+                    devMsg = e.Message,
+                    userMsg = Properties.Resources.MISAErrorMessage,
+                    errorCode = "MISA_003",
+                    traceId = Guid.NewGuid().ToString()
+                };
+                return StatusCode(400, response);
             }
         }
 
-        [HttpDelete("deleteMany")]
+
+        /// <summary>
+        /// Xóa nhiều bản ghi qua 1 request
+        /// </summary>
+        /// <param name="employeeIds">List<string> chứa mảng id ứng với các bản ghi cần xóa</string></param>
+        /// <returns></returns>
+        [HttpDelete]
         public IActionResult DeleteEmployees([FromBody] List<string> employeeIds)
         {
             var parameters = new DynamicParameters();
@@ -333,11 +481,39 @@ namespace MISA.CukCuk.API.Controllers
 
             var sql = $"Delete from Employee where EmployeeId In ({String.Join(", ", paramName.ToArray())})";
 
-            var res = _dbConnection.Execute(sql, param: parameters);
+            try
+            {
+                var numberRowAffects = _dbConnection.Execute(sql, param: parameters);
 
-            return StatusCode(200, res);
+                if (numberRowAffects < 1)
+                {
+                    return StatusCode(500, new
+                    {
+                        devMsg = Properties.Resources.MISASqlErrorMsg,
+                        userMsg = Properties.Resources.MISAErrorMessage,
+                        errorCode = "MISA_001",
+                        traceId = Guid.NewGuid().ToString()
+                    });
+                }
+
+                var response = new
+                {
+                    userMsg = Properties.Resources.MISADeleteMsg
+                };
+                return StatusCode(200, response);
+            }
+            catch (Exception e)
+            {
+                var response = new
+                {
+                    devMsg = e.Message,
+                    userMsg = Properties.Resources.MISAErrorMessage,
+                    errorCode = "MISA_003",
+                    traceId = Guid.NewGuid().ToString()
+                };
+                return StatusCode(400, response);
+            }
         }
-
 
         #endregion
     }

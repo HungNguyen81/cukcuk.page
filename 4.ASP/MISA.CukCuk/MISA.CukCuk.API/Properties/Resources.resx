@@ -117,8 +117,26 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
+  <data name="MISABadRequestMsg" xml:space="preserve">
+    <value>Dữ liệu được gửi lên chưa đúng định dạng ! </value>
+  </data>
+  <data name="MISADeleteMsg" xml:space="preserve">
+    <value>Đã xóa thành công !</value>
+  </data>
   <data name="MISAErrorMessage" xml:space="preserve">
     <value>Có lỗi xảy ra, vui lòng liên hệ MISA !</value>
     <comment>Try catch</comment>
+  </data>
+  <data name="MISAInsertMsg" xml:space="preserve">
+    <value>Thêm mới thành công !</value>
+  </data>
+  <data name="MISANoContentMsg" xml:space="preserve">
+    <value>Không có dữ liệu !</value>
+  </data>
+  <data name="MISASqlErrorMsg" xml:space="preserve">
+    <value>Truy vấn SQL không thành công !</value>
+  </data>
+  <data name="MISAUpdateMsg" xml:space="preserve">
+    <value>Cập nhật thành công !</value>
   </data>
 </root>

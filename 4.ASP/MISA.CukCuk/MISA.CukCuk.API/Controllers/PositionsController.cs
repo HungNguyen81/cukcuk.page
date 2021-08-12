@@ -1,13 +1,9 @@
 ﻿using Dapper;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
 using MySqlConnector;
 using System;
-using System.Collections.Generic;
 using System.Data;
-using System.Linq;
-using System.Threading.Tasks;
 
 namespace MISA.CukCuk.API.Controllers
 {
@@ -52,13 +48,41 @@ namespace MISA.CukCuk.API.Controllers
             // Chuẩn bị truy vấn dữ liệu
             var sqlQuery = "SELECT * FROM Position";
 
-            // lấy dữ liệu
-            var positions = _dbConnection.Query<object>(sqlQuery);
+            try
+            {
+                // lấy dữ liệu
+                var positions = _dbConnection.Query<object>(sqlQuery);
 
-            // phản hồi về cho client
-            return StatusCode(200, positions);
+                if (positions == null)
+                {
+                    var response = new
+                    {
+                        userMsg = Properties.Resources.MISANoContentMsg,
+                    };
+                    return StatusCode(204, response);
+                }
+
+                // phản hồi về cho client
+                return StatusCode(200, positions);
+            }
+            catch (Exception e )
+            {
+                var response = new
+                {
+                    devMsg = e.Message,
+                    userMsg = Properties.Resources.MISAErrorMessage,
+                    errorCode = "MISA_003",
+                    traceId = Guid.NewGuid().ToString()
+                };
+                return StatusCode(500, response);
+            }
         }
 
+        /// <summary>
+        /// Lấy thông tin vị trí/ chức vụ theo id
+        /// </summary>
+        /// <param name="positionId"> id vị trí cần lấy thông tin</param>
+        /// <returns></returns>
         [HttpGet("{PositionId}")]
         public IActionResult GetPositionById(string positionId)
         {
@@ -72,12 +96,28 @@ namespace MISA.CukCuk.API.Controllers
             try
             {
                 var position = _dbConnection.QueryFirstOrDefault<object>(sqlQuery, param: parameters);
-                if (position == null) return StatusCode(204, "not found !");
+
+                if (position == null)
+                {
+                    var response = new
+                    {
+                        userMsg = Properties.Resources.MISANoContentMsg,
+                    };
+                    return StatusCode(204, response);
+                }
+
                 return StatusCode(200, position);
             }
-            catch (Exception)
+            catch (Exception e)
             {
-                return StatusCode(500, Properties.Resources.MISAErrorMessage);
+                var response = new
+                {
+                    devMsg = e.Message,
+                    userMsg = Properties.Resources.MISAErrorMessage,
+                    errorCode = "MISA_003",
+                    traceId = Guid.NewGuid().ToString()
+                };
+                return StatusCode(500, response);
             }
         }
 

@@ -1,13 +1,9 @@
 ﻿using Dapper;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
 using MySqlConnector;
 using System;
-using System.Collections.Generic;
 using System.Data;
-using System.Linq;
-using System.Threading.Tasks;
 
 namespace MISA.CukCuk.API.Controllers
 {
@@ -52,13 +48,41 @@ namespace MISA.CukCuk.API.Controllers
             // Chuẩn bị truy vấn dữ liệu
             var sqlQuery = "SELECT * FROM Department";
 
-            // lấy dữ liệu
-            var Departments = _dbConnection.Query<object>(sqlQuery);
+            try
+            {
+                // lấy dữ liệu
+                var departments = _dbConnection.Query<object>(sqlQuery);
 
-            // phản hồi về cho client
-            return StatusCode(200, Departments);
+                if (departments == null)
+                {
+                    var response = new
+                    {
+                        userMsg = Properties.Resources.MISANoContentMsg,
+                    };
+                    return StatusCode(204, response);
+                }
+
+                // phản hồi về cho client
+                return StatusCode(200, departments);
+            }
+            catch (Exception e)
+            {
+                var response = new
+                {
+                    devMsg = e.Message,
+                    userMsg = Properties.Resources.MISAErrorMessage,
+                    errorCode = "MISA_003",
+                    traceId = Guid.NewGuid().ToString()
+                };
+                return StatusCode(500, response);
+            }
         }
 
+        /// <summary>
+        /// Lấy thông tin phòng ban theo id
+        /// </summary>
+        /// <param name="departmentId"> id phòng ban cần lấy thông tin</param>
+        /// <returns></returns>
         [HttpGet("{departmentId}")]
         public IActionResult GetDepartmentById(string departmentId)
         {
@@ -72,12 +96,28 @@ namespace MISA.CukCuk.API.Controllers
             try
             {
                 var department = _dbConnection.QueryFirstOrDefault<object>(sqlQuery, param: parameters);
-                if (department == null) return StatusCode(204, "not found !");
+
+                if (department == null)
+                {
+                    var response = new
+                    {
+                        userMsg = Properties.Resources.MISANoContentMsg,
+                    };
+                    return StatusCode(204, response);
+                }
+
                 return StatusCode(200, department);
             }
-            catch (Exception)
+            catch (Exception e)
             {
-                return StatusCode(500, Properties.Resources.MISAErrorMessage);
+                var response = new
+                {
+                    devMsg = e.Message,
+                    userMsg = Properties.Resources.MISAErrorMessage,
+                    errorCode = "MISA_003",
+                    traceId = Guid.NewGuid().ToString()
+                };
+                return StatusCode(500, response);
             }
         }
 

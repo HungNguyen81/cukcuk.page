@@ -61,11 +61,65 @@ namespace MISA.CukCuk.API.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Dữ liệu được gửi lên chưa đúng định dạng ! .
+        /// </summary>
+        internal static string MISABadRequestMsg {
+            get {
+                return ResourceManager.GetString("MISABadRequestMsg", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Đã xóa thành công !.
+        /// </summary>
+        internal static string MISADeleteMsg {
+            get {
+                return ResourceManager.GetString("MISADeleteMsg", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Có lỗi xảy ra, vui lòng liên hệ MISA !.
         /// </summary>
         internal static string MISAErrorMessage {
             get {
                 return ResourceManager.GetString("MISAErrorMessage", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Thêm mới thành công !.
+        /// </summary>
+        internal static string MISAInsertMsg {
+            get {
+                return ResourceManager.GetString("MISAInsertMsg", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Không có dữ liệu !.
+        /// </summary>
+        internal static string MISANoContentMsg {
+            get {
+                return ResourceManager.GetString("MISANoContentMsg", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Truy vấn SQL không thành công !.
+        /// </summary>
+        internal static string MISASqlErrorMsg {
+            get {
+                return ResourceManager.GetString("MISASqlErrorMsg", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Cập nhật thành công !.
+        /// </summary>
+        internal static string MISAUpdateMsg {
+            get {
+                return ResourceManager.GetString("MISAUpdateMsg", resourceCulture);
             }
         }
     }

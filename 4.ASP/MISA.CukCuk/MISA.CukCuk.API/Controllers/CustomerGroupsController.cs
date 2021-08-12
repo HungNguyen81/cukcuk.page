@@ -1,5 +1,4 @@
 ﻿using Dapper;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
 using MISA.CukCuk.API.Models;
@@ -7,12 +6,10 @@ using MySqlConnector;
 using System;
 using System.Collections.Generic;
 using System.Data;
-using System.Linq;
-using System.Threading.Tasks;
 
 namespace MISA.CukCuk.API.Controllers
 {
-    [Route("api/[controller]")]
+    [Route("api/v1/[controller]")]
     [ApiController]
     public class CustomerGroupsController : ControllerBase
     {
@@ -52,11 +49,29 @@ namespace MISA.CukCuk.API.Controllers
             try
             {
                 var customerGroups = _dbConnection.Query<CustomerGroup>(sqlQuery);
+
+                if (customerGroups == null)
+                {
+                    var response = new
+                    {
+                        userMsg = Properties.Resources.MISANoContentMsg,
+                    };
+
+                    return StatusCode(204, response);
+                }
+
                 return StatusCode(200, customerGroups);
             }
-            catch (Exception)
+            catch (Exception e)
             {
-                return StatusCode(404, "Không tìm thấy nhóm khách hàng nào!");
+                var response = new
+                {
+                    devMsg = e.Message,
+                    userMsg = Properties.Resources.MISAErrorMessage,
+                    errorCode = "MISA_001",
+                    traceId = Guid.NewGuid().ToString()
+                };
+                return StatusCode(500, response);
             }
         }
 
@@ -79,11 +94,28 @@ namespace MISA.CukCuk.API.Controllers
             try
             {
                 var customerGroup = _dbConnection.QueryFirstOrDefault<CustomerGroup>(sqlQuery, param: parameters);
+
+                if(customerGroup == null)
+                {
+                    var response = new
+                    {
+                        userMsg = Properties.Resources.MISANoContentMsg,
+                    };
+                    return StatusCode(204, response);
+                }
+
                 return StatusCode(200, customerGroup);
             }
-            catch (Exception)
+            catch (Exception e)
             {
-                return StatusCode(404, $"Không tìm thấy nhóm khách hàng có id = \"{customerGroupId}\"!");
+                var response = new
+                {
+                    devMsg = e.Message,
+                    userMsg = Properties.Resources.MISAErrorMessage,
+                    errorCode = "MISA_002",
+                    traceId = Guid.NewGuid().ToString()
+                };
+                return StatusCode(500, response);
             }
         }
 
@@ -130,13 +162,29 @@ namespace MISA.CukCuk.API.Controllers
             {
                 var numberRowAffects = _dbConnection.Execute(sqlQuery, param: parameters);
 
-                // Trả lại số dòng được thêm vào db cho client
-                return StatusCode(200, $"{numberRowAffects} row(s) affected");
+                if(numberRowAffects < 1)
+                {
+                    return StatusCode(500, new {
+                        userMsg = Properties.Resources.MISAErrorMessage
+                    });
+                }
+                var response = new
+                {
+                    userMsg = Properties.Resources.MISAInsertMsg
+                };
+                return StatusCode(201, response);
             }
-            catch (Exception)
+            catch (Exception e)
             {
                 // Có exception xảy ra, trả về thông báo lỗi
-                return StatusCode(400, Properties.Resources.MISAErrorMessage);
+                var response = new
+                {
+                    devMsg = e.Message,
+                    userMsg = Properties.Resources.MISABadRequestMsg,
+                    errorCode = "MISA_003",
+                    traceId = Guid.NewGuid().ToString()
+                };
+                return StatusCode(400, response);
             }
         }
 
@@ -147,8 +195,8 @@ namespace MISA.CukCuk.API.Controllers
         /// <summary>
         /// Sửa thông tin của một nhóm khách hàng với id tương ứng
         /// </summary>
-        /// <param name="id">id của nhóm khách hàng</param>
-        /// <param name="group">Dữ liệu cập nhật</param>
+        /// <param name="id">    id của nhóm khách hàng</param>
+        /// <param name="group"> Dữ liệu cập nhật</param>
         /// <returns></returns>
         [HttpPut("{CustomerGroupId}")]
         public IActionResult UpdateCustomerGroup(string CustomerGroupId, CustomerGroup group)
@@ -175,16 +223,38 @@ namespace MISA.CukCuk.API.Controllers
             var sqlQuery = $"UPDATE CustomerGroup SET {String.Join(", ", queryLine.ToArray())} " +
                            $"WHERE CustomerGroupId = @OldCustomerGroupId";
 
-
             // Thực thi truy vấn và trả về kết quả cho client
             try
             {
                 var numberRowAffects = _dbConnection.Execute(sqlQuery, param: parameters);
-                return StatusCode(200, $"Đã cập nhật {numberRowAffects} dòng trong database.");
+
+                if (numberRowAffects < 1)
+                {
+                    return StatusCode(500, new
+                    {
+                        devMsg = Properties.Resources.MISASqlErrorMsg,
+                        userMsg = Properties.Resources.MISAErrorMessage,
+                        errorCode = "MISA_004",
+                        traceId = Guid.NewGuid().ToString()
+                    });
+                }
+
+                var response = new
+                {
+                    userMsg = Properties.Resources.MISAUpdateMsg
+                };
+                return StatusCode(200, response);
             }
-            catch (Exception)
+            catch (Exception e)
             {
-                return StatusCode(400, Properties.Resources.MISAErrorMessage);
+                var response = new
+                {
+                    devMsg = e.Message,
+                    userMsg = Properties.Resources.MISABadRequestMsg,
+                    errorCode = "MISA_003",
+                    traceId = Guid.NewGuid().ToString()
+                };
+                return StatusCode(400, response);
             }
         }
 
@@ -207,12 +277,34 @@ namespace MISA.CukCuk.API.Controllers
 
             try
             {
-                var rowAffects = _dbConnection.Execute(sqlQuery, param: parameters);
-                return StatusCode(200, $"Đã xóa {rowAffects} bản ghi.");
+                var numberRowAffects = _dbConnection.Execute(sqlQuery, param: parameters);
+
+                if (numberRowAffects < 1)
+                {
+                    return StatusCode(500, new
+                    {
+                        devMsg = Properties.Resources.MISASqlErrorMsg,
+                        userMsg = Properties.Resources.MISAErrorMessage,
+                        errorCode = "MISA_001",
+                        traceId = Guid.NewGuid().ToString()
+                    });
+                }
+                var response = new
+                {                    
+                    userMsg = Properties.Resources.MISADeleteMsg
+                };
+                return StatusCode(200, response);
             }
-            catch (Exception)
+            catch (Exception e)
             {
-                return StatusCode(500, Properties.Resources.MISAErrorMessage);
+                var response = new
+                {
+                    devMsg = e.Message,
+                    userMsg = Properties.Resources.MISABadRequestMsg,
+                    errorCode = "MISA_003",
+                    traceId = Guid.NewGuid().ToString()
+                };
+                return StatusCode(400, response);
             }
         }
 
