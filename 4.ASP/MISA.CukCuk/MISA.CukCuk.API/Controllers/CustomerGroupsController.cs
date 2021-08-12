@@ -164,7 +164,7 @@ namespace MISA.CukCuk.API.Controllers
 
                 if(numberRowAffects < 1)
                 {
-                    return StatusCode(500, new {
+                    return StatusCode(400, new {
                         userMsg = Properties.Resources.MISAErrorMessage
                     });
                 }
@@ -184,7 +184,7 @@ namespace MISA.CukCuk.API.Controllers
                     errorCode = "MISA_003",
                     traceId = Guid.NewGuid().ToString()
                 };
-                return StatusCode(400, response);
+                return StatusCode(500, response);
             }
         }
 
@@ -281,7 +281,7 @@ namespace MISA.CukCuk.API.Controllers
 
                 if (numberRowAffects < 1)
                 {
-                    return StatusCode(500, new
+                    return StatusCode(400, new
                     {
                         devMsg = Properties.Resources.MISASqlErrorMsg,
                         userMsg = Properties.Resources.MISAErrorMessage,
@@ -304,7 +304,7 @@ namespace MISA.CukCuk.API.Controllers
                     errorCode = "MISA_003",
                     traceId = Guid.NewGuid().ToString()
                 };
-                return StatusCode(400, response);
+                return StatusCode(500, response);
             }
         }
 
