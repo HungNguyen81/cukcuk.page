@@ -36,17 +36,18 @@ namespace MISA.CukCuk.API
             {
                 jsonOptions.JsonSerializerOptions.PropertyNamingPolicy = null;
             });
-            services.AddCors(options =>
-            {
-                options.AddPolicy("VueCorsPolicy", builder =>
-                {
-                    builder
-                      .AllowAnyHeader()
-                      .AllowAnyMethod()
-                      .AllowCredentials()
-                      .AllowAnyOrigin();
-                });
-            });
+            //services.AddCors(options =>
+            //{
+            //    options.AddPolicy("VueCorsPolicy", builder =>
+            //    {
+            //        builder
+            //          .AllowAnyHeader()
+            //          .AllowAnyMethod()
+            //          .AllowCredentials()
+            //          .AllowAnyOrigin();
+            //    });
+            //});
+            services.AddCors();
         }
         //.WithOrigins("http://localhost:8080");
 
@@ -60,7 +61,7 @@ namespace MISA.CukCuk.API
                 app.UseSwaggerUI(c => c.SwaggerEndpoint("/swagger/v1/swagger.json", "MISA.CukCuk.API v1"));
             }
 
-            app.UseCors("VueCorsPolicy");
+            //app.UseCors("VueCorsPolicy");
 
             app.UseHttpsRedirection();
 
@@ -68,11 +69,11 @@ namespace MISA.CukCuk.API
 
             app.UseAuthorization();
 
-            //app.UseCors(x => x
-            //   .AllowAnyMethod()
-            //   .AllowAnyHeader()
-            //   .SetIsOriginAllowed(origin => true) // allow any origin
-            //   .AllowCredentials()); // allow credentials
+            app.UseCors(x => x
+               .AllowAnyMethod()
+               .AllowAnyHeader()
+               .SetIsOriginAllowed(origin => true) // allow any origin
+               .AllowCredentials()); // allow credentials
 
             app.UseEndpoints(endpoints =>
             {

@@ -170,7 +170,7 @@
                 :tabindex="10"
                 :value="detail.PositionName"
                 id="form-positions"
-                :api="'https://localhost:44372/api/Positions'"
+                :api="'https://localhost:44372/api/v1/Positions'"
                 v-if="isDataLoaded"
                 @itemChange="dropDataChange"
                 @showToast="emitShowToast"
@@ -186,7 +186,7 @@
                 :tabindex="11"
                 :value="detail.DepartmentName"
                 id="form-departments"
-                :api="'https://localhost:44372/api/Departments'"
+                :api="'https://localhost:44372/api/v1/Departments'"
                 v-if="isDataLoaded"
                 @itemChange="dropDataChange"
               ></BaseDropdown>
@@ -375,7 +375,7 @@ export default {
         // mode : 1 = thêm nv, mode : 0 = sửa nv <0 = không thêm>
         if (this.mode == 1 && this.detailId) {
           this.axios
-            .get(`https://localhost:44372/api/Employees/${this.detailId}`)
+            .get(`https://localhost:44372/api/v1/Employees/${this.detailId}`)
             .then((res) => {
               this.detail = Object.assign({}, res.data);
               
@@ -398,17 +398,17 @@ export default {
         } else if (this.mode == 0) {
           this.isDataLoaded = true;
           this.axios
-            .get("https://localhost:44372/api/Employees/NewEmployeeCode")
+            .get("https://localhost:44372/api/v1/Employees/NewEmployeeCode")
             .then((res) => {
-              this.$refs.employeeCode.$el.value = res.data;
-              if(!res.data){
+              this.$refs.employeeCode.$el.value = res.data.userMsg;
+              if(!res.data.userMsg){
                 this.$emit("showToast","error", "GET error", `Không thể lấy mã nhân viên mới !`);
               }
-              this.$set(this.detail, "EmployeeCode", res.data);
+              this.$set(this.detail, "EmployeeCode", res.data.userMsg);
             })
             .catch(() => {
               this.$emit("showToast","error", "GET error", `Không thể lấy mã nhân viên mới !`);
-              let newCode = `NV-${Math.round(Math.random() * 100000)}`;
+              let newCode = `NV${Math.round(Math.random() * 100000)}`;
               this.$refs.employeeCode.$el.value = newCode;
 
               // Thay đổi giá trị bằng phép gán làm mất tính reactivity của component

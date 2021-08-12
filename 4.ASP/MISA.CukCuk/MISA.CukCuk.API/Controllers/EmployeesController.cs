@@ -153,7 +153,7 @@ namespace MISA.CukCuk.API.Controllers
 
                 return StatusCode(200, new
                 {
-                    Code = newEmployeeCode
+                    userMsg = newEmployeeCode
                 });
             }
             catch (Exception e)
