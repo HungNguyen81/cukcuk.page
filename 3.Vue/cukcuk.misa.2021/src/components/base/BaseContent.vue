@@ -35,7 +35,7 @@
           v-for="(f, index) in filterName"
           :key="index"
         ></Combobox>
-        <div class="button-refresh" @click="RefreshTable"></div>
+        <div class="button-refresh" @click="ForceTableRerender"></div>
       </div>
 
       <div class="table-wrap">
@@ -361,6 +361,9 @@ export default {
      * Callback khi bấm nút Lưu trên form, form mode sửa nhân viên
      */
     SendPutRequest() {
+      this.ClosePopup();
+      this.CloseForm();
+
       this.axios
         .put(
           `https://localhost:44372/api/v1/${this.entityName}s/${this.entityId}`,
@@ -372,9 +375,8 @@ export default {
             "PUT Success",
             `Sửa nhân viên <b>"${this.entityDetail.FullName}"</b> thành công`
           );
-          this.ClosePopup();
-          this.CloseForm();
-          this.RefreshTable();
+
+          this.ForceTableRerender();
         })
         .catch(() => {
           this.showToast(
@@ -390,6 +392,9 @@ export default {
      * Callback khi bấm nút Lưu trên form, form mode thêm nhân viên
      */
     SendPostRequest() {
+      this.ClosePopup();
+      this.CloseForm();
+
       this.axios
         .post(
           `https://localhost:44372/api/v1/${this.entityName}s/`,
@@ -401,9 +406,7 @@ export default {
             "POST success",
             `Thêm nhân viên <b>"${this.entityDetail.FullName}"</b> thành công`
           );
-          this.ClosePopup();
-          this.CloseForm();
-          this.RefreshTable();
+          this.ForceTableRerender();
         })
         .catch(() => {
           this.showToast(
@@ -413,14 +416,6 @@ export default {
           );
           this.ClosePopup();
         });
-    },
-
-    /**
-     * Làm cho table render lại và hiện spinner
-     */
-    RefreshTable() {
-      // this.isTableLoading = true;
-      this.ForceTableRerender();
     },
 
     /**
@@ -435,18 +430,7 @@ export default {
      * Gọi hàm khi bấm nút Thêm nhân viên/ Thêm Khách hàng
      */
     BtnAddClick() {
-      //   if (this.entityName == "Employee") {
       this.OpenForm(0);
-      //   } else {
-      //     this.showPopup({
-      //       title: "Thông báo",
-      //       content: `Chức năng thêm ${this.entityMap[this.entityName]} chưa được thực hiện,<br> Vui lòng liên hệ MISA !`,
-      //       popupType: "warning",
-      //       okAction: "OK",
-      //       isHide: false,
-      //       callback: this.ClosePopup,
-      //     })
-      //   }
     },
 
     // Xử lí sự kiện click đúp vào table row
@@ -513,14 +497,10 @@ export default {
 
           // Đóng popup và làm mới bảng
           this.ClosePopup();
-          this.RefreshTable();
+          this.ForceTableRerender();
 
           // hiển thị toast thông báo đã xóa thành công
-          this.showToast(
-            "info",
-            "DELETE successfully",
-            res.data.userMsg
-          );
+          this.showToast("info", "DELETE successfully", res.data.userMsg);
         })
         .catch(() => {
           this.showToast("error", "Delete error", `Xóa không thành công`);
@@ -542,7 +522,7 @@ export default {
       var res = "";
       for (let i = 0; i < this.filterName.length; i++) {
         res += `&${this.filterName[i]}=${this.filter[this.filterName[i]]}`;
-      }      
+      }
       return res;
     },
   },

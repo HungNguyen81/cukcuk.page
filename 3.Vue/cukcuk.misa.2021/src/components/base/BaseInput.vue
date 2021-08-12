@@ -122,9 +122,9 @@ export default {
     renderFlag: function () {
       this.isValidate = true;
     },
-    isValidate: function (isValid) {
-      console.log("validate", this.label, isValid);
-    },
+    // isValidate: function (isValid) {
+    //   console.log("validate", this.label, isValid);
+    // },
     value: function (val) {
       if (this.valueType == "date") {
         if (!val) {
@@ -139,7 +139,7 @@ export default {
       }
     },
     formatedValue: function (val) {      
-      console.log("format value editing", val);
+      // console.log("format value editing", val);
 
       clearTimeout(this.dateTimeOut);
 
@@ -178,8 +178,6 @@ export default {
         this.isValidate = res;
 
         this.$emit("valid", this.inputKey, res);
-      } else {
-        console.log("NO validations");
       }
     },
   },
@@ -189,5 +187,4 @@ export default {
 <style scoped>
 @import "../../css/base/text-box.css";
 @import "../../css/base/tooltip.css";
-/* @import "../../css/components/popup-form.css"; */
 </style>

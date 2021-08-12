@@ -122,7 +122,6 @@ export default {
     itemSelect(item, index) {
       this.current = index;
       this.toggle();
-      console.log('item', item);
       this.$emit("itemChange", this.typeData, item);
     },
 
@@ -145,12 +144,10 @@ export default {
   watch: {
     value: function (val) {
       if (!val || val == "undefined") {
-        console.log("value undef");
         this.isDataLoaded = false;
         this.current = -1;
         this.isDataLoaded = true;
       }
-      console.log("val change", this.displayId, val);
     },
 
     /**
