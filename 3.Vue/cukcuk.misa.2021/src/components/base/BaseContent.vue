@@ -25,7 +25,7 @@
           v-model="searchInput"
         />
         <Combobox
-          :api="`https://localhost:44372/api/${
+          :api="`https://localhost:44372/api/v1/${
             filterName[index].split('Id')[0]
           }s`"
           :type="filterName[index].split('Id')[0]"
@@ -43,7 +43,7 @@
           :type="entityName"
           :thead="thead"
           :dataMap="theadMap"
-          :api="`https://localhost:44372/api/${entityName}s/${entityName.toLowerCase()}Filter?pageSize=${pageSize}&pageNumber=${pageNumber}&filterString=${
+          :api="`https://localhost:44372/api/v1/${entityName}s/${entityName.toLowerCase()}Filter?pageSize=${pageSize}&pageNumber=${pageNumber}&filterString=${
             searchInput + GetApiFilterQuery()
           }`"
           @dataLoaded="tableDataLoaded"
@@ -363,7 +363,7 @@ export default {
     SendPutRequest() {
       this.axios
         .put(
-          `https://localhost:44372/api/${this.entityName}s/${this.entityId}`,
+          `https://localhost:44372/api/v1/${this.entityName}s/${this.entityId}`,
           this.entityDetail
         )
         .then(() => {
@@ -392,7 +392,7 @@ export default {
     SendPostRequest() {
       this.axios
         .post(
-          `https://localhost:44372/api/${this.entityName}s/`,
+          `https://localhost:44372/api/v1/${this.entityName}s/`,
           this.entityDetail
         )
         .then(() => {
@@ -504,7 +504,7 @@ export default {
     SendDeleteRequests() {
       console.table(this.deleteIdList);
       this.axios
-        .delete(`https://localhost:44372/api/${this.entityName}s/deleteMany`, {
+        .delete(`https://localhost:44372/api/v1/${this.entityName}s/`, {
           data: this.deleteIdList,
         })
         .then((res) => {
@@ -519,7 +519,7 @@ export default {
           this.showToast(
             "info",
             "DELETE successfully",
-            `Xóa <b>${res.data}</b> ${this.entityMap[this.entityName]} thành công !`
+            res.data.userMsg
           );
         })
         .catch(() => {

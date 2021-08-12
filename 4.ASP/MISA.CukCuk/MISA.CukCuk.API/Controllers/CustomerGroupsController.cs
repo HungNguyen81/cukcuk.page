@@ -291,7 +291,8 @@ namespace MISA.CukCuk.API.Controllers
                 }
                 var response = new
                 {                    
-                    userMsg = Properties.Resources.MISADeleteMsg
+                    userMsg = Properties.Resources.MISADeleteMsg,
+                    count = numberRowAffects
                 };
                 return StatusCode(200, response);
             }
