@@ -3,7 +3,7 @@ export default {
         /**
         * Convert salary : 1000 => 1.000
         */
-        FormatMoneyString(text) {
+        formatMoneyString(text) {
             if(!text) return null;
             text = String(text);
             text = text.replaceAll('.', '');
@@ -15,7 +15,7 @@ export default {
         /**
          * convert date to display type or input value type
          */
-        DateFormat(data, isForDateInput) {
+        dateFormat(data, isForDateInput) {
             if(!data) return "";
             let date = new Date(data);
             let dd = date.getDate();
@@ -27,7 +27,7 @@ export default {
             }
             return `${dd < 10 ? "0" + dd : dd}/${mm < 10 ? "0" + mm : mm}/${yyyy}`;
         },
-        WorkStatusCode2Text(statusCode) {
+        workStatusCode2Text(statusCode) {
             switch (statusCode) {
                 case 1: return "Đang làm việc";
                 case 2: return "Đang thử việc";
@@ -35,7 +35,7 @@ export default {
                 default: return "Đã nghỉ việc";
             }
         },  
-        WorkStatusText2Code(text) {
+        workStatusText2Code(text) {
             switch (text) {
                 case "Đang làm việc": return 1;
                 case "Đang thử việc": return 2;
@@ -43,7 +43,7 @@ export default {
                 default: return 3;
             }
         },
-        GenderCode2Text(code) {
+        genderCode2Text(code) {
             switch (code) {
                 case 0: return "Nữ";
                 case 1: return "Nam";
@@ -51,7 +51,7 @@ export default {
                 default: return "";
             }
         },
-        GenderText2Code(text) {
+        genderText2Code(text) {
             switch (text) {
                 case "Nữ": return 0;
                 case "Nam": return 1;
@@ -60,7 +60,7 @@ export default {
             }
         },
 
-        RemoveAccents(str) {
+        removeAccents(str) {
             return str.normalize('NFD').replace(/[\u0300-\u036f]/g, '');
         }
     }

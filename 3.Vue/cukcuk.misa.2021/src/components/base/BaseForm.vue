@@ -39,7 +39,7 @@
               :required="true"
               :validates="[required]"
               :rerenderFlag="isRerender"
-              @valid="ValidateForm"
+              @valid="validateForm"
             />
             <BaseTextInput
               :valueType="'text'"
@@ -52,7 +52,7 @@
               ref="fullName"
               :validates="[required]"
               :rerenderFlag="isRerender"
-              @valid="ValidateForm"
+              @valid="validateForm"
             />
           </div>
           <div class="input-row">
@@ -65,7 +65,7 @@
               :label="'Ngày sinh'"
               :validates="[date]"
               :rerenderFlag="isRerender"
-              @valid="ValidateForm"
+              @valid="validateForm"
               @dateChange="dateChange"
             />
             <div class="input-field">
@@ -99,7 +99,7 @@
               :required="true"
               :rerenderFlag="isRerender"
               ref="identityNumber"
-              @valid="ValidateForm"
+              @valid="validateForm"
             />
             <BaseDateInput
               type="input-form"
@@ -111,7 +111,7 @@
               :validates="[date]"
               :rerenderFlag="isRerender"
               @dateChange="dateChange"
-              @valid="ValidateForm"
+              @valid="validateForm"
             />
           </div>
           <div class="input-row">
@@ -137,7 +137,7 @@
               ref="email"
               :required="true"
               :rerenderFlag="isRerender"
-              @valid="ValidateForm"
+              @valid="validateForm"
             />
             <BaseTextInput
               :valueType="'text'"
@@ -150,7 +150,7 @@
               ref="phoneNumber"
               :required="true"
               :rerenderFlag="isRerender"
-              @valid="ValidateForm"
+              @valid="validateForm"
             />
           </div>
           <div class="header-row">
@@ -226,7 +226,7 @@
               :validates="[date]"
               :rerenderFlag="isRerender"
               @dateChange="dateChange"
-              @valid="ValidateForm"
+              @valid="validateForm"
             />
             <div class="input-field">
               <div class="input-label">Tình trạng công việc</div>
@@ -261,7 +261,7 @@
           :value="'Lưu'"
           :type="'button-save'"
           :icon="'icon-save'"
-          :onclick="BtnSaveClick"
+          :onclick="btnSaveClick"
           tabindex="17"
         ></BaseButtonIcon>
       </div>
@@ -379,7 +379,7 @@ export default {
             .then((res) => {
               this.detail = Object.assign({}, res.data);
               
-              this.FormatData();
+              this.formatData();
               this.$set(
                 this.detail,
                 "PositionName",
@@ -440,31 +440,31 @@ export default {
     /**
      * Format dữ liệu để hiển thị
      */
-    FormatData() {
+    formatData() {
       this.$set(
         this.detail,
         "DateOfBirth",
-        this.DateFormat(this.detail.DateOfBirth, true)
+        this.dateFormat(this.detail.DateOfBirth, true)
       );
       this.$set(
         this.detail,
         "IdentityDate",
-        this.DateFormat(this.detail.IdentityDate, true)
+        this.dateFormat(this.detail.IdentityDate, true)
       );
       this.$set(
         this.detail,
         "JoinDate",
-        this.DateFormat(this.detail.JoinDate, true)
+        this.dateFormat(this.detail.JoinDate, true)
       );
       this.$set(
         this.detail,
         "WorkStatus",
-        this.WorkStatusCode2Text(this.detail.WorkStatus)
+        this.workStatusCode2Text(this.detail.WorkStatus)
       );
       this.$set(
         this.detail,
         "Salary",
-        this.FormatMoneyString(this.detail.Salary)
+        this.formatMoneyString(this.detail.Salary)
       );
     },
 
@@ -494,7 +494,7 @@ export default {
       this.$set(
         this.detail,
         "Salary",
-        this.FormatMoneyString(this.detail.Salary)
+        this.formatMoneyString(this.detail.Salary)
       );
 
       // Giữ vị trí dấu nháy khi nhập (ko bị nhảy về cuối)
@@ -508,7 +508,7 @@ export default {
     /**
      * Lấy dữ liệu thô để post/put
      */
-    GetRawData() {
+    getRawData() {
       let dob = this.detail.DateOfBirth;
       let identityDate = this.detail.IdentityDate;
       let joinDate = this.detail.JoinDate;
@@ -520,8 +520,8 @@ export default {
         ? new Date(identityDate).toISOString()
         : null;
       res.JoinDate = joinDate ? new Date(joinDate).toISOString() : null;
-      res.WorkStatus = this.WorkStatusText2Code(this.detail.WorkStatus);
-      res.Gender = this.GenderText2Code(this.detail.GenderName);
+      res.WorkStatus = this.workStatusText2Code(this.detail.WorkStatus);
+      res.Gender = this.genderText2Code(this.detail.GenderName);
       res.Salary = salary == null ? null : Number(salary.replaceAll(".", ""));
       return res;
     },
@@ -529,7 +529,7 @@ export default {
     /**
      * Handle khi click nút lưu
      */
-    BtnSaveClick() {      
+    btnSaveClick() {      
 
       for(let ref of this.validateRefs){
         this.$refs[ref].inputValidate();
@@ -547,7 +547,7 @@ export default {
         return;
       }
       // console.log("EMIT");
-      this.$emit("saveClicked", this.mode, this.detailId, this.GetRawData());
+      this.$emit("saveClicked", this.mode, this.detailId, this.getRawData());
     },
 
     /**
@@ -575,7 +575,7 @@ export default {
     /**
      * Handle khi validate input
      */
-    ValidateForm(key, isValid){
+    validateForm(key, isValid){
       this.$set(this.validate, key, isValid);
     }
   },

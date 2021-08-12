@@ -9,7 +9,7 @@
           <div class="toast-message" v-html="toastMsg">
           </div>
         </div>
-        <div class="toast-close" @click="CloseToast">
+        <div class="toast-close" @click="closeToast">
           <div :class="['toast-close-button', toastType]">
             <i class="fas fa-times"></i>
           </div>
@@ -51,10 +51,10 @@ export default {
     this.toastType = this.type;
     this.toastHeader = this.header;
     this.toastMsg = this.msg;
-    this.timeOut = setTimeout(this.CloseToast, 7000);
+    this.timeOut = setTimeout(this.closeToast, 7000);
   },
   methods: {
-    CloseToast() {
+    closeToast() {
       console.log("close toast");
 
       clearTimeout(this.timeOut)

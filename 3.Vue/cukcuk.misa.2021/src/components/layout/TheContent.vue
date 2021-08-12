@@ -12,7 +12,7 @@
         <BaseButtonIcon
           value="Thêm nhân viên"
           icon="icon-add"
-          :onclick="BtnAddClick"
+          :onclick="btnAddClick"
         ></BaseButtonIcon>
       </div>
 
@@ -39,7 +39,7 @@
           @showToast="showToast"
         ></Combobox>
 
-        <div class="button-refresh" @click="RefreshTable"></div>
+        <div class="button-refresh" @click="refreshTable"></div>
       </div>
 
       <div class="table-wrap">
@@ -84,7 +84,7 @@
       @closeForm="this.closeFormWithoutSave"
       :detailId="this.employeeId"
       :moreDetail="this.moreDetail"
-      @saveClicked="this.FormSaveButtonClick"
+      @saveClicked="this.formSaveButtonClick"
       @getNewCodeError="failInGetNewCode"
       @showToast="showToast"
       @showPopup="showPopup"
@@ -97,7 +97,7 @@
       :isHide="popup.isHide"
       :popupType="popup.popupType"
       :callback="popup.callback"
-      @closePopup="ClosePopup"
+      @closePopup="closePopup"
     ></Popup>
     <div class="toast-stack">
       <Toast
@@ -218,17 +218,17 @@ export default {
       }, 500);
     },
     pageSize: function () {
-      this.ForceTableRerender();
+      this.forceTableRerender();
     },
     pageNumber: function () {
-      this.ForceTableRerender();
+      this.forceTableRerender();
     },
   },
   methods: {
     activeFilter(type, id) {
       this.filter[type + "Id"] = id;
       console.log("filter:", this.filter.DepartmentId);
-      this.ForceTableRerender();
+      this.forceTableRerender();
     },
 
     /**
@@ -252,16 +252,16 @@ export default {
       this.totalPage = numPage;
     },
 
-    OnPageChange(size, num) {
+    onPageChange(size, num) {
       this.pageSize = size;
       this.pageNumber = num;
     },
 
-    OpenForm(act) {
+    openForm(act) {
       this.action = act;
       this.formStatus = true;
     },
-    CloseForm() {
+    closeForm() {
       this.formStatus = false;
       this.popup.isHide = true;
     },
@@ -276,24 +276,24 @@ export default {
         popupType: "warning",
         okAction: "Có",
         isHide: false,
-        callback: this.CloseForm,
+        callback: this.closeForm,
       };
     },
 
-    OpenPopup() {
+    openPopup() {
       this.popup.isHide = false;
       // this.popup.callback = func;
     },
-    ClosePopup() {
+    closePopup() {
       this.popup.isHide = true;
     },
 
     /**
-     * Show toast to notice to the client
+     * show toast to notice to the client
      * params: {String}
      */
     showToast(type, header, msg, delay) {
-      const Show = () => {
+      const show = () => {
         this.toasts.push({
           type: type,
           header: header.toUpperCase(),
@@ -301,15 +301,15 @@ export default {
         });
       };
       if (delay) {
-        setTimeout(Show, delay);
+        setTimeout(show, delay);
       } else {
-        Show();
+        show();
       }
     },
 
     showPopup(options) {
       if (!options.callback) {
-        options.callback = this.ClosePopup;
+        options.callback = this.closePopup;
       }
       this.popup = options;
     },
@@ -317,7 +317,7 @@ export default {
     /**
      * Display a popup, notice that the app is going to send put/post request to server
      */
-    FormSaveButtonClick(mode, id, detail) {
+    formSaveButtonClick(mode, id, detail) {
       this.popup = {
         title: "Thông báo",
         content: `Bạn có chắc chắn muốn <b>${
@@ -326,7 +326,7 @@ export default {
         popupType: "",
         okAction: "Lưu",
         isHide: false,
-        callback: mode ? this.SendPutRequest : this.SendPostRequest,
+        callback: mode ? this.sendPutRequest : this.sendPostRequest,
       };
       this.employeeId = id;
       this.employeeDetail = detail;
@@ -335,7 +335,7 @@ export default {
     /**
      * Callback for Form's Save Button, when edit employee
      */
-    SendPutRequest() {
+    sendPutRequest() {
       this.axios
         .put(
           `http://cukcuk.manhnv.net/v1/Employees/${this.employeeId}`,
@@ -348,9 +348,9 @@ export default {
             "PUT Success",
             `Sửa nhân viên <b>"${this.employeeDetail.FullName}"</b> thành công`
           );
-          this.ClosePopup();
-          this.CloseForm();
-          this.RefreshTable();
+          this.closePopup();
+          this.closeForm();
+          this.refreshTable();
         })
         .catch(() => {
           this.showToast(
@@ -358,15 +358,15 @@ export default {
             "PUT error",
             `Sửa nhân viên <b>"${this.employeeDetail.FullName}"</b> không thành công`
           );
-          this.ClosePopup();
-          // this.CloseForm();
+          this.closePopup();
+          // this.closeForm();
         });
     },
 
     /**
      * Callback for Form's Save Button, when add new employee
      */
-    SendPostRequest() {
+    sendPostRequest() {
       this.axios
         .post(`http://cukcuk.manhnv.net/v1/Employees/`, this.employeeDetail)
         .then(() => {
@@ -376,9 +376,9 @@ export default {
             "POST success",
             `Thêm nhân viên <b>"${this.employeeDetail.FullName}"</b> thành công`
           );
-          this.ClosePopup();
-          this.CloseForm();
-          this.RefreshTable();
+          this.closePopup();
+          this.closeForm();
+          this.refreshTable();
         })
         .catch(() => { 
           // console.log(err);
@@ -387,17 +387,17 @@ export default {
             "POST error",
             `Thêm nhân viên <b>"${this.employeeDetail.FullName}"</b> không thành công`
           );
-          this.ClosePopup();
-          // this.CloseForm();
+          this.closePopup();
+          // this.closeForm();
         });
     },
 
     /**
      * Make the table re-render and display loading spinner
      */
-    RefreshTable() {
+    refreshTable() {
       // this.isTableLoading = true;
-      this.ForceTableRerender();
+      this.forceTableRerender();
     },
 
     /**
@@ -408,8 +408,8 @@ export default {
       // this.isTableLoading = false;
     },
 
-    BtnAddClick() {
-      this.OpenForm(0);
+    btnAddClick() {
+      this.openForm(0);
     },
 
     rowDoubleClick(id, pos, dep) {
@@ -419,7 +419,7 @@ export default {
         PositionName: pos,
         DepartmentName: dep,
       };
-      this.OpenForm(1);
+      this.openForm(1);
     },
 
     /**
@@ -454,15 +454,15 @@ export default {
         popupType: "error",
         okAction: "Xóa",
         isHide: false,
-        callback: this.SendDeleteRequests,
+        callback: this.sendDeleteRequests,
       };
-      this.OpenPopup();
+      this.openPopup();
     },
 
     /**
      * Callback for delete popup
      */
-    SendDeleteRequests() {
+    sendDeleteRequests() {
       // console.log("send delete");
       for (const [i, id] of this.deleteIdList.entries()) {
         let index = this.deleteIdList.indexOf(id);
@@ -473,8 +473,8 @@ export default {
             this.deleteIdList.splice(index, 1);
             this.deleteCodeList.splice(index, 1);
             // console.log(id);
-            this.ClosePopup();
-            this.RefreshTable();
+            this.closePopup();
+            this.refreshTable();
             this.showToast(
               "info",
               "DELETE successfully",
@@ -500,7 +500,7 @@ export default {
     /**
      * Force the table re-render
      */
-    ForceTableRerender() {
+    forceTableRerender() {
       this.isTableLoading = true;
       // this.tableKey = (this.tableKey + 1) % 100;
       this.tableFlag = !this.tableFlag;

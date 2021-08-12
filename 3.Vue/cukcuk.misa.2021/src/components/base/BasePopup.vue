@@ -29,7 +29,7 @@
           :type="'button-ok'"
           :class="{ [popupType]: [popupType] }"
           tabindex="20"
-          :onclick="HandleOkClick"
+          :onclick="handleOkClick"
           :value="ok"
         ></base-button>
       </div>
@@ -75,7 +75,7 @@ export default {
   },
   mounted() {},
   methods: {
-    HandleOkClick() {
+    handleOkClick() {
       if (this.callback) {
         this.callback();
       } else {

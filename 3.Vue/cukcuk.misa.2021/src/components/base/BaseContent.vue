@@ -12,7 +12,7 @@
         <BaseButtonIcon
           :value="'Thêm ' + entityMap[entityName].toLowerCase()"
           icon="icon-add"
-          :onclick="BtnAddClick"
+          :onclick="btnAddClick"
         ></BaseButtonIcon>
       </div>
 
@@ -35,7 +35,7 @@
           v-for="(f, index) in filterName"
           :key="index"
         ></Combobox>
-        <div class="button-refresh" @click="ForceTableRerender"></div>
+        <div class="button-refresh" @click="refreshTableSelected"></div>
       </div>
 
       <div class="table-wrap">
@@ -44,12 +44,13 @@
           :thead="thead"
           :dataMap="theadMap"
           :api="`https://localhost:44372/api/v1/${entityName}s/${entityName.toLowerCase()}Filter?pageSize=${pageSize}&pageNumber=${pageNumber}&filterString=${
-            searchInput + GetApiFilterQuery()
+            searchInput + getApiFilterQuery()
           }`"
           @dataLoaded="tableDataLoaded"
           @rowDblClick="rowDoubleClick"
           @rowClick="rowSelect"
           :tableKey="tableFlag"
+          :key="tableKey"
           @getPagingInfo="transPagingInfo"
           @showToast="showToast"
         ></Table>
@@ -61,8 +62,8 @@
       </div>
 
       <Paging
-        :pageNumber="this.pageNumber"
-        :pageSize="this.pageSize"
+        :pageNumber="pageNumber"
+        :pageSize="pageSize"
         :totalPage="totalPage"
         :totalRecord="totalRecord"
         :items="pageItems"
@@ -73,13 +74,13 @@
       ></Paging>
     </div>
     <Form
-      :isOpen="this.formStatus"
-      :close="this.closeFormWithoutSave"
+      :isOpen="formStatus"
+      :close="closeFormWithoutSave"
       :mode="formMode"
-      @closeForm="this.closeFormWithoutSave"
-      :detailId="this.entityId"
-      :moreDetail="this.moreDetail"
-      @saveClicked="this.FormSaveButtonClick"
+      @closeForm="closeFormWithoutSave"
+      :detailId="entityId"
+      :moreDetail="moreDetail"
+      @saveClicked="formSaveButtonClick"
       @showToast="showToast"
       @showPopup="showPopup"
     ></Form>
@@ -91,7 +92,7 @@
       :isHide="popup.isHide"
       :popupType="popup.popupType"
       :callback="popup.callback"
-      @closePopup="ClosePopup"
+      @closePopup="closePopup"
     ></Popup>
     <div class="toast-stack">
       <Toast
@@ -159,6 +160,7 @@ export default {
       deleteIdList: [],
       deleteCodeList: [],
       tableFlag: false,
+      tableKey: false,
       // page
       pageSize: 20,
       pageNumber: 0, // = current - 1
@@ -214,11 +216,11 @@ export default {
 
     // khi kích thước trang thay đổi thì render lại bảng
     pageSize: function () {
-      // this.ForceTableRerender();
+      // this.forceTableRerender();
     },
     // chuyển trang => render bảng
     pageNumber: function () {
-      this.ForceTableRerender();
+      this.forceTableRerender();
     },
   },
   methods: {
@@ -233,7 +235,7 @@ export default {
       console.table(Object.assign({}, this.filter));
       console.groupEnd();
 
-      this.ForceTableRerender();
+      this.refreshTableSelected();
     },
 
     /**
@@ -242,7 +244,7 @@ export default {
     onPageSizeChange(size) {
       this.pageSize = size;
       this.pageNumber = 0;
-      this.ForceTableRerender();
+      this.refreshTableSelected();
     },
 
     onPageNumChange(num) {
@@ -280,11 +282,11 @@ export default {
           popupType: "warning",
           okAction: "OK",
           isHide: false,
-          callback: this.ClosePopup,
+          callback: this.closePopup,
         });
       }
     },
-    CloseForm() {
+    closeForm() {
       this.formStatus = false;
       this.popup.isHide = true;
     },
@@ -299,14 +301,14 @@ export default {
         popupType: "warning",
         okAction: "Có",
         isHide: false,
-        callback: this.CloseForm,
+        callback: this.closeForm,
       };
     },
 
     OpenPopup() {
       this.popup.isHide = false;
     },
-    ClosePopup() {
+    closePopup() {
       this.popup.isHide = true;
     },
 
@@ -334,7 +336,7 @@ export default {
      */
     showPopup(options) {
       if (!options.callback) {
-        options.callback = this.ClosePopup;
+        options.callback = this.closePopup;
       }
       this.popup = options;
     },
@@ -342,7 +344,7 @@ export default {
     /**
      * Hiện popup thông báo xác nhận thêm/sửa
      */
-    FormSaveButtonClick(mode, id, detail) {
+    formSaveButtonClick(mode, id, detail) {
       this.popup = {
         title: "Thông báo",
         content: `Bạn có chắc chắn muốn <b>${
@@ -351,7 +353,7 @@ export default {
         popupType: "",
         okAction: "Lưu",
         isHide: false,
-        callback: mode ? this.SendPutRequest : this.SendPostRequest,
+        callback: mode ? this.sendPutRequest : this.sendPostRequest,
       };
       this.entityId = id;
       this.entityDetail = detail;
@@ -360,9 +362,9 @@ export default {
     /**
      * Callback khi bấm nút Lưu trên form, form mode sửa nhân viên
      */
-    SendPutRequest() {
-      this.ClosePopup();
-      this.CloseForm();
+    sendPutRequest() {
+      this.closePopup();
+      this.closeForm();
 
       this.axios
         .put(
@@ -376,7 +378,7 @@ export default {
             `Sửa nhân viên <b>"${this.entityDetail.FullName}"</b> thành công`
           );
 
-          this.ForceTableRerender();
+          this.forceTableRerender();
         })
         .catch(() => {
           this.showToast(
@@ -384,16 +386,16 @@ export default {
             "PUT error",
             `Sửa nhân viên <b>"${this.entityDetail.FullName}"</b> không thành công`
           );
-          this.ClosePopup();
+          this.closePopup();
         });
     },
 
     /**
      * Callback khi bấm nút Lưu trên form, form mode thêm nhân viên
      */
-    SendPostRequest() {
-      this.ClosePopup();
-      this.CloseForm();
+    sendPostRequest() {
+      this.closePopup();
+      this.closeForm();
 
       this.axios
         .post(
@@ -406,7 +408,7 @@ export default {
             "POST success",
             `Thêm nhân viên <b>"${this.entityDetail.FullName}"</b> thành công`
           );
-          this.ForceTableRerender();
+          this.forceTableRerender();
         })
         .catch(() => {
           this.showToast(
@@ -414,7 +416,7 @@ export default {
             "POST error",
             `Thêm nhân viên <b>"${this.entityDetail.FullName}"</b> không thành công`
           );
-          this.ClosePopup();
+          this.closePopup();
         });
     },
 
@@ -429,7 +431,7 @@ export default {
     /**
      * Gọi hàm khi bấm nút Thêm nhân viên/ Thêm Khách hàng
      */
-    BtnAddClick() {
+    btnAddClick() {
       this.OpenForm(0);
     },
 
@@ -477,7 +479,7 @@ export default {
         popupType: "error",
         okAction: "Xóa",
         isHide: false,
-        callback: this.SendDeleteRequests,
+        callback: this.sendDeleteRequests,
       };
       this.OpenPopup();
     },
@@ -485,7 +487,7 @@ export default {
     /**
      * Callback khi bấm OK trong popup, gửi toàn bộ id cần xóa lên 1 request
      */
-    SendDeleteRequests() {
+    sendDeleteRequests() {
       console.table(this.deleteIdList);
       this.axios
         .delete(`https://localhost:44372/api/v1/${this.entityName}s/`, {
@@ -496,8 +498,8 @@ export default {
           this.deleteCodeList = [];
 
           // Đóng popup và làm mới bảng
-          this.ClosePopup();
-          this.ForceTableRerender();
+          this.closePopup();
+          this.forceTableRerender();
 
           // hiển thị toast thông báo đã xóa thành công
           this.showToast("info", "DELETE successfully", res.data.userMsg);
@@ -507,10 +509,18 @@ export default {
         });
     },
 
+    refreshTableSelected(){
+      // this.tableKey = !this.tableKey;
+      localStorage.setItem("select", JSON.stringify([]));
+      this.deleteIdList = [];
+      this.deleteCodeList = [];
+      this.forceTableRerender();
+    },
+
     /**
      * Khiến table phải re-render
      */
-    ForceTableRerender() {
+    forceTableRerender() {
       this.isTableLoading = true;
       this.tableFlag = !this.tableFlag;
     },
@@ -518,7 +528,7 @@ export default {
     /**
      * Lấy thông số filter cho api query
      */
-    GetApiFilterQuery() {
+    getApiFilterQuery() {
       var res = "";
       for (let i = 0; i < this.filterName.length; i++) {
         res += `&${this.filterName[i]}=${this.filter[this.filterName[i]]}`;

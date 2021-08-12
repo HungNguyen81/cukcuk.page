@@ -1,21 +1,14 @@
-tr.select {
-    background-color: blueviolet;
-}
-
-
 /* Table content */
+
 .content-table {
     position: absolute;
     top: 128px;
-    max-height: calc(100vh - 225px - 8px);
+    height: calc(100vh - 225px - 8px);
     background-color: #fff;
     width: calc(100vw - 226px - 32px);
     margin-left: 16px;
-    /* overflow-x: auto;
-    overflow-y: hidden; */
-    z-index: 1;
     overflow: auto;
-
+    z-index: 1;
 }
 
 .table-employee,
@@ -25,8 +18,7 @@ tr.select {
     border-collapse: collapse;
 }
 
-.table-employee th,
-.table-customer th {
+th {
     height: 48px;
     text-align: left;
     padding-left: 10px;
@@ -34,62 +26,54 @@ tr.select {
     white-space: nowrap;
     overflow-x: hidden;
     text-overflow: ellipsis;
+    background-color: #fff;
 }
 
-/* .table-employee tbody tr:nth-child(odd) {
-    background-color: #fafafa;
-} */
-
-.table-employee tbody tr,
-.table-customer tbody tr {
+tbody tr {
     border-top: 1px solid #ccc;
     height: 48px;
     cursor: pointer;
 }
 
-.table-employee tbody tr.selected,
-.table-customer tbody tr.selected {
+tbody tr.selected,
+tbody tr.selected td:first-child {
     background-color: #EBF4FF;
 }
 
-.table-employee tbody tr:hover,
-.table-customer tbody tr:hover {
+tbody tr:hover,
+tbody tr:hover td:first-child {
     background-color: #E9EBEE;
 }
 
-.table-employee tbody tr:active,
-.table-customer tbody tr:active {
+tbody tr:active,
+tbody tr:active td:first-child {
     background-color: #EBF4FF;
 }
 
-.table-employee tbody td,
-.table-customer tbody td {
+tbody td {
     padding-left: 10px;
     overflow-x: hidden;
     text-overflow: ellipsis;
     white-space: nowrap;
 }
 
-table thead,
-table tbody tr {
-    display: table;
-    width: 100%;
-    table-layout: fixed;
-}
-
 table tbody {
-    display: block;
     margin-top: 0;
     padding: 0;
     height: calc(100vh - 277px);
-    /* overflow-y: scroll; */
 }
 
-table thead,
-table tbody tr {
+table thead {
     display: table;
+    position: sticky;
+    top: 0px;
+    z-index: 2;
+}
+
+table tbody tr {
     width: 100%;
     table-layout: fixed;
+    display: table;
 }
 
 .checkbox-container {
@@ -135,7 +119,12 @@ table tbody tr {
 .table-employee tbody td:nth-child(1),
 .table-employee th:nth-child(1) {
     width: 42px;
+    position: sticky;
+    left: 0px;
+    background-color: #fff;
 }
+
+
 
 /* Employee ID */
 .table-employee tbody td:nth-child(2),

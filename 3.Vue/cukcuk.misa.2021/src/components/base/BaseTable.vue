@@ -39,10 +39,13 @@
           </td>
           <td :title="e[cell]" v-for="(cell, k) in dataMap" :key="k">
             <span v-if="cell == 'Salary'">
-              {{ FormatMoneyString(e[cell]) }}</span
+              {{ formatMoneyString(e[cell]) }}</span
             >
             <span v-else-if="cell == 'DateOfBirth'">
-              {{ DateFormat(e[cell], false) }}</span
+              {{ dateFormat(e[cell], false) }}</span
+            >
+            <span v-else-if="cell == 'WorkStatus'">
+              {{ workStatusCode2Text(e[cell]) }}</span
             >
             <span v-else> {{ e[cell] }} </span>
           </td>
@@ -107,11 +110,18 @@ export default {
       }
     });
   },
-  mounted() {},
+  mounted() {
+    // this.buildTableContent();
+    // localStorage.setItem("select", JSON.stringify([]));
+  },
   computed: {},
   watch: {
-    tableKey: function (val) {
-      console.table({"TABLE KEY" : val});
+    tableKey: function () {
+      this.buildTableContent();
+    },
+  },
+  methods: {
+    buildTableContent(){
       if (this.api) {
         console.log(this.api);
         this.axios
@@ -138,8 +148,6 @@ export default {
               );
               this.$emit("dataLoaded");
             }
-
-            localStorage.setItem("select", JSON.stringify([]));
           })
           .catch((err) => {
             console.log(err);
@@ -153,8 +161,10 @@ export default {
           });
       }
     },
-  },
-  methods: {
+
+    /**
+     * Handle khi click chuột vào table row
+     */
     rowClickHandle(e, type) {
       this.$emit("rowClick", e[type + "Id"], e[type + "Code"], e["FullName"]);
       e.isSelected = !e.isSelected;
@@ -175,9 +185,12 @@ export default {
           "select",
           JSON.stringify([].push(e[type + "Code"]))
         );
-      } // console.log(localStorage.getItem("select"));
+      }
     },
 
+    /**
+     * Kiểm tra từng dòng của bảng có được select hay không
+     */
     checkSelected(e) {
       let code = e[this.type + "Code"];
       let stored = localStorage["select"];
@@ -187,6 +200,7 @@ export default {
         return e.isSelected;
       }
     },
+
     selectAll() {
       this.isSelectAll = !this.isSelectAll;
       let list = localStorage.getItem("select");

@@ -109,6 +109,7 @@ export default {
     }
   },
   methods: {
+    
     itemClicked(){
       this.isHide = true;
       this.$emit('filterActive', this.type, this.items[this.current][this.type+'Id']);
@@ -153,6 +154,7 @@ export default {
         }
       }
     },
+
     emptyInput(){
       this.value='';
       this.$emit('filterActive', this.type, '');
