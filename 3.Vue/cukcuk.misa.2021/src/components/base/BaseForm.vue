@@ -28,7 +28,7 @@
             </div>
           </div>
           <div class="input-row">
-            <BaseInput
+            <BaseTextInput
               :valueType="'text'"
               type="input-form"
               inputKey="employee-code"
@@ -38,36 +38,35 @@
               label="Mã nhân viên"
               :required="true"
               :validates="[required]"
-              :renderFlag="isRerender"
+              :rerenderFlag="isRerender"
               @valid="ValidateForm"
             />
-            <BaseInput
+            <BaseTextInput
               :valueType="'text'"
               type="input-form"
               inputKey="fullname"
-              tabindex="2"
+              :tabindex="2"
               v-model="detail.FullName"
               label="Họ và tên"
               :required="true"
               ref="fullName"
               :validates="[required]"
-              :renderFlag="isRerender"
+              :rerenderFlag="isRerender"
               @valid="ValidateForm"
             />
           </div>
           <div class="input-row">
-            <BaseInput
-              :valueType="'date'"
+            <BaseDateInput
               :type="'input-form'"
               inputKey="date-of-birth"
               ref="dateOfBirth"
-              tabindex="3"
-              :renderFlag="isRerender"
+              :tabindex="3"
               v-model="detail.DateOfBirth"
               :label="'Ngày sinh'"
-              @dateChange="dateChange"
-              @valid="ValidateForm"
               :validates="[date]"
+              :rerenderFlag="isRerender"
+              @valid="ValidateForm"
+              @dateChange="dateChange"
             />
             <div class="input-field">
               <div class="input-label">Giới tính</div>
@@ -82,74 +81,75 @@
                 :displayId="'gender'"
                 :value="detail.GenderName"
                 :typeData="'GenderName'"
-                tabindex="4"
+                :tabindex="4"
                 v-if="isDataLoaded"
                 @itemChange="dropDataChange"
               ></BaseDropdown>
             </div>
           </div>
           <div class="input-row">
-            <BaseInput
+            <BaseTextInput
               :valueType="'text'"
               type="input-form"
               inputKey="identity-number"
-              tabindex="5"
+              :tabindex="5"
               v-model="detail.IdentityNumber"
               :label="'Số CMTND/ Căn cước'"
               :validates="[required]"
               :required="true"
+              :rerenderFlag="isRerender"
               ref="identityNumber"
-              :renderFlag="isRerender"
               @valid="ValidateForm"
             />
-            <BaseInput
-              :valueType="'date'"
+            <BaseDateInput
               type="input-form"
               inputKey="identity-date"
               ref="identityDate"
-              tabindex="6"
+              :tabindex="6"
               v-model="detail.IdentityDate"
               :label="'Ngày cấp'"
               :validates="[date]"
+              :rerenderFlag="isRerender"
               @dateChange="dateChange"
               @valid="ValidateForm"
             />
           </div>
           <div class="input-row">
-            <BaseInput
+            <BaseTextInput
               :valueType="'text'"
               type="input-form"
               id="identity-place"
-              tabindex="7"
+              :tabindex="7"
               v-model="detail.IdentityPlace"
               :label="'Nơi cấp'"
+              :rerenderFlag="isRerender"
             />
           </div>
           <div class="input-row">
-            <BaseInput
+            <BaseTextInput
               :valueType="'text'"
               type="input-form"
               inputKey="email"
-              tabindex="8"
+              :tabindex="8"
               v-model="detail.Email"
               :label="'Email'"
               :validates="[required, email]"
-              :renderFlag="isRerender"
               ref="email"
               :required="true"
+              :rerenderFlag="isRerender"
               @valid="ValidateForm"
             />
-            <BaseInput
+            <BaseTextInput
               :valueType="'text'"
               type="input-form"
               inputKey="phone-number"
-              tabindex="9"
+              :tabindex="9"
               v-model="detail.PhoneNumber"
               :label="'Số điện thoại'"
               :validates="[required, phone]"
-              :renderFlag="isRerender"
               ref="phoneNumber"
               :required="true"
+              :rerenderFlag="isRerender"
               @valid="ValidateForm"
             />
           </div>
@@ -167,7 +167,7 @@
                 :type="'form-dropdown'"
                 :typeData="'PositionName'"
                 :displayId="'position-name'"
-                tabindex="10"
+                :tabindex="10"
                 :value="detail.PositionName"
                 id="form-positions"
                 :api="'https://localhost:44372/api/Positions'"
@@ -183,7 +183,7 @@
                 :type="'form-dropdown'"
                 :typeData="'DepartmentName'"
                 :displayId="'department-name'"
-                tabindex="11"
+                :tabindex="11"
                 :value="detail.DepartmentName"
                 id="form-departments"
                 :api="'https://localhost:44372/api/Departments'"
@@ -193,36 +193,38 @@
             </div>
           </div>
           <div class="input-row">
-            <BaseInput
+            <BaseTextInput
               :valueType="'text'"
               type="input-form"
-              id="tax-code"
-              tabindex="12"
+              inputKey="tax-code"
+              :tabindex="12"
               v-model="detail.PersonalTaxCode"
+              :rerenderFlag="isRerender"
               :label="'Mã số thuế cá nhân'"
             />
-            <BaseInput
+            <BaseTextInput
               :valueType="'tel'"
               :type="'input-form input-salary'"
-              id="salary"
+              inputKey="salary"
               :tabindex="13"
               v-model="detail.Salary"
               :label="'Mức lương cơ bản'"
+              :rerenderFlag="isRerender"
               @input="formatSalaryOnInput"
               ref="salary"
             />
             <div class="money-unit">(VNĐ)</div>
           </div>
           <div class="input-row">
-            <BaseInput
-              :valueType="'date'"
+            <BaseDateInput
               type="input-form"
               inputKey="join-date"
               ref="joinDate"
-              tabindex="14"
+              :tabindex="14"
               v-model="detail.JoinDate"
               :label="'Ngày gia nhập công ty'"
               :validates="[date]"
+              :rerenderFlag="isRerender"
               @dateChange="dateChange"
               @valid="ValidateForm"
             />
@@ -239,7 +241,7 @@
                 :typeData="'WorkStatus'"
                 :displayId="'work-status'"
                 :value="String(detail.WorkStatus)"
-                tabindex="15"
+                :tabindex="15"
                 v-if="isDataLoaded"
                 @itemChange="dropDataChange"
               ></BaseDropdown>
@@ -272,14 +274,18 @@ import ultis from "../../mixins/ultis";
 import validate from "../../mixins/validate";
 import BaseButtonIcon from "../base/BaseButtonIcon.vue";
 import BaseDropdown from "../base/BaseDropdown.vue";
-import BaseInput from "../base/BaseInput.vue";
+// import BaseInput from "../base/BaseInput.vue";
+import BaseTextInput from "../base/BaseTextInput.vue";
+import BaseDateInput from "../base/BaseDateInput.vue";
 
 export default {
   name: "Form",
   components: {
     BaseButtonIcon,
     BaseDropdown,
-    BaseInput,
+    // BaseInput,
+    BaseTextInput,
+    BaseDateInput
   },
   mixins: [ultis, validate],
   props: {
@@ -372,7 +378,7 @@ export default {
             .get(`https://localhost:44372/api/Employees/${this.detailId}`)
             .then((res) => {
               this.detail = Object.assign({}, res.data);
-              console.log(this.detail);
+              
               this.FormatData();
               this.$set(
                 this.detail,
@@ -416,7 +422,7 @@ export default {
      * Handle mỗi khi date input value thay đổi
      */
     dateChange(key, val, input, formatedVal) {
-      console.log(key, val, input);
+      // console.log(key, val, input);
       let keyName = this.dateMap[key];
       let oldVal = this.detail[keyName];
       if (oldVal != val && val) {
@@ -470,7 +476,9 @@ export default {
       Object.keys(this.validate).forEach((key) => {
         res = res && this.validate[key];
       });
+      console.groupCollapsed("Validate info")
       console.table(JSON.parse(JSON.stringify(this.validate)));
+      console.groupEnd();
       return res;
     },
 
@@ -521,8 +529,7 @@ export default {
     /**
      * Handle khi click nút lưu
      */
-    BtnSaveClick() {
-      console.log("save", this.detail);
+    BtnSaveClick() {      
 
       for(let ref of this.validateRefs){
         this.$refs[ref].inputValidate();
@@ -539,7 +546,7 @@ export default {
         });
         return;
       }
-      console.log("EMIT");
+      // console.log("EMIT");
       this.$emit("saveClicked", this.mode, this.detailId, this.GetRawData());
     },
 

@@ -111,7 +111,7 @@ export default {
   computed: {},
   watch: {
     tableKey: function (val) {
-      console.log("KEY:", val);
+      console.table({"TABLE KEY" : val});
       if (this.api) {
         console.log(this.api);
         this.axios

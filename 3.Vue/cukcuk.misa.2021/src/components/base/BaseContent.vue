@@ -39,7 +39,6 @@
       </div>
 
       <div class="table-wrap">
-      <!-- <keep-alive> -->
         <Table
           :type="entityName"
           :thead="thead"
@@ -54,7 +53,6 @@
           @getPagingInfo="transPagingInfo"
           @showToast="showToast"
         ></Table>
-      <!-- </keep-alive> -->
         <div id="loader" :class="{ hide: !isTableLoading }">
           <div class="spinner-wrapper">
             <div class="spinner"></div>
@@ -230,7 +228,11 @@ export default {
     activeFilter(type, id) {
       // this.filter[type + "Id"] = id;
       this.$set(this.filter, type + "Id", id);
-      console.log("filter:", this.filter);
+
+      console.groupCollapsed("Filters");
+      console.table(Object.assign({}, this.filter));
+      console.groupEnd();
+
       this.ForceTableRerender();
     },
 
@@ -533,12 +535,14 @@ export default {
       this.tableFlag = !this.tableFlag;
     },
 
+    /**
+     * Lấy thông số filter cho api query
+     */
     GetApiFilterQuery() {
       var res = "";
       for (let i = 0; i < this.filterName.length; i++) {
         res += `&${this.filterName[i]}=${this.filter[this.filterName[i]]}`;
-      }
-      console.log("filter:", res);
+      }      
       return res;
     },
   },
