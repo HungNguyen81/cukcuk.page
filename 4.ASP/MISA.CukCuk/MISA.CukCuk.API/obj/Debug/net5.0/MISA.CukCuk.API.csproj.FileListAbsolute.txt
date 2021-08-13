@@ -31,3 +31,7 @@ D:\0. Subjects\20203\MISA fresher Trainning - GĐ1\Trainning\Buổi 1 - 13.07.20
 D:\0. Subjects\20203\MISA fresher Trainning - GĐ1\Trainning\Buổi 1 - 13.07.2021\Bài tập\cukcuk.page\4.ASP\MISA.CukCuk\MISA.CukCuk.API\bin\Debug\net5.0\MySqlConnector.dll
 D:\0. Subjects\20203\MISA fresher Trainning - GĐ1\Trainning\Buổi 1 - 13.07.2021\Bài tập\cukcuk.page\4.ASP\MISA.CukCuk\MISA.CukCuk.API\obj\Debug\net5.0\MISA.CukCuk.API.Properties.Resources.resources
 D:\0. Subjects\20203\MISA fresher Trainning - GĐ1\Trainning\Buổi 1 - 13.07.2021\Bài tập\cukcuk.page\4.ASP\MISA.CukCuk\MISA.CukCuk.API\obj\Debug\net5.0\MISA.CukCuk.API.csproj.GenerateResource.cache
+D:\0. Subjects\20203\MISA fresher Trainning - GĐ1\Trainning\Buổi 1 - 13.07.2021\Bài tập\cukcuk.page\4.ASP\MISA.CukCuk\MISA.CukCuk.API\bin\Debug\net5.0\MISA.CukCuk.Core.dll
+D:\0. Subjects\20203\MISA fresher Trainning - GĐ1\Trainning\Buổi 1 - 13.07.2021\Bài tập\cukcuk.page\4.ASP\MISA.CukCuk\MISA.CukCuk.API\bin\Debug\net5.0\MISA.CukCuk.Infrastructure.dll
+D:\0. Subjects\20203\MISA fresher Trainning - GĐ1\Trainning\Buổi 1 - 13.07.2021\Bài tập\cukcuk.page\4.ASP\MISA.CukCuk\MISA.CukCuk.API\bin\Debug\net5.0\MISA.CukCuk.Core.pdb
+D:\0. Subjects\20203\MISA fresher Trainning - GĐ1\Trainning\Buổi 1 - 13.07.2021\Bài tập\cukcuk.page\4.ASP\MISA.CukCuk\MISA.CukCuk.API\bin\Debug\net5.0\MISA.CukCuk.Infrastructure.pdb

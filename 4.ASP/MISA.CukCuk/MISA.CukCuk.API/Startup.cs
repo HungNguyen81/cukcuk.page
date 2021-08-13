@@ -7,6 +7,10 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using Microsoft.OpenApi.Models;
+using MISA.CukCuk.Core.Interfaces.Repositiories;
+using MISA.CukCuk.Core.Interfaces.Services;
+using MISA.CukCuk.Core.Services;
+using MISA.CukCuk.Infrastructure.Repository;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -36,20 +40,14 @@ namespace MISA.CukCuk.API
             {
                 jsonOptions.JsonSerializerOptions.PropertyNamingPolicy = null;
             });
-            //services.AddCors(options =>
-            //{
-            //    options.AddPolicy("VueCorsPolicy", builder =>
-            //    {
-            //        builder
-            //          .AllowAnyHeader()
-            //          .AllowAnyMethod()
-            //          .AllowCredentials()
-            //          .AllowAnyOrigin();
-            //    });
-            //});
             services.AddCors();
+
+            services.AddScoped<ICustomerService, CustomerService>();
+            services.AddScoped<ICustomerRepository, CustomerRepository>();
+
+            services.AddScoped<IEmployeeService, EmployeeService>();
+            services.AddScoped<IEmployeeRepository, EmployeeRepository>();
         }
-        //.WithOrigins("http://localhost:8080");
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)

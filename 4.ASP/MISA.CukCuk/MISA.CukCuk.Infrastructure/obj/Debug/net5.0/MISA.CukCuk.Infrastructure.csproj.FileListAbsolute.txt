@@ -1,0 +1,15 @@
+D:\0. Subjects\20203\MISA fresher Trainning - GĐ1\Trainning\Buổi 1 - 13.07.2021\Bài tập\cukcuk.page\4.ASP\MISA.CukCuk\MISA.CukCuk.Infrastructure\bin\Debug\net5.0\MISA.CukCuk.Core.dll
+D:\0. Subjects\20203\MISA fresher Trainning - GĐ1\Trainning\Buổi 1 - 13.07.2021\Bài tập\cukcuk.page\4.ASP\MISA.CukCuk\MISA.CukCuk.Infrastructure\obj\Debug\net5.0\MISA.CukCuk.Infrastructure.csprojAssemblyReference.cache
+D:\0. Subjects\20203\MISA fresher Trainning - GĐ1\Trainning\Buổi 1 - 13.07.2021\Bài tập\cukcuk.page\4.ASP\MISA.CukCuk\MISA.CukCuk.Infrastructure\obj\Debug\net5.0\MISA.CukCuk.Infrastructure.GeneratedMSBuildEditorConfig.editorconfig
+D:\0. Subjects\20203\MISA fresher Trainning - GĐ1\Trainning\Buổi 1 - 13.07.2021\Bài tập\cukcuk.page\4.ASP\MISA.CukCuk\MISA.CukCuk.Infrastructure\obj\Debug\net5.0\MISA.CukCuk.Infrastructure.AssemblyInfoInputs.cache
+D:\0. Subjects\20203\MISA fresher Trainning - GĐ1\Trainning\Buổi 1 - 13.07.2021\Bài tập\cukcuk.page\4.ASP\MISA.CukCuk\MISA.CukCuk.Infrastructure\obj\Debug\net5.0\MISA.CukCuk.Infrastructure.AssemblyInfo.cs
+D:\0. Subjects\20203\MISA fresher Trainning - GĐ1\Trainning\Buổi 1 - 13.07.2021\Bài tập\cukcuk.page\4.ASP\MISA.CukCuk\MISA.CukCuk.Infrastructure\bin\Debug\net5.0\MISA.CukCuk.Infrastructure.deps.json
+D:\0. Subjects\20203\MISA fresher Trainning - GĐ1\Trainning\Buổi 1 - 13.07.2021\Bài tập\cukcuk.page\4.ASP\MISA.CukCuk\MISA.CukCuk.Infrastructure\bin\Debug\net5.0\MISA.CukCuk.Infrastructure.dll
+D:\0. Subjects\20203\MISA fresher Trainning - GĐ1\Trainning\Buổi 1 - 13.07.2021\Bài tập\cukcuk.page\4.ASP\MISA.CukCuk\MISA.CukCuk.Infrastructure\bin\Debug\net5.0\ref\MISA.CukCuk.Infrastructure.dll
+D:\0. Subjects\20203\MISA fresher Trainning - GĐ1\Trainning\Buổi 1 - 13.07.2021\Bài tập\cukcuk.page\4.ASP\MISA.CukCuk\MISA.CukCuk.Infrastructure\bin\Debug\net5.0\MISA.CukCuk.Infrastructure.pdb
+D:\0. Subjects\20203\MISA fresher Trainning - GĐ1\Trainning\Buổi 1 - 13.07.2021\Bài tập\cukcuk.page\4.ASP\MISA.CukCuk\MISA.CukCuk.Infrastructure\bin\Debug\net5.0\MISA.CukCuk.Core.pdb
+D:\0. Subjects\20203\MISA fresher Trainning - GĐ1\Trainning\Buổi 1 - 13.07.2021\Bài tập\cukcuk.page\4.ASP\MISA.CukCuk\MISA.CukCuk.Infrastructure\obj\Debug\net5.0\MISA.CukCuk.Infrastructure.csproj.CoreCompileInputs.cache
+D:\0. Subjects\20203\MISA fresher Trainning - GĐ1\Trainning\Buổi 1 - 13.07.2021\Bài tập\cukcuk.page\4.ASP\MISA.CukCuk\MISA.CukCuk.Infrastructure\obj\Debug\net5.0\MISA.CukCuk.Infrastructure.csproj.CopyComplete
+D:\0. Subjects\20203\MISA fresher Trainning - GĐ1\Trainning\Buổi 1 - 13.07.2021\Bài tập\cukcuk.page\4.ASP\MISA.CukCuk\MISA.CukCuk.Infrastructure\obj\Debug\net5.0\MISA.CukCuk.Infrastructure.dll
+D:\0. Subjects\20203\MISA fresher Trainning - GĐ1\Trainning\Buổi 1 - 13.07.2021\Bài tập\cukcuk.page\4.ASP\MISA.CukCuk\MISA.CukCuk.Infrastructure\obj\Debug\net5.0\ref\MISA.CukCuk.Infrastructure.dll
+D:\0. Subjects\20203\MISA fresher Trainning - GĐ1\Trainning\Buổi 1 - 13.07.2021\Bài tập\cukcuk.page\4.ASP\MISA.CukCuk\MISA.CukCuk.Infrastructure\obj\Debug\net5.0\MISA.CukCuk.Infrastructure.pdb

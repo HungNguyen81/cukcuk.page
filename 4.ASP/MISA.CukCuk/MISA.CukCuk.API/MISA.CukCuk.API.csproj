@@ -15,6 +15,11 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\MISA.CukCuk.Core\MISA.CukCuk.Core.csproj" />
+    <ProjectReference Include="..\MISA.CukCuk.Infrastructure\MISA.CukCuk.Infrastructure.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
     <Compile Update="Properties\Resources.Designer.cs">
       <DesignTime>True</DesignTime>
       <AutoGen>True</AutoGen>

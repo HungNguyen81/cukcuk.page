@@ -34,6 +34,8 @@
       "MISA.CukCuk.API/1.0.0": {
         "dependencies": {
           "Dapper": "2.0.90",
+          "MISA.CukCuk.Core": "1.0.0",
+          "MISA.CukCuk.Infrastructure": "1.0.0",
           "MySqlConnector": "1.4.0-beta.1",
           "Swashbuckle.AspNetCore": "5.6.3",
           "Microsoft.AspNetCore.Antiforgery": "5.0.0.0",
@@ -406,6 +408,27 @@
         },
         "compile": {
           "lib/netcoreapp3.0/Swashbuckle.AspNetCore.SwaggerUI.dll": {}
+        }
+      },
+      "MISA.CukCuk.Core/1.0.0": {
+        "runtime": {
+          "MISA.CukCuk.Core.dll": {}
+        },
+        "compile": {
+          "MISA.CukCuk.Core.dll": {}
+        }
+      },
+      "MISA.CukCuk.Infrastructure/1.0.0": {
+        "dependencies": {
+          "Dapper": "2.0.90",
+          "MISA.CukCuk.Core": "1.0.0",
+          "MySqlConnector": "1.4.0-beta.1"
+        },
+        "runtime": {
+          "MISA.CukCuk.Infrastructure.dll": {}
+        },
+        "compile": {
+          "MISA.CukCuk.Infrastructure.dll": {}
         }
       },
       "Microsoft.AspNetCore.Antiforgery/5.0.0.0": {
@@ -2169,6 +2192,16 @@
       "sha512": "sha512-BPvcPxQRMsYZ3HnYmGKRWDwX4Wo29WHh14Q6B10BB8Yfbbcza+agOC2UrBFA1EuaZuOsFLbp6E2+mqVNF/Je8A==",
       "path": "swashbuckle.aspnetcore.swaggerui/5.6.3",
       "hashPath": "swashbuckle.aspnetcore.swaggerui.5.6.3.nupkg.sha512"
+    },
+    "MISA.CukCuk.Core/1.0.0": {
+      "type": "project",
+      "serviceable": false,
+      "sha512": ""
+    },
+    "MISA.CukCuk.Infrastructure/1.0.0": {
+      "type": "project",
+      "serviceable": false,
+      "sha512": ""
     },
     "Microsoft.AspNetCore.Antiforgery/5.0.0.0": {
       "type": "referenceassembly",

@@ -1,0 +1,14 @@
+D:\0. Subjects\20203\MISA fresher Trainning - GĐ1\Trainning\Buổi 1 - 13.07.2021\Bài tập\cukcuk.page\4.ASP\MISA.CukCuk\MISA.CukCuk.Core\bin\Debug\net5.0\MISA.CukCuk.Core.deps.json
+D:\0. Subjects\20203\MISA fresher Trainning - GĐ1\Trainning\Buổi 1 - 13.07.2021\Bài tập\cukcuk.page\4.ASP\MISA.CukCuk\MISA.CukCuk.Core\bin\Debug\net5.0\MISA.CukCuk.Core.dll
+D:\0. Subjects\20203\MISA fresher Trainning - GĐ1\Trainning\Buổi 1 - 13.07.2021\Bài tập\cukcuk.page\4.ASP\MISA.CukCuk\MISA.CukCuk.Core\bin\Debug\net5.0\ref\MISA.CukCuk.Core.dll
+D:\0. Subjects\20203\MISA fresher Trainning - GĐ1\Trainning\Buổi 1 - 13.07.2021\Bài tập\cukcuk.page\4.ASP\MISA.CukCuk\MISA.CukCuk.Core\bin\Debug\net5.0\MISA.CukCuk.Core.pdb
+D:\0. Subjects\20203\MISA fresher Trainning - GĐ1\Trainning\Buổi 1 - 13.07.2021\Bài tập\cukcuk.page\4.ASP\MISA.CukCuk\MISA.CukCuk.Core\obj\Debug\net5.0\MISA.CukCuk.Core.csprojAssemblyReference.cache
+D:\0. Subjects\20203\MISA fresher Trainning - GĐ1\Trainning\Buổi 1 - 13.07.2021\Bài tập\cukcuk.page\4.ASP\MISA.CukCuk\MISA.CukCuk.Core\obj\Debug\net5.0\MISA.CukCuk.Core.Resource.ResourceVN.resources
+D:\0. Subjects\20203\MISA fresher Trainning - GĐ1\Trainning\Buổi 1 - 13.07.2021\Bài tập\cukcuk.page\4.ASP\MISA.CukCuk\MISA.CukCuk.Core\obj\Debug\net5.0\MISA.CukCuk.Core.csproj.GenerateResource.cache
+D:\0. Subjects\20203\MISA fresher Trainning - GĐ1\Trainning\Buổi 1 - 13.07.2021\Bài tập\cukcuk.page\4.ASP\MISA.CukCuk\MISA.CukCuk.Core\obj\Debug\net5.0\MISA.CukCuk.Core.GeneratedMSBuildEditorConfig.editorconfig
+D:\0. Subjects\20203\MISA fresher Trainning - GĐ1\Trainning\Buổi 1 - 13.07.2021\Bài tập\cukcuk.page\4.ASP\MISA.CukCuk\MISA.CukCuk.Core\obj\Debug\net5.0\MISA.CukCuk.Core.AssemblyInfoInputs.cache
+D:\0. Subjects\20203\MISA fresher Trainning - GĐ1\Trainning\Buổi 1 - 13.07.2021\Bài tập\cukcuk.page\4.ASP\MISA.CukCuk\MISA.CukCuk.Core\obj\Debug\net5.0\MISA.CukCuk.Core.AssemblyInfo.cs
+D:\0. Subjects\20203\MISA fresher Trainning - GĐ1\Trainning\Buổi 1 - 13.07.2021\Bài tập\cukcuk.page\4.ASP\MISA.CukCuk\MISA.CukCuk.Core\obj\Debug\net5.0\MISA.CukCuk.Core.csproj.CoreCompileInputs.cache
+D:\0. Subjects\20203\MISA fresher Trainning - GĐ1\Trainning\Buổi 1 - 13.07.2021\Bài tập\cukcuk.page\4.ASP\MISA.CukCuk\MISA.CukCuk.Core\obj\Debug\net5.0\MISA.CukCuk.Core.dll
+D:\0. Subjects\20203\MISA fresher Trainning - GĐ1\Trainning\Buổi 1 - 13.07.2021\Bài tập\cukcuk.page\4.ASP\MISA.CukCuk\MISA.CukCuk.Core\obj\Debug\net5.0\ref\MISA.CukCuk.Core.dll
+D:\0. Subjects\20203\MISA fresher Trainning - GĐ1\Trainning\Buổi 1 - 13.07.2021\Bài tập\cukcuk.page\4.ASP\MISA.CukCuk\MISA.CukCuk.Core\obj\Debug\net5.0\MISA.CukCuk.Core.pdb

@@ -93,6 +93,31 @@
         "frameworkReferences": [
           "Microsoft.AspNetCore.App"
         ]
+      },
+      "MISA.CukCuk.Core/1.0.0": {
+        "type": "project",
+        "framework": ".NETCoreApp,Version=v5.0",
+        "compile": {
+          "bin/placeholder/MISA.CukCuk.Core.dll": {}
+        },
+        "runtime": {
+          "bin/placeholder/MISA.CukCuk.Core.dll": {}
+        }
+      },
+      "MISA.CukCuk.Infrastructure/1.0.0": {
+        "type": "project",
+        "framework": ".NETCoreApp,Version=v5.0",
+        "dependencies": {
+          "Dapper": "2.0.90",
+          "MISA.CukCuk.Core": "1.0.0",
+          "MySqlConnector": "1.4.0-beta.1"
+        },
+        "compile": {
+          "bin/placeholder/MISA.CukCuk.Infrastructure.dll": {}
+        },
+        "runtime": {
+          "bin/placeholder/MISA.CukCuk.Infrastructure.dll": {}
+        }
       }
     }
   },
@@ -254,11 +279,23 @@
         "swashbuckle.aspnetcore.swaggerui.5.6.3.nupkg.sha512",
         "swashbuckle.aspnetcore.swaggerui.nuspec"
       ]
+    },
+    "MISA.CukCuk.Core/1.0.0": {
+      "type": "project",
+      "path": "../MISA.CukCuk.Core/MISA.CukCuk.Core.csproj",
+      "msbuildProject": "../MISA.CukCuk.Core/MISA.CukCuk.Core.csproj"
+    },
+    "MISA.CukCuk.Infrastructure/1.0.0": {
+      "type": "project",
+      "path": "../MISA.CukCuk.Infrastructure/MISA.CukCuk.Infrastructure.csproj",
+      "msbuildProject": "../MISA.CukCuk.Infrastructure/MISA.CukCuk.Infrastructure.csproj"
     }
   },
   "projectFileDependencyGroups": {
     "net5.0": [
       "Dapper >= 2.0.90",
+      "MISA.CukCuk.Core >= 1.0.0",
+      "MISA.CukCuk.Infrastructure >= 1.0.0",
       "MySqlConnector >= 1.4.0-beta.1",
       "Swashbuckle.AspNetCore >= 5.6.3"
     ]
@@ -294,7 +331,14 @@
       "frameworks": {
         "net5.0": {
           "targetAlias": "net5.0",
-          "projectReferences": {}
+          "projectReferences": {
+            "D:\\0. Subjects\\20203\\MISA fresher Trainning - GĐ1\\Trainning\\Buổi 1 - 13.07.2021\\Bài tập\\cukcuk.page\\4.ASP\\MISA.CukCuk\\MISA.CukCuk.Core\\MISA.CukCuk.Core.csproj": {
+              "projectPath": "D:\\0. Subjects\\20203\\MISA fresher Trainning - GĐ1\\Trainning\\Buổi 1 - 13.07.2021\\Bài tập\\cukcuk.page\\4.ASP\\MISA.CukCuk\\MISA.CukCuk.Core\\MISA.CukCuk.Core.csproj"
+            },
+            "D:\\0. Subjects\\20203\\MISA fresher Trainning - GĐ1\\Trainning\\Buổi 1 - 13.07.2021\\Bài tập\\cukcuk.page\\4.ASP\\MISA.CukCuk\\MISA.CukCuk.Infrastructure\\MISA.CukCuk.Infrastructure.csproj": {
+              "projectPath": "D:\\0. Subjects\\20203\\MISA fresher Trainning - GĐ1\\Trainning\\Buổi 1 - 13.07.2021\\Bài tập\\cukcuk.page\\4.ASP\\MISA.CukCuk\\MISA.CukCuk.Infrastructure\\MISA.CukCuk.Infrastructure.csproj"
+            }
+          }
         }
       },
       "warningProperties": {

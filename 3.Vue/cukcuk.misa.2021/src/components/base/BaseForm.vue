@@ -378,6 +378,8 @@ export default {
             .get(`https://localhost:44372/api/v1/Employees/${this.detailId}`)
             .then((res) => {
               this.detail = Object.assign({}, res.data);
+
+              console.table(res.data)
               
               this.formatData();
               this.$set(
@@ -400,18 +402,17 @@ export default {
           this.axios
             .get("https://localhost:44372/api/v1/Employees/NewEmployeeCode")
             .then((res) => {
-              this.$refs.employeeCode.$el.value = res.data.userMsg;
-              if(!res.data.userMsg){
+              let newCode = res.data.Data;
+              this.$refs.employeeCode.$el.value = newCode;
+              if(!newCode){
                 this.$emit("showToast","error", "GET error", `Không thể lấy mã nhân viên mới !`);
               }
-              this.$set(this.detail, "EmployeeCode", res.data.userMsg);
+              this.$set(this.detail, "EmployeeCode", newCode);
             })
             .catch(() => {
               this.$emit("showToast","error", "GET error", `Không thể lấy mã nhân viên mới !`);
               let newCode = `NV${Math.round(Math.random() * 100000)}`;
               this.$refs.employeeCode.$el.value = newCode;
-
-              // Thay đổi giá trị bằng phép gán làm mất tính reactivity của component
               this.$set(this.detail, "EmployeeCode", newCode);
             });
         }

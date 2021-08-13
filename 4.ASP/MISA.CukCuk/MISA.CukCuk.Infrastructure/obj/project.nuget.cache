@@ -1,0 +1,11 @@
+{
+  "version": 2,
+  "dgSpecHash": "yIjSqsVg4elFxNLAAk5JYo2yVkZFoeCxrHPYiPw1qNjPgNGS9xsSfVHASNTr/RNuLLnmoiLCzAJVwnhhCLZWMg==",
+  "success": true,
+  "projectFilePath": "D:\\0. Subjects\\20203\\MISA fresher Trainning - GĐ1\\Trainning\\Buổi 1 - 13.07.2021\\Bài tập\\cukcuk.page\\4.ASP\\MISA.CukCuk\\MISA.CukCuk.Infrastructure\\MISA.CukCuk.Infrastructure.csproj",
+  "expectedPackageFiles": [
+    "C:\\Users\\nguye\\.nuget\\packages\\dapper\\2.0.90\\dapper.2.0.90.nupkg.sha512",
+    "C:\\Users\\nguye\\.nuget\\packages\\mysqlconnector\\1.4.0-beta.1\\mysqlconnector.1.4.0-beta.1.nupkg.sha512"
+  ],
+  "logs": []
+}
