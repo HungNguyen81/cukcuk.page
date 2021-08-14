@@ -1,21 +1,22 @@
 ﻿using MISA.CukCuk.Core.Entities;
 using System;
+using System.Collections.Generic;
 
-namespace MISA.CukCuk.Core.Interfaces.Services
+namespace MISA.CukCuk.Core.Interfaces.Repositiories
 {
-    public interface IPositionService
+    public interface IPositionRepository
     {
         /// <summary>
-        /// Lấy toàn bộ 
+        /// Lấy toàn bộ
         /// </summary>
         /// <returns></returns>
-        ServiceResult Get();
+        List<object> Get();
 
         /// <summary>
         /// Lấy theo id
         /// </summary>
         /// <param name="positionId"></param>
         /// <returns></returns>
-        ServiceResult GetById(Guid positionId);
+        Position GetById(Guid positionId);
     }
 }

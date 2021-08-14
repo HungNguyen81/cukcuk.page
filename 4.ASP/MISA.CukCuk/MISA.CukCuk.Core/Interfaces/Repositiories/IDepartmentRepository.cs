@@ -1,21 +1,22 @@
 ﻿using MISA.CukCuk.Core.Entities;
 using System;
+using System.Collections.Generic;
 
-namespace MISA.CukCuk.Core.Interfaces.Services
+namespace MISA.CukCuk.Core.Interfaces.Repositiories
 {
-    public interface IDepartmentService
+    public interface IDepartmentRepository
     {
         /// <summary>
-        /// Lấy toàn bộ 
+        /// Lấy toàn bộ
         /// </summary>
         /// <returns></returns>
-        ServiceResult Get();
+        List<object> Get();
 
         /// <summary>
         /// Lấy theo id
         /// </summary>
         /// <param name="departmentId"></param>
         /// <returns></returns>
-        ServiceResult GetById(Guid departmentId);
+        Department GetById(Guid departmentId);
     }
 }

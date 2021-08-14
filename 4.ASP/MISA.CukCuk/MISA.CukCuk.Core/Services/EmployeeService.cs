@@ -5,9 +5,6 @@ using MISA.CukCuk.Core.Interfaces.Services;
 using MISA.CukCuk.Core.Resource;
 using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace MISA.CukCuk.Core.Services
 {

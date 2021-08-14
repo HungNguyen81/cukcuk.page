@@ -1,11 +1,7 @@
-﻿using Dapper;
-using Microsoft.AspNetCore.Mvc;
-using Microsoft.Extensions.Configuration;
+﻿using Microsoft.AspNetCore.Mvc;
 using MISA.CukCuk.Core.Entities;
-using MySqlConnector;
+using MISA.CukCuk.Core.Interfaces.Services;
 using System;
-using System.Collections.Generic;
-using System.Data;
 
 namespace MISA.CukCuk.API.Controllers
 {
@@ -15,22 +11,17 @@ namespace MISA.CukCuk.API.Controllers
     {
         #region Fields
 
-        private readonly IConfiguration _config;
+        private readonly ICustomerGroupService _customerGroupService;
 
-        private readonly string _connectionString;
-
-        private readonly IDbConnection _dbConnection;
+        private ServiceResult _serviceResult;
 
         #endregion
 
         #region Constructors
 
-        public CustomerGroupsController(IConfiguration config)
+        public CustomerGroupsController(ICustomerGroupService customerGroupService)
         {
-            // Khởi tạo thông tin kết nối đến db
-            _config = config;
-            _connectionString = config.GetValue<string>("ConnectionString:CukCuk");
-            _dbConnection = new MySqlConnection(_connectionString);
+            _customerGroupService = customerGroupService;
         }
 
         #endregion
@@ -44,23 +35,17 @@ namespace MISA.CukCuk.API.Controllers
         [HttpGet]
         public IActionResult GetAllCustomerGroup()
         {            
-            var sqlQuery = "SELECT * FROM CustomerGroup";
-
             try
             {
-                var customerGroups = _dbConnection.Query<CustomerGroup>(sqlQuery);
+                _serviceResult = _customerGroupService.Get();
 
-                if (customerGroups == null)
+                if (!_serviceResult.IsValid)
                 {
-                    var response = new
-                    {
-                        userMsg = Properties.Resources.MISANoContentMsg,
-                    };
-
-                    return StatusCode(204, response);
+                    _serviceResult.Msg = Properties.Resources.MISANoContentMsg;               
+                    return StatusCode(200, _serviceResult);
                 }
 
-                return StatusCode(200, customerGroups);
+                return StatusCode(200, _serviceResult.Data);
             }
             catch (Exception e)
             {
@@ -81,30 +66,21 @@ namespace MISA.CukCuk.API.Controllers
         /// <param name="customerGroupId">id nhóm khách hàng trong db</param>
         /// <returns></returns>
         [HttpGet("{CustomerGroupId}")]
-        public IActionResult GetCustomerGroupById(string customerGroupId)
+        public IActionResult GetCustomerGroupById(Guid customerGroupId)
         {
-            // Lấy dữ liệu từ db
-            var paramName = "CustomerGroupId";
-            var sqlQuery = $"SELECT * FROM CustomerGroup WHERE CustomerGroupId = @{paramName}";
-
-            var parameters = new DynamicParameters();
-            parameters.Add($"@{paramName}", customerGroupId);
-
+            
             // Phản hồi lại cho client
             try
             {
-                var customerGroup = _dbConnection.QueryFirstOrDefault<CustomerGroup>(sqlQuery, param: parameters);
+                _serviceResult = _customerGroupService.GetById(customerGroupId);
 
-                if(customerGroup == null)
+                if(!_serviceResult.IsValid)
                 {
-                    var response = new
-                    {
-                        userMsg = Properties.Resources.MISANoContentMsg,
-                    };
-                    return StatusCode(204, response);
+                    _serviceResult.Msg = Properties.Resources.MISANoContentMsg;
+                    return StatusCode(200, _serviceResult);
                 }
 
-                return StatusCode(200, customerGroup);
+                return StatusCode(200, _serviceResult.Data);
             }
             catch (Exception e)
             {
@@ -129,50 +105,19 @@ namespace MISA.CukCuk.API.Controllers
         /// <param name="group">Đối tượng chứa thông tin của nhóm khách hàng mới</param>
         /// <returns></returns>
         [HttpPost]
-        public IActionResult InsertCustomerGroup(CustomerGroup group)
+        public IActionResult InsertCustomerGroup(CustomerGroup customerGroup)
         {
-            // Tạo id mới
-            group.CustomerGroupId = Guid.NewGuid();
-
-            var columnsName = new List<string>();
-            var columnsParam = new List<string>();
-            var parameters = new DynamicParameters();
-
-            // Đọc từng property của object
-            var properties = group.GetType().GetProperties();
-
-            foreach (var prop in properties)
-            {
-                // Tên thuộc tính
-                var propName = prop.Name;
-
-                // Giá tri thuộc tính
-                var propValue = prop.GetValue(group);
-
-                columnsName.Add(propName);
-                columnsParam.Add($"@{propName}");
-                parameters.Add($"@{propName}", propValue);
-            }
-
-            var sqlQuery = $"INSERT INTO CustomerGroup({String.Join(", ", columnsName.ToArray())}) " +
-                            $"VALUES({String.Join(", ", columnsParam.ToArray())})";
-
-            // Thự thi truy vấn
             try
             {
-                var numberRowAffects = _dbConnection.Execute(sqlQuery, param: parameters);
+                _serviceResult = _customerGroupService.Add(customerGroup);
 
-                if(numberRowAffects < 1)
+                if(!_serviceResult.IsValid)
                 {
-                    return StatusCode(400, new {
-                        userMsg = Properties.Resources.MISAErrorMessage
-                    });
+                    _serviceResult.Msg = Properties.Resources.MISAErrorMessage;
+                    return BadRequest(_serviceResult);
                 }
-                var response = new
-                {
-                    userMsg = Properties.Resources.MISAInsertMsg
-                };
-                return StatusCode(201, response);
+                _serviceResult.Msg = Properties.Resources.MISAInsertMsg;
+                return StatusCode(201, _serviceResult);
             }
             catch (Exception e)
             {
@@ -199,51 +144,20 @@ namespace MISA.CukCuk.API.Controllers
         /// <param name="group"> Dữ liệu cập nhật</param>
         /// <returns></returns>
         [HttpPut("{CustomerGroupId}")]
-        public IActionResult UpdateCustomerGroup(string CustomerGroupId, CustomerGroup group)
+        public IActionResult UpdateCustomerGroup(Guid customerGroupId, CustomerGroup customerGroup)
         {
-            var queryLine = new List<string>();
-            var parameters = new DynamicParameters();
-
-            // Đọc từng property của object
-            var properties = group.GetType().GetProperties();
-
-            foreach (var prop in properties)
-            {
-                // Tên thuộc tính
-                var propName = prop.Name;
-
-                // Giá tri thuộc tính
-                var propValue = prop.GetValue(group);
-
-                queryLine.Add($"{propName} = @{propName}");
-                parameters.Add($"@{propName}", propValue);
-            }
-
-            parameters.Add("@OldCustomerGroupId", CustomerGroupId);
-            var sqlQuery = $"UPDATE CustomerGroup SET {String.Join(", ", queryLine.ToArray())} " +
-                           $"WHERE CustomerGroupId = @OldCustomerGroupId";
-
-            // Thực thi truy vấn và trả về kết quả cho client
             try
             {
-                var numberRowAffects = _dbConnection.Execute(sqlQuery, param: parameters);
+                _serviceResult = _customerGroupService.Update(customerGroup, customerGroupId);
 
-                if (numberRowAffects < 1)
+                if (!_serviceResult.IsValid)
                 {
-                    return StatusCode(500, new
-                    {
-                        devMsg = Properties.Resources.MISASqlErrorMsg,
-                        userMsg = Properties.Resources.MISAErrorMessage,
-                        errorCode = "MISA_004",
-                        traceId = Guid.NewGuid().ToString()
-                    });
+                    _serviceResult.Msg = Properties.Resources.MISAErrorMessage;
+                    return BadRequest(_serviceResult);
                 }
 
-                var response = new
-                {
-                    userMsg = Properties.Resources.MISAUpdateMsg
-                };
-                return StatusCode(200, response);
+                _serviceResult.Msg = Properties.Resources.MISAUpdateMsg;
+                return StatusCode(200, _serviceResult);
             }
             catch (Exception e)
             {
@@ -268,33 +182,19 @@ namespace MISA.CukCuk.API.Controllers
         /// <param name="id"> id của nhóm khách hàng cần xóa </param>
         /// <returns></returns>
         [HttpDelete("{CustomerGroupId}")]
-        public IActionResult DeleteCustomerGroup(string CustomerGroupId)
+        public IActionResult DeleteCustomerGroup(Guid customerGroupId)
         {
-            var sqlQuery = $"DELETE FROM CustomerGroup WHERE CustomerGroupId = @id";
-            var parameters = new DynamicParameters();
-
-            parameters.Add("@id", CustomerGroupId);
-
             try
             {
-                var numberRowAffects = _dbConnection.Execute(sqlQuery, param: parameters);
+                _serviceResult = _customerGroupService.DeleteOne(customerGroupId);
 
-                if (numberRowAffects < 1)
+                if (!_serviceResult.IsValid)
                 {
-                    return StatusCode(400, new
-                    {
-                        devMsg = Properties.Resources.MISASqlErrorMsg,
-                        userMsg = Properties.Resources.MISAErrorMessage,
-                        errorCode = "MISA_001",
-                        traceId = Guid.NewGuid().ToString()
-                    });
+                    _serviceResult.Msg = Properties.Resources.MISAErrorMessage;
+                    return BadRequest(_serviceResult);
                 }
-                var response = new
-                {                    
-                    userMsg = Properties.Resources.MISADeleteMsg,
-                    count = numberRowAffects
-                };
-                return StatusCode(200, response);
+                _serviceResult.Msg = Properties.Resources.MISADeleteMsg;
+                return StatusCode(200, _serviceResult);
             }
             catch (Exception e)
             {

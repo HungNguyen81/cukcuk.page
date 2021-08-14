@@ -1,9 +1,7 @@
-﻿using Dapper;
-using Microsoft.AspNetCore.Mvc;
-using Microsoft.Extensions.Configuration;
-using MySqlConnector;
+﻿using Microsoft.AspNetCore.Mvc;
+using MISA.CukCuk.Core.Entities;
+using MISA.CukCuk.Core.Interfaces.Services;
 using System;
-using System.Data;
 
 namespace MISA.CukCuk.API.Controllers
 {
@@ -13,25 +11,17 @@ namespace MISA.CukCuk.API.Controllers
     {
         #region Fields
 
-        private readonly IConfiguration _config;
+        private readonly IPositionService _positionService;
 
-        private readonly string _connectionString;
-
-        private readonly IDbConnection _dbConnection;
+        private ServiceResult _serviceResult;
 
         #endregion
 
         #region Constructors
 
-        public PositionsController(IConfiguration config)
+        public PositionsController(IPositionService positionService)
         {
-            _config = config;
-
-            // Lấy thông tin truy cập db
-            _connectionString = _config.GetValue<string>("ConnectionString:CukCuk");
-
-            // Khởi tạo đối tượng kết nối db
-            _dbConnection = new MySqlConnection(_connectionString);
+            _positionService = positionService;
         }
 
         #endregion
@@ -45,25 +35,19 @@ namespace MISA.CukCuk.API.Controllers
         [HttpGet]
         public IActionResult GetAllDepartments()
         {
-            // Chuẩn bị truy vấn dữ liệu
-            var sqlQuery = "SELECT * FROM Position";
-
             try
             {
                 // lấy dữ liệu
-                var positions = _dbConnection.Query<object>(sqlQuery);
+                _serviceResult = _positionService.Get();
 
-                if (positions == null)
+                if (!_serviceResult.IsValid)
                 {
-                    var response = new
-                    {
-                        userMsg = Properties.Resources.MISANoContentMsg,
-                    };
-                    return StatusCode(204, response);
+                    _serviceResult.Msg = Properties.Resources.MISANoContentMsg;
+                    return StatusCode(200, _serviceResult);
                 }
 
                 // phản hồi về cho client
-                return StatusCode(200, positions);
+                return StatusCode(200, _serviceResult.Data);
             }
             catch (Exception e )
             {
@@ -84,29 +68,20 @@ namespace MISA.CukCuk.API.Controllers
         /// <param name="positionId"> id vị trí cần lấy thông tin</param>
         /// <returns></returns>
         [HttpGet("{PositionId}")]
-        public IActionResult GetPositionById(string positionId)
+        public IActionResult GetPositionById(Guid positionId)
         {
-            var sqlQuery = $"SELECT * FROM Position p WHERE p.PositionId = @PositionId";
-
-            var parameters = new DynamicParameters();
-
-            parameters.Add("@PositionId", positionId);
-
             // Lấy dữ liệu và phản hồi cho client
             try
             {
-                var position = _dbConnection.QueryFirstOrDefault<object>(sqlQuery, param: parameters);
+                _serviceResult = _positionService.GetById(positionId);
 
-                if (position == null)
+                if (!_serviceResult.IsValid)
                 {
-                    var response = new
-                    {
-                        userMsg = Properties.Resources.MISANoContentMsg,
-                    };
-                    return StatusCode(204, response);
+                    _serviceResult.Msg = Properties.Resources.MISANoContentMsg;
+                    return StatusCode(200, _serviceResult);
                 }
 
-                return StatusCode(200, position);
+                return StatusCode(200, _serviceResult.Data);
             }
             catch (Exception e)
             {

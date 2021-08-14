@@ -1,20 +1,13 @@
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.HttpsPolicy;
-using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
-using Microsoft.Extensions.Logging;
 using Microsoft.OpenApi.Models;
 using MISA.CukCuk.Core.Interfaces.Repositiories;
 using MISA.CukCuk.Core.Interfaces.Services;
 using MISA.CukCuk.Core.Services;
 using MISA.CukCuk.Infrastructure.Repository;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 
 namespace MISA.CukCuk.API
 {
@@ -47,6 +40,15 @@ namespace MISA.CukCuk.API
 
             services.AddScoped<IEmployeeService, EmployeeService>();
             services.AddScoped<IEmployeeRepository, EmployeeRepository>();
+
+            services.AddScoped<ICustomerGroupService, CustomerGroupService>();
+            services.AddScoped<ICustomerGroupRepository, CustomerGroupRepository>();
+
+            services.AddScoped<IDepartmentService, DepartmentService>();
+            services.AddScoped<IDepartmentRepository, DepartmentRepository>();
+
+            services.AddScoped<IPositionService, PositionService>();
+            services.AddScoped<IPositionRepository, PositionRepository>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

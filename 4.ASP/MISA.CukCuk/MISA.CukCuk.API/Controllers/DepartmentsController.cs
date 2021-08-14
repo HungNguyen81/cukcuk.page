@@ -1,9 +1,7 @@
-﻿using Dapper;
-using Microsoft.AspNetCore.Mvc;
-using Microsoft.Extensions.Configuration;
-using MySqlConnector;
+﻿using Microsoft.AspNetCore.Mvc;
+using MISA.CukCuk.Core.Entities;
+using MISA.CukCuk.Core.Interfaces.Services;
 using System;
-using System.Data;
 
 namespace MISA.CukCuk.API.Controllers
 {
@@ -13,28 +11,21 @@ namespace MISA.CukCuk.API.Controllers
     {
         #region Fields
 
-        private readonly IConfiguration _config;
+        private readonly IDepartmentService _departmentService;
 
-        private readonly string _connectionString;
-
-        private readonly IDbConnection _dbConnection;
+        private ServiceResult _serviceResult;
 
         #endregion
 
         #region Constructors
 
-        public DepartmentsController(IConfiguration config)
+        public DepartmentsController(IDepartmentService departmentService)
         {
-            _config = config;
-
-            // Lấy thông tin truy cập db
-            _connectionString = _config.GetValue<string>("ConnectionString:CukCuk");
-
-            // Khởi tạo đối tượng kết nối db
-            _dbConnection = new MySqlConnection(_connectionString);
+            _departmentService = departmentService;
         }
 
         #endregion
+
 
         #region GET requests
 
@@ -45,25 +36,19 @@ namespace MISA.CukCuk.API.Controllers
         [HttpGet]
         public IActionResult GetAllDepartments()
         {
-            // Chuẩn bị truy vấn dữ liệu
-            var sqlQuery = "SELECT * FROM Department";
-
             try
             {
                 // lấy dữ liệu
-                var departments = _dbConnection.Query<object>(sqlQuery);
+                _serviceResult = _departmentService.Get();
 
-                if (departments == null)
+                if (!_serviceResult.IsValid)
                 {
-                    var response = new
-                    {
-                        userMsg = Properties.Resources.MISANoContentMsg,
-                    };
-                    return StatusCode(204, response);
+                    _serviceResult.Msg = Properties.Resources.MISANoContentMsg;
+                    return StatusCode(200, _serviceResult);
                 }
 
                 // phản hồi về cho client
-                return StatusCode(200, departments);
+                return StatusCode(200, _serviceResult.Data);
             }
             catch (Exception e)
             {
@@ -84,29 +69,20 @@ namespace MISA.CukCuk.API.Controllers
         /// <param name="departmentId"> id phòng ban cần lấy thông tin</param>
         /// <returns></returns>
         [HttpGet("{departmentId}")]
-        public IActionResult GetDepartmentById(string departmentId)
+        public IActionResult GetDepartmentById(Guid departmentId)
         {
-            var sqlQuery = $"SELECT * FROM Department p WHERE p.DepartmentId = @DepartmentId";
-
-            var parameters = new DynamicParameters();
-
-            parameters.Add("@DepartmentId", departmentId);
-
-            // Lấy dữ liệu và phản hồi cho client
             try
             {
-                var department = _dbConnection.QueryFirstOrDefault<object>(sqlQuery, param: parameters);
+                _serviceResult = _departmentService.GetById(departmentId);
 
-                if (department == null)
+                if (!_serviceResult.IsValid)
                 {
-                    var response = new
-                    {
-                        userMsg = Properties.Resources.MISANoContentMsg,
-                    };
-                    return StatusCode(204, response);
+
+                    _serviceResult.Msg = Properties.Resources.MISANoContentMsg;
+                    return StatusCode(204, _serviceResult);
                 }
 
-                return StatusCode(200, department);
+                return StatusCode(200, _serviceResult.Data);
             }
             catch (Exception e)
             {

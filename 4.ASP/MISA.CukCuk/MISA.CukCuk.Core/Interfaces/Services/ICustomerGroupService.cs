@@ -1,12 +1,19 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using MISA.CukCuk.Core.Entities;
+using System;
 
 namespace MISA.CukCuk.Core.Interfaces.Services
 {
     public interface ICustomerGroupService
     {
+        
+        ServiceResult Get();
+
+        ServiceResult GetById(Guid customerGroupId);
+        
+        ServiceResult Add(CustomerGroup customerGroup);
+
+        ServiceResult Update(CustomerGroup customerGroup, Guid customerGroupId);
+
+        ServiceResult DeleteOne(Guid customerId);
     }
 }
