@@ -1,4 +1,5 @@
-﻿using System;
+﻿using MISA.CukCuk.Core.CustomAttrs;
+using System;
 
 namespace MISA.CukCuk.Core.Entities
 {
@@ -34,9 +35,16 @@ namespace MISA.CukCuk.Core.Entities
 
 
         /// <summary>
-        /// Giới tính
+        /// Giới tính (int)
         /// </summary>
         public int? Gender { get; set; }
+
+
+        /// <summary>
+        /// Giới tính (string)
+        /// </summary>
+        [MISADbColumnNotMatch]
+        public string GenderName { get; set; }
 
         /// <summary>
         /// Ngày sinh

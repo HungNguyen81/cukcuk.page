@@ -1,4 +1,5 @@
 ﻿using Dapper;
+using MISA.CukCuk.Core.CustomAttrs;
 using MISA.CukCuk.Core.Interfaces.Repositiories;
 using MISA.CukCuk.Core.Resource;
 using MySqlConnector;
@@ -66,6 +67,17 @@ namespace MISA.CukCuk.Infrastructure.Repository
             return _dbConnection.QueryFirstOrDefault<MISAEntity>(sqlQuery, param: parameters);
         }
 
+        public MISAEntity GetByCode(string code)
+        {
+            // Lấy dữ liệu
+            var sqlQuery = $"SELECT * FROM {_entityName} WHERE {_entityName}Code = @code";
+            var parameter = new DynamicParameters();
+
+            parameter.Add("@code", code);
+
+            return _dbConnection.QueryFirstOrDefault<MISAEntity>(sqlQuery, param: parameter);
+        }
+
         #endregion
 
 
@@ -82,19 +94,21 @@ namespace MISA.CukCuk.Infrastructure.Repository
             var columnsParam = new List<string>();
             var parameters = new DynamicParameters();
 
-            // Tạo id mới
-            //entity.entityId = Guid.NewGuid();
-
             // Đọc từng property của object
             var properties = entity.GetType().GetProperties();
 
             foreach (var prop in properties)
             {
+                var propAttr = prop.GetCustomAttributes(typeof(MISADbColumnNotMatch), false);
+                if (propAttr.Length != 0) continue;
+
                 // Tên thuộc tính
                 var propName = prop.Name;
 
                 // Giá tri thuộc tính
                 var propValue = prop.GetValue(entity);
+
+                // Tạo id mới
                 if (propName.Equals($"{_entityName}Id") && prop.PropertyType == typeof(Guid))
                 {
                     propValue = Guid.NewGuid();
@@ -132,6 +146,9 @@ namespace MISA.CukCuk.Infrastructure.Repository
 
             foreach (var prop in properties)
             {
+                var propAttr = prop.GetCustomAttributes(typeof(MISADbColumnNotMatch), false);
+                if (propAttr.Length != 0) continue;
+
                 // Tên thuộc tính
                 var propName = prop.Name;
 

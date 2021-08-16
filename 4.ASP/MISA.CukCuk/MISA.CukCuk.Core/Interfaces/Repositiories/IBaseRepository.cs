@@ -21,6 +21,12 @@ namespace MISA.CukCuk.Core.Interfaces.Repositiories
         /// <returns></returns>
         MISAEntiry GetById(Guid entityId);
 
+        /// <summary>
+        /// Lấy theo mã 
+        /// </summary>
+        /// <param name="code"></param>
+        /// <returns></returns>
+        MISAEntiry GetByCode(string code);
 
         /// <summary>
         /// Thêm mới

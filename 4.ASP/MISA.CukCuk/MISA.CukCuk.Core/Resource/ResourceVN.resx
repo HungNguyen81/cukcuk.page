@@ -123,6 +123,12 @@
   <data name="CustomerCodeInvalidMsg" xml:space="preserve">
     <value>Mã khách hàng không được để trống !</value>
   </data>
+  <data name="DuplicateCustomerCodeMsg" xml:space="preserve">
+    <value>Mã khách hàng đã tồn tại, xin vui lòng tạo mã mới !</value>
+  </data>
+  <data name="DuplicateEmployeeCodeMsg" xml:space="preserve">
+    <value>Mã nhân viên đã tồn tại, xin vui lòng tạo mã mới !</value>
+  </data>
   <data name="EmailInvalidMsg" xml:space="preserve">
     <value>Email không đúng định dạng !</value>
   </data>

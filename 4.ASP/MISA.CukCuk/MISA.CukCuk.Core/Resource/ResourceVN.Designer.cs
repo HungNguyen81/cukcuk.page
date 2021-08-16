@@ -79,6 +79,24 @@ namespace MISA.CukCuk.Core.Resource {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Mã khách hàng đã tồn tại, xin vui lòng tạo mã mới !.
+        /// </summary>
+        public static string DuplicateCustomerCodeMsg {
+            get {
+                return ResourceManager.GetString("DuplicateCustomerCodeMsg", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Mã nhân viên đã tồn tại, xin vui lòng tạo mã mới !.
+        /// </summary>
+        public static string DuplicateEmployeeCodeMsg {
+            get {
+                return ResourceManager.GetString("DuplicateEmployeeCodeMsg", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Email không đúng định dạng !.
         /// </summary>
         public static string EmailInvalidMsg {
