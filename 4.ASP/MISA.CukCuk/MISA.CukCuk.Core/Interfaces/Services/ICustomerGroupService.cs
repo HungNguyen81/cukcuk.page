@@ -3,17 +3,17 @@ using System;
 
 namespace MISA.CukCuk.Core.Interfaces.Services
 {
-    public interface ICustomerGroupService
+    public interface ICustomerGroupService : IBaseService<CustomerGroup>
     {
         
-        ServiceResult Get();
+        //ServiceResult Get();
 
-        ServiceResult GetById(Guid customerGroupId);
+        //ServiceResult GetById(Guid customerGroupId);
         
-        ServiceResult Add(CustomerGroup customerGroup);
+        //ServiceResult Add(CustomerGroup customerGroup);
 
-        ServiceResult Update(CustomerGroup customerGroup, Guid customerGroupId);
+        //ServiceResult Update(CustomerGroup customerGroup, Guid customerGroupId);
 
-        ServiceResult DeleteOne(Guid customerId);
+        //ServiceResult DeleteOne(Guid customerId);
     }
 }

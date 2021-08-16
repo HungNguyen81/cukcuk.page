@@ -132,4 +132,7 @@
   <data name="ErrorMsg" xml:space="preserve">
     <value>Có lỗi xảy ra, vui lòng liên hệ MISA !</value>
   </data>
+  <data name="IdEmptyMsg" xml:space="preserve">
+    <value>ID không được để trống !</value>
+  </data>
 </root>

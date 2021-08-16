@@ -4,19 +4,10 @@ using System.Collections.Generic;
 
 namespace MISA.CukCuk.Core.Interfaces.Repositiories
 {
-    public interface IPositionRepository
+    public interface IPositionRepository : IBaseRepository<Position>
     {
-        /// <summary>
-        /// Lấy toàn bộ
-        /// </summary>
-        /// <returns></returns>
-        List<object> Get();
+        //List<object> Get();
 
-        /// <summary>
-        /// Lấy theo id
-        /// </summary>
-        /// <param name="positionId"></param>
-        /// <returns></returns>
-        Position GetById(Guid positionId);
+        //Position GetById(Guid positionId);
     }
 }

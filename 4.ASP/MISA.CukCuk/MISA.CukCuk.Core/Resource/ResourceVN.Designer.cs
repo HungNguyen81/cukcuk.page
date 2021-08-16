@@ -104,5 +104,14 @@ namespace MISA.CukCuk.Core.Resource {
                 return ResourceManager.GetString("ErrorMsg", resourceCulture);
             }
         }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to ID không được để trống !.
+        /// </summary>
+        public static string IdEmptyMsg {
+            get {
+                return ResourceManager.GetString("IdEmptyMsg", resourceCulture);
+            }
+        }
     }
 }

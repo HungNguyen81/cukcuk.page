@@ -4,21 +4,8 @@ using System.Collections.Generic;
 
 namespace MISA.CukCuk.Core.Interfaces.Services
 {
-    public interface IEmployeeService
+    public interface IEmployeeService : IBaseService<Employee>
     {
-        /// <summary>
-        /// Lấy toàn bộ 
-        /// </summary>
-        /// <returns></returns>
-        ServiceResult Get();
-
-        /// <summary>
-        /// Lấy theo id
-        /// </summary>
-        /// <param name="employeeId"></param>
-        /// <returns></returns>
-        ServiceResult GetById(Guid employeeId);
-
         /// <summary>
         /// Lấy và lọc data
         /// </summary>
@@ -35,34 +22,5 @@ namespace MISA.CukCuk.Core.Interfaces.Services
         /// </summary>
         /// <returns></returns>
         ServiceResult GetNewCode();
-
-        /// <summary>
-        /// Thêm mới
-        /// </summary>
-        /// <param name="employee"></param>
-        /// <returns></returns>
-        ServiceResult Add(Employee employee);
-
-        /// <summary>
-        /// Cập nhật
-        /// </summary>
-        /// <param name="employee"></param>
-        /// <param name="employeeId"></param>
-        /// <returns></returns>
-        ServiceResult Update(Employee employee, Guid employeeId);
-
-        /// <summary>
-        /// Xóa một bản ghi theo id
-        /// </summary>
-        /// <param name="employeeId"></param>
-        /// <returns></returns>
-        ServiceResult DeleteOne(Guid employeeId);
-
-        /// <summary>
-        /// Xóa nhiều bản ghi
-        /// </summary>
-        /// <param name="employeeIds"></param>
-        /// <returns></returns>
-        ServiceResult DeleteMany(List<Guid> employeeIds);
     }
 }

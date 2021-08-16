@@ -4,21 +4,8 @@ using System.Collections.Generic;
 
 namespace MISA.CukCuk.Core.Interfaces.Services
 {
-    public interface ICustomerService
+    public interface ICustomerService : IBaseService<Customer>
     {
-        /// <summary>
-        /// Lấy toàn bộ 
-        /// </summary>
-        /// <returns></returns>
-        ServiceResult Get();
-
-        /// <summary>
-        /// Lấy theo id
-        /// </summary>
-        /// <param name="customerId"></param>
-        /// <returns></returns>
-        ServiceResult GetById(Guid customerId);
-
         /// <summary>
         /// Lấy và lọc dữ liệu
         /// </summary>
@@ -28,34 +15,5 @@ namespace MISA.CukCuk.Core.Interfaces.Services
         /// <param name="customerGroupId"></param>
         /// <returns></returns>
         ServiceResult GetByFilter(int pageSize, int pageNumber, string filterString, Guid? customerGroupId);
-
-        /// <summary>
-        /// Thêm mới
-        /// </summary>
-        /// <param name="customer"></param>
-        /// <returns></returns>
-        ServiceResult Add(Customer customer);
-
-        /// <summary>
-        /// Cập nhật
-        /// </summary>
-        /// <param name="customer"></param>
-        /// <param name="customerId"></param>
-        /// <returns></returns>
-        ServiceResult Update(Customer customer, Guid customerId);
-
-        /// <summary>
-        /// Xóa một bản ghi theo id
-        /// </summary>
-        /// <param name="customerId"></param>
-        /// <returns></returns>
-        ServiceResult DeleteOne(Guid customerId);
-
-        /// <summary>
-        /// Xóa nhiều bản ghi
-        /// </summary>
-        /// <param name="customerIds"></param>
-        /// <returns></returns>
-        ServiceResult DeleteMany(List<Guid> customerIds);
     }
 }

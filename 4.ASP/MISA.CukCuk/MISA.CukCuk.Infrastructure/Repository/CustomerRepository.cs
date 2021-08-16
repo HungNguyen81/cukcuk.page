@@ -2,147 +2,15 @@
 using MISA.CukCuk.Core.Entities;
 using MISA.CukCuk.Core.Interfaces.Repositiories;
 using MISA.CukCuk.Core.Responses;
-using MySqlConnector;
 using System;
 using System.Collections.Generic;
-using System.Data;
 
 namespace MISA.CukCuk.Infrastructure.Repository
 {
-    public class CustomerRepository : ICustomerRepository
+    public class CustomerRepository : BaseRepository<Customer>, ICustomerRepository
     {
-        #region Fields        
-
-        private readonly string _connectionString;
-
-        private readonly IDbConnection _dbConnection;
-
-        #endregion
-
-        #region Constructors
-
-        public CustomerRepository()
-        {
-
-            // Lấy thông tin truy cập db
-            _connectionString = MISA.CukCuk.Core.Resource.ResourceVN.ConnectionString;
-
-            // Khởi tạo đối tượng kết nối db
-            _dbConnection = new MySqlConnection(_connectionString);
-        }
-
-        #endregion
-
-        #region Thêm mới
-
-        /// <summary>
-        /// Thêm mới khách hagnf
-        /// </summary>
-        /// <param name="customer"> Data thêm mới</param>
-        /// <returns></returns>
-        public int Add(Customer customer)
-        {
-            var columnsName = new List<string>();
-            var columnsParam = new List<string>();
-            var parameters = new DynamicParameters();
-
-            // Tạo id mới
-            customer.CustomerId = Guid.NewGuid();
-
-            // Đọc từng property của object
-            var properties = customer.GetType().GetProperties();
-
-            foreach (var prop in properties)
-            {
-                // Tên thuộc tính
-                var propName = prop.Name;
-
-                // Giá tri thuộc tính
-                var propValue = prop.GetValue(customer);
-
-                columnsName.Add(propName);
-                columnsParam.Add($"@{propName}");
-                parameters.Add($"@{propName}", propValue);
-            }
-
-            var sqlQuery = $"INSERT INTO Customer({String.Join(", ", columnsName.ToArray())}) " +
-                            $"VALUES({String.Join(", ", columnsParam.ToArray())})";
-
-            return _dbConnection.Execute(sqlQuery, param: parameters);        
-        }
-
-        #endregion
-
-        #region Xóa
-
-        /// <summary>
-        /// Xóa nhiều khách hàng
-        /// </summary>
-        /// <param name="customerIds">List id của các KH cần xóa</param>
-        /// <returns></returns>
-        public int DeleteMany(List<Guid> customerIds)
-        {
-            var parameters = new DynamicParameters();
-            var paramName = new List<string>();
-
-            for (int i = 0; i < customerIds.Count; i++)
-            {
-                var id = customerIds[i];
-                paramName.Add($"@id{i}");
-                parameters.Add($"@id{i}", id.ToString());
-            }
-
-            var sql = $"Delete from Customer where CustomerId In ({String.Join(", ", paramName.ToArray())})";
-
-            return _dbConnection.Execute(sql, param: parameters);
-        }
-
-
-        /// <summary>
-        /// Xóa một KH với id tương ứng
-        /// </summary>
-        /// <param name="customerId"></param>
-        /// <returns></returns>
-            public int DeleteOne(Guid customerId)
-        {
-            var sqlQuery = $"DELETE FROM Customer WHERE CustomerId = @CustomerId";
-            var parameters = new DynamicParameters();
-
-            parameters.Add("@CustomerId", customerId);
-
-            return _dbConnection.Execute(sqlQuery, param: parameters);
-        }
-
-        #endregion
-
-        #region Các phương thức GET
-
-        /// <summary>
-        /// Lấy tất cả data
-        /// </summary>
-        /// <returns></returns>
-        public List<Customer> Get()
-        {
-            // Lấy dữ liệu
-            var sqlQuery = "SELECT * FROM Customer";
-            return (List<Customer>)_dbConnection.Query<Customer>(sqlQuery);
-        }
-
-        /// <summary>
-        /// Lấy theo Id
-        /// </summary>
-        /// <param name="customerId"></param>
-        /// <returns></returns>
-        public Customer GetById(Guid customerId)
-        {
-            var sqlQuery = $"SELECT * FROM Customer WHERE CustomerId = @CustomerId";
-            var parameters = new DynamicParameters();
-
-            parameters.Add("@CustomerId", customerId);
-
-            // Lấy dữ liệu và phản hồi cho client
-            return _dbConnection.QueryFirstOrDefault<Customer>(sqlQuery, param: parameters);
-        }
+        
+        #region Các phương thức GET của riêng Customer
 
         /// <summary>
         /// Lọc dữ liệu theo chuỗi tìm kiếm hoặc nhóm khách hàng, kết hợp phân trang
@@ -214,42 +82,6 @@ namespace MISA.CukCuk.Infrastructure.Repository
             };
         }
 
-        #endregion
-
-        #region Cập nhật
-
-        /// <summary>
-        /// Cập nhật thông tin khách hàng
-        /// </summary>
-        /// <param name="customer">     Data</param>
-        /// <param name="customerId">   Id</param>
-        /// <returns></returns>
-        public int Update(Customer customer, Guid customerId)
-        {
-            var queryLine = new List<string>();
-            var parameters = new DynamicParameters();
-
-            // Đọc từng property của object
-            var properties = customer.GetType().GetProperties();
-
-            foreach (var prop in properties)
-            {
-                // Tên thuộc tính
-                var propName = prop.Name;
-
-                // Giá tri thuộc tính
-                var propValue = prop.GetValue(customer);
-
-                queryLine.Add($"{propName} = @{propName}");
-                parameters.Add($"@{propName}", propValue);
-            }
-
-            parameters.Add("@oldCustomerId", customerId);
-            var sqlQuery = $"UPDATE Customer SET {String.Join(", ", queryLine.ToArray())} " +
-                            $"WHERE CustomerId = @oldCustomerId";
-
-            return _dbConnection.Execute(sqlQuery, param: parameters);
-        }
         #endregion
     }
 }

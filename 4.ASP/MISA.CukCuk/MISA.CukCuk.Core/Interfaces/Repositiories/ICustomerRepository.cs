@@ -5,21 +5,8 @@ using System.Collections.Generic;
 
 namespace MISA.CukCuk.Core.Interfaces.Repositiories
 {
-    public interface ICustomerRepository
+    public interface ICustomerRepository : IBaseRepository<Customer>
     {
-        /// <summary>
-        /// Lấy tất cả
-        /// </summary>
-        /// <returns></returns>
-        List<Customer> Get();
-
-        /// <summary>
-        /// Lấy theo id
-        /// </summary>
-        /// <param name="customerId"></param>
-        /// <returns></returns>
-        Customer GetById(Guid customerId);
-
         /// <summary>
         /// Lấy data và lọc
         /// </summary>
@@ -30,35 +17,5 @@ namespace MISA.CukCuk.Core.Interfaces.Repositiories
         /// <returns></returns>
         FilterResponse GetByFilter(int pageSize, int pageNumber, string filterString, Guid? customerGroupId);
 
-
-        /// <summary>
-        /// Thêm mới
-        /// </summary>
-        /// <param name="customer"></param>
-        /// <returns></returns>
-        int Add(Customer customer);
-
-
-        /// <summary>
-        /// Cập nhật
-        /// </summary>
-        /// <param name="customer"></param>
-        /// <param name="customerId"></param>
-        /// <returns></returns>
-        int Update(Customer customer, Guid customerId);
-
-        /// <summary>
-        /// Xóa một
-        /// </summary>
-        /// <param name="customerId"></param>
-        /// <returns></returns>
-        int DeleteOne(Guid customerId);
-
-        /// <summary>
-        /// Xóa nhiều
-        /// </summary>
-        /// <param name="customerIds"></param>
-        /// <returns></returns>
-        int DeleteMany(List<Guid> customerIds);
     }
 }

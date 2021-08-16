@@ -5,66 +5,23 @@ using System.Collections.Generic;
 
 namespace MISA.CukCuk.Core.Interfaces.Repositiories
 {
-    public interface IEmployeeRepository
+    public interface IEmployeeRepository : IBaseRepository<Employee>
     {
-        /// <summary>
-        /// Lấy tất cả
-        /// </summary>
-        /// <returns></returns>
-        List<Employee> Get();
+       
+        //List<Employee> Get();
 
-        /// <summary>
-        /// Lấy theo id
-        /// </summary>
-        /// <param name="employeeId"></param>
-        /// <returns></returns>
-        object GetById(Guid employeeId);
+        //object GetById(Guid employeeId);
 
-        /// <summary>
-        /// Lấy và lọc dữ liệu
-        /// </summary>
-        /// <param name="pageSize"></param>
-        /// <param name="pageNumber"></param>
-        /// <param name="filterString"></param>
-        /// <param name="departmentId"></param>
-        /// <param name="positionId"></param>
-        /// <returns></returns>
         FilterResponse GetByFilter(int pageSize, int pageNumber, string filterString, Guid? departmentId, Guid? positionId);
-
-        /// <summary>
-        /// Lấy mã nv mới
-        /// </summary>
-        /// <returns></returns>
+       
         string GetNewCode();
+       
+        //int Add(Employee employee);
 
-        /// <summary>
-        /// Thêm mới
-        /// </summary>
-        /// <param name="employee"></param>
-        /// <returns></returns>
-        int Add(Employee employee);
+        //int Update(Employee employee, Guid employeeId);
 
+        //int DeleteOne(Guid employeeId);
 
-        /// <summary>
-        /// Cập nhật
-        /// </summary>
-        /// <param name="employee"></param>
-        /// <param name="employeeId"></param>
-        /// <returns></returns>
-        int Update(Employee employee, Guid employeeId);
-
-        /// <summary>
-        /// Xóa một
-        /// </summary>
-        /// <param name="employeeId"></param>
-        /// <returns></returns>
-        int DeleteOne(Guid employeeId);
-
-        /// <summary>
-        /// Xóa nhiều
-        /// </summary>
-        /// <param name="employeeIds"></param>
-        /// <returns></returns>
-        int DeleteMany(List<Guid> employeeIds);
+        //int DeleteMany(List<Guid> employeeIds);
     }
 }

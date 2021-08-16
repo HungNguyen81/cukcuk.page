@@ -1,157 +1,15 @@
 ﻿using Dapper;
 using MISA.CukCuk.Core.Entities;
 using MISA.CukCuk.Core.Interfaces.Repositiories;
-using MISA.CukCuk.Core.Resource;
 using MISA.CukCuk.Core.Responses;
-using MySqlConnector;
 using System;
 using System.Collections.Generic;
-using System.Data;
 
 namespace MISA.CukCuk.Infrastructure.Repository
 {
-    public class EmployeeRepository : IEmployeeRepository
+    public class EmployeeRepository : BaseRepository<Employee>, IEmployeeRepository
     {
-        #region Fields        
-
-        private readonly string _connectionString;
-
-        private readonly IDbConnection _dbConnection;
-
-        #endregion
-
-        #region Constructors
-
-        public EmployeeRepository()
-        {
-
-            // Lấy thông tin truy cập db
-            _connectionString = ResourceVN.ConnectionString;
-
-            // nvởi tạo đối tượng kết nối db
-            _dbConnection = new MySqlConnection(_connectionString);
-        }
-
-        #endregion
-
-        #region Thêm mới
-
-        /// <summary>
-        /// Thêm mới nv
-        /// </summary>
-        /// <param name="employee"> Data thêm mới</param>
-        /// <returns></returns>
-        public int Add(Employee employee)
-        {
-            var columnsName = new List<string>();
-            var columnsParam = new List<string>();
-            var parameters = new DynamicParameters();
-
-            // Tạo id mới
-            employee.EmployeeId = Guid.NewGuid();
-
-            // Đọc từng property của object
-            var properties = employee.GetType().GetProperties();
-
-            foreach (var prop in properties)
-            {
-                // Tên thuộc tính
-                var propName = prop.Name;
-
-                // Giá tri thuộc tính
-                var propValue = prop.GetValue(employee);
-
-                columnsName.Add(propName);
-                columnsParam.Add($"@{propName}");
-                parameters.Add($"@{propName}", propValue);
-            }
-
-            var sqlQuery = $"INSERT INTO Employee({String.Join(", ", columnsName.ToArray())}) " +
-                            $"VALUES({String.Join(", ", columnsParam.ToArray())})";
-
-            return _dbConnection.Execute(sqlQuery, param: parameters);
-        }
-
-        #endregion
-
-        #region Xóa
-
-        /// <summary>
-        /// Xóa nhiều nv
-        /// </summary>
-        /// <param name="employeeIds">List id của các nv cần xóa</param>
-        /// <returns></returns>
-        public int DeleteMany(List<Guid> employeeIds)
-        {
-            var parameters = new DynamicParameters();
-            var paramName = new List<string>();
-
-            for (int i = 0; i < employeeIds.Count; i++)
-            {
-                var id = employeeIds[i];
-                paramName.Add($"@id{i}");
-                parameters.Add($"@id{i}", id.ToString());
-            }
-
-            var sql = $"Delete from Employee where EmployeeId In ({String.Join(", ", paramName.ToArray())})";
-
-            return _dbConnection.Execute(sql, param: parameters);
-        }
-
-
-        /// <summary>
-        /// Xóa một nv với id tương ứng
-        /// </summary>
-        /// <param name="employeeId"></param>
-        /// <returns></returns>
-        public int DeleteOne(Guid employeeId)
-        {
-            var sqlQuery = $"DELETE FROM Employee WHERE EmployeeId = @employeeId";
-            var parameters = new DynamicParameters();
-
-            parameters.Add("@employeeId", employeeId);
-
-            return _dbConnection.Execute(sqlQuery, param: parameters);
-        }
-
-        #endregion
-
-        #region Các phương thức GET
-
-        /// <summary>
-        /// Lấy tất cả data
-        /// </summary>
-        /// <returns></returns>
-        public List<Employee> Get()
-        {
-            // Lấy dữ liệu
-            var sqlQuery = "SELECT e.*, CASE " +
-                           "WHEN e.Gender=0 THEN 'Nữ' " +
-                           "WHEN e.Gender=1 THEN 'Nam' " +
-                           "ELSE 'Không xác định' END as GenderName " +
-                           "FROM Employee e";
-            return (List<Employee>)_dbConnection.Query<Employee>(sqlQuery);
-        }
-
-        /// <summary>
-        /// Lấy theo Id
-        /// </summary>
-        /// <param name="employeeId"></param>
-        /// <returns></returns>
-        public object GetById(Guid employeeId)
-        {
-            var sqlQuery = $"SELECT e.*, CASE " +
-                $"WHEN e.Gender=0 THEN 'Nữ' " +
-                $"WHEN e.Gender=1 THEN 'Nam' " +
-                $"ELSE 'Không xác định' END as GenderName " +
-                $"FROM Employee e WHERE e.EmployeeId = @employeeId";
-            var parameters = new DynamicParameters();
-
-            parameters.Add("@employeeId", employeeId);
-
-            // Lấy dữ liệu và phản hồi cho client
-            return _dbConnection.QueryFirstOrDefault<object>(sqlQuery, param: parameters);
-        }
+        #region Các phương thức GET của riêng Employee
 
         /// <summary>
         /// Lọc dữ liệu theo chuỗi tìm kiếm hoặc nhóm nv, kết hợp phân trang
@@ -253,43 +111,6 @@ namespace MISA.CukCuk.Infrastructure.Repository
             }
 
             return newEmployeeCode;
-        }
-
-        #endregion
-
-        #region Cập nhật
-
-        /// <summary>
-        /// Cập nhật thông tin nv
-        /// </summary>
-        /// <param name="employee">     Data</param>
-        /// <param name="employeeId">   Id</param>
-        /// <returns></returns>
-        public int Update(Employee employee, Guid employeeId)
-        {
-            var queryLine = new List<string>();
-            var parameters = new DynamicParameters();
-
-            // Đọc từng property của object
-            var properties = employee.GetType().GetProperties();
-
-            foreach (var prop in properties)
-            {
-                // Tên thuộc tính
-                var propName = prop.Name;
-
-                // Giá tri thuộc tính
-                var propValue = prop.GetValue(employee);
-
-                queryLine.Add($"{propName} = @{propName}");
-                parameters.Add($"@{propName}", propValue);
-            }
-
-            parameters.Add("@oldEmployeeId", employeeId);
-            var sqlQuery = $"UPDATE Employee SET {String.Join(", ", queryLine.ToArray())} " +
-                            $"WHERE EmployeeId = @oldEmployeeId";
-
-            return _dbConnection.Execute(sqlQuery, param: parameters);
         }
 
         #endregion

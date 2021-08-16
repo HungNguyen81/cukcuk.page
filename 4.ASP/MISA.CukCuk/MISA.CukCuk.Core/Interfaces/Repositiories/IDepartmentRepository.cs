@@ -4,19 +4,10 @@ using System.Collections.Generic;
 
 namespace MISA.CukCuk.Core.Interfaces.Repositiories
 {
-    public interface IDepartmentRepository
+    public interface IDepartmentRepository : IBaseRepository<Department>
     {
-        /// <summary>
-        /// Lấy toàn bộ
-        /// </summary>
-        /// <returns></returns>
-        List<object> Get();
+        //List<object> Get();
 
-        /// <summary>
-        /// Lấy theo id
-        /// </summary>
-        /// <param name="departmentId"></param>
-        /// <returns></returns>
-        Department GetById(Guid departmentId);
+        //Department GetById(Guid departmentId);
     }
 }

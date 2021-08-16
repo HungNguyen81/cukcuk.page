@@ -35,20 +35,28 @@ namespace MISA.CukCuk.API
             });
             services.AddCors();
 
+            // scoped of Customer
             services.AddScoped<ICustomerService, CustomerService>();
             services.AddScoped<ICustomerRepository, CustomerRepository>();
 
+            // scoped of Employee
             services.AddScoped<IEmployeeService, EmployeeService>();
             services.AddScoped<IEmployeeRepository, EmployeeRepository>();
 
+            // scoped of CustomerGroup
             services.AddScoped<ICustomerGroupService, CustomerGroupService>();
             services.AddScoped<ICustomerGroupRepository, CustomerGroupRepository>();
 
+            // scoped of Department
             services.AddScoped<IDepartmentService, DepartmentService>();
             services.AddScoped<IDepartmentRepository, DepartmentRepository>();
 
+            // scoped of Position
             services.AddScoped<IPositionService, PositionService>();
             services.AddScoped<IPositionRepository, PositionRepository>();
+
+            //services.AddScoped(typeof(IBaseService<>), typeof(BaseService<>));
+            //services.AddScoped(typeof(IBaseRepository<>), typeof(BaseRepository<>));
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
