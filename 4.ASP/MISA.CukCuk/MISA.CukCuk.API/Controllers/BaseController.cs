@@ -8,6 +8,8 @@ using System.Threading.Tasks;
 
 namespace MISA.CukCuk.API.Controllers
 {
+    [Route("api/v1/[controller]")]
+    [ApiController]
     public class BaseController<MISAEntity> : ControllerBase
     {
         #region Fields
@@ -66,7 +68,7 @@ namespace MISA.CukCuk.API.Controllers
         /// </summary>
         /// <param name="entityId">Id nv</param>
         /// <returns></returns>
-        [HttpGet("{entityId}")]
+        [HttpGet("{[controller]Id}")]
         public IActionResult GetEntityByid(Guid entityId)
         {
             // Lấy dữ liệu và phản hồi cho client

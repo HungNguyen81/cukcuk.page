@@ -5,8 +5,8 @@ using System;
 
 namespace MISA.CukCuk.API.Controllers
 {
-    [Route("api/v1/departments")]
-    [ApiController]
+    //[Route("api/v1/departments")]
+    //[ApiController]
     public class DepartmentsController : BaseController<Department>
     {
         #region Constructors

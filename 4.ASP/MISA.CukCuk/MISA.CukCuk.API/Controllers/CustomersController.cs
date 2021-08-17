@@ -6,8 +6,8 @@ using System.Collections.Generic;
 
 namespace MISA.CukCuk.API.Controllers
 {
-    [Route("api/v1/customers")]
-    [ApiController]
+    //[Route("api/v1/customers")]
+    //[ApiController]
     public class CustomersController : BaseController<Customer>
     {
         #region Fields

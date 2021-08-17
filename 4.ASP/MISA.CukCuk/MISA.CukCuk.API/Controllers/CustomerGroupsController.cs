@@ -5,8 +5,8 @@ using System;
 
 namespace MISA.CukCuk.API.Controllers
 {
-    [Route("api/v1/customerGroups")]
-    [ApiController]
+    //[Route("api/v1/customerGroups")]
+    //[ApiController]
     public class CustomerGroupsController : BaseController<CustomerGroup>
     {
         #region Constructors
