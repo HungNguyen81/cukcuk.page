@@ -19,7 +19,10 @@ namespace MISA.CukCuk.Infrastructure.Repository
         /// <param name="filterString">     chuỗi tìm kiếm</param>
         /// <param name="employeeGroupId">  id nhóm nv</param>
         /// <returns></returns>
-        public FilterResponse GetByFilter(int pageSize, int pageNumber, string filterString, Guid? departmentId, Guid? positionId)
+        //@ Created_By: HungNguyen81 (17-08-2021)
+        //@ Modified_By: HungNguyen81 (17-08-2021)
+        public FilterResponse GetByFilter(int pageSize, int pageNumber, string filterString, 
+                                            Guid? departmentId, Guid? positionId)
         {
             var sqlSelectCount = "SELECT COUNT(*) FROM Employee e ";
 
@@ -92,6 +95,8 @@ namespace MISA.CukCuk.Infrastructure.Repository
         /// Lấy mã mới
         /// </summary>
         /// <returns></returns>
+        //@ Created_By: HungNguyen81 (17-08-2021)
+        //@ Modified_By: HungNguyen81 (17-08-2021)
         public string GetNewCode()
         {
             var sqlQuery = "SELECT e.EmployeeCode FROM Employee e ORDER BY e.EmployeeCode DESC LIMIT 1";

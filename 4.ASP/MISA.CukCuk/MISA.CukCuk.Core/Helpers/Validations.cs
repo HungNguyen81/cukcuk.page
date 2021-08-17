@@ -9,6 +9,10 @@ namespace MISA.CukCuk.Core.Helpers
         /// </summary>
         /// <param name="email"></param>
         /// <returns></returns>
+
+        //@ CreateBy  : Hungnn
+        //@ ModifiedBy: Hungnn
+
         public static bool EmailValidate(string email)
         {
             var emailFormat = @"\S+@\S+\.\S+";
@@ -20,6 +24,10 @@ namespace MISA.CukCuk.Core.Helpers
         /// </summary>
         /// <param name="val"></param>
         /// <returns></returns>
+
+        //@ CreateBy  : Hungnn
+        //@ ModifiedBy: Hungnn
+
         public static bool Required(string val)
         {
             return !(val == null || val.Equals(""));

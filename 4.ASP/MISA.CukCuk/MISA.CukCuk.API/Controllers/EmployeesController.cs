@@ -31,6 +31,10 @@ namespace MISA.CukCuk.API.Controllers
         /// Lấy mã nhân viên mới
         /// </summary>
         /// <returns></returns>
+
+        //@ CreateBy  : Hungnn
+        //@ ModifiedBy: Hungnn
+
         [HttpGet("NewEmployeeCode")]
         public IActionResult GetNewEmPloyeeCode()
         {
@@ -62,6 +66,10 @@ namespace MISA.CukCuk.API.Controllers
         /// <param name="departmentId"></param>
         /// <param name="positionId"></param>
         /// <returns></returns>
+
+        //@ CreateBy  : Hungnn
+        //@ ModifiedBy: Hungnn
+
         [HttpGet("employeeFilter")]
         public IActionResult GetEmployeeFilter(int pageSize, int pageNumber,
                                                 string filterString, Guid? departmentId, Guid? positionId)

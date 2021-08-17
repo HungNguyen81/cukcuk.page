@@ -33,6 +33,8 @@ namespace MISA.CukCuk.Core.Services
         /// Lấy mã nv mới
         /// </summary>
         /// <returns></returns>
+        //@ Created_By: HungNguyen81 (17-08-2021)
+        //@ Modified_By: HungNguyen81 (17-08-2021)
         public ServiceResult GetNewCode()
         {
             _serviceResult.Data = _employeeRepository.GetNewCode();
@@ -49,13 +51,15 @@ namespace MISA.CukCuk.Core.Services
         /// <param name="departmentId"></param>
         /// <param name="positionId"></param>
         /// <returns></returns>
+        //@ Created_By: HungNguyen81 (17-08-2021)
+        //@ Modified_By: HungNguyen81 (17-08-2021)
         public ServiceResult GetByFilter(int pageSize, int pageNumber, string filterString, Guid? departmentId, Guid? positionId)
         {
             _serviceResult.Data = _employeeRepository.GetByFilter(pageSize, pageNumber, filterString, departmentId, positionId);
             _serviceResult.IsValid = _serviceResult.Data != null;
             return _serviceResult;
         }
-
+        
         #endregion
     }
 }

@@ -21,7 +21,7 @@ namespace MISA.CukCuk.API.Controllers
         #endregion
 
         #region Constructors
-
+        
         public BaseController(IBaseService<MISAEntity> service)
         {
             _service = service;
@@ -35,6 +35,9 @@ namespace MISA.CukCuk.API.Controllers
         /// Lấy dữ liệu toàn bộ nv
         /// </summary>
         /// <returns></returns>
+        //@ Created_By: HungNguyen81 (17-08-2021)
+        //@ Modified_By: HungNguyen81 (17-08-2021)
+
         [HttpGet]
         public IActionResult GetAll()
         {
@@ -68,6 +71,9 @@ namespace MISA.CukCuk.API.Controllers
         /// </summary>
         /// <param name="entityId">Id nv</param>
         /// <returns></returns>
+        //@ Created_By: HungNguyen81 (17-08-2021)
+        //@ Modified_By: HungNguyen81 (17-08-2021)
+
         [HttpGet("{[controller]Id}")]
         public IActionResult GetEntityByid(Guid entityId)
         {
@@ -105,6 +111,8 @@ namespace MISA.CukCuk.API.Controllers
         /// </summary>
         /// <param name="entity">Object thông tin nv muốn thêm vào db</param>
         /// <returns></returns>
+        //@ Created_By: HungNguyen81 (17-08-2021)
+        //@ Modified_By: HungNguyen81 (17-08-2021)
         [HttpPost]
         public IActionResult InsertEntity(MISAEntity entity)
         {
@@ -142,6 +150,8 @@ namespace MISA.CukCuk.API.Controllers
         /// <param name="entityId">Id nv</param>
         /// <param name="entity">Dữ liệu muốn cập nhật</param>
         /// <returns></returns>
+        //@ Created_By: HungNguyen81 (17-08-2021)
+        //@ Modified_By: HungNguyen81 (17-08-2021)
         [HttpPut("{entityId}")]
         public IActionResult EditEntity(Guid entityId, MISAEntity entity)
         {
@@ -180,7 +190,8 @@ namespace MISA.CukCuk.API.Controllers
         /// </summary>
         /// <param name="entityId">Id của nv muốn xóa</param>
         /// <returns></returns>
-
+        //@ Created_By: HungNguyen81 (17-08-2021)
+        //@ Modified_By: HungNguyen81 (17-08-2021)
         [HttpDelete("{entityId}")]
         public IActionResult DeleteEntityById(Guid entityId)
         {
@@ -214,8 +225,10 @@ namespace MISA.CukCuk.API.Controllers
         /// <summary>
         /// Xóa nhiều bản ghi qua 1 request
         /// </summary>
-        /// <param name="entityIds">List<string> chứa mảng id ứng với các bản ghi cần xóa</string></param>
+        /// <param name="entityIds">List<Guid> chứa mảng id ứng với các bản ghi cần xóa</string></param>
         /// <returns></returns>
+        //@ Created_By: HungNguyen81 (17-08-2021)
+        //@ Modified_By: HungNguyen81 (17-08-2021)
         [HttpDelete]
         public IActionResult DeleteEntities([FromBody] List<Guid> entityIds)
         {

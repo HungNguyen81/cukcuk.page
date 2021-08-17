@@ -6,8 +6,6 @@ using System.Collections.Generic;
 
 namespace MISA.CukCuk.API.Controllers
 {
-    //[Route("api/v1/customers")]
-    //[ApiController]
     public class CustomersController : BaseController<Customer>
     {
         #region Fields
@@ -34,6 +32,9 @@ namespace MISA.CukCuk.API.Controllers
         /// <param name="pageNumber">Chỉ số trang cần xem</param>
         /// <param name="filterString">Chuỗi cần tìm kiếm</param>
         /// <returns></returns>
+        //@ CreateBy  : Hungnn
+        //@ ModifiedBy: Hungnn
+
         [HttpGet("customerFilter")]
         public IActionResult GetCustomerFilter(int pageSize, int pageNumber, string filterString, Guid? customerGroupId)
         {

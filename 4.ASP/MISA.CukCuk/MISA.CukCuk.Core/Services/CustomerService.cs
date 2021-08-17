@@ -37,6 +37,8 @@ namespace MISA.CukCuk.Core.Services
         /// <param name="filterString">     chuỗi tìm kiếm</param>
         /// <param name="customerGroupId">  Id của nhóm khách hàng</param>
         /// <returns></returns>
+        //@ Created_By: HungNguyen81 (17-08-2021)
+        //@ Modified_By: HungNguyen81 (17-08-2021)
         public ServiceResult GetByFilter(int pageSize, int pageNumber, string filterString, Guid? customerGroupId)
         {
             _serviceResult.Data = _customerRepository.GetByFilter(pageSize, pageNumber, filterString, customerGroupId);

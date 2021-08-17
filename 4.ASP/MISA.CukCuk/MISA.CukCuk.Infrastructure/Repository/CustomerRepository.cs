@@ -9,9 +9,9 @@ namespace MISA.CukCuk.Infrastructure.Repository
 {
     public class CustomerRepository : BaseRepository<Customer>, ICustomerRepository
     {
-        
+
         #region Các phương thức GET của riêng Customer
-        
+
         /// <summary>
         /// Lọc dữ liệu theo chuỗi tìm kiếm hoặc nhóm khách hàng, kết hợp phân trang
         /// </summary>
@@ -20,6 +20,8 @@ namespace MISA.CukCuk.Infrastructure.Repository
         /// <param name="filterString">     chuỗi tìm kiếm</param>
         /// <param name="customerGroupId">  id nhóm khách hàng</param>
         /// <returns></returns>
+        //@ Created_By: HungNguyen81 (17-08-2021)
+        //@ Modified_By: HungNguyen81 (17-08-2021)
         public FilterResponse GetByFilter(int pageSize, int pageNumber, string filterString, Guid? customerGroupId)
         {
             var sqlSelectCount = "SELECT COUNT(*) FROM Customer c ";

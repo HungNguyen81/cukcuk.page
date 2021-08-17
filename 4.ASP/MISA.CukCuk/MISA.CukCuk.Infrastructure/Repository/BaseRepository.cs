@@ -55,7 +55,10 @@ namespace MISA.CukCuk.Infrastructure.Repository
         /// </summary>
         /// <param name="entityId"></param>
         /// <returns></returns>
+        //@ Created_By: HungNguyen81 (17-08-2021)
+        //@ Modified_By: HungNguyen81 (17-08-2021)
         public virtual MISAEntity GetById(Guid entityId)
+        //:                                       ^ id của nv/kh
         {
             
             var sqlQuery = $"SELECT * FROM {_entityName} WHERE {_entityName}Id = @entityId";
@@ -67,7 +70,14 @@ namespace MISA.CukCuk.Infrastructure.Repository
             return _dbConnection.QueryFirstOrDefault<MISAEntity>(sqlQuery, param: parameters);
         }
 
+        /// <summary>
+        /// Lấy thông tin theo mã 
+        /// </summary>
+        /// <param name="code"></param>
+        /// <returns></returns>
+        //@ Created_By: HungNguyen81 (17-08-2021)
         public MISAEntity GetByCode(string code)
+        //:                                 ^ mã nv/ mã kh
         {
             // Lấy dữ liệu
             var sqlQuery = $"SELECT * FROM {_entityName} WHERE {_entityName}Code = @code";
@@ -88,6 +98,8 @@ namespace MISA.CukCuk.Infrastructure.Repository
         /// </summary>
         /// <param name="entity"> Data thêm mới</param>
         /// <returns></returns>
+        //@ Created_By: HungNguyen81 (17-08-2021)
+        //@ Modified_By: HungNguyen81 (17-08-2021)
         public virtual int Add(MISAEntity entity)
         {
             var columnsName = new List<string>();
@@ -136,7 +148,10 @@ namespace MISA.CukCuk.Infrastructure.Repository
         /// <param name="entity">     Data</param>
         /// <param name="entityId">   Id</param>
         /// <returns></returns>
+        //@ Created_By: HungNguyen81 (17-08-2021)
+        //@ Modified_By: HungNguyen81 (17-08-2021)
         public virtual int Update(MISAEntity entity, Guid entityId)
+        //:                                    ^ thực thể     ^ id
         {
             var queryLine = new List<string>();
             var parameters = new DynamicParameters();
@@ -179,7 +194,9 @@ namespace MISA.CukCuk.Infrastructure.Repository
         /// </summary>
         /// <param name="entityIds">List id của các KH cần xóa</param>
         /// <returns></returns>
+        //@ Created_By: HungNguyen81 (17-08-2021)
         public virtual int DeleteMany(List<Guid> entityIds)
+        //:                                          ^ danh sách các id
         {
             var parameters = new DynamicParameters();
             var paramName = new List<string>();
@@ -202,7 +219,9 @@ namespace MISA.CukCuk.Infrastructure.Repository
         /// </summary>
         /// <param name="entityId"></param>
         /// <returns></returns>
+        //@ Created_By: HungNguyen81 (17-08-2021)
         public virtual int DeleteOne(Guid entityId)
+        //:                                  ^ Id của thực thể cần xóa
         {
             var sqlQuery = $"DELETE FROM {_entityName} WHERE {_entityName}Id = @entityId";
             var parameters = new DynamicParameters();

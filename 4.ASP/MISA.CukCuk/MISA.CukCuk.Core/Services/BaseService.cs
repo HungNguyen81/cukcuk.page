@@ -20,7 +20,7 @@ namespace MISA.CukCuk.Core.Services
         #endregion
 
         #region Fields
-
+        
         IBaseRepository<MISAEntity> _repository;
         ServiceResult _serviceResult;
         string _entityName;
@@ -28,7 +28,7 @@ namespace MISA.CukCuk.Core.Services
         #endregion
 
         #region Constructors
-
+        //:                                            Constructor
         public BaseService(IBaseRepository<MISAEntity> repository)
         {
             _repository = repository;
@@ -44,6 +44,8 @@ namespace MISA.CukCuk.Core.Services
         /// Lấy toàn bộ data
         /// </summary>
         /// <returns></returns>
+        //@ Created_By: HungNguyen81 (17-08-2021)
+        //@ Modified_By: HungNguyen81 (17-08-2021)
         public virtual ServiceResult Get()
         {
             _serviceResult.Data = _repository.Get();
@@ -56,6 +58,8 @@ namespace MISA.CukCuk.Core.Services
         /// </summary>
         /// <param name="entityId"></param>
         /// <returns></returns>
+        //@ Created_By: HungNguyen81 (08-01-2000)
+        //@ Modified_By: HungNguyen81 (08-01-2000)
         public virtual ServiceResult GetById(Guid entityId)
         {
             _serviceResult.Data = _repository.GetById(entityId);
@@ -67,6 +71,14 @@ namespace MISA.CukCuk.Core.Services
 
         #region Base Validations
 
+        /// <summary>
+        /// Phương thức validate chung
+        /// </summary>
+        /// <param name="entity"></param>
+        /// <param name="mode"></param>
+        /// <returns></returns>
+        //@ Created_By: HungNguyen81 (17-08-2021)
+        //@ Modified_By: HungNguyen81 (17-08-2021)
         protected ServiceResult Validate(MISAEntity entity, int mode)
         {
             var email = typeof(MISAEntity).GetProperty("Email");
@@ -111,6 +123,13 @@ namespace MISA.CukCuk.Core.Services
             };
         }
 
+        /// <summary>
+        /// Kiểm tra trùng mã
+        /// </summary>
+        /// <param name="code"></param>
+        /// <returns> True: Trùng mã, False: không trùng</returns>
+        //@ Created_By: HungNguyen81 (17-08-2021)
+        //@ Modified_By: HungNguyen81 (17-08-2021)
         protected bool CheckDuplicateEntityCode(string code)
         {
             var result = _repository.GetByCode(code);
@@ -126,9 +145,11 @@ namespace MISA.CukCuk.Core.Services
         /// </summary>
         /// <param name="entity">Dữ liệu thêm mới</param>
         /// <returns></returns>
+        //@ Created_By: HungNguyen81 (17-08-2021)
+        //@ Modified_By: HungNguyen81 (17-08-2021)
         public virtual ServiceResult Add(MISAEntity entity)
         {
-            // Xử lý nghiệp vụ: Ktra tính hợp lệ của một số trường dữ liệu chung
+            // .Xử lý nghiệp vụ: Ktra tính hợp lệ của một số trường dữ liệu chung
 
             _serviceResult = Validate(entity, (int)Mode.Add);
             if (!_serviceResult.IsValid)
@@ -161,9 +182,10 @@ namespace MISA.CukCuk.Core.Services
         /// <param name="entity">     Dữ liệu cập nhật</param>
         /// <param name="entityId">   Id của khác hàng</param>
         /// <returns></returns>
+        //@ Created_By: HungNguyen81 (17-08-2021)
         public virtual ServiceResult Update(MISAEntity entity, Guid entityId)
         {
-            // Xử lý nghiệp vụ: Ktra tính hợp lệ của một số trường dữ liệu chung
+            // .Xử lý nghiệp vụ: Ktra tính hợp lệ của một số trường dữ liệu chung
 
             _serviceResult = Validate(entity, (int)Mode.Update);
             if (!_serviceResult.IsValid)
@@ -203,6 +225,7 @@ namespace MISA.CukCuk.Core.Services
         /// </summary>
         /// <param name="entityId">id của khách hàng cần xóa</param>
         /// <returns></returns>
+        //@ Created_By: HungNguyen81 (17-08-2021)
         public virtual ServiceResult DeleteOne(Guid entityId)
         {
             _serviceResult.Data = _repository.DeleteOne(entityId);
@@ -216,6 +239,7 @@ namespace MISA.CukCuk.Core.Services
         /// </summary>
         /// <param name="entityIds">List id cần xóa</param>
         /// <returns></returns>
+        //@ Created_By: HungNguyen81 (17-08-2021)
         public virtual ServiceResult DeleteMany(List<Guid> entityIds)
         {
             _serviceResult.Data = _repository.DeleteMany(entityIds);
