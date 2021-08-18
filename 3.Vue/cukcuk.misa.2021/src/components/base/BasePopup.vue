@@ -31,6 +31,7 @@
           tabindex="20"
           :onclick="handleOkClick"
           :value="ok"
+          :icon="icon"
         ></base-button>
       </div>
     </div>
@@ -63,6 +64,10 @@ export default {
     ok: {
       type: String,
       require: true,
+    },
+    icon:{
+      type: String,
+      required: false
     },
     isHide: {
       type: Boolean,

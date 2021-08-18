@@ -74,7 +74,7 @@ namespace MISA.CukCuk.API.Controllers
         //@ Created_By: HungNguyen81 (17-08-2021)
         //@ Modified_By: HungNguyen81 (17-08-2021)
 
-        [HttpGet("{[controller]Id}")]
+        [HttpGet("{entityId}")]
         public IActionResult GetEntityByid(Guid entityId)
         {
             // Lấy dữ liệu và phản hồi cho client

@@ -20,9 +20,13 @@ body{
     margin: 24px 0;
 }
 
-.content-heading .button-icon {
+.content-heading .buttons-containner {
     position: absolute;
     right: 16px;
+}
+.buttons-containner{
+    display: flex;
+    align-items: center;
 }
 
 .title {

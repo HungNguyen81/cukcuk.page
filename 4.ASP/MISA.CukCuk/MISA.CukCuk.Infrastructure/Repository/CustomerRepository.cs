@@ -61,6 +61,7 @@ namespace MISA.CukCuk.Infrastructure.Repository
             sqlSelectCount += "ORDER BY c.CustomerId";
 
             // Thực hiện truy vấn lấy dữ liệu
+            _dbConnection.Open();
             var customers = _dbConnection.Query<object>(sqlQuery, param: parameters);
 
             if (customers == null)
@@ -75,7 +76,7 @@ namespace MISA.CukCuk.Infrastructure.Repository
 
             var totalRecord = _dbConnection.QueryFirstOrDefault<int>(sqlSelectCount, param: parameters);
             var totalPage = (int)(totalRecord / pageSize) + ((totalRecord % pageSize != 0) ? 1 : 0);
-
+            _dbConnection.Close();
             return new FilterResponse
             {
                 TotalRecord = totalRecord,

@@ -87,12 +87,12 @@ export default {
     };
   },
   mounted() {
-    // console.log("MOUNTED");
     this.pSize = this.pageSize;
     this.current = this.pageNumber + 1;
     this.allPage = this.totalPage;
   },
   created() {
+    // Khởi tạo data cho dropdown chọn kích thước trang
     this.pageSizeDropData = [
       { Name: ` 10 ${this.entityNameMap[this.entityName]}/trang`, Size: 10 },
       { Name: ` 20 ${this.entityNameMap[this.entityName]}/trang`, Size: 20 },
@@ -115,9 +115,11 @@ export default {
         Number(this.totalRecord)
       );
     },
+
     endRow: function () {
       return Math.min(this.current * this.pSize, Number(this.totalRecord));
     },
+
     offset: function () {
       return this.current < 3
         ? 1
@@ -125,24 +127,51 @@ export default {
     },
   },
   methods: {
+    /**
+     * Handle khi có thay đổi trong dropdown chọn kích thước trang 
+     */
+    // CreatedBy: HungNguyen81 (18-08-2021)
+    // ModifiedBy: HungNguyen81 (18-08-2021)
     pageSizeChange(type, data) {
       this.pSize = data.Size;
       this.$emit("pageSizeChange", this.pSize);
     },
+
+    /**
+     * Chuyển sang trang kế tiếp
+     * CreatedBy: HungNguyen81 (18-08-2021)
+     */
     next() {
       this.current = this.current < this.totalPage ? this.current + 1 : 1;
       console.log("next", this.current + "/" + this.totalPage);
       this.$emit("pageNumChange", this.current - 1);
     },
+
+    /**
+     * Chuyển về trang ngay trước
+     * CreatedBy: HungNguyen81 (18-08-2021)
+     * ModifiedBy: HungNguyen81 (18-08-2021)
+     */
     prev() {
       this.current = this.current > 1 ? this.current - 1 : this.totalPage;
       console.log("prev", this.current + "/" + this.totalPage);
       this.$emit("pageNumChange", this.current - 1);
     },
+    
+    /**
+     * Chuyển về trang đầu tiên
+     * CreatedBy: HungNguyen81 (18-08-2021)
+     * ModifiedBy: HungNguyen81 (18-08-2021)
+     */
     first() {
       this.current = 1;
       this.$emit("pageNumChange", 0);
     },
+
+    /**
+     * Chuyển tới trang cuối cùng
+     * CreatedBy: HungNguyen81 (18-08-2021)
+     */
     last() {
       this.current = this.totalPage;
       this.$emit("pageNumChange", this.current - 1);

@@ -7,12 +7,10 @@ namespace MISA.CukCuk.Core.Helpers
         /// <summary>
         /// Validate định dạng email
         /// </summary>
-        /// <param name="email"></param>
-        /// <returns></returns>
-
-        //@ CreateBy  : Hungnn
-        //@ ModifiedBy: Hungnn
-
+        /// <param name="email">Email cần validate</param>
+        /// <returns>True: ddúng định dạng, False: Không hợp lệ</returns>
+        //@ Created_By: HungNguyen81 (18-08-2021)
+        //@ Modified_By: HungNguyen81 (18-08-2021)
         public static bool EmailValidate(string email)
         {
             var emailFormat = @"\S+@\S+\.\S+";
@@ -24,10 +22,8 @@ namespace MISA.CukCuk.Core.Helpers
         /// </summary>
         /// <param name="val"></param>
         /// <returns></returns>
-
-        //@ CreateBy  : Hungnn
-        //@ ModifiedBy: Hungnn
-
+        //@ Created_By: HungNguyen81 (18-08-2021)
+        //@ Modified_By: HungNguyen81 (18-08-2021)
         public static bool Required(string val)
         {
             return !(val == null || val.Equals(""));

@@ -68,6 +68,8 @@ namespace MISA.CukCuk.Infrastructure.Repository
             sqlSelectCount += "ORDER BY e.EmployeeId";
 
             // Thực hiện truy vấn lấy dữ liệu
+            _dbConnection.Open();
+
             var employees = _dbConnection.Query<object>(sqlQuery, param: parameters);
 
             if (employees == null)
@@ -79,10 +81,10 @@ namespace MISA.CukCuk.Infrastructure.Repository
                     Data = null
                 };
             }
-
             var totalRecord = _dbConnection.QueryFirstOrDefault<int>(sqlSelectCount, param: parameters);
             var totalPage = (int)(totalRecord / pageSize) + ((totalRecord % pageSize != 0) ? 1 : 0);
 
+            _dbConnection.Close();
             return new FilterResponse
             {
                 TotalRecord = totalRecord,
@@ -99,6 +101,7 @@ namespace MISA.CukCuk.Infrastructure.Repository
         //@ Modified_By: HungNguyen81 (17-08-2021)
         public string GetNewCode()
         {
+            _dbConnection.Open();
             var sqlQuery = "SELECT e.EmployeeCode FROM Employee e ORDER BY e.EmployeeCode DESC LIMIT 1";
             var employeeCode = _dbConnection.QueryFirstOrDefault<string>(sqlQuery);
             int employeeNumber;
@@ -114,6 +117,7 @@ namespace MISA.CukCuk.Infrastructure.Repository
             {
                 newEmployeeCode = "NV00001";
             }
+            _dbConnection.Close();
 
             return newEmployeeCode;
         }

@@ -89,10 +89,14 @@ export default {
         Employee: "Nhân Viên",
         Customer: "Khách Hàng",
       },
-      // test: 0
     };
   },
   updated: function () {
+    /**
+     * Giữ trạng thái selected của những dòng đã click chọn khi refresh table
+     * CreatedBy: HungNguyen81 (18-08-2021)
+     * ModifiedBy: HungNguyen81 (18-08-2021)
+     */
     this.$nextTick(function () {
       // Code that will run only after the
       // entire view has been re-rendered
@@ -110,10 +114,7 @@ export default {
       }
     });
   },
-  mounted() {
-    // this.buildTableContent();
-    // localStorage.setItem("select", JSON.stringify([]));
-  },
+  mounted() {},
   computed: {},
   watch: {
     tableKey: function () {
@@ -121,6 +122,11 @@ export default {
     },
   },
   methods: {
+    /**
+     * Lấy dữ liệu từ API và đổ vào table
+     * CreatedBy: HungNguyen81 (18-08-2021)
+     * ModifiedBy: HungNguyen81 (18-08-2021)
+     */
     buildTableContent(){
       if (this.api) {
         console.log(this.api);
@@ -164,6 +170,8 @@ export default {
 
     /**
      * Handle khi click chuột vào table row
+     * CreatedBy: HungNguyen81 (18-08-2021)
+     * ModifiedBy: HungNguyen81 (18-08-2021)
      */
     rowClickHandle(e, type) {
       this.$emit("rowClick", e[type + "Id"], e[type + "Code"], e["FullName"]);
@@ -189,7 +197,9 @@ export default {
     },
 
     /**
-     * Kiểm tra từng dòng của bảng có được select hay không
+     * Check các dòng được chọn (selected)
+     * CreatedBy: HungNguyen81 (18-08-2021)
+     * ModifiedBy: HungNguyen81 (18-08-2021)
      */
     checkSelected(e) {
       let code = e[this.type + "Code"];
@@ -201,6 +211,11 @@ export default {
       }
     },
 
+    /**
+     * Chọn tất cả dòng trong 1 trang của bảng <click checkbox chọn tất cả>
+     * CreatedBy: HungNguyen81 (18-08-2021)
+     * ModifiedBy: HungNguyen81 (18-08-2021)
+     */
     selectAll() {
       this.isSelectAll = !this.isSelectAll;
       let list = localStorage.getItem("select");

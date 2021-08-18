@@ -47,7 +47,13 @@ namespace MISA.CukCuk.Infrastructure.Repository
         {
             // Lấy dữ liệu
             var sqlQuery = $"SELECT * FROM {_entityName}";
-            return (List<MISAEntity>)_dbConnection.Query<MISAEntity>(sqlQuery);
+
+            _dbConnection.Open();
+
+            var res = (List<MISAEntity>)_dbConnection.Query<MISAEntity>(sqlQuery);
+
+            _dbConnection.Close();
+            return res;
         }
 
         /// <summary>
@@ -60,14 +66,24 @@ namespace MISA.CukCuk.Infrastructure.Repository
         public virtual MISAEntity GetById(Guid entityId)
         //:                                       ^ id của nv/kh
         {
-            
-            var sqlQuery = $"SELECT * FROM {_entityName} WHERE {_entityName}Id = @entityId";
+            var sqlQuery = $"SELECT e.*, CASE " +
+                $"WHEN e.Gender=0 THEN 'Nữ' " +
+                $"WHEN e.Gender=1 THEN 'Nam' " +
+                $"ELSE 'Không xác định' " +
+                $"END as GenderName FROM {_entityName} e WHERE e.{_entityName}Id = @entityId";
             var parameters = new DynamicParameters();
 
             parameters.Add("@entityId", entityId);
 
             // Lấy dữ liệu và phản hồi cho client
-            return _dbConnection.QueryFirstOrDefault<MISAEntity>(sqlQuery, param: parameters);
+
+            _dbConnection.Open();
+
+            var res = _dbConnection.QueryFirstOrDefault<MISAEntity>(sqlQuery, param: parameters);
+
+            _dbConnection.Close();
+
+            return res;
         }
 
         /// <summary>
@@ -77,7 +93,7 @@ namespace MISA.CukCuk.Infrastructure.Repository
         /// <returns></returns>
         //@ Created_By: HungNguyen81 (17-08-2021)
         public MISAEntity GetByCode(string code)
-        //:                                 ^ mã nv/ mã kh
+        //:                                 ^ mã nv/mã kh
         {
             // Lấy dữ liệu
             var sqlQuery = $"SELECT * FROM {_entityName} WHERE {_entityName}Code = @code";
@@ -85,7 +101,12 @@ namespace MISA.CukCuk.Infrastructure.Repository
 
             parameter.Add("@code", code);
 
-            return _dbConnection.QueryFirstOrDefault<MISAEntity>(sqlQuery, param: parameter);
+            _dbConnection.Open();
+
+            var res = _dbConnection.QueryFirstOrDefault<MISAEntity>(sqlQuery, param: parameter);
+
+            _dbConnection.Close();
+            return res;
         }
 
         #endregion
@@ -134,7 +155,14 @@ namespace MISA.CukCuk.Infrastructure.Repository
             var sqlQuery = $"INSERT INTO {_entityName} ({String.Join(", ", columnsName.ToArray())}) " +
                             $"VALUES({String.Join(", ", columnsParam.ToArray())})";
 
-            return _dbConnection.Execute(sqlQuery, param: parameters);
+            _dbConnection.Open();
+            var trans = _dbConnection.BeginTransaction();
+
+            var res = _dbConnection.Execute(sqlQuery, param: parameters, transaction:trans);
+
+            trans.Commit();
+            _dbConnection.Close();
+            return res;
         }
 
         #endregion
@@ -182,7 +210,14 @@ namespace MISA.CukCuk.Infrastructure.Repository
             var sqlQuery = $"UPDATE {_entityName} SET {String.Join(", ", queryLine.ToArray())} " +
                             $"WHERE {_entityName}Id = @oldEntityId";
 
-            return _dbConnection.Execute(sqlQuery, param: parameters);
+            _dbConnection.Open();
+            var trans = _dbConnection.BeginTransaction();
+
+            var res = _dbConnection.Execute(sqlQuery, param: parameters, transaction: trans);
+
+            trans.Commit();
+            _dbConnection.Close();
+            return res;
         }
         #endregion
 
@@ -210,7 +245,14 @@ namespace MISA.CukCuk.Infrastructure.Repository
 
             var sql = $"Delete from {_entityName} where {_entityName}Id In ({String.Join(", ", paramName.ToArray())})";
 
-            return _dbConnection.Execute(sql, param: parameters);
+            _dbConnection.Open();
+            var trans = _dbConnection.BeginTransaction();
+
+            var res = _dbConnection.Execute(sql, param: parameters, transaction: trans);
+
+            trans.Commit();
+            _dbConnection.Close();
+            return res;
         }
 
 
@@ -228,7 +270,14 @@ namespace MISA.CukCuk.Infrastructure.Repository
 
             parameters.Add("@entityId", entityId);
 
-            return _dbConnection.Execute(sqlQuery, param: parameters);
+            _dbConnection.Open();
+            var trans = _dbConnection.BeginTransaction();
+
+            var res = _dbConnection.Execute(sqlQuery, param: parameters, transaction: trans);
+
+            trans.Commit();
+            _dbConnection.Close();
+            return res;
         }
 
         #endregion

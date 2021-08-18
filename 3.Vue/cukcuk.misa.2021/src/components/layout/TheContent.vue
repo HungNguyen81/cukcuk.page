@@ -3,17 +3,19 @@
     <div class="content">
       <div class="content-heading">
         <b class="title">Danh sách nhân viên</b>
-        <BaseButtonIcon
-          value="Xóa nhân viên"
-          type="button-delete"
-          :onclick="delBtnClick"
-          :class="{ hide: !delBtnActive }"
-        ></BaseButtonIcon>
-        <BaseButtonIcon
-          value="Thêm nhân viên"
-          icon="icon-add"
-          :onclick="btnAddClick"
-        ></BaseButtonIcon>
+        <div class="buttons-containner">
+          <BaseButtonIcon
+            value="Xóa nhân viên"
+            type="button-delete"
+            :onclick="delBtnClick"
+            :class="{ hide: !delBtnActive }"
+          ></BaseButtonIcon>
+          <BaseButtonIcon
+            value="Thêm nhân viên"
+            icon="icon-add"
+            :onclick="btnAddClick"
+          ></BaseButtonIcon>
+        </div>
       </div>
 
       <div class="content-search">
@@ -380,7 +382,7 @@ export default {
           this.closeForm();
           this.refreshTable();
         })
-        .catch(() => { 
+        .catch(() => {
           // console.log(err);
           this.showToast(
             "error",

@@ -3,17 +3,20 @@
     <div class="content">
       <div class="content-heading">
         <b class="title">Danh sách {{ entityMap[entityName].toLowerCase() }}</b>
-        <BaseButtonIcon
-          :value="'Xóa ' + entityMap[entityName].toLowerCase()"
-          type="button-delete"
-          :onclick="delBtnClick"
-          :class="{ hide: !delBtnActive }"
-        ></BaseButtonIcon>
-        <BaseButtonIcon
-          :value="'Thêm ' + entityMap[entityName].toLowerCase()"
-          icon="icon-add"
-          :onclick="btnAddClick"
-        ></BaseButtonIcon>
+        <div class="buttons-containner">
+          <BaseButtonIcon
+            :value="'Xóa ' + entityMap[entityName].toLowerCase()"
+            type="button-delete"
+            icon="icon-delete"
+            :onclick="delBtnClick"
+            :class="{ hide: !delBtnActive }"
+          ></BaseButtonIcon>
+          <BaseButtonIcon
+            :value="'Thêm ' + entityMap[entityName].toLowerCase()"
+            icon="icon-add"
+            :onclick="btnAddClick"
+          ></BaseButtonIcon>
+        </div>
       </div>
 
       <div class="content-search">
@@ -46,7 +49,7 @@
           :api="`https://localhost:44372/api/v1/${entityName}s/${entityName.toLowerCase()}Filter?pageSize=${pageSize}&pageNumber=${pageNumber}&filterString=${
             searchInput + getApiFilterQuery()
           }`"
-          @dataLoaded="tableDataLoaded"
+          @dataLoaded="isTableLoading = false"
           @rowDblClick="rowDoubleClick"
           @rowClick="rowSelect"
           :tableKey="tableFlag"
@@ -92,6 +95,7 @@
       :isHide="popup.isHide"
       :popupType="popup.popupType"
       :callback="popup.callback"
+      :icon="popup.icon"
       @closePopup="closePopup"
     ></Popup>
     <div class="toast-stack">
@@ -120,7 +124,6 @@ import Paging from "./BasePaging.vue";
 export default {
   name: "Content",
   components: {
-    // BaseButton,
     BaseButtonIcon,
     Combobox,
     Paging,
@@ -183,6 +186,7 @@ export default {
         okAction: "OK",
         isHide: true,
         callback: null,
+        icon: null,
       },
       formStatus: false,
       isTableLoading: true,
@@ -224,47 +228,13 @@ export default {
     },
   },
   methods: {
-    /**
-     * Handle khi client chọn filter từ combobox
-     */
-    activeFilter(type, id) {
-      // this.filter[type + "Id"] = id;
-      this.$set(this.filter, type + "Id", id);
-
-      console.groupCollapsed("Filters");
-      console.table(Object.assign({}, this.filter));
-      console.groupEnd();
-
-      this.refreshTableSelected();
-    },
+    //#region Xử lí liên quan đến Form
 
     /**
-     * Handle khi chuyển trang trên paging component
+     * Mở form thông tin nv
+     * CreatedBy: HungNguyen81 (18-08-2021)
+     * ModifiedBy: HungNguyen81 (18-08-2021)
      */
-    onPageSizeChange(size) {
-      this.pageSize = size;
-      this.pageNumber = 0;
-      this.refreshTableSelected();
-    },
-
-    onPageNumChange(num) {
-      console.log("PAGE NUMBER: ", num);
-      this.pageNumber = num;
-    },
-
-    /**
-     * khi dữ liệu table load xong, gửi totalPage, totalRecord sang paging component
-     */
-    transPagingInfo(numPage, numRecord) {
-      this.totalRecord = numRecord;
-      this.totalPage = numPage;
-    },
-
-    OnPageChange(size, num) {
-      this.pageSize = size;
-      this.pageNumber = num;
-    },
-
     OpenForm(mode) {
       //   this.formMode = act;
       //   this.formStatus = true;
@@ -286,13 +256,21 @@ export default {
         });
       }
     },
+
+    /**
+     * Đóng form
+     * CreatedBy: HungNguyen81 (18-08-2021)
+     * ModifiedBy: HungNguyen81 (18-08-2021)
+     */
     closeForm() {
       this.formStatus = false;
       this.popup.isHide = true;
     },
 
     /**
-     * Đóng form mà k có popup hiện lên
+     * Đóng form mà k lưu
+     * CreatedBy: HungNguyen81 (18-08-2021)
+     * ModifiedBy: HungNguyen81 (18-08-2021)
      */
     closeFormWithoutSave() {
       this.popup = {
@@ -302,19 +280,39 @@ export default {
         okAction: "Có",
         isHide: false,
         callback: this.closeForm,
+        icon: null,
       };
     },
+    //#endregion
 
-    OpenPopup() {
-      this.popup.isHide = false;
-    },
+    //#region Xử lý liên quan đến popup thông báo
+    
+    /**
+     * Đóng popup
+     * CreatedBy: HungNguyen81 (18-08-2021)
+     */
     closePopup() {
       this.popup.isHide = true;
     },
-
     /**
-     * Hiển thị thông báo toast
-     * params: {String}
+     * Hiển thị popup khi có callback
+     * CreatedBy: HungNguyen81 (18-08-2021)
+     */
+    showPopup(options) {
+      if (!options.callback) {
+        options.callback = this.closePopup;
+      }
+      this.popup = options;
+    },
+    //#endregion
+    
+    //#region Xử lý liên quan đến toast message
+    /**
+     * Hiển thị toast message
+     * @param {String} type
+     * @param {String} header
+     * @param {String} msg
+     * @param {Number} delay Thời gian trễ khi hiển thị toast, mặc định là 0
      */
     showToast(type, header, msg, delay) {
       const Show = () => {
@@ -330,19 +328,58 @@ export default {
         Show();
       }
     },
+    //#endregion
 
+    //#region Handle sự kiện emit
     /**
-     * Hiển thị popup khi có callback
+     * Handle khi client chọn filter từ combobox
+     * CreatedBy: HungNguyen81 (18-08-2021)
+     * ModifiedBy: HungNguyen81 (18-08-2021)
      */
-    showPopup(options) {
-      if (!options.callback) {
-        options.callback = this.closePopup;
-      }
-      this.popup = options;
+    activeFilter(type, id) {
+      // this.filter[type + "Id"] = id;
+      this.$set(this.filter, type + "Id", id);
+
+      console.groupCollapsed("Filters");
+      console.table(Object.assign({}, this.filter));
+      console.groupEnd();
+
+      this.refreshTableSelected();
     },
 
     /**
+     * Handle khi chuyển trang trên paging component
+     * CreatedBy: HungNguyen81 (18-08-2021)
+     * ModifiedBy: HungNguyen81 (18-08-2021)
+     */
+    onPageSizeChange(size) {
+      this.pageSize = size;
+      this.pageNumber = 0;
+      this.refreshTableSelected();
+    },
+
+    onPageNumChange(num) {
+      console.log("PAGE NUMBER: ", num);
+      this.pageNumber = num;
+    },
+
+    /**
+     * khi dữ liệu table load xong, gửi totalPage, totalRecord sang paging component
+     * CreatedBy: HungNguyen81 (18-08-2021)
+     * ModifiedBy: HungNguyen81 (18-08-2021)
+     */
+    transPagingInfo(numPage, numRecord) {
+      this.totalRecord = numRecord;
+      this.totalPage = numPage;
+    },
+
+    //#endregion
+
+    //#region xử lí sự kiện DOM
+    /**
      * Hiện popup thông báo xác nhận thêm/sửa
+     * CreatedBy: HungNguyen81 (18-08-2021)
+     * ModifiedBy: HungNguyen81 (18-08-2021)
      */
     formSaveButtonClick(mode, id, detail) {
       this.popup = {
@@ -353,6 +390,7 @@ export default {
         popupType: "",
         okAction: "Lưu",
         isHide: false,
+        icon: null,
         callback: mode ? this.sendPutRequest : this.sendPostRequest,
       };
       this.entityId = id;
@@ -360,93 +398,28 @@ export default {
     },
 
     /**
-     * Callback khi bấm nút Lưu trên form, form mode sửa nhân viên
-     */
-    sendPutRequest() {
-      this.closePopup();
-      this.closeForm();
-
-      this.axios
-        .put(
-          `https://localhost:44372/api/v1/${this.entityName}s/${this.entityId}`,
-          this.entityDetail
-        )
-        .then(() => {
-          this.showToast(
-            "success",
-            "PUT Success",
-            `Sửa nhân viên <b>"${this.entityDetail.FullName}"</b> thành công`
-          );
-
-          this.forceTableRerender();
-        })
-        .catch(() => {
-          this.showToast(
-            "error",
-            "PUT error",
-            `Sửa nhân viên <b>"${this.entityDetail.FullName}"</b> không thành công`
-          );
-          this.closePopup();
-        });
-    },
-
-    /**
-     * Callback khi bấm nút Lưu trên form, form mode thêm nhân viên
-     */
-    sendPostRequest() {
-      this.closePopup();
-      this.closeForm();
-
-      this.axios
-        .post(
-          `https://localhost:44372/api/v1/${this.entityName}s/`,
-          this.entityDetail
-        )
-        .then(() => {
-          this.showToast(
-            "success",
-            "POST success",
-            `Thêm nhân viên <b>"${this.entityDetail.FullName}"</b> thành công`
-          );
-          this.forceTableRerender();
-        })
-        .catch(() => {
-          this.showToast(
-            "error",
-            "POST error",
-            `Thêm nhân viên <b>"${this.entityDetail.FullName}"</b> không thành công`
-          );
-          this.closePopup();
-        });
-    },
-
-    /**
-     * Thay đổi nhãn số trang khi chỉ số trang hiện tại thay đổi
-     */
-    tableDataLoaded() {
-      console.log("LOADED");
-      this.isTableLoading = false;
-    },
-
-    /**
      * Gọi hàm khi bấm nút Thêm nhân viên/ Thêm Khách hàng
+     * CreatedBy: HungNguyen81 (18-08-2021)
      */
     btnAddClick() {
       this.OpenForm(0);
     },
 
     // Xử lí sự kiện click đúp vào table row
+    // CreatedBy: HungNguyen81 (18-08-2021)
     rowDoubleClick(id, pos, dep) {
       this.entityId = id;
       this.moreDetail = {
         PositionName: pos,
         DepartmentName: dep,
       };
+      console.log("id", id);
       this.OpenForm(1);
     },
 
     /**
      *  Xử lí khi select 1 table row
+     * CreatedBy: HungNguyen81 (18-08-2021)
      */
     rowSelect(id, code, name) {
       if (this.deleteIdList.includes(id)) {
@@ -457,21 +430,22 @@ export default {
         this.deleteIdList.push(id);
         this.deleteCodeList.push(name);
 
-        if (this.deleteIdList.length > 100) {
-          this.showToast(
-            "warning",
-            "OUT OF LIMITATION",
-            `Số nhân viên vượt quá <b>"100"</b> người !`
-          );
-        }
+        // if (this.deleteIdList.length == 101) {
+        //   this.showToast(
+        //     "warning",
+        //     "OUT OF LIMITATION",
+        //     `Số nhân viên vượt quá <b>"100"</b> người !`
+        //   );
+        // }
       }
     },
 
     /**
      * Xử lí sự kiện bấm nút xóa các hàng đã chọn trên table
+     * CreatedBy: HungNguyen81 (18-08-2021)
      */
     delBtnClick() {
-      this.popup = {
+      this.showPopup({
         title: "Xác nhận xóa",
         content: `Bạn có chắc chắn muốn xóa "<b>${this.deleteCodeList.join(
           ", "
@@ -479,13 +453,16 @@ export default {
         popupType: "error",
         okAction: "Xóa",
         isHide: false,
+        icon: "icon-delete",
         callback: this.sendDeleteRequests,
-      };
-      this.OpenPopup();
+      });
     },
+    //#endregion
 
+    //#region Requests
     /**
      * Callback khi bấm OK trong popup, gửi toàn bộ id cần xóa lên 1 request
+     * CreatedBy: HungNguyen81 (18-08-2021)
      */
     sendDeleteRequests() {
       console.table(this.deleteIdList);
@@ -502,15 +479,86 @@ export default {
           this.forceTableRerender();
 
           // hiển thị toast thông báo đã xóa thành công
-          this.showToast("info", "DELETE successfully", res.data.userMsg);
+          this.showToast("info", "DELETE successfully", res.data.Msg);
         })
         .catch(() => {
           this.showToast("error", "Delete error", `Xóa không thành công`);
         });
     },
 
-    refreshTableSelected(){
-      // this.tableKey = !this.tableKey;
+    /**
+     * Callback khi bấm nút Lưu trên form, form mode sửa nhân viên
+     * CreatedBy: HungNguyen81 (18-08-2021)
+     * ModifiedBy: HungNguyen81 (18-08-2021)
+     */
+    sendPutRequest() {
+      this.axios
+        .put(
+          `https://localhost:44372/api/v1/${this.entityName}s/${this.entityId}`,
+          this.entityDetail
+        )
+        .then(() => {
+          this.closePopup();
+          this.closeForm();
+
+          this.showToast(
+            "success",
+            "PUT Success",
+            `Sửa nhân viên <b>"${this.entityDetail.FullName}"</b> thành công`
+          );
+          
+          this.forceTableRerender();
+        })
+        .catch((err) => {
+          this.showToast(
+            "error",
+            "PUT error",
+            err.response.data.Msg
+          );
+          this.closePopup();
+        });
+    },
+
+    /**
+     * Callback khi bấm nút Lưu trên form, form mode thêm nhân viên
+     * CreatedBy: HungNguyen81 (18-08-2021)
+     * ModifiedBy: HungNguyen81 (18-08-2021)
+     */
+    sendPostRequest() {
+      this.axios
+        .post(
+          `https://localhost:44372/api/v1/${this.entityName}s/`,
+          this.entityDetail
+        )
+        .then((res) => {
+          this.showToast(
+            "success",
+            "POST success",
+            res.data.Msg
+            // `Thêm nhân viên <b>"${this.entityDetail.FullName}"</b> thành công`
+          );
+          this.closePopup();
+          this.closeForm();
+          this.forceTableRerender();
+        })
+        .catch((err) => {
+          this.showToast(
+            "error",
+            "POST error",
+            err.response.data.Msg
+            // `Thêm nhân viên <b>"${this.entityDetail.FullName}"</b> không thành công`
+          );
+          this.closePopup();
+        });
+    },
+    //#endregion
+
+    //#region Làm mới bảng dữ liệu
+    /**
+     * Refresh table và bỏ các dòng đã selected
+     * CreatedBy: HungNguyen81 (18-08-2021)
+     */
+    refreshTableSelected() {
       localStorage.setItem("select", JSON.stringify([]));
       this.deleteIdList = [];
       this.deleteCodeList = [];
@@ -519,14 +567,18 @@ export default {
 
     /**
      * Khiến table phải re-render
+     * CreatedBy: HungNguyen81 (18-08-2021)
      */
     forceTableRerender() {
       this.isTableLoading = true;
       this.tableFlag = !this.tableFlag;
     },
 
+    //#endregion
+
     /**
      * Lấy thông số filter cho api query
+     * CreatedBy: HungNguyen81 (18-08-2021)
      */
     getApiFilterQuery() {
       var res = "";

@@ -26,6 +26,16 @@
     background-repeat: no-repeat;
     background-size: 18px;
 }
+.icon-button.icon-delete{
+    width: 18px;
+    height: 18px;
+    margin-right: 8px;
+    display: inline-block;
+    background-image: url('../../assets/icon/delete.png');
+    background-repeat: no-repeat;
+    background-size: 18px;
+    filter: invert();
+}
 
 .button:hover {
     background-color: #2FBE8E;
@@ -112,9 +122,8 @@
 
 /* Delete button */
 .button.button-delete{    
-    position: absolute;
     background-color: #f65454;
-    right: 180px;
+    margin-right: 16px;
 }
 #button-delete:hover{
     background-color: #f33939;

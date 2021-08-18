@@ -274,7 +274,6 @@ import ultis from "../../mixins/ultis";
 import validate from "../../mixins/validate";
 import BaseButtonIcon from "../base/BaseButtonIcon.vue";
 import BaseDropdown from "../base/BaseDropdown.vue";
-// import BaseInput from "../base/BaseInput.vue";
 import BaseTextInput from "../base/BaseTextInput.vue";
 import BaseDateInput from "../base/BaseDateInput.vue";
 
@@ -283,7 +282,6 @@ export default {
   components: {
     BaseButtonIcon,
     BaseDropdown,
-    // BaseInput,
     BaseTextInput,
     BaseDateInput
   },
@@ -356,10 +354,12 @@ export default {
     isValidate: function (v) {
       console.log("v:", v);
     },
+
     /**
      * Watch sự thay đổi của isOpen để
      * - Auto focus vào trường mã nhân viên khi mở form
      * - Gọi API lấy thông tin đối tượng nếu form mode = 0 <sửa>
+     * CreatedBy: HungNguyen81 (18-08-2021)
      */
     isOpen: function (val) {
       this.$nextTick(() => {
@@ -372,14 +372,24 @@ export default {
       console.log("form " + (val ? "open" : "close"), this.mode);
 
       if (this.isOpen)
-        // mode : 1 = thêm nv, mode : 0 = sửa nv <0 = không thêm>
+        console.log("open", this.mode, this.detailId, `https://localhost:44372/api/v1/Employees/${this.detailId}`);
+        // mode : 0 = thêm nv, mode : 1 = sửa nv 
         if (this.mode == 1 && this.detailId) {
+
           this.axios
             .get(`https://localhost:44372/api/v1/Employees/${this.detailId}`)
             .then((res) => {
+
+              if(res.data.IsValid === false){
+                this.$emit("showToast","warning", "NO Content", res.data.Msg);
+                return;
+              }
+
               this.detail = Object.assign({}, res.data);
 
-              console.table(res.data)
+              console.groupCollapsed("Data form");
+              console.table(res.data);
+              console.groupEnd();
               
               this.formatData();
               this.$set(
@@ -421,6 +431,7 @@ export default {
   methods: {
     /**
      * Handle mỗi khi date input value thay đổi
+     * CreatedBy: HungNguyen81 (18-08-2021)
      */
     dateChange(key, val, input, formatedVal) {
       // console.log(key, val, input);
@@ -440,6 +451,7 @@ export default {
 
     /**
      * Format dữ liệu để hiển thị
+     * CreatedBy: HungNguyen81 (18-08-2021)
      */
     formatData() {
       this.$set(
@@ -471,6 +483,7 @@ export default {
 
     /**
      * Kiểm tra tính hợp lệ của các trường dữ liệu trên form
+     * CreatedBy: HungNguyen81 (18-08-2021)
      */
     isValidate() {
       let res = true;
@@ -486,6 +499,7 @@ export default {
     /**
      *
      * Định dạng tiền tệ trong khi nhập
+     * CreatedBy: HungNguyen81 (18-08-2021)
      */
     formatSalaryOnInput() {
       let salaryInput = this.$refs.salary.$el.children[1];
@@ -508,6 +522,7 @@ export default {
 
     /**
      * Lấy dữ liệu thô để post/put
+     * CreatedBy: HungNguyen81 (18-08-2021)
      */
     getRawData() {
       let dob = this.detail.DateOfBirth;
@@ -529,6 +544,7 @@ export default {
 
     /**
      * Handle khi click nút lưu
+     * CreatedBy: HungNguyen81 (18-08-2021)
      */
     btnSaveClick() {      
 
@@ -547,13 +563,14 @@ export default {
         });
         return;
       }
-      // console.log("EMIT");
+
       this.$emit("saveClicked", this.mode, this.detailId, this.getRawData());
     },
 
     /**
      * Khi select trong dropdown, chỉ có DepartmentName thay đổi mà DepartmentId không thay đổi
      * Tương tự với PositionId
+     * CreatedBy: HungNguyen81 (18-08-2021)
      */
     dropDataChange(typeName, obj) {
       this.$set(this.detail, typeName, obj[typeName]);
@@ -568,6 +585,7 @@ export default {
 
     /**
      * Emit sự kiện showToast cho parent(base content)
+     * CreatedBy: HungNguyen81 (18-08-2021)
      */
     emitShowToast(type, header, msg) {
       this.$emit("showToast", type, header, msg);
@@ -575,6 +593,7 @@ export default {
 
     /**
      * Handle khi validate input
+     * CreatedBy: HungNguyen81 (18-08-2021)
      */
     validateForm(key, isValid){
       this.$set(this.validate, key, isValid);
