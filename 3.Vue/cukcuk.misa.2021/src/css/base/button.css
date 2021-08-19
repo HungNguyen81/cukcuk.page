@@ -9,6 +9,7 @@
     text-align: center;
     line-height: 40px;
     cursor: pointer;
+    white-space: nowrap;
 }
 
 .button-icon {    
@@ -99,7 +100,7 @@
     padding-right: 16px;
 }
 
-.button-save .icon-save{
+.icon-save{
     width: 16px;
     height: 16px;
     background-image: url('../../assets/icon/document-online.png');
@@ -132,22 +133,30 @@
 /* Refresh button */
 .button-refresh {
     width: 40px;
-    height: 40px;
+    /* height: 40px; */
     background-color: #fff;
     border: 1px solid #ccc;
-    position: absolute;
+    /* position: absolute;
     right: 16px;
-    top: 0px;
-    border-radius: 4px;
-    background-image: url('../../assets/icon/refresh.png');
+    top: 0px; */
+    /* border-radius: 4px; */
+    /* background-image: url('../../assets/icon/refresh.png');
     background-repeat: no-repeat;
     background-size: 24px;
-    background-position: 8px 8px;
-    cursor: pointer;
+    background-position: 8px 8px; */
+    /* cursor: pointer; */
+    color: #ccc;
+    font-size: 150%;
+    font-weight: 50;
+    display: flex;
+    align-items: center;
+    justify-content: space-around;
     box-sizing: border-box;
+    padding: 0;
 }
 .button-refresh:hover{
     background-color: #bbb;
+    color: white;
 }
 .button-refresh:active{
     background-color: #454545;

@@ -38,7 +38,18 @@
           v-for="(f, index) in filterName"
           :key="index"
         ></Combobox>
-        <div class="button-refresh" @click="refreshTableSelected"></div>
+
+        <div class="more-feature-btn-wrap">
+          <BaseButtonIcon
+            v-for="(btn, i) in featureButtons" :key="i"
+            :value="btn.Name"
+            :icon="btn.Icon"
+            :onclick="btn.Callback"
+          ></BaseButtonIcon>
+          <div class="button button-refresh" @click="refreshTableSelected">
+            <i class="fas fa-sync-alt"></i>
+          </div>
+        </div>
       </div>
 
       <div class="table-wrap">
@@ -97,6 +108,7 @@
       :callback="popup.callback"
       :icon="popup.icon"
       @closePopup="closePopup"
+      @popupCallbackFinish="finishPopupCallback"
     ></Popup>
     <div class="toast-stack">
       <Toast
@@ -113,6 +125,7 @@
 </template>
 
 <script>
+import EventBus from '../../event-bus/EventBus';
 import BaseButtonIcon from "./BaseButtonIcon.vue";
 import Combobox from "./BaseCombobox.vue";
 import Form from "./BaseForm.vue";
@@ -152,6 +165,10 @@ export default {
       type: Array,
       require: true,
     },
+    featureButtons: {
+      type: Array,
+      required: false
+    }
   },
   data() {
     return {
@@ -197,7 +214,11 @@ export default {
       },
     };
   },
-  created() {},
+  created() {
+    EventBus.$on("showPopup", (args) => {
+      this.showPopup(args);
+    })
+  },
   computed: {
     /**
      * Toggle trạng thái nút xóa nv theo số dòng được select
@@ -286,7 +307,7 @@ export default {
     //#endregion
 
     //#region Xử lý liên quan đến popup thông báo
-    
+
     /**
      * Đóng popup
      * CreatedBy: HungNguyen81 (18-08-2021)
@@ -304,8 +325,16 @@ export default {
       }
       this.popup = options;
     },
+
+    /**
+     * Ẩn popup sau khi callback của nút OK chạy xong
+     * CreatedBy: HungNguyen81 (19-08-2021)
+     */
+    finishPopupCallback(){
+      this.popup.isHide = true;
+    },
     //#endregion
-    
+
     //#region Xử lý liên quan đến toast message
     /**
      * Hiển thị toast message
@@ -506,15 +535,11 @@ export default {
             "PUT Success",
             `Sửa nhân viên <b>"${this.entityDetail.FullName}"</b> thành công`
           );
-          
+
           this.forceTableRerender();
         })
         .catch((err) => {
-          this.showToast(
-            "error",
-            "PUT error",
-            err.response.data.Msg
-          );
+          this.showToast("error", "PUT error", err.response.data.Msg);
           this.closePopup();
         });
     },

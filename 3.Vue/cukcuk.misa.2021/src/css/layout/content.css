@@ -91,3 +91,15 @@ body{
 .dropdown-customergroups{
     left: calc(335px + 16px);
 }
+
+.more-feature-btn-wrap{
+    position: absolute;
+    right: 16px;
+    top: 0px;
+    display: flex;
+    align-items: center;
+    z-index: 10;
+}
+.more-feature-btn-wrap .button{
+    margin-left: 8px;
+}

@@ -5,7 +5,7 @@
 </template>
 
 <script>
-import Entity from './components/pages/PageEmployee.vue';
+import Entity from './components/pages/PageCustomer.vue';
 
 export default {
   name: "App",

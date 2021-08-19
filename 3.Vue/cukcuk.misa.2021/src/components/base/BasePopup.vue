@@ -83,6 +83,7 @@ export default {
     handleOkClick() {
       if (this.callback) {
         this.callback();
+        this.$emit("popupCallbackFinish");
       } else {
         console.log("Callback function not found!");
       }

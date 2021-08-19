@@ -192,12 +192,15 @@ table tbody tr {
     width: 140px;
 }
 
-/* TABLE CUSTOMER */
+/* TABLE CUSTOMER -------------------------------------*/
 
 /* Delete checkbox */
 .table-customer tbody td:nth-child(1),
 .table-customer th:nth-child(1) {
     width: 42px;
+    position: sticky;
+    left: 0px;
+    background-color: #fff;
 }
 
 /* Customer code */
