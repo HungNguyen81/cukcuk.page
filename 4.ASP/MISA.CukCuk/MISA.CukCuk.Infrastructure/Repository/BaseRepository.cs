@@ -259,7 +259,7 @@ namespace MISA.CukCuk.Infrastructure.Repository
                 parameters.Add($"@id{i}", id.ToString());
             }
 
-            var sql = $"Delete from {_entityName} where {_entityName}Id In ({String.Join(", ", paramName.ToArray())})";
+            var sql = $"delete from {_entityName} where {_entityName}Id In ({String.Join(", ", paramName.ToArray())})";
 
             _dbConnection.Open();
             var trans = _dbConnection.BeginTransaction();
