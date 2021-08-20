@@ -17,5 +17,8 @@ namespace MISA.CukCuk.Core.Interfaces.Repositiories
         /// <returns></returns>
         FilterResponse GetByFilter(int pageSize, int pageNumber, string filterString, Guid? customerGroupId);
 
+        CustomerGroup GetCustomerGroupInfo(string customerGroupName);
+
+        int InsertMany(List<Customer> customers);
     }
 }

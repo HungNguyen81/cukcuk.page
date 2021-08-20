@@ -80,12 +80,15 @@ body {
     display: none;
 }
 
+.hidden {
+    visibility: hidden;
+}
 
 div:focus {
     outline: none;
     border: 1px solid #016e4a;
     border-radius: 4px;
-    /* animation: outline-animate 3s infinite;     */   
+    /* animation: outline-animate 3s infinite;     */
 }
 
 @keyframes outline-animate {

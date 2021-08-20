@@ -3,11 +3,14 @@ using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using Microsoft.Extensions.PlatformAbstractions;
 using Microsoft.OpenApi.Models;
 using MISA.CukCuk.Core.Interfaces.Repositiories;
 using MISA.CukCuk.Core.Interfaces.Services;
 using MISA.CukCuk.Core.Services;
 using MISA.CukCuk.Infrastructure.Repository;
+using System.IO;
+using System.Reflection;
 
 namespace MISA.CukCuk.API
 {
@@ -54,9 +57,6 @@ namespace MISA.CukCuk.API
             // scoped of Position
             services.AddScoped<IPositionService, PositionService>();
             services.AddScoped<IPositionRepository, PositionRepository>();
-
-            //services.AddScoped(typeof(IBaseService<>), typeof(BaseService<>));
-            //services.AddScoped(typeof(IBaseRepository<>), typeof(BaseRepository<>));
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

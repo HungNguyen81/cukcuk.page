@@ -43,6 +43,16 @@
       "frameworks": {
         "net5.0": {
           "targetAlias": "net5.0",
+          "dependencies": {
+            "EPPlus": {
+              "target": "Package",
+              "version": "[5.7.3, )"
+            },
+            "Microsoft.AspNetCore.Http.Features": {
+              "target": "Package",
+              "version": "[5.0.9, )"
+            }
+          },
           "imports": [
             "net461",
             "net462",

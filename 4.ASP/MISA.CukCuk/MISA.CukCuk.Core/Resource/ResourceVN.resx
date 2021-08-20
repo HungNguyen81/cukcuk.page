@@ -120,11 +120,17 @@
   <data name="ConnectionString" xml:space="preserve">
     <value>Host = 47.241.69.179;Database = Web07.CUKCUK.HUNGNN; User Id = dev; Password = 12345678;</value>
   </data>
+  <data name="CustomerCodeExistInFileMsg" xml:space="preserve">
+    <value>Mã khách hàng đã trùng với khách hàng khác trong tệp nhập khẩu.</value>
+  </data>
   <data name="CustomerCodeInvalidMsg" xml:space="preserve">
     <value>Mã khách hàng không được để trống !</value>
   </data>
+  <data name="CustomerGroupNotExistMsg" xml:space="preserve">
+    <value>Nhóm khách hàng không có trong hệ thống.</value>
+  </data>
   <data name="DuplicateCustomerCodeMsg" xml:space="preserve">
-    <value>Mã khách hàng đã tồn tại, xin vui lòng tạo mã mới !</value>
+    <value>Mã khách hàng đã tồn tại trong hệ thống !</value>
   </data>
   <data name="DuplicateEmployeeCodeMsg" xml:space="preserve">
     <value>Mã nhân viên đã tồn tại, xin vui lòng tạo mã mới !</value>
@@ -138,7 +144,22 @@
   <data name="ErrorMsg" xml:space="preserve">
     <value>Có lỗi xảy ra, vui lòng liên hệ MISA !</value>
   </data>
+  <data name="FileEmptyMsg" xml:space="preserve">
+    <value>Bạn chưa chọn file nhập khẩu hoặc file nhập khẩu bị lỗi !</value>
+  </data>
   <data name="IdEmptyMsg" xml:space="preserve">
     <value>ID không được để trống !</value>
+  </data>
+  <data name="LocalConnectionString" xml:space="preserve">
+    <value>Host = localhost;Database = web07.cukcuk.hungnn; User Id = hungdev; Password = hung;</value>
+  </data>
+  <data name="NotSupportFileExtMsg" xml:space="preserve">
+    <value>Định dạng file không được hỗ trợ !</value>
+  </data>
+  <data name="PhoneNumberDuplicateMsg" xml:space="preserve">
+    <value>SĐT đã tồn tại trong hệ thống.</value>
+  </data>
+  <data name="PhoneNumberExistInFileMsg" xml:space="preserve">
+    <value>SĐT đã trùng với SĐT của khách hàng khác trong tệp nhập khẩu.</value>
   </data>
 </root>

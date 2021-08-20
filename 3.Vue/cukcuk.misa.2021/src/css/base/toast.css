@@ -83,23 +83,26 @@
 }
 
 /* ERROR TOAST */
-.toast.error {
-    background-color: #FFCECE;
+.toast {
+    background-color: #fff;
 }
+/* .toast.error {
+    background-color: #FFCECE;
+} */
 .toast.error .toast-icon {
     background-image: url('../../assets/icon/toast-error.png');
     background-size: 24px;
     background-repeat: no-repeat;
 }
 .toast-close .error {
-    color: #ca3a3a;
+    color: #FFCECE;
 }
 
 
 /* WARNING TOAST */
-.toast.warning {
+/* .toast.warning {
     background-color: #FFE7AF;
-}
+} */
 
 .toast.warning .toast-icon {
     background-image: url('../../assets/icon/toast-warning.png');
@@ -108,14 +111,14 @@
 }
 
 .toast-close .warning {
-    color: #d3a12d;
+    color: #FFE7AF;
 }
 
 
 /* SUCCESS TOAST */
-.toast.success {
+/* .toast.success {
     background-color: #BAFFE7;
-}
+} */
 
 .toast.success .toast-icon {
     background-image: url('../../assets/icon/toast-success.png');
@@ -124,21 +127,21 @@
 }
 
 .toast-close .success {
-    color: #37d19b;
+    color: #BAFFE7;
 }
 
 
 /* INFO TOAST */
-.toast.info {
+/* .toast.info {
     background-color: #D8EAFF;
-}
+} */
 .toast.toast.info .toast-icon {
     background-image: url('../../assets/icon/toast-info.png');
     background-size: 24px;
     background-repeat: no-repeat;
 }
 .toast-close .info{
-    color: #397dca;
+    color: #D8EAFF;
 }
 
 /* HOVER */

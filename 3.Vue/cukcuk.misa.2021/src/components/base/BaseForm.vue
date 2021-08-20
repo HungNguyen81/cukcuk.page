@@ -270,6 +270,7 @@
 </template>
 
 <script>
+import axios from 'axios';
 import ultis from "../../mixins/ultis";
 import validate from "../../mixins/validate";
 import BaseButtonIcon from "../base/BaseButtonIcon.vue";
@@ -376,7 +377,7 @@ export default {
         // mode : 0 = thêm nv, mode : 1 = sửa nv 
         if (this.mode == 1 && this.detailId) {
 
-          this.axios
+          axios
             .get(`https://localhost:44372/api/v1/Employees/${this.detailId}`)
             .then((res) => {
 
@@ -409,7 +410,7 @@ export default {
             });
         } else if (this.mode == 0) {
           this.isDataLoaded = true;
-          this.axios
+          axios
             .get("https://localhost:44372/api/v1/Employees/NewEmployeeCode")
             .then((res) => {
               let newCode = res.data.Data;

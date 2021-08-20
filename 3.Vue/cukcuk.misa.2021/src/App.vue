@@ -1,20 +1,20 @@
 <template>
   <div id="app">
-    <Entity></Entity>
+    <router-view></router-view>
   </div>
 </template>
 
 <script>
-import Entity from './components/pages/PageCustomer.vue';
+// import Entity from "./components/pages/PageEmployee.vue";
 
 export default {
   name: "App",
   components: {
-    Entity
+    
   },
 };
 </script>
 
 <style>
-@import './css/main.css';
+@import "./css/main.css";
 </style>

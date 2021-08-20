@@ -70,6 +70,15 @@ namespace MISA.CukCuk.Core.Resource {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Mã khách hàng đã trùng với khách hàng khác trong tệp nhập khẩu..
+        /// </summary>
+        public static string CustomerCodeExistInFileMsg {
+            get {
+                return ResourceManager.GetString("CustomerCodeExistInFileMsg", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Mã khách hàng không được để trống !.
         /// </summary>
         public static string CustomerCodeInvalidMsg {
@@ -79,7 +88,16 @@ namespace MISA.CukCuk.Core.Resource {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Mã khách hàng đã tồn tại, xin vui lòng tạo mã mới !.
+        ///   Looks up a localized string similar to Nhóm khách hàng không có trong hệ thống..
+        /// </summary>
+        public static string CustomerGroupNotExistMsg {
+            get {
+                return ResourceManager.GetString("CustomerGroupNotExistMsg", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Mã khách hàng đã tồn tại trong hệ thống !.
         /// </summary>
         public static string DuplicateCustomerCodeMsg {
             get {
@@ -124,11 +142,56 @@ namespace MISA.CukCuk.Core.Resource {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Bạn chưa chọn file nhập khẩu hoặc file nhập khẩu bị lỗi !.
+        /// </summary>
+        public static string FileEmptyMsg {
+            get {
+                return ResourceManager.GetString("FileEmptyMsg", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to ID không được để trống !.
         /// </summary>
         public static string IdEmptyMsg {
             get {
                 return ResourceManager.GetString("IdEmptyMsg", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Host = localhost;Database = web07.cukcuk.hungnn; User Id = hungdev; Password = hung;.
+        /// </summary>
+        public static string LocalConnectionString {
+            get {
+                return ResourceManager.GetString("LocalConnectionString", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Định dạng file không được hỗ trợ !.
+        /// </summary>
+        public static string NotSupportFileExtMsg {
+            get {
+                return ResourceManager.GetString("NotSupportFileExtMsg", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to SĐT đã tồn tại trong hệ thống..
+        /// </summary>
+        public static string PhoneNumberDuplicateMsg {
+            get {
+                return ResourceManager.GetString("PhoneNumberDuplicateMsg", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to SĐT đã trùng với SĐT của khách hàng khác trong tệp nhập khẩu..
+        /// </summary>
+        public static string PhoneNumberExistInFileMsg {
+            get {
+                return ResourceManager.GetString("PhoneNumberExistInFileMsg", resourceCulture);
             }
         }
     }

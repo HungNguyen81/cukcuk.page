@@ -11,4 +11,10 @@ namespace MISA.CukCuk.Core.CustomAttrs
     {
 
     }
+
+    [AttributeUsage(AttributeTargets.Property)]
+    public class MISAColumnForImport : Attribute
+    {
+
+    }
 }

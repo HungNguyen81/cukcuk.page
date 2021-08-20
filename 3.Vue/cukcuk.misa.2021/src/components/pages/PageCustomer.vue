@@ -1,7 +1,7 @@
 <template>
   <div>
     <Header></Header>
-    <Menu></Menu>
+    <Menu :route="route" :items="menuItems"></Menu>
     <Content
       entityName="Customer"
       :filterName="['CustomerGroupId']"
@@ -20,6 +20,7 @@
 </template>
 
 <script>
+import axios from 'axios';
 import EventBus from "../../event-bus/EventBus";
 import Header from "../layout/TheHeader.vue";
 import Menu from "../layout/TheMenu.vue";
@@ -56,6 +57,14 @@ export default {
         "CompanyName",
         "IsStopFollow",
       ],
+      menuItems: [
+        { icon: "item-dashboard", path: "#", text: "Tổng quan" },
+        { icon: "item-report", path: "#", text: "Báo cáo" },
+        { icon: "item-employee", path: "/employees", text: "Danh mục nhân viên" },
+        { icon: "item-employee", path: "/customers", text: "Danh mục khách hàng" },
+        { icon: "item-setting", path: "#", text: "Thiết lập hệ thống" },
+      ],
+      route: "/customers",
       featureButtons: [
         {
           Name: "Xuất khẩu",
@@ -72,7 +81,6 @@ export default {
     };
   },
   methods: {
-
     /**
      * handle khi click chọn nhập file
      * CreatedBy: HungNguyen81 (19-08-2021)
@@ -102,6 +110,7 @@ export default {
     /**
      * POST file đã chọn
      * CreatedBy: HungNguyen81 (19-08-2021)
+     * ModifiedBy: HungNguyen81 (20-08-2021)
      */
     sendFileToImport() {
       console.table(this.file.files);
@@ -109,16 +118,20 @@ export default {
       // Gửi file lên API server
       var formData = new FormData();
       formData.append("formFile", this.file.files[0]);
-      this.axios.post("https://localhost:44372/api/v1/Customers/import", formData, {
-        headers: {
-          "Content-Type": "multipart/form-data",
-        },
-      }).then(()=>{
-        
-      });
+      axios
+        .post("https://localhost:44372/api/v1/Customers/import", formData, {
+          headers: {
+            "Content-Type": "multipart/form-data",
+          },
+        })
+        .then((res) => {
+          console.groupCollapsed("Import file result");
+          console.table(res.data.Data.Result);
+          console.groupEnd();
+        });
 
       // sau khi submit file, clear file value
-      this.file.value = "";
+      this.file = null;
     },
   },
 };

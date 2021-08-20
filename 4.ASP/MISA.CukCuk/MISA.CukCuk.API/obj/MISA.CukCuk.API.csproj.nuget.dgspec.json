@@ -55,6 +55,10 @@
               "target": "Package",
               "version": "[2.0.90, )"
             },
+            "Microsoft.Extensions.PlatformAbstractions": {
+              "target": "Package",
+              "version": "[1.1.0, )"
+            },
             "MySqlConnector": {
               "target": "Package",
               "version": "[1.4.0-beta.1, )"
@@ -125,6 +129,16 @@
       "frameworks": {
         "net5.0": {
           "targetAlias": "net5.0",
+          "dependencies": {
+            "EPPlus": {
+              "target": "Package",
+              "version": "[5.7.3, )"
+            },
+            "Microsoft.AspNetCore.Http.Features": {
+              "target": "Package",
+              "version": "[5.0.9, )"
+            }
+          },
           "imports": [
             "net461",
             "net462",

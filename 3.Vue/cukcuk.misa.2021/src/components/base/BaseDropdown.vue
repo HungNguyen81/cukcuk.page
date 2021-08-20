@@ -31,6 +31,8 @@
 </template>
 
 <script>
+import axios from 'axios';
+
 export default {
   name: "Dropdown",
   components: {},
@@ -74,7 +76,7 @@ export default {
   },
   created() {
     if (this.api) {
-      this.axios
+      axios
         .get(this.api)
         .then((res) => {
           this.items = res.data;

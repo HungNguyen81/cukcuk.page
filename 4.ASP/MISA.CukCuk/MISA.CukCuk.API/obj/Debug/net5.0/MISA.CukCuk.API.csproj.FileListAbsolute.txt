@@ -35,3 +35,10 @@ D:\0. Subjects\20203\MISA fresher Trainning - GĐ1\Trainning\Buổi 1 - 13.07.20
 D:\0. Subjects\20203\MISA fresher Trainning - GĐ1\Trainning\Buổi 1 - 13.07.2021\Bài tập\cukcuk.page\4.ASP\MISA.CukCuk\MISA.CukCuk.API\bin\Debug\net5.0\MISA.CukCuk.Infrastructure.dll
 D:\0. Subjects\20203\MISA fresher Trainning - GĐ1\Trainning\Buổi 1 - 13.07.2021\Bài tập\cukcuk.page\4.ASP\MISA.CukCuk\MISA.CukCuk.API\bin\Debug\net5.0\MISA.CukCuk.Core.pdb
 D:\0. Subjects\20203\MISA fresher Trainning - GĐ1\Trainning\Buổi 1 - 13.07.2021\Bài tập\cukcuk.page\4.ASP\MISA.CukCuk\MISA.CukCuk.API\bin\Debug\net5.0\MISA.CukCuk.Infrastructure.pdb
+D:\0. Subjects\20203\MISA fresher Trainning - GĐ1\Trainning\Buổi 1 - 13.07.2021\Bài tập\cukcuk.page\4.ASP\MISA.CukCuk\MISA.CukCuk.API\bin\Debug\net5.0\Microsoft.AspNetCore.Http.Features.dll
+D:\0. Subjects\20203\MISA fresher Trainning - GĐ1\Trainning\Buổi 1 - 13.07.2021\Bài tập\cukcuk.page\4.ASP\MISA.CukCuk\MISA.CukCuk.API\bin\Debug\net5.0\Microsoft.Extensions.Primitives.dll
+D:\0. Subjects\20203\MISA fresher Trainning - GĐ1\Trainning\Buổi 1 - 13.07.2021\Bài tập\cukcuk.page\4.ASP\MISA.CukCuk\MISA.CukCuk.API\bin\Debug\net5.0\System.IO.Pipelines.dll
+D:\0. Subjects\20203\MISA fresher Trainning - GĐ1\Trainning\Buổi 1 - 13.07.2021\Bài tập\cukcuk.page\4.ASP\MISA.CukCuk\MISA.CukCuk.API\bin\Debug\net5.0\EPPlus.dll
+D:\0. Subjects\20203\MISA fresher Trainning - GĐ1\Trainning\Buổi 1 - 13.07.2021\Bài tập\cukcuk.page\4.ASP\MISA.CukCuk\MISA.CukCuk.API\bin\Debug\net5.0\Microsoft.IO.RecyclableMemoryStream.dll
+D:\0. Subjects\20203\MISA fresher Trainning - GĐ1\Trainning\Buổi 1 - 13.07.2021\Bài tập\cukcuk.page\4.ASP\MISA.CukCuk\MISA.CukCuk.API\bin\Debug\net5.0\System.Xml.XPath.XmlDocument.dll
+D:\0. Subjects\20203\MISA fresher Trainning - GĐ1\Trainning\Buổi 1 - 13.07.2021\Bài tập\cukcuk.page\4.ASP\MISA.CukCuk\MISA.CukCuk.API\bin\Debug\net5.0\Microsoft.Extensions.PlatformAbstractions.dll

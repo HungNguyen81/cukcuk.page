@@ -1,7 +1,7 @@
 <template>
   <div>
     <Header></Header>
-    <Menu></Menu>
+    <Menu :route="route" :items="menuItems"></Menu>
     <Content entityName="Employee" :filterName="['DepartmentId', 'PositionId']" :thead="thead" :theadMap="theadMap"></Content>
   </div>
 </template>
@@ -44,6 +44,14 @@ export default {
         "Salary",
         "WorkStatus",
       ],
+      menuItems: [
+        { icon: "item-dashboard", path: "#", text: "Tổng quan" },
+        { icon: "item-report", path: "#", text: "Báo cáo" },
+        { icon: "item-employee", path: "/employees", text: "Danh mục nhân viên" },
+        { icon: "item-employee", path: "/customers", text: "Danh mục khách hàng" },
+        { icon: "item-setting", path: "#", text: "Thiết lập hệ thống" },
+      ],
+      route: "/employees",
     }
   }
 };

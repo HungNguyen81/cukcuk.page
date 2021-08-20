@@ -9,7 +9,7 @@
             type="button-delete"
             icon="icon-delete"
             :onclick="delBtnClick"
-            :class="{ hide: !delBtnActive }"
+            :class="{ 'hidden': !delBtnActive }"
           ></BaseButtonIcon>
           <BaseButtonIcon
             :value="'Thêm ' + entityMap[entityName].toLowerCase()"
@@ -125,6 +125,7 @@
 </template>
 
 <script>
+import axios from 'axios';
 import EventBus from '../../event-bus/EventBus';
 import BaseButtonIcon from "./BaseButtonIcon.vue";
 import Combobox from "./BaseCombobox.vue";
@@ -223,7 +224,7 @@ export default {
     /**
      * Toggle trạng thái nút xóa nv theo số dòng được select
      */
-    delBtnActive: function () {
+    delBtnActive() {
       return this.deleteIdList.length > 0;
     },
   },
@@ -246,7 +247,7 @@ export default {
     // chuyển trang => render bảng
     pageNumber: function () {
       this.forceTableRerender();
-    },
+    }
   },
   methods: {
     //#region Xử lí liên quan đến Form
@@ -494,8 +495,8 @@ export default {
      * CreatedBy: HungNguyen81 (18-08-2021)
      */
     sendDeleteRequests() {
-      console.table(this.deleteIdList);
-      this.axios
+      // console.table(this.deleteIdList);
+      axios
         .delete(`https://localhost:44372/api/v1/${this.entityName}s/`, {
           data: this.deleteIdList,
         })
@@ -521,7 +522,7 @@ export default {
      * ModifiedBy: HungNguyen81 (18-08-2021)
      */
     sendPutRequest() {
-      this.axios
+      axios
         .put(
           `https://localhost:44372/api/v1/${this.entityName}s/${this.entityId}`,
           this.entityDetail
@@ -550,7 +551,7 @@ export default {
      * ModifiedBy: HungNguyen81 (18-08-2021)
      */
     sendPostRequest() {
-      this.axios
+      axios
         .post(
           `https://localhost:44372/api/v1/${this.entityName}s/`,
           this.entityDetail
@@ -617,6 +618,7 @@ export default {
 </script>
 
 <style scoped>
+
 @import "../../css/layout/content.css";
 @import "../../css/base/loader.css";
 

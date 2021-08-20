@@ -6,34 +6,36 @@ using System.Threading.Tasks;
 
 namespace MISA.CukCuk.Core.Interfaces.Repositiories
 {
-    public interface IBaseRepository<MISAEntiry>
+    public interface IBaseRepository<MISAEntity>
     {
         /// <summary>
         /// Lấy tất cả
         /// </summary>
         /// <returns></returns>
-        List<MISAEntiry> Get();
+        List<MISAEntity> Get();
 
         /// <summary>
         /// Lấy theo id
         /// </summary>
         /// <param name="entityId"></param>
         /// <returns></returns>
-        MISAEntiry GetById(Guid entityId);
+        MISAEntity GetById(Guid entityId);
 
         /// <summary>
         /// Lấy theo mã 
         /// </summary>
         /// <param name="code"></param>
         /// <returns></returns>
-        MISAEntiry GetByCode(string code);
+        MISAEntity GetByCode(string code);
+
+        MISAEntity GetByPhoneNumber(string phoneNumber);
 
         /// <summary>
         /// Thêm mới
         /// </summary>
         /// <param name="entity"></param>
         /// <returns></returns>
-        int Add(MISAEntiry entity);
+        int Add(MISAEntity entity);
 
 
         /// <summary>
@@ -42,7 +44,7 @@ namespace MISA.CukCuk.Core.Interfaces.Repositiories
         /// <param name="entity"></param>
         /// <param name="entityId"></param>
         /// <returns></returns>
-        int Update(MISAEntiry entity, Guid entityId);
+        int Update(MISAEntity entity, Guid entityId);
 
         /// <summary>
         /// Xóa một

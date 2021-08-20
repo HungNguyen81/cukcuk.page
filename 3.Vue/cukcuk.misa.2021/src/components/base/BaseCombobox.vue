@@ -31,7 +31,10 @@
         ]"
         v-for="(item, index) in items"
         :key="index"
-        @click="current = index; itemClicked();"
+        @click="
+          current = index;
+          itemClicked();
+        "
       >
         <i class="fas fa-check item-icon"></i>
         <div class="item-text">{{ item[type + "Name"] }}</div>
@@ -41,7 +44,8 @@
 </template>
 
 <script>
-import utils from '../../mixins/ultis';
+import axios from "axios";
+import utils from "../../mixins/ultis";
 export default {
   name: "Combobox",
   components: {},
@@ -53,6 +57,7 @@ export default {
     return {
       value: "",
       current: 0,
+      // Ẩn hiện drop list
       isHide: true,
       isDataLoaded: false,
       typeName: this.type + "Name",
@@ -60,13 +65,13 @@ export default {
       map: {
         Position: "vị trí",
         Department: "phòng ban",
-        CustomerGroup: "nhóm khách hàng"
+        CustomerGroup: "nhóm khách hàng",
       },
       isEmptyVal: true,
     };
   },
   created() {
-    this.axios
+    axios
       .get(this.api)
       .then((res) => {
         this.items = [];
@@ -74,7 +79,7 @@ export default {
         if (this.mode == 1) {
           this.items.push({
             [this.typeName]: "Tất cả " + this.map[this.type],
-            [this.type + 'Id']: ""
+            [this.type + "Id"]: "",
           });
         }
         res.data.forEach((e) => {
@@ -91,62 +96,93 @@ export default {
       })
       .catch((err) => {
         console.log(err);
-        this.$emit("showToast", "error", "SERVER ERROR", `Cannot load ${this.type}!`);
+        this.$emit(
+          "showToast",
+          "error",
+          "SERVER ERROR",
+          `Cannot load ${this.type}!`
+        );
         this.isDataLoaded = true;
       });
   },
-  updated() {
-    this.$nextTick(function () {
-      // this.value = this.items[this.current][this.type + 'Name'];
-    });
-  },
-  watch:{
-    value: function(){
+
+  // updated() {
+  //   this.$nextTick(function () {
+  //     // this.value = this.items[this.current][this.type + 'Name'];
+  //   });
+  // },
+
+  watch: {
+    // giá trị hiển thị trên input
+    value: function () {
       this.isEmptyVal = !(this.value || this.value.trim());
     },
-    current: function(c){
-      this.value = this.items[c][this.type + 'Name'];
-    }
+    // chỉ số của item hiện tại
+    current: function (c) {
+      this.value = this.items[c][this.type + "Name"];
+    },
   },
   methods: {
-    
-    itemClicked(){
+    // handle khi click chọn 1 item trong list dropdown
+    itemClicked() {
       this.isHide = true;
-      this.$emit('filterActive', this.type, this.items[this.current][this.type+'Id']);
+      this.$emit(
+        "filterActive",
+        this.type,
+        this.items[this.current][this.type + "Id"]
+      );
     },
+
+    // handle khi bấm phím
     handleKeyPress(event) {
-      let maxOffset = 0;
-      for (let item of this.items) {
-        maxOffset = maxOffset + (item.Hidden ? 0 : 1);
-      }
+      let maxOffset = this.items.length; //0;
+      // for (let item of this.items) {
+      //   maxOffset = maxOffset + (item.Hidden ? 0 : 1);
+      // }
 
       if (event.code == "ArrowDown") {
         event.preventDefault();
-        this.current = this.current < 0 ? 0 : this.current;
-        this.current = (this.current + 1) % maxOffset;
+
+        do {
+          this.current = this.current < 0 ? 0 : this.current;
+          this.current = (this.current + 1) % maxOffset;
+        } while (this.items[this.current].Hidden == true);
+
       } else if (event.code == "ArrowUp") {
         event.preventDefault();
-        this.current = this.current < 0 ? 0 : this.current;
-        this.current =
-          this.current == 0 ? maxOffset - 1 : this.current - 1;
-      } else if (event.code == "Enter"){
+        
+        do {
+          this.current = this.current < 0 ? 0 : this.current;
+          this.current = this.current == 0 ? maxOffset - 1 : this.current - 1;
+        } while (this.items[this.current].Hidden == true);
+      } else if (event.code == "Enter") {
         this.isHide = true;
         this.value = this.items[this.current][this.type + "Name"];
-        this.$emit('filterActive', this.type, this.items[this.current][this.type+'Id']);
+        this.$emit(
+          "filterActive",
+          this.type,
+          this.items[this.current][this.type + "Id"]
+        );
       }
     },
 
+    /**
+     * Handle khi client nhập vào combobox
+     * CreatedBy: HungNguyen81 (07-2021)
+     */
     comboboxInput() {
       if (this.value) {
         this.isHide = false;
       }
       if (this.items) {
         for (let item of this.items) {
-          let comparedString = (this.value)? this.RemoveAccents(this.value.toUpperCase()):' ';
-          let itemString = this.RemoveAccents(item[this.type + "Name"].toUpperCase());
-          if (
-            itemString.includes(comparedString)
-          ) {
+          let comparedString = this.value
+            ? this.removeAccents(this.value.toUpperCase())
+            : " ";
+          let itemString = this.removeAccents(
+            item[this.type + "Name"].toUpperCase()
+          );
+          if (itemString.includes(comparedString)) {
             item.Hidden = false;
           } else {
             item.Hidden = true;
@@ -155,10 +191,10 @@ export default {
       }
     },
 
-    emptyInput(){
-      this.value='';
-      this.$emit('filterActive', this.type, '');
-    }
+    emptyInput() {
+      this.value = "";
+      this.$emit("filterActive", this.type, "");
+    },
   },
 };
 </script>

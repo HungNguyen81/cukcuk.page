@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 
 namespace MISA.CukCuk.Core.Entities
 {
@@ -19,6 +20,13 @@ namespace MISA.CukCuk.Core.Entities
         /// Thông điệp trả về
         /// </summary>
         public string Msg { get; set; }
+
+
+        /// <summary>
+        /// List những thông báo về validate dữ liệu
+        /// </summary>
+        //@ Created_By: HungNguyen81 (20-08-2021)
+        public List<string> InvalidMsg { get; set; }
 
 
         /// <summary>

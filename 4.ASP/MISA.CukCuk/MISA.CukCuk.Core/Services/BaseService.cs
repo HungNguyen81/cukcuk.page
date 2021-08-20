@@ -13,8 +13,8 @@ namespace MISA.CukCuk.Core.Services
 
         protected enum Mode
         {
-            Add,
-            Update
+            Add,   //0
+            Update //1
         }
 
         #endregion
@@ -85,41 +85,31 @@ namespace MISA.CukCuk.Core.Services
             var code = typeof(MISAEntity).GetProperty($"{_entityName}Code");
 
             // Xử lý nghiệp vụ
+            var invalids = new List<string>();
 
             // 1. Kiểm tra mã rỗng   
 
             if (code != null && !Validations.Required((string)code.GetValue(entity)))
             {
-                return new ServiceResult
-                {
-                    IsValid = false,
-                    Msg = ResourceVN.EmployeeCodeInvalidMsg
-                };
+                invalids.Add(ResourceVN.EmployeeCodeInvalidMsg);
             }
 
             // Kiểm tra trùng mã
             if (mode == (int)Mode.Add && code != null && CheckDuplicateEntityCode((string)code.GetValue(entity)))
             {
-                return new ServiceResult
-                {
-                    IsValid = false,
-                    Msg = ResourceVN.ResourceManager.GetString($"Duplicate{_entityName}CodeMsg")
-                };
+                invalids.Add(ResourceVN.ResourceManager.GetString($"Duplicate{_entityName}CodeMsg"));
             }
 
             // kiểm tra định dạng email
             if (email != null && !Validations.EmailValidate((string)email.GetValue(entity)))
             {
-                return new ServiceResult
-                {
-                    IsValid = false,
-                    Msg = ResourceVN.EmailInvalidMsg
-                };
+                invalids.Add(ResourceVN.EmailInvalidMsg);
             }
 
             return new ServiceResult
             {
-                IsValid = true
+                IsValid = true,
+                InvalidMsg = invalids
             };
         }
 

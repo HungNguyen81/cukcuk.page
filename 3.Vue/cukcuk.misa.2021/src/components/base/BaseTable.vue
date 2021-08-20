@@ -56,6 +56,7 @@
 </template>
 
 <script>
+import axios from 'axios';
 import ultis from "../../mixins/ultis";
 
 export default {
@@ -130,7 +131,7 @@ export default {
     buildTableContent(){
       if (this.api) {
         console.log(this.api);
-        this.axios
+        axios
           .get(this.api)
           .then((res) => {
             this.employees = res.data.Data;

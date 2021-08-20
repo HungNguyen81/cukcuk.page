@@ -13,6 +13,7 @@ namespace MISA.CukCuk.Core.Helpers
         //@ Modified_By: HungNguyen81 (18-08-2021)
         public static bool EmailValidate(string email)
         {
+            if (string.IsNullOrEmpty(email)) return true;
             var emailFormat = @"\S+@\S+\.\S+";
             return Regex.IsMatch(email, emailFormat, RegexOptions.IgnoreCase);
         }

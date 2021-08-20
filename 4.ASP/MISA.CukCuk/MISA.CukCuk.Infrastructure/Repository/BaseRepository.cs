@@ -26,7 +26,7 @@ namespace MISA.CukCuk.Infrastructure.Repository
         public BaseRepository()
         {
             // Lấy thông tin truy cập db
-            _connectionString = ResourceVN.ConnectionString;
+            _connectionString = ResourceVN.LocalConnectionString;
 
             // Khởi tạo đối tượng kết nối db
             _dbConnection = new MySqlConnection(_connectionString);
@@ -100,6 +100,22 @@ namespace MISA.CukCuk.Infrastructure.Repository
             var parameter = new DynamicParameters();
 
             parameter.Add("@code", code);
+
+            _dbConnection.Open();
+
+            var res = _dbConnection.QueryFirstOrDefault<MISAEntity>(sqlQuery, param: parameter);
+
+            _dbConnection.Close();
+            return res;
+        }
+
+        public MISAEntity GetByPhoneNumber(string phoneNumber)
+        {
+            // Lấy dữ liệu
+            var sqlQuery = $"SELECT * FROM {_entityName} WHERE PhoneNumber = @phone";
+            var parameter = new DynamicParameters();
+
+            parameter.Add("@phone", phoneNumber);
 
             _dbConnection.Open();
 

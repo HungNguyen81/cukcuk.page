@@ -1,6 +1,8 @@
-﻿using MISA.CukCuk.Core.Entities;
+﻿using Microsoft.AspNetCore.Http;
+using MISA.CukCuk.Core.Entities;
 using System;
 using System.Collections.Generic;
+using System.Threading;
 
 namespace MISA.CukCuk.Core.Interfaces.Services
 {
@@ -15,5 +17,9 @@ namespace MISA.CukCuk.Core.Interfaces.Services
         /// <param name="customerGroupId"></param>
         /// <returns></returns>
         ServiceResult GetByFilter(int pageSize, int pageNumber, string filterString, Guid? customerGroupId);
+
+        ServiceResult Import(IFormFile formFile, CancellationToken cancellationToken);
+
+        ServiceResult InsertMany(List<Customer> customers);
     }
 }

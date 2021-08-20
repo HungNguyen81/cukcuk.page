@@ -1,5 +1,6 @@
 ﻿using MISA.CukCuk.Core.CustomAttrs;
 using System;
+using System.Collections.Generic;
 
 namespace MISA.CukCuk.Core.Entities
 {
@@ -16,6 +17,7 @@ namespace MISA.CukCuk.Core.Entities
         /// <summary>
         /// Mã khách hàng
         /// </summary>
+        [MISAColumnForImport]
         public string CustomerCode { get; set; }
 
         /// <summary>
@@ -32,8 +34,14 @@ namespace MISA.CukCuk.Core.Entities
         /// <summary>
         /// Tên đầy đủ
         /// </summary>
+        [MISAColumnForImport]
         public string FullName { get; set; }
 
+        /// <summary>
+        /// Địa chỉ
+        /// </summary>
+        [MISAColumnForImport]
+        public string Address { get; set; }
 
         /// <summary>
         /// Giới tính (int)
@@ -46,29 +54,24 @@ namespace MISA.CukCuk.Core.Entities
         [MISADbColumnNotMatch]
         public string GenderName { get; set; }
 
-
-
-        /// <summary>
-        /// Địa chỉ
-        /// </summary>
-        public string Address { get; set; }
-
-
         /// <summary>
         /// Ngày sinh
         /// </summary>
+        [MISAColumnForImport]
         public DateTime? DateOfBirth { get; set; }
 
 
         /// <summary>
         /// Địa chỉ email
         /// </summary>
+        [MISAColumnForImport]
         public string Email { get; set; }
 
 
         /// <summary>
         /// Số điện thoại
         /// </summary>
+        [MISAColumnForImport]
         public string PhoneNumber { get; set; }
 
 
@@ -76,6 +79,13 @@ namespace MISA.CukCuk.Core.Entities
         /// Id nhóm khách hàng
         /// </summary>
         public Guid? CustomerGroupId { get; set; }
+
+        /// <summary>
+        /// Tên nhóm khách hàng
+        /// </summary>
+        [MISADbColumnNotMatch]
+        [MISAColumnForImport]
+        public string CustomerGroupName { get; set; }
 
 
         /// <summary>
@@ -87,24 +97,33 @@ namespace MISA.CukCuk.Core.Entities
         /// <summary>
         /// Mã thẻ thành viên
         /// </summary>
+        [MISAColumnForImport]
         public string MemberCardCode { get; set; }
 
         /// <summary>
         /// Tên công ty
         /// </summary>
+        [MISAColumnForImport]
         public string CompanyName { get; set; }
 
 
         /// <summary>
         /// Mã số thuế công ty
         /// </summary>
+        [MISAColumnForImport]
         public string CompanyTaxCode { get; set; }
 
 
         /// <summary>
         /// Đã ngừng theo dõi hay chưa
         /// </summary>
-        public bool IsStopFollow { get; set; }
+        public bool IsStopFollow { get; set; } = false;
+
+        /// <summary>
+        /// Danh sách thông báo validate
+        /// </summary>
+        [MISADbColumnNotMatch]
+        public List<string> InValids { get; set; }
 
         #endregion
 
