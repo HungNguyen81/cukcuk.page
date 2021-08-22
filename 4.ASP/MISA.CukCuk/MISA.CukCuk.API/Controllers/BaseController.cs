@@ -16,7 +16,7 @@ namespace MISA.CukCuk.API.Controllers
 
         protected IBaseService<MISAEntity> _service;
 
-        protected ServiceResult _serviceResult;
+        //protected ServiceResult _serviceResult;
 
         #endregion
 
@@ -43,15 +43,15 @@ namespace MISA.CukCuk.API.Controllers
         {
             try
             {
-                _serviceResult = _service.Get();
+                var serviceResult = _service.Get();
 
-                if (_serviceResult.IsValid == false)
+                if (serviceResult.IsValid == false)
                 {
-                    _serviceResult.Msg = Properties.Resources.MISANoContentMsg;
-                    return StatusCode(200, _serviceResult);
+                    serviceResult.Msg = Properties.Resources.MISANoContentMsg;
+                    return StatusCode(200, serviceResult);
                 }
 
-                return StatusCode(200, _serviceResult.Data);
+                return StatusCode(200, serviceResult.Data);
             }
             catch (Exception e)
             {
@@ -80,14 +80,14 @@ namespace MISA.CukCuk.API.Controllers
             // Lấy dữ liệu và phản hồi cho client
             try
             {
-                _serviceResult = _service.GetById(entityId);
-                if (_serviceResult.IsValid == false)
+                var serviceResult = _service.GetById(entityId);
+                if (serviceResult.IsValid == false)
                 {
-                    _serviceResult.Msg = Properties.Resources.MISANoContentMsg;
-                    return StatusCode(200, _serviceResult);
+                    serviceResult.Msg = Properties.Resources.MISANoContentMsg;
+                    return StatusCode(200, serviceResult);
                 }
 
-                return StatusCode(200, _serviceResult.Data);
+                return StatusCode(200, serviceResult.Data);
             }
             catch (Exception e)
             {
@@ -118,14 +118,14 @@ namespace MISA.CukCuk.API.Controllers
         {
             try
             {
-                _serviceResult = _service.Add(entity);
-                if (_serviceResult.IsValid == false)
+                var serviceResult = _service.Add(entity);
+                if (serviceResult.IsValid == false)
                 {
-                    return StatusCode(400, _serviceResult);
+                    return StatusCode(400, serviceResult);
                 }
 
-                _serviceResult.Msg = Properties.Resources.MISAInsertMsg;
-                return StatusCode(201, _serviceResult);
+                serviceResult.Msg = Properties.Resources.MISAInsertMsg;
+                return StatusCode(201, serviceResult);
             }
             catch (Exception e)
             {
@@ -197,16 +197,16 @@ namespace MISA.CukCuk.API.Controllers
         {
             try
             {
-                _serviceResult = _service.DeleteOne(entityId);
+                var serviceResult = _service.DeleteOne(entityId);
 
-                if (!_serviceResult.IsValid)
+                if (!serviceResult.IsValid)
                 {
-                    _serviceResult.Msg = Properties.Resources.MISAErrorMessage;
-                    return StatusCode(400, _serviceResult);
+                    serviceResult.Msg = Properties.Resources.MISAErrorMessage;
+                    return StatusCode(400, serviceResult);
                 }
 
-                _serviceResult.Msg = Properties.Resources.MISADeleteMsg;
-                return StatusCode(200, _serviceResult);
+                serviceResult.Msg = Properties.Resources.MISADeleteMsg;
+                return StatusCode(200, serviceResult);
             }
             catch (Exception e)
             {
@@ -234,17 +234,17 @@ namespace MISA.CukCuk.API.Controllers
         {
             try
             {
-                _serviceResult = _service.DeleteMany(entityIds);
+                var serviceResult = _service.DeleteMany(entityIds);
 
-                if (!_serviceResult.IsValid)
+                if (!serviceResult.IsValid)
                 {
-                    _serviceResult.Msg = Properties.Resources.MISAErrorMessage;
-                    return StatusCode(400, _serviceResult);
+                    serviceResult.Msg = Properties.Resources.MISAErrorMessage;
+                    return StatusCode(400, serviceResult);
                 }
 
-                _serviceResult.Msg = Properties.Resources.MISADeleteMsg;
+                serviceResult.Msg = Properties.Resources.MISADeleteMsg;
 
-                return StatusCode(200, _serviceResult);
+                return StatusCode(200, serviceResult);
             }
             catch (Exception e)
             {

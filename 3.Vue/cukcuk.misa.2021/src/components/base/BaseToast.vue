@@ -54,6 +54,10 @@ export default {
     this.timeOut = setTimeout(this.closeToast, 7000);
   },
   methods: {
+    /**
+     * Đóng toast và xóa khỏi DOM
+     * @ CreatedBy: HungNguyen81 (08-2021)
+     */
     closeToast() {
       console.log("close toast");
 

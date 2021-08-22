@@ -89,9 +89,8 @@
     </div>
     <Form
       :isOpen="formStatus"
-      :close="closeFormWithoutSave"
+      :close="closeForm"
       :mode="formMode"
-      @closeForm="closeFormWithoutSave"
       :detailId="entityId"
       :moreDetail="moreDetail"
       @saveClicked="formSaveButtonClick"
@@ -223,6 +222,7 @@ export default {
   computed: {
     /**
      * Toggle trạng thái nút xóa nv theo số dòng được select
+     * CreatedBy: HungNguyen81 (07-2021)
      */
     delBtnActive() {
       return this.deleteIdList.length > 0;
@@ -240,10 +240,6 @@ export default {
       }, 500);
     },
 
-    // khi kích thước trang thay đổi thì render lại bảng
-    pageSize: function () {
-      // this.forceTableRerender();
-    },
     // chuyển trang => render bảng
     pageNumber: function () {
       this.forceTableRerender();
@@ -254,9 +250,10 @@ export default {
 
     /**
      * Mở form thông tin nv
-     * CreatedBy: HungNguyen81 (18-08-2021)
-     * ModifiedBy: HungNguyen81 (18-08-2021)
      */
+    // CreatedBy: HungNguyen81 (07-2021)
+    // ModifiedBy: HungNguyen81 (18-08-2021)
+    
     OpenForm(mode) {
       //   this.formMode = act;
       //   this.formStatus = true;
@@ -281,20 +278,24 @@ export default {
 
     /**
      * Đóng form
-     * CreatedBy: HungNguyen81 (18-08-2021)
+     * CreatedBy: HungNguyen81 (07-2021)
      * ModifiedBy: HungNguyen81 (18-08-2021)
      */
-    closeForm() {
-      this.formStatus = false;
-      this.popup.isHide = true;
+    closeForm(isChange) {
+      if(isChange){
+        this.closeFormChanged();
+      } else {
+        this.formStatus = false;
+        this.popup.isHide = true;
+      }
     },
 
     /**
      * Đóng form mà k lưu
-     * CreatedBy: HungNguyen81 (18-08-2021)
-     * ModifiedBy: HungNguyen81 (18-08-2021)
+     * CreatedBy: HungNguyen81 (07-2021)
+     * ModifiedBy: HungNguyen81 (21-08-2021) - Đổi tên method
      */
-    closeFormWithoutSave() {
+    closeFormChanged() {
       this.popup = {
         title: "Xác nhận hủy",
         content: `Bạn có chắc chắn muốn <b>HỦY</b> nhập liệu hay không ?!`,
@@ -311,14 +312,14 @@ export default {
 
     /**
      * Đóng popup
-     * CreatedBy: HungNguyen81 (18-08-2021)
+     * CreatedBy: HungNguyen81 (07-2021)
      */
     closePopup() {
       this.popup.isHide = true;
     },
     /**
      * Hiển thị popup khi có callback
-     * CreatedBy: HungNguyen81 (18-08-2021)
+     * CreatedBy: HungNguyen81 (07-2021)
      */
     showPopup(options) {
       if (!options.callback) {
@@ -329,7 +330,7 @@ export default {
 
     /**
      * Ẩn popup sau khi callback của nút OK chạy xong
-     * CreatedBy: HungNguyen81 (19-08-2021)
+     * CreatedBy: HungNguyen81 (07-2021)
      */
     finishPopupCallback(){
       this.popup.isHide = true;
@@ -363,11 +364,10 @@ export default {
     //#region Handle sự kiện emit
     /**
      * Handle khi client chọn filter từ combobox
-     * CreatedBy: HungNguyen81 (18-08-2021)
+     * CreatedBy: HungNguyen81 (07-2021)
      * ModifiedBy: HungNguyen81 (18-08-2021)
      */
     activeFilter(type, id) {
-      // this.filter[type + "Id"] = id;
       this.$set(this.filter, type + "Id", id);
 
       console.groupCollapsed("Filters");
@@ -379,7 +379,7 @@ export default {
 
     /**
      * Handle khi chuyển trang trên paging component
-     * CreatedBy: HungNguyen81 (18-08-2021)
+     * CreatedBy: HungNguyen81 (07-2021)
      * ModifiedBy: HungNguyen81 (18-08-2021)
      */
     onPageSizeChange(size) {
@@ -395,7 +395,7 @@ export default {
 
     /**
      * khi dữ liệu table load xong, gửi totalPage, totalRecord sang paging component
-     * CreatedBy: HungNguyen81 (18-08-2021)
+     * CreatedBy: HungNguyen81 (07-2021)
      * ModifiedBy: HungNguyen81 (18-08-2021)
      */
     transPagingInfo(numPage, numRecord) {
@@ -408,7 +408,7 @@ export default {
     //#region xử lí sự kiện DOM
     /**
      * Hiện popup thông báo xác nhận thêm/sửa
-     * CreatedBy: HungNguyen81 (18-08-2021)
+     * CreatedBy: HungNguyen81 (07-2021)
      * ModifiedBy: HungNguyen81 (18-08-2021)
      */
     formSaveButtonClick(mode, id, detail) {
@@ -429,14 +429,14 @@ export default {
 
     /**
      * Gọi hàm khi bấm nút Thêm nhân viên/ Thêm Khách hàng
-     * CreatedBy: HungNguyen81 (18-08-2021)
+     * CreatedBy: HungNguyen81 (07-2021)
      */
     btnAddClick() {
       this.OpenForm(0);
     },
 
     // Xử lí sự kiện click đúp vào table row
-    // CreatedBy: HungNguyen81 (18-08-2021)
+    // CreatedBy: HungNguyen81 (07-2021)
     rowDoubleClick(id, pos, dep) {
       this.entityId = id;
       this.moreDetail = {
@@ -449,7 +449,7 @@ export default {
 
     /**
      *  Xử lí khi select 1 table row
-     * CreatedBy: HungNguyen81 (18-08-2021)
+     * CreatedBy: HungNguyen81 (07-2021)
      */
     rowSelect(id, code, name) {
       if (this.deleteIdList.includes(id)) {
@@ -459,20 +459,12 @@ export default {
       } else {
         this.deleteIdList.push(id);
         this.deleteCodeList.push(name);
-
-        // if (this.deleteIdList.length == 101) {
-        //   this.showToast(
-        //     "warning",
-        //     "OUT OF LIMITATION",
-        //     `Số nhân viên vượt quá <b>"100"</b> người !`
-        //   );
-        // }
       }
     },
 
     /**
      * Xử lí sự kiện bấm nút xóa các hàng đã chọn trên table
-     * CreatedBy: HungNguyen81 (18-08-2021)
+     * CreatedBy: HungNguyen81 (07-2021)
      */
     delBtnClick() {
       this.showPopup({
@@ -492,10 +484,9 @@ export default {
     //#region Requests
     /**
      * Callback khi bấm OK trong popup, gửi toàn bộ id cần xóa lên 1 request
-     * CreatedBy: HungNguyen81 (18-08-2021)
+     * CreatedBy: HungNguyen81 (07-2021)
      */
     sendDeleteRequests() {
-      // console.table(this.deleteIdList);
       axios
         .delete(`https://localhost:44372/api/v1/${this.entityName}s/`, {
           data: this.deleteIdList,
@@ -518,7 +509,7 @@ export default {
 
     /**
      * Callback khi bấm nút Lưu trên form, form mode sửa nhân viên
-     * CreatedBy: HungNguyen81 (18-08-2021)
+     * CreatedBy: HungNguyen81 (07-2021)
      * ModifiedBy: HungNguyen81 (18-08-2021)
      */
     sendPutRequest() {
@@ -547,7 +538,7 @@ export default {
 
     /**
      * Callback khi bấm nút Lưu trên form, form mode thêm nhân viên
-     * CreatedBy: HungNguyen81 (18-08-2021)
+     * CreatedBy: HungNguyen81 (07-2021)
      * ModifiedBy: HungNguyen81 (18-08-2021)
      */
     sendPostRequest() {
@@ -561,7 +552,6 @@ export default {
             "success",
             "POST success",
             res.data.Msg
-            // `Thêm nhân viên <b>"${this.entityDetail.FullName}"</b> thành công`
           );
           this.closePopup();
           this.closeForm();
@@ -572,7 +562,6 @@ export default {
             "error",
             "POST error",
             err.response.data.Msg
-            // `Thêm nhân viên <b>"${this.entityDetail.FullName}"</b> không thành công`
           );
           this.closePopup();
         });
@@ -582,7 +571,7 @@ export default {
     //#region Làm mới bảng dữ liệu
     /**
      * Refresh table và bỏ các dòng đã selected
-     * CreatedBy: HungNguyen81 (18-08-2021)
+     * CreatedBy: HungNguyen81 (07-2021)
      */
     refreshTableSelected() {
       localStorage.setItem("select", JSON.stringify([]));
@@ -593,7 +582,7 @@ export default {
 
     /**
      * Khiến table phải re-render
-     * CreatedBy: HungNguyen81 (18-08-2021)
+     * CreatedBy: HungNguyen81 (07-2021)
      */
     forceTableRerender() {
       this.isTableLoading = true;
@@ -604,7 +593,7 @@ export default {
 
     /**
      * Lấy thông số filter cho api query
-     * CreatedBy: HungNguyen81 (18-08-2021)
+     * CreatedBy: HungNguyen81 (07-2021)
      */
     getApiFilterQuery() {
       var res = "";

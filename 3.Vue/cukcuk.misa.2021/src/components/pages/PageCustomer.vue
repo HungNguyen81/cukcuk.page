@@ -126,7 +126,7 @@ export default {
         })
         .then((res) => {
           console.groupCollapsed("Import file result");
-          console.table(res.data.Data.Result);
+          console.table(res.data);
           console.groupEnd();
         });
 

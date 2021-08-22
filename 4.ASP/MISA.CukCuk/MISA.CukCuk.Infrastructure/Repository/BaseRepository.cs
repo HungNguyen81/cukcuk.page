@@ -61,8 +61,7 @@ namespace MISA.CukCuk.Infrastructure.Repository
         /// </summary>
         /// <param name="entityId"></param>
         /// <returns></returns>
-        //@ Created_By: HungNguyen81 (17-08-2021)
-        //@ Modified_By: HungNguyen81 (17-08-2021)
+        //@ Created_By: HungNguyen81 (08-2021)
         public virtual MISAEntity GetById(Guid entityId)
         //:                                       ^ id của nv/kh
         {
@@ -91,7 +90,7 @@ namespace MISA.CukCuk.Infrastructure.Repository
         /// </summary>
         /// <param name="code"></param>
         /// <returns></returns>
-        //@ Created_By: HungNguyen81 (17-08-2021)
+        //@ Created_By: HungNguyen81 (08-2021)
         public MISAEntity GetByCode(string code)
         //:                                 ^ mã nv/mã kh
         {
@@ -135,8 +134,7 @@ namespace MISA.CukCuk.Infrastructure.Repository
         /// </summary>
         /// <param name="entity"> Data thêm mới</param>
         /// <returns></returns>
-        //@ Created_By: HungNguyen81 (17-08-2021)
-        //@ Modified_By: HungNguyen81 (17-08-2021)
+        //@ Created_By: HungNguyen81 (08-2021)
         public virtual int Add(MISAEntity entity)
         {
             var columnsName = new List<string>();
@@ -172,11 +170,9 @@ namespace MISA.CukCuk.Infrastructure.Repository
                             $"VALUES({String.Join(", ", columnsParam.ToArray())})";
 
             _dbConnection.Open();
-            var trans = _dbConnection.BeginTransaction();
+            
+            var res = _dbConnection.Execute(sqlQuery, param: parameters);
 
-            var res = _dbConnection.Execute(sqlQuery, param: parameters, transaction:trans);
-
-            trans.Commit();
             _dbConnection.Close();
             return res;
         }
@@ -192,8 +188,7 @@ namespace MISA.CukCuk.Infrastructure.Repository
         /// <param name="entity">     Data</param>
         /// <param name="entityId">   Id</param>
         /// <returns></returns>
-        //@ Created_By: HungNguyen81 (17-08-2021)
-        //@ Modified_By: HungNguyen81 (17-08-2021)
+        //@ Created_By: HungNguyen81 (08-2021)
         public virtual int Update(MISAEntity entity, Guid entityId)
         //:                                    ^ thực thể     ^ id
         {
@@ -227,11 +222,8 @@ namespace MISA.CukCuk.Infrastructure.Repository
                             $"WHERE {_entityName}Id = @oldEntityId";
 
             _dbConnection.Open();
-            var trans = _dbConnection.BeginTransaction();
+            var res = _dbConnection.Execute(sqlQuery, param: parameters);
 
-            var res = _dbConnection.Execute(sqlQuery, param: parameters, transaction: trans);
-
-            trans.Commit();
             _dbConnection.Close();
             return res;
         }
@@ -245,7 +237,7 @@ namespace MISA.CukCuk.Infrastructure.Repository
         /// </summary>
         /// <param name="entityIds">List id của các KH cần xóa</param>
         /// <returns></returns>
-        //@ Created_By: HungNguyen81 (17-08-2021)
+        //@ Created_By: HungNguyen81 (08-2021)
         public virtual int DeleteMany(List<Guid> entityIds)
         //:                                          ^ danh sách các id
         {
@@ -261,14 +253,17 @@ namespace MISA.CukCuk.Infrastructure.Repository
 
             var sql = $"delete from {_entityName} where {_entityName}Id In ({String.Join(", ", paramName.ToArray())})";
 
-            _dbConnection.Open();
-            var trans = _dbConnection.BeginTransaction();
+            using (var trans = _dbConnection.BeginTransaction())
+            {
+                _dbConnection.Open();
 
-            var res = _dbConnection.Execute(sql, param: parameters, transaction: trans);
+                var res = _dbConnection.Execute(sql, param: parameters, transaction: trans);
 
-            trans.Commit();
-            _dbConnection.Close();
-            return res;
+                trans.Commit();
+                _dbConnection.Close();
+                return res;
+            }
+
         }
 
 
@@ -277,7 +272,7 @@ namespace MISA.CukCuk.Infrastructure.Repository
         /// </summary>
         /// <param name="entityId"></param>
         /// <returns></returns>
-        //@ Created_By: HungNguyen81 (17-08-2021)
+        //@ Created_By: HungNguyen81 (08-2021)
         public virtual int DeleteOne(Guid entityId)
         //:                                  ^ Id của thực thể cần xóa
         {
@@ -287,11 +282,8 @@ namespace MISA.CukCuk.Infrastructure.Repository
             parameters.Add("@entityId", entityId);
 
             _dbConnection.Open();
-            var trans = _dbConnection.BeginTransaction();
+            var res = _dbConnection.Execute(sqlQuery, param: parameters);
 
-            var res = _dbConnection.Execute(sqlQuery, param: parameters, transaction: trans);
-
-            trans.Commit();
             _dbConnection.Close();
             return res;
         }

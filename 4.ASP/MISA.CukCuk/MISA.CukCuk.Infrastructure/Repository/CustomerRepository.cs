@@ -5,6 +5,8 @@ using MISA.CukCuk.Core.Interfaces.Repositiories;
 using MISA.CukCuk.Core.Responses;
 using System;
 using System.Collections.Generic;
+using System.Data;
+using System.Linq;
 using System.Transactions;
 
 namespace MISA.CukCuk.Infrastructure.Repository
@@ -26,45 +28,24 @@ namespace MISA.CukCuk.Infrastructure.Repository
         //@ Modified_By: HungNguyen81 (17-08-2021)
         public FilterResponse GetByFilter(int pageSize, int pageNumber, string filterString, Guid? customerGroupId)
         {
-            var sqlSelectCount = "SELECT COUNT(*) FROM Customer c ";
-
-            var sqlQuery = $"SELECT c.*, cg.CustomerGroupName, CASE " +
-                                $"WHEN c.Gender = 0 THEN 'Nữ' " +
-                                $"WHEN c.Gender = 1 THEN 'Nam' " +
-                                $"ELSE 'Không xác định' " +
-                                $"END as GenderName " +
-                            $"FROM Customer c LEFT JOIN CustomerGroup cg ON cg.CustomerGroupId=c.CustomerGroupId ";
+            filterString ??= "";
             var parameters = new DynamicParameters();
+            parameters.Add("m_pageSize", pageSize);
+            parameters.Add("m_pageStart", pageNumber * pageSize);
+            parameters.Add("m_filterString", filterString);
+            parameters.Add("m_customerGroupId", customerGroupId == null ? "" : customerGroupId.ToString());
 
-            parameters.Add("@pageSize", pageSize);
-            parameters.Add("@pageStart", pageNumber * pageSize);
-
-            if (filterString == null) filterString = "";
-            var sqlWhere = "WHERE ( UPPER(c.FullName) LIKE CONCAT('%',@filter,'%') " +
-                        "OR UPPER(c.CustomerCode) LIKE CONCAT('%',@filter,'%') " +
-                        "OR c.PhoneNumber LIKE CONCAT('%',@filter,'%') ) ";
-
-            parameters.Add("@filter", filterString.ToUpper());
-
-            // Lọc theo id nhóm KH
-            if (customerGroupId != null)
-            {
-                sqlWhere += "AND c.CustomerGroupId=@CustomerGroupId ";
-                parameters.Add("@CustomerGroupId", customerGroupId);
-            }
-            sqlQuery += sqlWhere;
-            sqlSelectCount += sqlWhere;
-
-            // Sắp xếp theo chiều giảm dần mã KH
-            sqlQuery += "ORDER BY c.CustomerCode DESC ";
-
-            // Phân trang cho kết quả truy vấn
-            sqlQuery += (pageSize > 0) ? "LIMIT @pageStart, @pageSize;" : "";
-            sqlSelectCount += "ORDER BY c.CustomerId";
-
-            // Thực hiện truy vấn lấy dữ liệu
             _dbConnection.Open();
-            var customers = _dbConnection.Query<object>(sqlQuery, param: parameters);
+
+            var procName = "Proc_CustomerFilter";
+            var result = _dbConnection.QueryMultiple(procName, param: parameters, 
+                    commandType: CommandType.StoredProcedure);
+
+            var customers = result.Read<object>().ToList();
+            var totalRecord = result.Read<int>().ToList()[0];
+            var totalPage = (int) Math.Ceiling((double)totalRecord / pageSize);
+
+            _dbConnection.Close();
 
             if (customers == null)
             {
@@ -75,15 +56,11 @@ namespace MISA.CukCuk.Infrastructure.Repository
                     Data = null
                 };
             }
-
-            var totalRecord = _dbConnection.QueryFirstOrDefault<int>(sqlSelectCount, param: parameters);
-            var totalPage = (int)(totalRecord / pageSize) + ((totalRecord % pageSize != 0) ? 1 : 0);
-            _dbConnection.Close();
             return new FilterResponse
             {
                 TotalRecord = totalRecord,
                 TotalPage = totalPage,
-                Data = (List<object>)customers
+                Data = customers
             };
         }
 

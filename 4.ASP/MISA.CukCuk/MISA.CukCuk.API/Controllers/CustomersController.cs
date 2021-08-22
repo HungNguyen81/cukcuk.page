@@ -43,14 +43,14 @@ namespace MISA.CukCuk.API.Controllers
         public IActionResult GetCustomerFilter(int pageSize, int pageNumber, string filterString, Guid? customerGroupId)
         {
             try {
-                _serviceResult = _customerService.GetByFilter(pageSize, pageNumber, filterString, customerGroupId);
+                var serviceResult  = _customerService.GetByFilter(pageSize, pageNumber, filterString, customerGroupId);
 
-                if(_serviceResult.IsValid == false)
+                if(serviceResult.IsValid == false)
                 {
-                    _serviceResult.Msg = Properties.Resources.MISANoContentMsg;
+                    serviceResult.Msg = Properties.Resources.MISANoContentMsg;
                 }
                 // Trả dữ liệu về cho client
-                return StatusCode(200, _serviceResult.Data);
+                return StatusCode(200, serviceResult.Data);
             }
             catch (Exception e)
             {
@@ -81,14 +81,14 @@ namespace MISA.CukCuk.API.Controllers
         {
             try
             {
-                _serviceResult = _customerService.Import(formFile, cancellationToken);
+                var serviceResult = _customerService.Import(formFile, cancellationToken);
 
                 //if (_serviceResult.IsValid == false)
                 //{
                 //    _serviceResult.Msg = Properties.Resources.MISAErrorMessage;
                 //}
                 // Trả dữ liệu về cho client
-                return StatusCode(200, _serviceResult);
+                return StatusCode(200, serviceResult);
             }
             catch (Exception e)
             {
@@ -114,15 +114,15 @@ namespace MISA.CukCuk.API.Controllers
         {
             try
             {   
-                _serviceResult = _customerService.InsertMany(customers);
+                var serviceResult = _customerService.InsertMany(customers);
 
-                if (_serviceResult.IsValid == false)
+                if (serviceResult.IsValid == false)
                 {
-                    _serviceResult.Msg = Properties.Resources.MISAErrorMessage;
+                    serviceResult.Msg = Properties.Resources.MISAErrorMessage;
                     return NoContent();
                 }
                 // Trả dữ liệu về cho client
-                return StatusCode(200, _serviceResult);
+                return StatusCode(200, serviceResult);
             }
             catch (Exception e)
             {

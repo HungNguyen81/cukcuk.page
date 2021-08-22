@@ -15,10 +15,10 @@
 .dropdown-container:focus{
     outline: none;
 }
-.dropdown-container:focus > .dropdown {
+/* .dropdown-container:focus > .dropdown {
     border: 1px solid #016e4a;
     animation: outline-animate 2s infinite;
-}
+} */
 
 @keyframes outline-animate {
     50% {

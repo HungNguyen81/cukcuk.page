@@ -123,7 +123,10 @@ export default {
     },
   },
   methods: {
-    // handle khi click chọn 1 item trong list dropdown
+    /**
+     * handle khi click chọn 1 item trong list dropdown
+     * CreatedBy: HungNguyen81 (07-2021)
+     */
     itemClicked() {
       this.isHide = true;
       this.$emit(
@@ -133,7 +136,11 @@ export default {
       );
     },
 
-    // handle khi bấm phím
+    /**
+     * handle khi bấm phím
+     * CreatedBy: HungNguyen81 (07-2021)
+     * ModifiedBy: HungNguyen81 (20-08-2021) <Sửa lại code xử lý khi bấm phím mũi tên>
+     */
     handleKeyPress(event) {
       let maxOffset = this.items.length; //0;
       // for (let item of this.items) {

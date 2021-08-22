@@ -63,9 +63,10 @@ table tbody {
     height: calc(100vh - 277px);
 }
 
-table thead {
+table thead tr{
     display: table;
     position: sticky;
+    table-layout: fixed;
     top: 0px;
     z-index: 2;
 }
@@ -121,7 +122,6 @@ table tbody tr {
     width: 42px;
     position: sticky;
     left: 0px;
-    background-color: #fff;
 }
 
 
@@ -129,7 +129,7 @@ table tbody tr {
 /* Employee ID */
 .table-employee tbody td:nth-child(2),
 .table-employee th:nth-child(2) {
-    width: 100px;
+    width: 100px ;
 }
 
 /* Full name */

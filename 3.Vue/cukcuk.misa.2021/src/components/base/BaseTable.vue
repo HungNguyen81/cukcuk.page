@@ -95,8 +95,8 @@ export default {
   updated: function () {
     /**
      * Giữ trạng thái selected của những dòng đã click chọn khi refresh table
-     * CreatedBy: HungNguyen81 (18-08-2021)
-     * ModifiedBy: HungNguyen81 (18-08-2021)
+     * @ CreatedBy: HungNguyen81 (18-08-2021)
+     * @ ModifiedBy: HungNguyen81 (18-08-2021)
      */
     this.$nextTick(function () {
       // Code that will run only after the
@@ -125,8 +125,7 @@ export default {
   methods: {
     /**
      * Lấy dữ liệu từ API và đổ vào table
-     * CreatedBy: HungNguyen81 (18-08-2021)
-     * ModifiedBy: HungNguyen81 (18-08-2021)
+     * @ CreatedBy: HungNguyen81 (18-08-2021)
      */
     buildTableContent(){
       if (this.api) {

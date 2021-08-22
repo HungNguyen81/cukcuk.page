@@ -166,6 +166,7 @@ export default {
   methods: {
       /**
        * Thêm số 0 ở đầu chuỗi, vd zeroPad("123", 5) => "00123"
+       * CreatedBy: HungNguyen81 (08-2021)
        */
     zeroPad: function (num, places) {
       let res = String(num).padStart(places, "0");
@@ -174,6 +175,7 @@ export default {
 
     /**
      * Kiểm tra tính hợp lệ bằng cách gọi lần lượt các hàm validate truyền vào từ props
+     * CreatedBy: HungNguyen81 (08-2021)
      */
     inputValidate() {
       if (this.validates) {

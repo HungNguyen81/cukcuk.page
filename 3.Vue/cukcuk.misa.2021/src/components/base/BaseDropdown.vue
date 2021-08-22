@@ -6,7 +6,7 @@
     @keyup.enter="toggle"
     @blur="isHide = true"
   >
-    <div class="dropdown" @click="toggle">
+    <div class="dropdown" @click="toggle" :tabindex="tabindex">
       <div :id="displayId">
         {{ current >= 0 ? items[current][typeData] : "..." }}
       </div>
@@ -64,6 +64,10 @@ export default {
       type: String,
       required: false,
     },
+    tabindex:{
+      type: Number,
+      required: false
+    }
   },
   data() {
     return {
@@ -120,6 +124,7 @@ export default {
 
     /**
      * Handle khi click chọn item
+     * CreatedBy: HungNguyen81 (07-2021)
      */
     itemSelect(item, index) {
       this.current = index;
@@ -129,6 +134,7 @@ export default {
 
     /**
      * handle khi select bằng cách bấm phím mũi tên lên/xuống
+     * CreatedBy: HungNguyen81 (07-2021)
      */
     handleKeyPress(event) {
       if (event.code == "ArrowDown") {

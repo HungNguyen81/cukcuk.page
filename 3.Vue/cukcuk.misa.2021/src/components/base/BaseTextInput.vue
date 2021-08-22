@@ -97,6 +97,7 @@ export default {
   methods: {
     /**
      * Kiểm tra tính hợp lệ bằng cách gọi lần lượt các hàm validate truyền vào từ props
+     * CreatedBy: HungNguyen81 (08-2021)
      */
     inputValidate() {
       if (this.validates) {

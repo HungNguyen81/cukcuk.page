@@ -40,9 +40,9 @@ namespace MISA.CukCuk.API.Controllers
         {
             try
             {
-                _serviceResult = _employeeService.GetNewCode();
+                var serviceResult = _employeeService.GetNewCode();
 
-                return Ok(_serviceResult);
+                return Ok(serviceResult);
             }
             catch (Exception e)
             {
@@ -76,16 +76,16 @@ namespace MISA.CukCuk.API.Controllers
         {
             try
             {
-                _serviceResult = _employeeService.GetByFilter(pageSize, pageNumber, filterString, departmentId, positionId);
+                var serviceResult = _employeeService.GetByFilter(pageSize, pageNumber, filterString, departmentId, positionId);
 
-                if (!_serviceResult.IsValid)
+                if (!serviceResult.IsValid)
                 {
-                    _serviceResult.Msg = Properties.Resources.MISANoContentMsg;
-                    return Ok(_serviceResult);
+                    serviceResult.Msg = Properties.Resources.MISANoContentMsg;
+                    return Ok(serviceResult);
                 }
 
                 // Trả dữ liệu về cho client
-                return StatusCode(200, _serviceResult.Data);
+                return StatusCode(200, serviceResult.Data);
             }
             catch (Exception e)
             {

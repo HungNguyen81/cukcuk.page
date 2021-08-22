@@ -80,6 +80,10 @@ export default {
   },
   mounted() {},
   methods: {
+    /**
+     * Handle khi bấm nút OK, gọi hàm callback nếu có
+     * @ CreatedBy: HungNguyen81 (08-2021)
+     */
     handleOkClick() {
       if (this.callback) {
         this.callback();

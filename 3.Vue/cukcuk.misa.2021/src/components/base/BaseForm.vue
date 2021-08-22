@@ -2,7 +2,7 @@
   <div
     :class="['container', { open: isOpen, close: !isOpen }]"
     id="container"
-    @click="$emit('closeForm')"
+    @click="closeForm"
   >
     <div
       :class="['form-container', { open: isOpen, close: !isOpen }]"
@@ -11,7 +11,7 @@
     >
       <div class="form-header" id="form-container-header">
         <div class="header">THÔNG TIN NHÂN VIÊN</div>
-        <div id="close-button" @click="this.close"></div>
+        <div id="close-button" @click="closeForm"></div>
       </div>
       <div class="form-body">
         <div class="body-avatar body-column">
@@ -254,7 +254,7 @@
         <BaseButtonIcon
           :value="'Hủy'"
           :type="'button-cancel'"
-          :onclick="close"
+          :onclick="closeForm"
           tabindex="16"
         ></BaseButtonIcon>
         <BaseButtonIcon
@@ -270,7 +270,7 @@
 </template>
 
 <script>
-import axios from 'axios';
+import axios from "axios";
 import ultis from "../../mixins/ultis";
 import validate from "../../mixins/validate";
 import BaseButtonIcon from "../base/BaseButtonIcon.vue";
@@ -284,7 +284,7 @@ export default {
     BaseButtonIcon,
     BaseDropdown,
     BaseTextInput,
-    BaseDateInput
+    BaseDateInput,
   },
   mixins: [ultis, validate],
   props: {
@@ -315,17 +315,19 @@ export default {
   data() {
     return {
       detail: {},
+      initDetail: {},
+      isDetailChange: false,
       isDataLoaded: false,
       isRerender: false,
       validate: {
-        'employee-code': false,
-        'fullname': false,
-        'email': false,
-        'identity-number': false,
-        'phone-number': false,
-        'date-of-birth': false,
-        'identity-date': false,
-        'join-date': false,
+        "employee-code": false,
+        fullname: false,
+        email: false,
+        "identity-number": false,
+        "phone-number": false,
+        "date-of-birth": false,
+        "identity-date": false,
+        "join-date": false,
       },
       validateRefs: [
         "employeeCode",
@@ -335,7 +337,7 @@ export default {
         "phoneNumber",
         "dateOfBirth",
         "identityDate",
-        "joinDate"
+        "joinDate",
       ],
       dateMap: {
         "date-of-birth": "DateOfBirth",
@@ -350,39 +352,56 @@ export default {
     };
   },
   mounted() {},
-  computed: {},
+  computed: {
+    isChange() {
+      return (
+        Object.entries(this.initDetail).toString() !=
+        Object.entries(this.detail).toString()
+      );
+    },
+  },
   watch: {
     isValidate: function (v) {
       console.log("v:", v);
     },
 
+    // detail: function(d){
+    //   this.isDetailChange = this.initDetail != d;
+    // },
+
     /**
      * Watch sự thay đổi của isOpen để
      * - Auto focus vào trường mã nhân viên khi mở form
      * - Gọi API lấy thông tin đối tượng nếu form mode = 0 <sửa>
-     * CreatedBy: HungNguyen81 (18-08-2021)
+     * CreatedBy: HungNguyen81 (07-2021)
      */
     isOpen: function (val) {
       this.$nextTick(() => {
         if (val) this.$refs.employeeCode.$el.children[1].focus();
-        if(this.mode == 0) this.detail = {};
+        if (this.mode == 0) {
+          this.detail = {};
+          this.initDetail = {};
+        }
       });
 
       this.isDataLoaded = false;
       this.isRerender = !this.isRerender;
       console.log("form " + (val ? "open" : "close"), this.mode);
 
-      if (this.isOpen)
-        console.log("open", this.mode, this.detailId, `https://localhost:44372/api/v1/Employees/${this.detailId}`);
-        // mode : 0 = thêm nv, mode : 1 = sửa nv 
+      if (this.isOpen) {
+        console.log(
+          "open",
+          this.mode,
+          this.detailId,
+          `https://localhost:44372/api/v1/Employees/${this.detailId}`
+        );
+        // mode : 0 = thêm nv, mode : 1 = sửa nv
         if (this.mode == 1 && this.detailId) {
-
           axios
             .get(`https://localhost:44372/api/v1/Employees/${this.detailId}`)
             .then((res) => {
-
-              if(res.data.IsValid === false){
-                this.$emit("showToast","warning", "NO Content", res.data.Msg);
+              if (res.data.IsValid === false) {
+                this.$emit("showToast", "warning", "NO Content", res.data.Msg);
                 return;
               }
 
@@ -391,7 +410,7 @@ export default {
               console.groupCollapsed("Data form");
               console.table(res.data);
               console.groupEnd();
-              
+
               this.formatData();
               this.$set(
                 this.detail,
@@ -403,6 +422,7 @@ export default {
                 "DepartmentName",
                 this.moreDetail.DepartmentName
               );
+              this.initDetail = Object.assign({}, this.detail);
               this.isDataLoaded = true;
             })
             .catch((err) => {
@@ -415,27 +435,45 @@ export default {
             .then((res) => {
               let newCode = res.data.Data;
               this.$refs.employeeCode.$el.value = newCode;
-              if(!newCode){
-                this.$emit("showToast","error", "GET error", `Không thể lấy mã nhân viên mới !`);
+              if (!newCode) {
+                this.$emit(
+                  "showToast",
+                  "error",
+                  "GET error",
+                  `Không thể lấy mã nhân viên mới !`
+                );
               }
               this.$set(this.detail, "EmployeeCode", newCode);
+
+              this.initDetail = Object.assign({}, this.detail);
             })
             .catch(() => {
-              this.$emit("showToast","error", "GET error", `Không thể lấy mã nhân viên mới !`);
+              this.$emit(
+                "showToast",
+                "error",
+                "GET error",
+                `Không thể lấy mã nhân viên mới !`
+              );
               let newCode = `NV${Math.round(Math.random() * 100000)}`;
               this.$refs.employeeCode.$el.value = newCode;
               this.$set(this.detail, "EmployeeCode", newCode);
+
+              this.initDetail = Object.assign({}, this.detail);
             });
         }
+      }
     },
   },
   methods: {
+    closeForm() {
+      this.close(this.isChange);
+    },
+
     /**
      * Handle mỗi khi date input value thay đổi
-     * CreatedBy: HungNguyen81 (18-08-2021)
+     * CreatedBy: HungNguyen81 (07-2021)
      */
     dateChange(key, val, input, formatedVal) {
-      // console.log(key, val, input);
       let keyName = this.dateMap[key];
       let oldVal = this.detail[keyName];
       if (oldVal != val && val) {
@@ -452,7 +490,7 @@ export default {
 
     /**
      * Format dữ liệu để hiển thị
-     * CreatedBy: HungNguyen81 (18-08-2021)
+     * CreatedBy: HungNguyen81 (07-2021)
      */
     formatData() {
       this.$set(
@@ -484,14 +522,14 @@ export default {
 
     /**
      * Kiểm tra tính hợp lệ của các trường dữ liệu trên form
-     * CreatedBy: HungNguyen81 (18-08-2021)
+     * CreatedBy: HungNguyen81 (07-2021)
      */
     isValidate() {
       let res = true;
       Object.keys(this.validate).forEach((key) => {
         res = res && this.validate[key];
       });
-      console.groupCollapsed("Validate info")
+      console.groupCollapsed("Validate info");
       console.table(JSON.parse(JSON.stringify(this.validate)));
       console.groupEnd();
       return res;
@@ -500,7 +538,7 @@ export default {
     /**
      *
      * Định dạng tiền tệ trong khi nhập
-     * CreatedBy: HungNguyen81 (18-08-2021)
+     * CreatedBy: HungNguyen81 (07-2021)
      */
     formatSalaryOnInput() {
       let salaryInput = this.$refs.salary.$el.children[1];
@@ -520,10 +558,9 @@ export default {
       });
     },
 
-
     /**
      * Lấy dữ liệu thô để post/put
-     * CreatedBy: HungNguyen81 (18-08-2021)
+     * CreatedBy: HungNguyen81 (07-2021)
      */
     getRawData() {
       let dob = this.detail.DateOfBirth;
@@ -545,15 +582,19 @@ export default {
 
     /**
      * Handle khi click nút lưu
-     * CreatedBy: HungNguyen81 (18-08-2021)
+     * CreatedBy: HungNguyen81 (07-2021)
      */
-    btnSaveClick() {      
-
-      for(let ref of this.validateRefs){
+    btnSaveClick() {
+      for (let ref of this.validateRefs) {
         this.$refs[ref].inputValidate();
       }
       if (!this.isValidate()) {
-        this.$emit('showToast', 'warning', 'NOT VALIDATE', `Dữ liệu không hợp lệ !`);
+        this.$emit(
+          "showToast",
+          "warning",
+          "NOT VALIDATE",
+          `Dữ liệu không hợp lệ !`
+        );
         this.$emit("showPopup", {
           title: "Thông báo",
           content: `Dữ liệu không hợp lệ, vui lòng nhập lại`,
@@ -571,7 +612,7 @@ export default {
     /**
      * Khi select trong dropdown, chỉ có DepartmentName thay đổi mà DepartmentId không thay đổi
      * Tương tự với PositionId
-     * CreatedBy: HungNguyen81 (18-08-2021)
+     * CreatedBy: HungNguyen81 (07-2021)
      */
     dropDataChange(typeName, obj) {
       this.$set(this.detail, typeName, obj[typeName]);
@@ -586,7 +627,7 @@ export default {
 
     /**
      * Emit sự kiện showToast cho parent(base content)
-     * CreatedBy: HungNguyen81 (18-08-2021)
+     * CreatedBy: HungNguyen81 (07-2021)
      */
     emitShowToast(type, header, msg) {
       this.$emit("showToast", type, header, msg);
@@ -594,11 +635,11 @@ export default {
 
     /**
      * Handle khi validate input
-     * CreatedBy: HungNguyen81 (18-08-2021)
+     * CreatedBy: HungNguyen81 (07-2021)
      */
-    validateForm(key, isValid){
+    validateForm(key, isValid) {
       this.$set(this.validate, key, isValid);
-    }
+    },
   },
 };
 </script>

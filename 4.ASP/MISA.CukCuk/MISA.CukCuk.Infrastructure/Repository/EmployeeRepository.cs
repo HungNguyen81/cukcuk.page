@@ -4,6 +4,8 @@ using MISA.CukCuk.Core.Interfaces.Repositiories;
 using MISA.CukCuk.Core.Responses;
 using System;
 using System.Collections.Generic;
+using System.Data;
+using System.Linq;
 
 namespace MISA.CukCuk.Infrastructure.Repository
 {
@@ -19,58 +21,29 @@ namespace MISA.CukCuk.Infrastructure.Repository
         /// <param name="filterString">     chuỗi tìm kiếm</param>
         /// <param name="employeeGroupId">  id nhóm nv</param>
         /// <returns></returns>
-        //@ Created_By: HungNguyen81 (17-08-2021)
-        //@ Modified_By: HungNguyen81 (17-08-2021)
+        //@ Created_By: HungNguyen81 (08-2021)
         public FilterResponse GetByFilter(int pageSize, int pageNumber, string filterString, 
                                             Guid? departmentId, Guid? positionId)
         {
-            var sqlSelectCount = "SELECT COUNT(*) FROM Employee e ";
-
-            var sqlQuery = $"SELECT e.*, d.DepartmentName, p.PositionName, CASE " +
-                                $"WHEN e.Gender = 0 THEN 'Nữ' " +
-                                $"WHEN e.Gender = 1 THEN 'Nam' " +
-                                $"ELSE 'Không xác định' " +
-                                $"END as GenderName " +
-                            $"FROM Employee e LEFT JOIN Department d ON d.DepartmentId=e.DepartmentId " +
-                            $"LEFT JOIN Position p ON p.PositionId=e.PositionId ";
+            filterString ??= "";
             var parameters = new DynamicParameters();
+            parameters.Add("m_pageSize", pageSize);
+            parameters.Add("m_pageStart", pageNumber * pageSize);
+            parameters.Add("m_filterString", filterString);
+            parameters.Add("m_departmentId", departmentId == null ? "" : departmentId.ToString());
+            parameters.Add("m_positionId", positionId == null ? "" : positionId.ToString());
 
-            parameters.Add("@pageSize", pageSize);
-            parameters.Add("@pageStart", pageNumber * pageSize);
-
-            if (filterString == null) filterString = "";
-            var sqlWhere = "WHERE ( UPPER(e.FullName) LIKE CONCAT('%',@filter,'%') " +
-                        "OR UPPER(e.EmployeeCode) LIKE CONCAT('%',@filter,'%') " +
-                        "OR e.PhoneNumber LIKE CONCAT('%',@filter,'%') ) ";
-
-            parameters.Add("@filter", filterString.ToUpper());
-
-            // Lọc theo id phòng ban và vị trí
-            if (departmentId != null)
-            {
-                sqlWhere += "AND e.DepartmentId=@departmentId ";
-                parameters.Add("@departmentId", departmentId);
-            }
-            if (positionId != null)
-            {
-                sqlWhere += "AND e.PositionId=@positionId ";
-                parameters.Add("@positionId", positionId);
-            }
-
-            sqlQuery += sqlWhere;
-            sqlSelectCount += sqlWhere;
-
-            // Sắp xếp theo chiều giảm dần mã nv
-            sqlQuery += "ORDER BY e.EmployeeCode DESC ";
-
-            // Phân trang cho kết quả truy vấn
-            sqlQuery += (pageSize > 0) ? "LIMIT @pageStart, @pageSize;" : "";
-            sqlSelectCount += "ORDER BY e.EmployeeId";
-
-            // Thực hiện truy vấn lấy dữ liệu
             _dbConnection.Open();
 
-            var employees = _dbConnection.Query<object>(sqlQuery, param: parameters);
+            var procName = "Proc_EmployeeFilter";
+            var result = _dbConnection.QueryMultiple(procName, param: parameters,
+                    commandType: CommandType.StoredProcedure);
+
+            var employees = result.Read<object>().ToList();
+            var totalRecord = result.Read<int>().ToList()[0];
+            var totalPage = (int)Math.Ceiling((double)totalRecord / pageSize);
+
+            _dbConnection.Close();
 
             if (employees == null)
             {
@@ -81,15 +54,11 @@ namespace MISA.CukCuk.Infrastructure.Repository
                     Data = null
                 };
             }
-            var totalRecord = _dbConnection.QueryFirstOrDefault<int>(sqlSelectCount, param: parameters);
-            var totalPage = (int)(totalRecord / pageSize) + ((totalRecord % pageSize != 0) ? 1 : 0);
-
-            _dbConnection.Close();
             return new FilterResponse
             {
                 TotalRecord = totalRecord,
                 TotalPage = totalPage,
-                Data = (List<object>)employees
+                Data = employees
             };
         }
 
@@ -97,8 +66,7 @@ namespace MISA.CukCuk.Infrastructure.Repository
         /// Lấy mã mới
         /// </summary>
         /// <returns></returns>
-        //@ Created_By: HungNguyen81 (17-08-2021)
-        //@ Modified_By: HungNguyen81 (17-08-2021)
+        //@ Created_By: HungNguyen81 (08-2021)
         public string GetNewCode()
         {
             _dbConnection.Open();
