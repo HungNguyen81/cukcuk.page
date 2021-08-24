@@ -3,11 +3,13 @@
     :class="['combobox-container', ['dropdown-' + type.toLowerCase() + 's']]"
     v-if="isDataLoaded"
   >
-    <div class="combobox">
+    <div class="combobox" ref="combobox">
       <input
+      spellcheck="false"
         type="text"
         :class="['combobox-input', 'textbox-default']"
         :filter="type"
+        ref="comboboxInput"
         @input="comboboxInput"
         @focus="comboboxInput"
         @keyup="handleKeyPress"
@@ -16,7 +18,7 @@
       <div :class="['x-icon', { hide: isEmptyVal }]" @click="emptyInput">
         <i class="fas fa-times"></i>
       </div>
-      <div class="combobox-icon-container" @click="isHide = !isHide">
+      <div class="combobox-icon-container" @click="toggleDropList">
         <div class="combobox-icon"></div>
       </div>
     </div>
@@ -44,6 +46,7 @@
 </template>
 
 <script>
+import EventBus from "../../event-bus/EventBus";
 import axios from "axios";
 import utils from "../../mixins/ultis";
 export default {
@@ -105,7 +108,15 @@ export default {
         this.isDataLoaded = true;
       });
   },
-
+  mounted() {
+    EventBus.$on("appClick", (target) => {
+      var container = this.$refs.combobox;
+      if(!container) return;
+      if (!container.contains(target)) {
+        this.isHide = true;
+      }
+    });
+  },
   // updated() {
   //   this.$nextTick(function () {
   //     // this.value = this.items[this.current][this.type + 'Name'];
@@ -151,13 +162,12 @@ export default {
         event.preventDefault();
 
         do {
-          this.current = this.current < 0 ? 0 : this.current;
+          this.current = this.current < 0 ? -1 : this.current;
           this.current = (this.current + 1) % maxOffset;
         } while (this.items[this.current].Hidden == true);
-
       } else if (event.code == "ArrowUp") {
         event.preventDefault();
-        
+
         do {
           this.current = this.current < 0 ? 0 : this.current;
           this.current = this.current == 0 ? maxOffset - 1 : this.current - 1;
@@ -178,9 +188,10 @@ export default {
      * CreatedBy: HungNguyen81 (07-2021)
      */
     comboboxInput() {
-      if (this.value) {
-        this.isHide = false;
-      }
+      this.isHide = false;
+      // if (!this.value) {
+      //   this.isHide = false;
+      // }
       if (this.items) {
         for (let item of this.items) {
           let comparedString = this.value
@@ -200,8 +211,26 @@ export default {
 
     emptyInput() {
       this.value = "";
+      this.items = this.items.map((e) => ({
+        ...e,
+        Hidden: false,
+      }));
+      this.current = -1;
+      this.$refs.comboboxInput.focus();
       this.$emit("filterActive", this.type, "");
     },
+    showAllItems(){
+      this.items = this.items.map((e) => ({
+        ...e,
+        Hidden: false,
+      }));
+    },
+    toggleDropList(){
+      this.isHide = !this.isHide;
+      if(!this.isHide){
+        this.showAllItems();
+      }
+    }
   },
 };
 </script>

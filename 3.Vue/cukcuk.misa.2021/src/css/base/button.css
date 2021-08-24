@@ -11,6 +11,10 @@
     cursor: pointer;
     white-space: nowrap;
 }
+.button.disable{
+    pointer-events: none;
+    opacity: 0.4;
+}
 
 .button-icon {    
     display: flex;

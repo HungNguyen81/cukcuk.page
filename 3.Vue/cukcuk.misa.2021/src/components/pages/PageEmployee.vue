@@ -2,7 +2,7 @@
   <div>
     <Header></Header>
     <Menu :route="route" :items="menuItems"></Menu>
-    <Content entityName="Employee" :filterName="['DepartmentId', 'PositionId']" :thead="thead" :theadMap="theadMap"></Content>
+    <Content entityName="Employee" :filterNames="['DepartmentId', 'PositionId']" :thead="thead" :theadMap="theadMap"></Content>
   </div>
 </template>
 

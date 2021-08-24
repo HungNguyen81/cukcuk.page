@@ -42,7 +42,7 @@
               {{ formatMoneyString(e[cell]) }}</span
             >
             <span v-else-if="cell == 'DateOfBirth'">
-              {{ dateFormat(e[cell], false) }}</span
+              {{ dateFormatVer2(e[cell], "dd/mm/yyyy") }}</span
             >
             <span v-else-if="cell == 'WorkStatus'">
               {{ workStatusCode2Text(e[cell]) }}</span
@@ -56,6 +56,7 @@
 </template>
 
 <script>
+// import config from '../../../config/dev.env'
 import axios from 'axios';
 import ultis from "../../mixins/ultis";
 
@@ -128,8 +129,8 @@ export default {
      * @ CreatedBy: HungNguyen81 (18-08-2021)
      */
     buildTableContent(){
+      // console.log("api", this.$config.BASE_API);      
       if (this.api) {
-        console.log(this.api);
         axios
           .get(this.api)
           .then((res) => {

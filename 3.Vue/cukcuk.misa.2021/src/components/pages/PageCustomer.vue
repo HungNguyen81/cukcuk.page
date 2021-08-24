@@ -4,7 +4,7 @@
     <Menu :route="route" :items="menuItems"></Menu>
     <Content
       entityName="Customer"
-      :filterName="['CustomerGroupId']"
+      :filterNames="['CustomerGroupId']"
       :thead="thead"
       :theadMap="theadMap"
       :featureButtons="featureButtons"

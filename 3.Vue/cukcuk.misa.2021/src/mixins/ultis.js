@@ -7,7 +7,7 @@ export default {
          * CreatedBy: HungNguyen81 (18-08-2021)
          */
         formatMoneyString(text) {
-            if(!text) return null;
+            if (!text) return null;
             text = String(text);
             text = text.replaceAll('.', '');
             text = text.replace(/\s+/, "");
@@ -23,7 +23,7 @@ export default {
          * CreatedBy: HungNguyen81 (18-08-2021)
          */
         dateFormat(data, isForDateInput) {
-            if(!data) return "";
+            if (!data) return "";
             let date = new Date(data);
             let dd = date.getDate();
             let mm = date.getMonth() + 1;
@@ -33,6 +33,38 @@ export default {
                 return `${yyyy}-${mm < 10 ? "0" + mm : mm}-${dd < 10 ? "0" + dd : dd}`;
             }
             return `${dd < 10 ? "0" + dd : dd}/${mm < 10 ? "0" + mm : mm}/${yyyy}`;
+        },
+
+        /**
+         * định dạng ngày tháng theo chuỗi định dạng tùy ý
+         * @param {Date string} data 
+         * @param {Date Format String} formatString 
+         * @returns 
+         * CreatedBy: HungNguyen81 (23-08-2021)
+         */
+        dateFormatVer2(data, formatString) {
+            if (!data) return "";
+            let date = new Date(data);
+            let dd = this.zeroPad(date.getDate(), 2);
+            let mm = this.zeroPad(date.getMonth() + 1, 2);
+            let yyyy = this.zeroPad(date.getFullYear(), 4);
+
+            formatString = formatString.replace('dd', dd);
+            formatString = formatString.replace('mm', mm);
+            formatString = formatString.replace('yyyy', yyyy);
+            return formatString;
+        },
+
+        /**
+         * Thêm số 0 ở đầu chuỗi, vd zeroPad("123", 5) => "00123" 
+         * @param {*} num 
+         * @param {*} places 
+         * @returns 
+         * CreatedBy: HungNguyen81 (08-2021)
+         */
+        zeroPad(num, places) {
+            let res = String(num).padStart(places, "0");
+            return res.substr(res.length - places);
         },
 
         /**
@@ -48,7 +80,7 @@ export default {
                 case 3: return "Sắp nghỉ việc";
                 default: return "Đã nghỉ việc";
             }
-        },  
+        },
 
         /**
          * Trả về mã ứng với tên ttcv

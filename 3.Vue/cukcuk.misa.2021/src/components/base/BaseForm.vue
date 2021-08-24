@@ -170,7 +170,7 @@
                 :tabindex="10"
                 :value="detail.PositionName"
                 id="form-positions"
-                :api="'https://localhost:44372/api/v1/Positions'"
+                :api="`${$config.BASE_API}/Positions`"
                 v-if="isDataLoaded"
                 @itemChange="dropDataChange"
                 @showToast="emitShowToast"
@@ -186,7 +186,7 @@
                 :tabindex="11"
                 :value="detail.DepartmentName"
                 id="form-departments"
-                :api="'https://localhost:44372/api/v1/Departments'"
+                :api="`${$config.BASE_API}/Departments`"
                 v-if="isDataLoaded"
                 @itemChange="dropDataChange"
               ></BaseDropdown>
@@ -262,6 +262,7 @@
           :type="'button-save'"
           :icon="'icon-save'"
           :onclick="btnSaveClick"
+          :disable="isDisableSaveButton"
           tabindex="17"
         ></BaseButtonIcon>
       </div>
@@ -270,6 +271,7 @@
 </template>
 
 <script>
+import EventBus from '../../event-bus/EventBus';
 import axios from "axios";
 import ultis from "../../mixins/ultis";
 import validate from "../../mixins/validate";
@@ -319,6 +321,7 @@ export default {
       isDetailChange: false,
       isDataLoaded: false,
       isRerender: false,
+      isDisableSaveButton: false,
       validate: {
         "employee-code": false,
         fullname: false,
@@ -349,11 +352,12 @@ export default {
         "identity-date": "Ngày cấp",
         "join-date": "Ngày gia nhập",
       },
+      dateInputFormat: "yyyy-mm-dd"
     };
   },
   mounted() {},
   computed: {
-    isChange() {
+    isChange: function() {
       return (
         Object.entries(this.initDetail).toString() !=
         Object.entries(this.detail).toString()
@@ -382,6 +386,7 @@ export default {
           this.detail = {};
           this.initDetail = {};
         }
+        this.isDisableSaveButton = false;
       });
 
       this.isDataLoaded = false;
@@ -393,12 +398,12 @@ export default {
           "open",
           this.mode,
           this.detailId,
-          `https://localhost:44372/api/v1/Employees/${this.detailId}`
+          `${this.$config.BASE_API}/Employees/${this.detailId}`
         );
         // mode : 0 = thêm nv, mode : 1 = sửa nv
         if (this.mode == 1 && this.detailId) {
           axios
-            .get(`https://localhost:44372/api/v1/Employees/${this.detailId}`)
+            .get(`${this.$config.BASE_API}/Employees/${this.detailId}`)
             .then((res) => {
               if (res.data.IsValid === false) {
                 this.$emit("showToast", "warning", "NO Content", res.data.Msg);
@@ -431,7 +436,7 @@ export default {
         } else if (this.mode == 0) {
           this.isDataLoaded = true;
           axios
-            .get("https://localhost:44372/api/v1/Employees/NewEmployeeCode")
+            .get(`${this.$config.BASE_API}/Employees/NewEmployeeCode`)
             .then((res) => {
               let newCode = res.data.Data;
               this.$refs.employeeCode.$el.value = newCode;
@@ -496,17 +501,17 @@ export default {
       this.$set(
         this.detail,
         "DateOfBirth",
-        this.dateFormat(this.detail.DateOfBirth, true)
+        this.dateFormatVer2(this.detail.DateOfBirth, this.dateInputFormat)
       );
       this.$set(
         this.detail,
         "IdentityDate",
-        this.dateFormat(this.detail.IdentityDate, true)
+        this.dateFormatVer2(this.detail.IdentityDate, this.dateInputFormat)
       );
       this.$set(
         this.detail,
         "JoinDate",
-        this.dateFormat(this.detail.JoinDate, true)
+        this.dateFormatVer2(this.detail.JoinDate, this.dateInputFormat)
       );
       this.$set(
         this.detail,
@@ -585,6 +590,7 @@ export default {
      * CreatedBy: HungNguyen81 (07-2021)
      */
     btnSaveClick() {
+      this.isDisableSaveButton = true;
       for (let ref of this.validateRefs) {
         this.$refs[ref].inputValidate();
       }
@@ -603,10 +609,18 @@ export default {
           isHide: false,
           callback: null,
         });
+        this.isDisableSaveButton = false;
         return;
       }
-
-      this.$emit("saveClicked", this.mode, this.detailId, this.getRawData());
+      if(this.isChange){
+        this.isDisableSaveButton = true;
+        this.$emit("saveClicked", this.mode, this.detailId, this.getRawData());
+        EventBus.$on('PopupClose', () => {
+          this.isDisableSaveButton = false;
+        })
+      } else {
+        this.closeForm(this.isChange);
+      }
     },
 
     /**

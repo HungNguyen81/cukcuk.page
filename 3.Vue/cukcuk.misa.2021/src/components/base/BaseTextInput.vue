@@ -6,6 +6,8 @@
     </div>
 
     <input
+      spellcheck="false"
+      maxlength="255"
       @blur="inputValidate()"
       :type="valueType"
       :class="['textbox-default', type, { invalid: !isValidate }]"

@@ -60,13 +60,13 @@ tbody td {
 table tbody {
     margin-top: 0;
     padding: 0;
-    height: calc(100vh - 277px);
+    height: calc(100vh - 290px);
 }
 
-table thead tr{
+table thead{
     display: table;
     position: sticky;
-    table-layout: fixed;
+    width: 100%;
     top: 0px;
     z-index: 2;
 }
@@ -122,6 +122,7 @@ table tbody tr {
     width: 42px;
     position: sticky;
     left: 0px;
+    background-color: #fff;
 }
 
 

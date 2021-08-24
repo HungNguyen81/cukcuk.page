@@ -1,5 +1,5 @@
 <template>
-  <div :class="['button', {'button-icon': icon}, type]" @click="onclick" @keydown.enter="onclick">
+  <div :class="['button', {'button-icon': icon}, {'disable':disable}, type]" @click="onclick" @keydown.enter="onclick">
     <div class='icon-button' :class='icon' v-if="icon"></div>
     <div>{{value}}</div>
   </div>
@@ -19,6 +19,9 @@ export default {
     icon:{
       type: String
     }, 
+    disable:{
+      type: Boolean,
+    },
     onclick:{
       type: Function
     }

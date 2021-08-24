@@ -5,9 +5,12 @@ import VueAxios from 'vue-axios'
 import VueRouter from 'vue-router'
 import PageEmployee from './components/pages/PageEmployee.vue'
 import PageCustomer from './components/pages/PageCustomer.vue'
+import Config from '../config/dev.env'
 
 Vue.config.productionTip = false
 Vue.use(VueRouter, VueAxios, axios)
+
+Vue.prototype.$config = Config;
 
 const routes = [
   {path: '/employees', component: PageEmployee},

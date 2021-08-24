@@ -28,14 +28,12 @@
           v-model="searchInput"
         />
         <Combobox
-          :api="`https://localhost:44372/api/v1/${
-            filterName[index].split('Id')[0]
-          }s`"
-          :type="filterName[index].split('Id')[0]"
+          :api="`${$config.BASE_API}/${filterNames[index].split('Id')[0]}s`"
+          :type="filterNames[index].split('Id')[0]"
           mode="1"
           @filterActive="activeFilter"
           @showToast="showToast"
-          v-for="(f, index) in filterName"
+          v-for="(f, index) in filterNames"
           :key="index"
         ></Combobox>
 
@@ -47,7 +45,7 @@
             :onclick="btn.Callback"
           ></BaseButtonIcon>
           <div class="button button-refresh" @click="refreshTableSelected">
-            <i class="fas fa-sync-alt"></i>
+            <i class="fas fa-sync-alt" style="transform: translate(0.5px, 0.5px);"></i>
           </div>
         </div>
       </div>
@@ -57,7 +55,7 @@
           :type="entityName"
           :thead="thead"
           :dataMap="theadMap"
-          :api="`https://localhost:44372/api/v1/${entityName}s/${entityName.toLowerCase()}Filter?pageSize=${pageSize}&pageNumber=${pageNumber}&filterString=${
+          :api="`${$config.BASE_API}/${entityName}s/${entityName.toLowerCase()}Filter?pageSize=${pageSize}&pageNumber=${pageNumber}&filterString=${
             searchInput + getApiFilterQuery()
           }`"
           @dataLoaded="isTableLoading = false"
@@ -153,7 +151,7 @@ export default {
         return "Employee";
       },
     },
-    filterName: {
+    filterNames: {
       type: Array,
       required: false,
     },
@@ -316,6 +314,7 @@ export default {
      */
     closePopup() {
       this.popup.isHide = true;
+      EventBus.$emit('PopupClose');
     },
     /**
      * Hiển thị popup khi có callback
@@ -488,7 +487,7 @@ export default {
      */
     sendDeleteRequests() {
       axios
-        .delete(`https://localhost:44372/api/v1/${this.entityName}s/`, {
+        .delete(`${this.$config.BASE_API}/${this.entityName}s/`, {
           data: this.deleteIdList,
         })
         .then((res) => {
@@ -515,7 +514,7 @@ export default {
     sendPutRequest() {
       axios
         .put(
-          `https://localhost:44372/api/v1/${this.entityName}s/${this.entityId}`,
+          `${this.$config.BASE_API}/${this.entityName}s/${this.entityId}1`,
           this.entityDetail
         )
         .then(() => {
@@ -544,7 +543,7 @@ export default {
     sendPostRequest() {
       axios
         .post(
-          `https://localhost:44372/api/v1/${this.entityName}s/`,
+          `${this.$config.BASE_API}/${this.entityName}s/`,
           this.entityDetail
         )
         .then((res) => {
@@ -597,8 +596,8 @@ export default {
      */
     getApiFilterQuery() {
       var res = "";
-      for (let i = 0; i < this.filterName.length; i++) {
-        res += `&${this.filterName[i]}=${this.filter[this.filterName[i]]}`;
+      for (let i = 0; i < this.filterNames.length; i++) {
+        res += `&${this.filterNames[i]}=${this.filter[this.filterNames[i]]}`;
       }
       return res;
     },

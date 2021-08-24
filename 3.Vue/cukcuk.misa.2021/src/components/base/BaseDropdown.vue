@@ -4,9 +4,8 @@
     v-if="isDataLoaded"
     @keydown="handleKeyPress"
     @keyup.enter="toggle"
-    @blur="isHide = true"
   >
-    <div class="dropdown" @click="toggle" :tabindex="tabindex">
+    <div class="dropdown" ref="dropdown" @click="toggle" :tabindex="tabindex" @blur="isHide = true">
       <div :id="displayId">
         {{ current >= 0 ? items[current][typeData] : "..." }}
       </div>
@@ -31,6 +30,7 @@
 </template>
 
 <script>
+import EventBus from "../../event-bus/EventBus";
 import axios from 'axios';
 
 export default {
@@ -116,6 +116,15 @@ export default {
       this.isDataLoaded = true;
     }
   },
+  mounted() {
+    EventBus.$on("appClick", (target) => {
+      var container = this.$refs.dropdown;
+      if(!container) return;
+      if (!container.contains(target)) {
+        this.isHide = true;
+      }
+    });
+  },
   computed: {},
   methods: {
     toggle() {
@@ -139,8 +148,9 @@ export default {
     handleKeyPress(event) {
       if (event.code == "ArrowDown") {
         event.preventDefault();
-        this.current = this.current < 0 ? 0 : this.current;
+        this.current = this.current < 0 ? -1 : this.current;
         this.current = (this.current + 1) % this.items.length;
+
       } else if (event.code == "ArrowUp") {
         event.preventDefault();
         this.current = this.current < 0 ? 0 : this.current;

@@ -25,6 +25,7 @@
           isDateFocus = false;
           inputValidate();
         "
+        @keydown="onInput"
         ref="dateView"
       />
       <input
@@ -37,15 +38,18 @@
         v-bind:value="value"
         v-on="inputListeners"
         :tabindex="Number(tabindex) + 1"
+        
       />
     </div>
   </div>
 </template>
 
 <script>
+import ultis from '../../mixins/ultis.js'
 export default {
   name: "BaseDateInput",
   components: {},
+  mixins:[ultis],
   props: {
     inputKey: {
       type: String,
@@ -129,6 +133,7 @@ export default {
     
     /**
      * Watch sự thay đổi của giá trị ngày đc hiển thị lên input
+     * CreatedBy: HungNguyen81 (08-2021)
      */
     formatedValue: function (val) {
       clearTimeout(this.dateTimeOut);
@@ -160,19 +165,10 @@ export default {
           this.$refs.dateView,
           val
         );
-      }, 500);
+      }, 300);
     },
   },
   methods: {
-      /**
-       * Thêm số 0 ở đầu chuỗi, vd zeroPad("123", 5) => "00123"
-       * CreatedBy: HungNguyen81 (08-2021)
-       */
-    zeroPad: function (num, places) {
-      let res = String(num).padStart(places, "0");
-      return res.substr(res.length - places);
-    },
-
     /**
      * Kiểm tra tính hợp lệ bằng cách gọi lần lượt các hàm validate truyền vào từ props
      * CreatedBy: HungNguyen81 (08-2021)
@@ -193,6 +189,17 @@ export default {
         console.log("NO validations");
       }
     },
+
+    /**
+     * Không cho phép nhập kí tự khác kí tự số và dấu "/"
+     * CreatedBy: HungNguyen81 (23-08-2021)
+     */
+    onInput(e){
+      console.log(e.key);
+      if(!/([0-9/])|^(Tab)|^(Backspace)|^(Shift)|^(Home)|^(End)|^(Arrow)/.test(e.key)){
+        e.preventDefault();
+      }
+    }
   },
 };
 </script>
