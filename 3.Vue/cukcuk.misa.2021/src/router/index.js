@@ -1,21 +1,18 @@
 import Vue from 'vue'
-import Router from 'vue-router'
+import VueRouter from 'vue-router'
 import EmployeePage from '../components/pages/PageEmployee'
 import CustomerPage from '../components/pages/PageCustomer'
 
-Vue.use(Router)
+Vue.use(VueRouter)
 
-export default new Router({
-  routes: [
-    {
-      path: '/cukcuk/employees',
-      name: 'Employees',
-      component: EmployeePage
-    },
-    {
-      path: '/cukcuk/customers',
-      name: 'Customers',
-      component: CustomerPage
-    }
-  ]
-})
+const routes = [
+  {path: '/employees', component: EmployeePage},
+  {path: '/customers', component: CustomerPage}
+];
+
+const router = new VueRouter({
+  routes: routes,
+  mode: 'history'
+}); 
+
+export default router

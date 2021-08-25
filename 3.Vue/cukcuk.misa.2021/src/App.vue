@@ -1,6 +1,7 @@
 <template>
   <div id="app" @click="clicked">
-    <router-view></router-view>
+    /
+    <router-view></router-view> 
   </div>
 </template>
 

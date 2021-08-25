@@ -66,14 +66,17 @@ export default {
   mixins: [ultis],
   props: {
     tableKey: {},
+    // Kiểu entity: employee hoặc customer, ...
     type: {
       type: String, // ex: type="Employee"
       required: true,
     },
+    //Mảng tên header <th>
     thead: {
       type: Array,
       required: true,
     },
+    //Mảng key tương ứng các cột trong thead
     dataMap: {
       type: Array,
       required: true,
@@ -87,6 +90,7 @@ export default {
     return {
       employees: null,
       isSelectAll: false,
+      //map từ tên type với cách gọi tên TViet
       typeMap: {
         Employee: "Nhân Viên",
         Customer: "Khách Hàng",
@@ -163,7 +167,7 @@ export default {
               "showToast",
               "error",
               "LỖI SERVER",
-              "Không nhận được dữ liệu nhân viên !"
+              `Không nhận được dữ liệu ${this.typeMap[this.type]} !`
             );
           });
       }

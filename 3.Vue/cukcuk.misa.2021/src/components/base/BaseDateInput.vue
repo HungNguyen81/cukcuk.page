@@ -21,24 +21,17 @@
         :tabindex="tabindex"
         v-model="formatedValue"
         @focus="isDateFocus = true"
-        @blur="
-          isDateFocus = false;
-          inputValidate();
-        "
+        @blur="isDateFocus = false;inputValidate();"
         @keydown="onInput"
         ref="dateView"
       />
       <input
-        @blur="
-          isDateFocus = false;
-          inputValidate();
-        "
+        @blur="isDateFocus = false; inputValidate();"
         @focus="isDateFocus = true"
         type="date"
         v-bind:value="value"
         v-on="inputListeners"
         :tabindex="Number(tabindex) + 1"
-        
       />
     </div>
   </div>

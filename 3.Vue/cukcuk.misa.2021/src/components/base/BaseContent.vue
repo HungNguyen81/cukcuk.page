@@ -296,7 +296,7 @@ export default {
     closeFormChanged() {
       this.popup = {
         title: "Xác nhận hủy",
-        content: `Bạn có chắc chắn muốn <b>HỦY</b> nhập liệu hay không ?!`,
+        content: `Bạn có chắc chắn muốn <b>HỦY</b> nhập liệu hay không ?`,
         popupType: "warning",
         okAction: "Có",
         isHide: false,
@@ -415,7 +415,7 @@ export default {
         title: "Thông báo",
         content: `Bạn có chắc chắn muốn <b>${
           mode ? "sửa" : "thêm"
-        }</b> nhân viên hay không ?!`,
+        }</b> nhân viên hay không ?`,
         popupType: "",
         okAction: "Lưu",
         isHide: false,
@@ -470,7 +470,7 @@ export default {
         title: "Xác nhận xóa",
         content: `Bạn có chắc chắn muốn xóa "<b>${this.deleteCodeList.join(
           ", "
-        )}</b>" hay không ?!`,
+        )}</b>" hay không ?`,
         popupType: "error",
         okAction: "Xóa",
         isHide: false,
@@ -524,7 +524,7 @@ export default {
           this.showToast(
             "success",
             "PUT Success",
-            `Sửa nhân viên <b>"${this.entityDetail.FullName}"</b> thành công`
+            `Sửa thông tin của <b>"${this.entityDetail.FullName}"</b> thành công`
           );
 
           this.forceTableRerender();
